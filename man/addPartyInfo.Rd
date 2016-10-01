@@ -3,7 +3,8 @@
 \name{addPartyInfo}
 \alias{addPartyInfo}
 \alias{addPartyInfo.voteList}
-\title{Add information on party characteristics to voteList object}
+\title{Add information on party characteristics to voteList object. This data
+is obtained from ParlGov (http://www.parlgov.org/).}
 \usage{
 addPartyInfo(x, ...)
 
@@ -23,7 +24,8 @@ addPartyInfo(x, ...)
 A voteList object
 }
 \description{
-Add information on party characteristics to voteList object
+Add information on party characteristics to voteList object. This data
+is obtained from ParlGov (http://www.parlgov.org/).
 }
 \section{Methods (by class)}{
 \itemize{
