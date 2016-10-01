@@ -4,10 +4,12 @@
 \alias{downloadVotes}
 \title{Download Dutch Parliamentary Behaviour Dataset from the internet}
 \usage{
-downloadVotes(url = NULL)
+downloadVotes(url = NULL, destfile = "votes.RData")
 }
 \arguments{
 \item{url}{URL to download from. Defaults to downloading from dutchparl dataverse.}
+
+\item{destfile}{Destination file.}
 }
 \value{
 voteList object
