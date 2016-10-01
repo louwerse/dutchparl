@@ -1,0 +1,21 @@
+Package: dutchparl
+Type: Package
+Title: Dutch Parliamentary Behaviour
+Version: 0.0.0.9000
+Date: 2016-05-04
+Authors@R: person("Tom", "Louwerse", email = "t.p.louwerse@fsw.leidenuniv.nl",
+    role = c("aut", "cre"))
+Description: Scripts for the Dutch Parliamentary Behaviour Dataset.
+License: GPL-3
+LazyData: TRUE
+Imports:
+    dplyr,
+    pscl,
+    tidyr (>= 0.4.1),
+    magrittr (>= 1.5),
+    tibble,
+	  car,
+	  lazyeval
+Depends:
+    R (>= 2.10)
+RoxygenNote: 5.0.1

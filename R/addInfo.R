@@ -1,0 +1,224 @@
+# addCabinetInfo ----------------------------------------------------------
+addCabinetInfo.default <- function(x, ...) {}
+
+#' Add information on cabinet composition and elections to metadata
+#'
+#' @param x A voteList object
+#' @return A voteList object
+#' @param ... Other parameters passed on.
+#' @importFrom magrittr "%>%"
+#' @export
+#' @examples
+#' addCabinetInfo(examplevotes)
+addCabinetInfo <- function(x, ...)
+  UseMethod("addCabinetInfo")
+
+#' @describeIn addCabinetInfo Cabinet Information for voteList object
+#' @export
+addCabinetInfo.voteList <- function(x, ...) {
+
+  if("cabinet_name" %in% colnames(x$metaList)) {
+    warning("Cabinet names are already included in metaList. Nothing has been added.")
+    return(x)
+  }
+
+  all_dates <- seq.Date(from=as.Date(min(x$metaList$date)),
+                        to=as.Date(as.Date(max(x$metaList$date))), by=1)
+
+  cabinet_name <- cut(all_dates,
+                      breaks=c(x$cabinetInfo$start_date,
+                               as.Date(max(x$metaList$date))+1),
+                      labels=x$cabinetInfo$cabinet_name,
+                      ordered_result=TRUE)
+
+  term_start <- cut(all_dates,
+                    breaks=c(x$electionInfo$term_start,
+                             as.Date(max(x$metaList$date))+1),
+                    labels=x$electionInfo$term_start,
+                    ordered_result=FALSE)
+
+  term_start <- as.Date(term_start)
+
+
+  cabInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, cabinet_name),
+                                     x$cabinetInfo,
+                                     by="cabinet_name") %>%
+    dplyr::mutate_(.dots=stats::setNames("as.numeric(date > formal_resignation)",
+                                         "cabinet_resigned")) %>%
+    dplyr::select_(.dots=list("date", "cabinet_name",
+                              "cabinet_name_parlementcom",
+                              "caretaker", "cabinet_resigned"))
+
+  cabInfoAllDays$cabinet_name <- factor(cabInfoAllDays$cabinet_name,
+                                        levels=levels(cabinet_name), ordered=TRUE)
+
+
+  electionInfoAllDays <- dplyr::left_join(data.frame(date=all_dates,
+                                                     term_start),
+                                               x$electionInfo,
+                                               by="term_start")
+  out <- x
+  out$metaList <- dplyr::left_join(out$metaList, cabInfoAllDays, by="date")
+  out$metaList <- dplyr::left_join(out$metaList,
+                                   electionInfoAllDays,
+                                   by=c("date"))
+
+  return(out)
+}
+
+
+# addPartyInfo ------------------------------------------------------------
+
+addPartyInfo.default <- function(x, ...) {}
+
+#' Add information on party characteristics to voteList object
+#'
+#' @param x A voteList object
+#' @param includetype A charcter value, "basic" or "all". Defaults to "basic". Basic only includes party characteristics that vary by date, while all includes all party characteristics.
+#' @param addto Character vector including the subtables to which party information should be added. Defaults to c("voteList", "sponsorList","votePerParty").
+#' @return A voteList object
+#' @param ... Other parameters passed on.
+#' @importFrom magrittr "%>%"
+#' @export
+#' @examples
+#' examplevotes_with_partyinfo = addPartyInfo(examplevotes)
+addPartyInfo <- function(x, ...)
+  UseMethod("addPartyInfo")
+
+#' @describeIn addPartyInfo Party characteristics for voteList object
+#' @export
+addPartyInfo.voteList <- function(x, includetype="basic",
+                         addto=c("voteList", "sponsorList","votePerParty"),
+                         ...){
+
+  if(nrow(x$metaList) > 5e3) warning("This is a large voteList object. This operation will increase the object size significantly.")
+
+  all_dates <- seq.Date(from=as.Date(min(x$metaList$date)),
+                        to=as.Date(as.Date(max(x$metaList$date))), by=1)
+
+  term_starts_unique <- x$electionInfo %>%
+    dplyr::select_(.dots="term_start") %>%
+    dplyr::arrange_(.dots="term_start")
+
+  term_start <- cut(all_dates,
+                    breaks=c(term_starts_unique$term_start,
+                             as.Date(max(x$metaList$date))+1),
+                    labels=term_starts_unique$term_start,
+                    ordered_result=FALSE)
+  term_start <- as.Date(term_start)
+
+  cabinet_name <- cut(all_dates,
+                      breaks=c(x$cabinetInfo$start_date,
+                               as.Date(max(x$metaList$date))+1),
+                      labels=x$cabinetInfo$cabinet_name,
+                      ordered_result=TRUE)
+
+  partyCabinetInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, cabinet_name=as.character(cabinet_name), stringsAsFactors=FALSE),
+                                              x$partyCabinetInfo,
+                                              by="cabinet_name") %>%
+    dplyr::select_(.dots=list("date", "party", "cabinet_party", "prime_minister"))
+
+
+  partyElectionInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, term_start),
+                                               x$partyElectionInfo,
+                                               by="term_start") %>%
+    dplyr::rename_(.dots=stats::setNames("seats", "party_seats")) %>%
+    dplyr::select_(.dots=list("date", "party", "vote_share", "seat_share", "party_seats"))
+
+  combinedInfo <- dplyr::full_join(partyCabinetInfoAllDays, partyElectionInfoAllDays,
+                            by=c("date", "party"))
+
+  if(includetype=="all"){
+    combinedInfo <- dplyr::left_join(combinedInfo, x$partyInfo, by="party")
+  }
+
+  # # Force party names to characters, encoded as UTF-8 to prevent crashes in
+  # # merging
+  # combinedInfo$party <- as.character(combinedInfo$party)
+  # Encoding(combinedInfo$party) <- "UTF-8"
+
+  # Add data to object
+  if("voteList" %in% addto) {
+    x$metaList$id <- as.character(x$metaList$id)
+    x$voteList$id <- as.character(x$voteList$id)
+    if(is.null(x$voteList$date)) {
+      x$voteList <- dplyr::left_join(x$voteList,
+                                     dplyr::select_(x$metaList,
+                                                    .dots=list("id", "date")),
+                                     by="id")
+    }
+    if(all(colnames(combinedInfo) %in% colnames(x$voteList))) {
+      warning("All party information is already in voteList. Did not add.")
+    } else {
+      # Only include columns that are not yet in the data
+      notYetPresent <- colnames(combinedInfo[-c(1:2)])[which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$voteList))]
+      combinedInfo1 <- combinedInfo[,c("date","party",notYetPresent)]
+      x$voteList <- dplyr::left_join(x$voteList, combinedInfo1, by=c("date", "party"))
+    }
+  }
+
+  if("sponsorList" %in% addto){
+    x$sponsorList$id <- as.character(x$sponsorList$id)
+
+    if(is.null(x$sponsorList$date)) {
+      x$sponsorList <- dplyr::left_join(x$sponsorList,
+                       dplyr::select_(x$metaList,
+                                      .dots=list("id", "date")), by="id")
+    }
+    if(all(colnames(combinedInfo[-c(1:2)]) %in% colnames(x$sponsorList))) {
+      warning("All party information is already in sponsorList. Did not add.")
+    } else {
+      # Only include columns that are not yet in the data
+      notYetPresent <- colnames(combinedInfo)[-c(1:2)][which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$sponsorList))]
+
+      combinedInfo2 <- combinedInfo[,c("date","party",notYetPresent)]
+      x$sponsorList <- dplyr::left_join(x$sponsorList, combinedInfo2,
+                                        by=c("date", "sponsorParty"="party"))
+    }
+  }
+
+  if("votePerParty" %in% addto){
+    if(all(colnames(combinedInfo) %in% colnames(x$votePerParty))) {
+      warning("All party information is already in votePerParty. Did not add.")
+    } else {
+
+    if(is.null(x$votePerParty$date)) {
+      x$votePerParty <- dplyr::left_join(x$votePerParty,
+                       dplyr::select_(x$metaList, .dots=list("id", "date")), by="id")
+    }
+      # Only include columns that are not yet in the data
+      notYetPresent <- colnames(combinedInfo)[-c(1:2)][which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$votePerParty))]
+
+      combinedInfo3 <- combinedInfo[,c("date","party",notYetPresent)]
+      x$votePerParty <- dplyr::left_join(x$votePerParty, combinedInfo3,
+                                         by=c("date", "party"))
+    }
+  }
+
+  return(x)
+}
+
+
+
+# addInfo -----------------------------------------------------------------
+addInfo.default <- function(x, ...) {}
+
+#' Add information on cabinets, elections and parties to dataset
+#'
+#' @param x A voteList object
+#' @return A voteList object
+#' @param ... Other parameters passed on.
+#' @details This is a wrapper that runs both addCabinetInfo and addPartyInfo with default settings.
+#' @importFrom magrittr "%>%"
+#' @export
+#' @examples
+#' examplevotes_with_info <- addInfo(examplevotes)
+addInfo <- function(x, ...)
+  UseMethod("addInfo")
+
+#' @describeIn addInfo Add information to voteList object
+#' @export
+addInfo.voteList <- function(x, ...) {
+  return(addPartyInfo.voteList(addCabinetInfo.voteList(x)))
+}
+
