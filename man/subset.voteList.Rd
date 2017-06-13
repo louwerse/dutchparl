@@ -31,4 +31,3 @@ Subset voteList object
 \examples{
 subset(examplevotes, examplevotes$metaList, date > as.Date("2010-01-15"))
 }
-

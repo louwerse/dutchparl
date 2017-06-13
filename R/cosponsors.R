@@ -19,7 +19,8 @@ cosponsors <- function(voteList) {
   sponsorMatrix <- tidyr::spread_(sponsors, "id", "isSponsor", fill=0)
 
   # Matrix operation to calculate co-sponsorship
-  coSponsor <- as.matrix(sponsorMatrix[,-c(1:3)]) %*% as.matrix(t(sponsorMatrix[,-c(1:3)]))
+  ninfo <- ncol(sponsors) - 2
+  coSponsor <- as.matrix(sponsorMatrix[,-c(1:ninfo)]) %*% as.matrix(t(sponsorMatrix[,-c(1:ninfo)]))
 
   # Add some information to this matrix
   coSponsor <- coSponsor %>%

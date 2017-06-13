@@ -13,4 +13,3 @@ Votes taken in the Dutch lower house between 1946-2015. See full documentation
 for details on coding and use.
 }
 \keyword{datasets}
-

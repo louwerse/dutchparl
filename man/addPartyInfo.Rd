@@ -31,7 +31,7 @@ is obtained from ParlGov (http://www.parlgov.org/).
 \itemize{
 \item \code{voteList}: Party characteristics for voteList object
 }}
+
 \examples{
 examplevotes_with_partyinfo = addPartyInfo(examplevotes)
 }
-
