@@ -4,10 +4,12 @@
 \alias{cosponsors}
 \title{Calculate cosponsorship between MPs}
 \usage{
-cosponsors(voteList)
+cosponsors(voteList, partylevel = FALSE)
 }
 \arguments{
 \item{voteList}{A voteList object, most of the time the votes objects that comes with the dutchparl package.}
+
+\item{partylevel}{Boolean, default = FALSE. Analyze cosponsorship at the party level.}
 }
 \value{
 A list with cosponsorship data in which each row represents a pair of MPs.
