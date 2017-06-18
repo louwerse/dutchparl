@@ -9,6 +9,6 @@
 #' downloadVotes()
 #' }
 downloadVotes <- function(url=NULL,destfile="votes.RData") {
-  if(is.null(url)) url <- "https://dl.dropboxusercontent.com/u/31727287/Other/2016/votes.RData"
+  if(is.null(url)) url <- "https://dataverse.harvard.edu/api/access/datafile/3000707?gbrecs=true"
   utils::download.file(url, destfile=destfile)
 }
