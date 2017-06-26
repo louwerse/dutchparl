@@ -9,6 +9,7 @@
 #' downloadVotes()
 #' }
 downloadVotes <- function(url=NULL,destfile="votes.RData") {
+  cat("Creative Commons Attribution 4.0 International license applies. See: https://creativecommons.org/licenses/by/4.0/legalcode.")
   if(is.null(url)) url <- "https://dataverse.harvard.edu/api/access/datafile/3000707?gbrecs=true"
   utils::download.file(url, destfile=destfile)
 }
