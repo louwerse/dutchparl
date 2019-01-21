@@ -26,7 +26,7 @@ as.rollcall.voteList <- function(x, ...) {
   y <- y[,-1]
   legis.names <- colnames(y)
 
-  rc <- pscl::rollcall(t(y), yea=1, nay=0, missing=8, notInLegis=9, legis.names=legis.names, vote.names=vote.names, vote.data=meta, desc="Dutch Parliamentary Voting Data", source="OB/SGD")
+  rc <- pscl::rollcall(t(y), yea=1, nay=0, missing=c(7,8), notInLegis=9, legis.names=legis.names, vote.names=vote.names, vote.data=meta, desc="Dutch Parliamentary Voting Data", source="OB/SGD")
   return(rc)
 }
 
