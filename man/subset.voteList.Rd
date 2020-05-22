@@ -4,8 +4,7 @@
 \alias{subset.voteList}
 \title{Subset voteList object}
 \usage{
-\method{subset}{voteList}(x, df, subset, select, drop = FALSE,
-  drop.levels = TRUE, ...)
+\method{subset}{voteList}(x, df, subset, select, drop = FALSE, drop.levels = TRUE, ...)
 }
 \arguments{
 \item{x}{A voteList object, most of the time the votes object from the Dutch Parliamentary Behaviour Dataset.}

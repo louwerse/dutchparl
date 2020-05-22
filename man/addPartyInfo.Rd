@@ -9,11 +9,19 @@ is obtained from ParlGov (http://www.parlgov.org/).}
 \usage{
 addPartyInfo(x, ...)
 
-\method{addPartyInfo}{voteList}(x, includetype = "basic",
-  addto = c("voteList", "sponsorList", "votePerParty"), ...)
+\method{addPartyInfo}{voteList}(
+  x,
+  includetype = "basic",
+  addto = c("voteList", "sponsorList", "votePerParty"),
+  ...
+)
 
-\method{addPartyInfo}{questionList}(x, includetype = "basic",
-  addto = c("questionerList", "responderList"), ...)
+\method{addPartyInfo}{questionList}(
+  x,
+  includetype = "basic",
+  addto = c("questionerList", "responderList"),
+  ...
+)
 }
 \arguments{
 \item{x}{A voteList object}

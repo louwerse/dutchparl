@@ -4,7 +4,9 @@
 \name{examplevotes}
 \alias{examplevotes}
 \title{Dutch Parliamentary Behaviour Dataset (Votes)}
-\format{A voteList object}
+\format{
+A voteList object
+}
 \usage{
 data(examplevotes)
 }

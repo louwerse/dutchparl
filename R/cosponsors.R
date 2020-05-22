@@ -23,13 +23,13 @@ cosponsors <- function(voteList, partylevel = FALSE) {
     # Matrix operation to calculate co-sponsorship
     ninfo <- ncol(sponsors) - 2
     coSponsor <- as.matrix(sponsorMatrix[,-c(1:ninfo)]) %*% as.matrix(t(sponsorMatrix[,-c(1:ninfo)]))
+    colnames(coSponsor) <- 1:ncol(coSponsor)
   
     # Add some information to this matrix
     coSponsor <- coSponsor %>%
       as.data.frame() %>%
       tibble::rownames_to_column(var="MP1number")
-  
-    #
+    
     coSponsor <- tidyr::gather_(as.data.frame(coSponsor),
                                "MP2number", "nCosponsor", colnames(coSponsor)[-1])
   
@@ -89,6 +89,7 @@ cosponsors <- function(voteList, partylevel = FALSE) {
     # Matrix operation to calculate co-sponsorship
     ninfo <- ncol(sponsors) - 2
     coSponsor <- as.matrix(sponsorMatrix[,-c(1:ninfo)]) %*% as.matrix(t(sponsorMatrix[,-c(1:ninfo)]))
+    colnames(coSponsor) <- 1:ncol(coSponsor)
     
     # Add some information to this matrix
     coSponsor <- coSponsor %>%

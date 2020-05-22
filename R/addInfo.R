@@ -7,7 +7,7 @@ addCabinetInfo.default <- function(x, ...) {}
 #' @param x A voteList or questionList object
 #' @return A voteList or questionList object
 #' @param ... Other parameters passed on.
-#' @importFrom magrittr "%>%"
+#' @importFrom magrittr "%>%" 
 #' @export
 #' @examples
 #' addCabinetInfo(examplevotes)
@@ -40,15 +40,26 @@ addCabinetInfo.voteList <- function(x, ...) {
 
   term_start <- as.Date(term_start)
 
-
-  cabInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, cabinet_name),
+  cabInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, 
+                                                cabinet_name=as.character(cabinet_name), 
+                                                stringsAsFactors = FALSE),
                                      x$cabinetInfo,
                                      by="cabinet_name") %>%
-    dplyr::mutate_(.dots=stats::setNames("as.numeric(date > formal_resignation)",
-                                         "cabinet_resigned")) %>%
-    dplyr::select_(.dots=list("date", "cabinet_name",
-                              "cabinet_name_parlementcom",
-                              "caretaker", "cabinet_resigned"))
+    dplyr::mutate(cabinet_resigned = as.numeric(.data$date > .data$formal_resignation)) %>%
+    dplyr::select(c("date", "cabinet_name",
+                    "cabinet_name_parlementcom",
+                    "caretaker", "cabinet_resigned"))
+  # 
+  # cabInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, 
+  #                                               cabinet_name=as.character(cabinet_name), 
+  #                                               stringsAsFactors = FALSE),
+  #                                    x$cabinetInfo,
+  #                                    by="cabinet_name") %>%
+  #   dplyr::mutate_(.dots=stats::setNames("as.numeric(date > formal_resignation)",
+  #                                        "cabinet_resigned")) %>%
+  #   dplyr::select_(.dots=list("date", "cabinet_name",
+  #                             "cabinet_name_parlementcom",
+  #                             "caretaker", "cabinet_resigned"))
 
   cabInfoAllDays$cabinet_name <- factor(cabInfoAllDays$cabinet_name,
                                         levels=levels(cabinet_name), ordered=TRUE)
@@ -96,7 +107,9 @@ addCabinetInfo.questionList <- function(x, ...) {
   term_start <- as.Date(term_start)
   
   
-  cabInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, cabinet_name),
+  cabInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, 
+                                                cabinet_name=as.character(cabinet_name), 
+                                                stringsAsFactors = FALSE),
                                      x$cabinetInfo,
                                      by="cabinet_name") %>%
     dplyr::mutate_(.dots=stats::setNames("as.numeric(date > formal_resignation)",

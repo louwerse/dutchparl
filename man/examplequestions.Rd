@@ -4,7 +4,9 @@
 \name{examplequestions}
 \alias{examplequestions}
 \title{Dutch Parliamentary Behaviour Dataset (Questions)}
-\format{A questionList object}
+\format{
+A questionList object
+}
 \usage{
 data(examplequestions)
 }
