@@ -1,7 +1,7 @@
 Package: dutchparl
 Type: Package
 Title: Dutch Parliamentary Behaviour
-Version: 0.0.0.9004
+Version: 0.0.0.9005
 Date: 2021-07-02
 Authors@R: person("Tom", "Louwerse", email = "t.p.louwerse@fsw.leidenuniv.nl",
     role = c("aut", "cre"))
