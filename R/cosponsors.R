@@ -6,6 +6,7 @@
 #' @details Note that this operation can be expensive for very large datasets. It is recommended to limit the data to one parliamentary term.
 #' @importFrom magrittr "%>%"
 #' @importFrom stats "setNames"
+#' @importFrom rlang .data
 #' @export
 #' @examples
 #' cosponsors(examplevotes)
@@ -34,9 +35,13 @@ cosponsors <- function(voteList, partylevel = FALSE) {
                                "MP2number", "nCosponsor", colnames(coSponsor)[-1])
   
     # Create dataframe combining numbers with names
+    # sponsorNames <- sponsorMatrix %>%
+    #   dplyr::select_(.dots=c("sponsorName", "sponsorId", "sponsorParty")) %>%
+    #   dplyr::mutate_(.dots=setNames(list("as.character(1:n())"),"MPnumber"))
+    
     sponsorNames <- sponsorMatrix %>%
-      dplyr::select_(.dots=c("sponsorName", "sponsorId", "sponsorParty")) %>%
-      dplyr::mutate_(.dots=setNames(list("as.character(1:n())"),"MPnumber"))
+      dplyr::select(c("sponsorName", "sponsorId", "sponsorParty")) %>%
+      dplyr::mutate(MPnumber = as.character(1:dplyr::n()))
   
   
     # Merge coSponsor with names for MP1

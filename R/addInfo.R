@@ -8,6 +8,7 @@ addCabinetInfo.default <- function(x, ...) {}
 #' @return A voteList or questionList object
 #' @param ... Other parameters passed on.
 #' @importFrom magrittr "%>%" 
+#' @importFrom rlang .data
 #' @export
 #' @examples
 #' addCabinetInfo(examplevotes)
