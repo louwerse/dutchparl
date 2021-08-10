@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dutchparl</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
       </span>
     </div>
 
@@ -87,9 +87,17 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/louwerse/dutchparl/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -104,7 +112,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Transform into rollcall object</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/louwerse/dutchparl/blob/master/R/as.rollcall.R'><code>R/as.rollcall.R</code></a></small>
     <div class="hidden name"><code>as.rollcall.Rd</code></div>
     </div>
 
@@ -115,7 +123,7 @@
     <pre class="usage"><span class='fu'>as.rollcall</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for voteList</span>
-<span class='fu'>as.rollcall</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>as.rollcall</span><span class='op'>(</span><span class='va'>x</span>, yea <span class='op'>=</span> <span class='fl'>1</span>, nay <span class='op'>=</span> <span class='fl'>0</span>, missing <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>7</span>, <span class='fl'>8</span><span class='op'>)</span>, notInLegis <span class='op'>=</span> <span class='fl'>9</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -127,6 +135,22 @@
     <tr>
       <th>...</th>
       <td><p>Other parameters (ignored)</p></td>
+    </tr>
+    <tr>
+      <th>yea</th>
+      <td><p>numeric, possibly a vector, code(s) for a Yea vote. Default is 1.</p></td>
+    </tr>
+    <tr>
+      <th>nay</th>
+      <td><p>numeric, possibly a vector, code(s) for a Nay vote. Default is 0.</p></td>
+    </tr>
+    <tr>
+      <th>missing</th>
+      <td><p>numeric or NA, possibly a vector, code(s) for missing data. Default is NA.</p></td>
+    </tr>
+    <tr>
+      <th>notInLegis</th>
+      <td><p>numeric or NA, possibly a vector, code(s) for the legislator not being in the legislature when a particular roll call was recorded (e.g., deceased, retired, yet to be elected).</p></td>
     </tr>
     </table>
 
@@ -142,7 +166,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>as.rollcall</span><span class='op'>(</span><span class='va'>examplevotes</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Description:	 Dutch Parliamentary Voting Data 
+</div><div class='output co'>#&gt; Description:	 Parliamentary Voting Data 
 #&gt; Source:		 OB 
 #&gt; Number of Legislators:	 11 
 #&gt; Number of Votes:	 61 
