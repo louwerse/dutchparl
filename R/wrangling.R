@@ -11,8 +11,7 @@
 #' @export
 #' @examples
 #' subset(examplevotes, examplevotes$metaList, date > as.Date("2010-01-15"))
-subset.voteList <- function (x, df, subset, select, drop = FALSE, drop.levels=TRUE, ...)
-{
+subset.voteList <- function(x, df, subset, select, drop = FALSE, drop.levels = TRUE, ...) {
   if (missing(subset))
     r <- TRUE
   else {
@@ -33,20 +32,20 @@ subset.voteList <- function (x, df, subset, select, drop = FALSE, drop.levels=TR
   select_ids <- ss$id
 
   voteList <- x
-  voteList$metaList <- voteList$metaList[voteList$metaList$id %in% select_ids,]
-  voteList$voteList <- voteList$voteList[voteList$voteList$id %in% select_ids,]
-  voteList$voteMatrix <- voteList$voteMatrix[voteList$voteMatrix$id %in% select_ids,]
-  voteList$sponsorList <- voteList$sponsorList[voteList$sponsorList$id %in% select_ids,]
-  voteList$categoryList <- voteList$categoryList[voteList$categoryList$id %in% select_ids,]
-  voteList$votePerParty <- voteList$votePerParty[voteList$votePerParty$id %in% select_ids,]
+  voteList$metaList <- voteList$metaList[voteList$metaList$id %in% select_ids, ]
+  voteList$voteList <- voteList$voteList[voteList$voteList$id %in% select_ids, ]
+  voteList$voteMatrix <- voteList$voteMatrix[voteList$voteMatrix$id %in% select_ids, ]
+  voteList$sponsorList <- voteList$sponsorList[voteList$sponsorList$id %in% select_ids, ]
+  voteList$categoryList <- voteList$categoryList[voteList$categoryList$id %in% select_ids, ]
+  voteList$votePerParty <- voteList$votePerParty[voteList$votePerParty$id %in% select_ids, ]
 
-  if(drop.levels) {
+  if (drop.levels) {
     voteList$metaList <- droplevels(voteList$metaList)
     voteList$voteList <- droplevels(voteList$voteList)
     voteList$voteMatrix <- droplevels(voteList$voteMatrix)
-    if(!is.null(voteList$sponsorList)) voteList$sponsorList <- droplevels(voteList$sponsorList)
-    if(!is.null(voteList$categoryList)) voteList$categoryList <- droplevels(voteList$categoryList)
-    if(!is.null(voteList$votePerParty)) voteList$votePerParty <- droplevels(voteList$votePerParty)
+    if (!is.null(voteList$sponsorList)) voteList$sponsorList <- droplevels(voteList$sponsorList)
+    if (!is.null(voteList$categoryList)) voteList$categoryList <- droplevels(voteList$categoryList)
+    if (!is.null(voteList$votePerParty)) voteList$votePerParty <- droplevels(voteList$votePerParty)
   }
 
   return(voteList)
@@ -67,8 +66,7 @@ subset.voteList <- function (x, df, subset, select, drop = FALSE, drop.levels=TR
 #' @export
 #' @examples
 #' subset(examplequestions, examplequestions$metaList, dateQuestion > as.Date("2010-01-04"))
-subset.questionList <- function (x, df, subset, select, drop = FALSE, drop.levels=TRUE, ...)
-{
+subset.questionList <- function(x, df, subset, select, drop = FALSE, drop.levels = TRUE, ...) {
   if (missing(subset))
     r <- TRUE
   else {
@@ -87,20 +85,20 @@ subset.questionList <- function (x, df, subset, select, drop = FALSE, drop.level
   }
   ss <- df[r, vars, drop = drop]
   select_ids <- ss$dcIdentifier
-  
+
   questionList <- x
-  questionList$metaList <- questionList$metaList[questionList$metaList$dcIdentifier %in% select_ids,]
-  questionList$questionerList <- questionList$questionerList[questionList$questionerList$dcIdentifier %in% select_ids,]
-  questionList$responderList <- questionList$responderList[questionList$responderList$dcIdentifier %in% select_ids,]
-  questionList$categoryList <- questionList$categoryList[questionList$categoryList$dcIdentifier %in% select_ids,]
-  
-  if(drop.levels) {
+  questionList$metaList <- questionList$metaList[questionList$metaList$dcIdentifier %in% select_ids, ]
+  questionList$questionerList <- questionList$questionerList[questionList$questionerList$dcIdentifier %in% select_ids, ]
+  questionList$responderList <- questionList$responderList[questionList$responderList$dcIdentifier %in% select_ids, ]
+  questionList$categoryList <- questionList$categoryList[questionList$categoryList$dcIdentifier %in% select_ids, ]
+
+  if (drop.levels) {
     questionList$metaList <- droplevels(questionList$metaList)
     questionList$questionerList <- droplevels(questionList$questionerList)
     questionList$responderList <- droplevels(questionList$responderList)
     questionList$categoryList <- droplevels(questionList$categoryList)
   }
-  
+
   return(questionList)
 }
 
@@ -113,11 +111,10 @@ subset.questionList <- function (x, df, subset, select, drop = FALSE, drop.level
 #' @export
 #' @examples
 #' randomvotes(examplevotes)
-randomvotes <- function(voteList, size=10) {
+randomvotes <- function(voteList, size = 10) {
   n <- nrow(voteList$metaList)
   selected <- sample.int(n, size)
   ids <- voteList$metaList$id[selected]
   out <- subset(voteList, voteList$metaList, voteList$metaList$id %in% ids)
   return(out)
 }
-

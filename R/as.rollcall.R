@@ -17,20 +17,20 @@ as.rollcall <- function(x, ...)
 as.rollcall.voteList <- function(x, ...) {
 
   # Delete any entries that have all missing values
-  y <- x$voteMatrix[,c(1, which(!colSums(x$voteMatrix[,-1])==nrow(x$voteMatrix)*9)+1)]
-  
+  y <- x$voteMatrix[, c(1, which(!colSums(x$voteMatrix[, -1]) == nrow(x$voteMatrix) * 9) + 1)]
+
   # If there is an (Unknown) column, exclude it from the rollcall object
   y$`(Unknown)` <- NULL
-  
+
   # Set vote names
   vote.names <- y$id
 
   # Construct vote.data, and transform to data.frame to avoid warning about setting rownames (by pscl)
   meta <- x$metaList
-  meta <- meta[which(meta$id %in% y$id),] #only select votes which are in the voteList
+  meta <- meta[which(meta$id %in% y$id), ] # only select votes which are in the voteList
   meta <- data.frame(meta)
 
-  y <- y[,-1]
+  y <- y[, -1]
   legis.names <- colnames(y)
 
   rc <-
@@ -44,9 +44,7 @@ as.rollcall.voteList <- function(x, ...) {
       vote.names = vote.names,
       vote.data = meta,
       desc = "Dutch Parliamentary Voting Data",
-      source = paste(unique(meta$source), collapse="/")
+      source = paste(unique(meta$source), collapse = "/")
     )
   return(rc)
 }
-
-
