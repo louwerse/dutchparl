@@ -12,18 +12,19 @@
 #' @examples
 #' subset(examplevotes, examplevotes$metaList, date > as.Date("2010-01-15"))
 subset.voteList <- function(x, df, subset, select, drop = FALSE, drop.levels = TRUE, ...) {
-  if (missing(subset))
+  if (missing(subset)) {
     r <- TRUE
-  else {
+  } else {
     e <- substitute(subset)
     r <- eval(e, df, parent.frame())
-    if (!is.logical(r))
+    if (!is.logical(r)) {
       stop("'subset' must evaluate to logical")
+    }
     r <- r & !is.na(r)
   }
-  if (missing(select))
+  if (missing(select)) {
     vars <- TRUE
-  else {
+  } else {
     nl <- as.list(seq_along(df))
     names(nl) <- names(df)
     vars <- eval(substitute(select), nl, parent.frame())
@@ -67,18 +68,19 @@ subset.voteList <- function(x, df, subset, select, drop = FALSE, drop.levels = T
 #' @examples
 #' subset(examplequestions, examplequestions$metaList, dateQuestion > as.Date("2010-01-04"))
 subset.questionList <- function(x, df, subset, select, drop = FALSE, drop.levels = TRUE, ...) {
-  if (missing(subset))
+  if (missing(subset)) {
     r <- TRUE
-  else {
+  } else {
     e <- substitute(subset)
     r <- eval(e, df, parent.frame())
-    if (!is.logical(r))
+    if (!is.logical(r)) {
       stop("'subset' must evaluate to logical")
+    }
     r <- r & !is.na(r)
   }
-  if (missing(select))
+  if (missing(select)) {
     vars <- TRUE
-  else {
+  } else {
     nl <- as.list(seq_along(df))
     names(nl) <- names(df)
     vars <- eval(substitute(select), nl, parent.frame())

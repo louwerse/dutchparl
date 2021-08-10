@@ -11,23 +11,24 @@ votesame.default <- function(x) {}
 #' @export
 #' @examples
 #' votesame(examplevotes)
-votesame <- function(x, ...)
+votesame <- function(x, ...) {
   UseMethod("votesame")
+}
 
 #' @describeIn votesame Votesame for rollcall object
 #' @export
-votesame.rollcall = function(x, order.x = NULL, ...) {
+votesame.rollcall <- function(x, order.x = NULL, ...) {
   z <- x
   x <- t(x$votes)
   if (!is.null(order.x)) x <- x[, order(order.x, 1:length(order.x), na.last = NA)]
-  x = replace(x, x == z$codes$notInLegis, NA)
-  x = replace(x, x %in% z$codes$missing, NA)
-  y = matrix(NA, ncol(x), ncol(x))
-  rownames(y) = colnames(y) = colnames(x)
+  x <- replace(x, x == z$codes$notInLegis, NA)
+  x <- replace(x, x %in% z$codes$missing, NA)
+  y <- matrix(NA, ncol(x), ncol(x))
+  rownames(y) <- colnames(y) <- colnames(x)
 
   for (i in 1:ncol(y)) {
     for (j in 1:ncol(y)) {
-      y[i, j] = sum(x[, i] == x[, j], na.rm = TRUE) / sum(!is.na(x[, i]) & !is.na(x[, j]), na.rm = TRUE)
+      y[i, j] <- sum(x[, i] == x[, j], na.rm = TRUE) / sum(!is.na(x[, i]) & !is.na(x[, j]), na.rm = TRUE)
     }
   }
   return(y)
@@ -35,7 +36,7 @@ votesame.rollcall = function(x, order.x = NULL, ...) {
 
 #' @describeIn votesame Votesame for voteList object
 #' @export
-votesame.voteList = function(x, order.x = NULL, ...) {
+votesame.voteList <- function(x, order.x = NULL, ...) {
   if (class(x) == "voteList") {
     return(votesame(as.rollcall(x), order.x = order.x, ...))
   } else {
