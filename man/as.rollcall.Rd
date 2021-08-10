@@ -7,12 +7,20 @@
 \usage{
 as.rollcall(x, ...)
 
-\method{as.rollcall}{voteList}(x, ...)
+\method{as.rollcall}{voteList}(x, yea = 1, nay = 0, missing = c(3, 7, 8), notInLegis = 9, ...)
 }
 \arguments{
 \item{x}{Object to be transformed}
 
 \item{...}{Other parameters (ignored)}
+
+\item{yea}{numeric, possibly a vector, code(s) for a Yea vote. Default is 1.}
+
+\item{nay}{numeric, possibly a vector, code(s) for a Nay vote. Default is 0.}
+
+\item{missing}{numeric or NA, possibly a vector, code(s) for missing data. Default is NA.}
+
+\item{notInLegis}{numeric or NA, possibly a vector, code(s) for the legislator not being in the legislature when a particular roll call was recorded (e.g., deceased, retired, yet to be elected).}
 }
 \value{
 Rollcall object from package 'pscl'

@@ -5,6 +5,10 @@ as.rollcall.default <- function(x, ...) {}
 #'
 #' @param x Object to be transformed
 #' @return Rollcall object from package 'pscl'
+#' @param yea numeric, possibly a vector, code(s) for a Yea vote. Default is 1.
+#' @param nay numeric, possibly a vector, code(s) for a Nay vote. Default is 0.
+#' @param missing numeric or NA, possibly a vector, code(s) for missing data. Default is NA.
+#' @param notInLegis numeric or NA, possibly a vector, code(s) for the legislator not being in the legislature when a particular roll call was recorded (e.g., deceased, retired, yet to be elected).
 #' @param ... Other parameters (ignored)
 #' @export
 #' @examples
@@ -15,7 +19,7 @@ as.rollcall <- function(x, ...) {
 
 #' @describeIn as.rollcall Transform voteList object into rollcall object
 #' @export
-as.rollcall.voteList <- function(x, ...) {
+as.rollcall.voteList <- function(x, yea=1, nay=0, missing=c(3,7,8), notInLegis = 9, ...) {
 
   # Delete any entries that have all missing values
   y <- x$voteMatrix[, c(1, which(!colSums(x$voteMatrix[, -1]) == nrow(x$voteMatrix) * 9) + 1)]
@@ -37,14 +41,14 @@ as.rollcall.voteList <- function(x, ...) {
   rc <-
     pscl::rollcall(
       t(y),
-      yea = 1,
-      nay = 0,
-      missing = c(3, 7, 8),
-      notInLegis = 9,
+      yea = yea,
+      nay = nay,
+      missing = missing,
+      notInLegis = notInLegis,
       legis.names = legis.names,
       vote.names = vote.names,
       vote.data = meta,
-      desc = "Dutch Parliamentary Voting Data",
+      desc = "Parliamentary Voting Data",
       source = paste(unique(meta$source), collapse = "/")
     )
   return(rc)
