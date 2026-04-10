@@ -1,4 +1,3 @@
-
 # rice --------------------------------------------------------------------
 rice.default <- function(x, ...) {}
 
@@ -21,13 +20,8 @@ rice <- function(x, ...) {
 #' @export
 rice.voteList <- function(x, minvotes = 10, ...) {
   includeParties <- names(which(table(x$votePerParty$party) > minvotes))
-  x$votePerParty <- x$votePerParty %>%
-    dplyr::filter_(.dots = lazyeval::interp(~ x %in% y,
-      .values = list(
-        x = as.name("party"),
-        y = includeParties
-      )
-    ))
+  x$votePerParty <- x$votePerParty |>
+    dplyr::filter(party %in% includeParties)
 
   # If votePerParty variables are named 0, 1, 8 instead of vote_0, vote_1, vote_8, fix:
   if (is.null(x$votePerParty$`vote_0`) & (!is.null(x$votePerParty$`0`))) {
@@ -42,8 +36,7 @@ rice.voteList <- function(x, minvotes = 10, ...) {
 
   x$votePerParty$rice <- abs(x$votePerParty$`vote_1` - x$votePerParty$`vote_0`) / (x$votePerParty$`vote_1` + x$votePerParty$`vote_0`)
 
-  rice_out <- x$votePerParty %>%
-    dplyr::group_by_(.dots = "party") %>%
-    dplyr::summarise_(.dots = setNames("mean(rice, na.rm=TRUE)", "rice_mean"))
+  rice_out <- x$votePerParty |>
+    dplyr::summarise(rice_mean = mean(rice, na.rm = TRUE), .by = party)
   return(as.data.frame(rice_out))
 }
