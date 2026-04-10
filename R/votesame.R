@@ -13,7 +13,7 @@ votesame.default <- function(x, ...) {}
 #' votesame(examplevotes)
 votesame <- function(x, ...) {
   UseMethod("votesame")
-}
+}  
 
 #' @describeIn votesame Votesame for rollcall object
 #' @export
