@@ -1,7 +1,7 @@
 # dutchparl
 dutchparl - An R package for the Dutch Parliamentary Behaviour Dataset
 
-This package allows users to work easily with the Dutch Parliamentary Behaviour Dataset. The dataset itself will be released in the near future.
+This package allows users to work easily with the Dutch Parliamentary Behaviour Dataset. The dataset itself is available here: http://dx.doi.org/10.7910/DVN/UXIBNO
 
 To install this package in R:
 ```r 
@@ -9,7 +9,8 @@ install.packages("devtools")
 devtools::install_github("louwerse/dutchparl")
 ``` 
 
-To download vote data:
+To start working with the data:
 ```r
-downloadVotes(destfile="destination.RData")
+library("dutchparl")
+load("dpbd_v2.RData")
 ```
