@@ -197,7 +197,6 @@ addPartyInfo <- function(x, ...) {
 addPartyInfo.voteList <- function(x, includetype = "basic",
                                   addto = c("voteList", "sponsorList", "votePerParty"),
                                   ...) {
-  if (nrow(x$metaList) > 5e3) warning("This is a large voteList object. This operation will increase the object size significantly.")
 
   min_date <- min(as.Date(x$metaList$date), na.rm = TRUE)
   max_date <- max(as.Date(x$metaList$date), na.rm = TRUE)
@@ -240,7 +239,8 @@ addPartyInfo.voteList <- function(x, includetype = "basic",
         cabinet_name = as.character(cabinet_name)
       ),
       x$partyCabinetInfo,
-      by = "cabinet_name"
+      by = "cabinet_name",
+      relationship = "many-to-many"
     ) |>
     dplyr::select(dplyr::any_of(c("date", "party", "cabinet_party", "prime_minister")))
 
@@ -248,7 +248,8 @@ addPartyInfo.voteList <- function(x, includetype = "basic",
   partyElectionInfoAllDays <- dplyr::left_join(
     data.frame(date = all_dates, term_start),
     x$partyElectionInfo,
-    by = "term_start"
+    by = "term_start",
+    relationship = "many-to-many"
   ) |>
     dplyr::rename("party_seats" = "seats") |>
     dplyr::select(dplyr::any_of(c("date", "party", "vote_share", "seat_share", "party_seats")))
@@ -391,7 +392,8 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
   partyCabinetInfoAllDays <- dplyr::left_join(
     data.frame(date = all_dates, cabinet_name = as.character(cabinet_name)),
     x$partyCabinetInfo,
-    by = "cabinet_name"
+    by = "cabinet_name",
+    relationship = "many-to-many"
   ) |>
     dplyr::select(dplyr::any_of(c("date", "party", "cabinet_party", "prime_minister")))
 
@@ -399,7 +401,8 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
   partyElectionInfoAllDays <- dplyr::left_join(
     data.frame(date = all_dates, term_start),
     x$partyElectionInfo,
-    by = "term_start"
+    by = "term_start",
+    relationship = "many-to-many"
   ) |>
     dplyr::rename("party_seats" = "seats") |>
     dplyr::select(dplyr::any_of(c("date", "party", "vote_share", "seat_share", "party_seats")))
