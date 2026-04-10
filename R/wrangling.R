@@ -44,9 +44,9 @@ subset.voteList <- function (x, df, subset, select, drop = FALSE, drop.levels=TR
     voteList$metaList <- droplevels(voteList$metaList)
     voteList$voteList <- droplevels(voteList$voteList)
     voteList$voteMatrix <- droplevels(voteList$voteMatrix)
-    voteList$sponsorList <- droplevels(voteList$sponsorList)
-    voteList$categoryList <- droplevels(voteList$categoryList)
-    voteList$votePerParty <- droplevels(voteList$votePerParty)
+    if(!is.null(voteList$sponsorList)) voteList$sponsorList <- droplevels(voteList$sponsorList)
+    if(!is.null(voteList$categoryList)) voteList$categoryList <- droplevels(voteList$categoryList)
+    if(!is.null(voteList$votePerParty)) voteList$votePerParty <- droplevels(voteList$votePerParty)
   }
 
   return(voteList)
