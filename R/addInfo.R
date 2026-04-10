@@ -12,8 +12,9 @@ addCabinetInfo.default <- function(x, ...) {}
 #' @export
 #' @examples
 #' addCabinetInfo(examplevotes)
-addCabinetInfo <- function(x, ...)
+addCabinetInfo <- function(x, ...) {
   UseMethod("addCabinetInfo")
+}
 
 #' @describeIn addCabinetInfo Cabinet Information for voteList object
 #' @export
@@ -24,16 +25,16 @@ addCabinetInfo.voteList <- function(x, ...) {
   }
 
 
-  min_date = min(as.Date(x$metaList$date), na.rm = TRUE)
-  max_date = max(as.Date(x$metaList$date), na.rm = TRUE)
+  min_date <- min(as.Date(x$metaList$date), na.rm = TRUE)
+  max_date <- max(as.Date(x$metaList$date), na.rm = TRUE)
 
   all_dates <- seq.Date(from = min_date, to = max_date, by = 1)
 
 
   if (max_date < max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE)) {
-    end_date_selection = max(as.Date(x$cabinetInfo$start_date, na.rm = TRUE)) + 1
+    end_date_selection <- max(as.Date(x$cabinetInfo$start_date, na.rm = TRUE)) + 1
   } else {
-    end_date_selection = max_date + 1
+    end_date_selection <- max_date + 1
   }
 
   cabinet_name <- cut(all_dates,
@@ -190,9 +191,10 @@ addPartyInfo.default <- function(x, ...) {}
 #' @importFrom magrittr "%>%"
 #' @export
 #' @examples
-#' examplevotes_with_partyinfo = addPartyInfo(examplevotes)
-addPartyInfo <- function(x, ...)
+#' examplevotes_with_partyinfo <- addPartyInfo(examplevotes)
+addPartyInfo <- function(x, ...) {
   UseMethod("addPartyInfo")
+}
 
 #' @describeIn addPartyInfo Party characteristics for voteList object
 #' @export
@@ -201,8 +203,8 @@ addPartyInfo.voteList <- function(x, includetype = "basic",
                                   ...) {
   if (nrow(x$metaList) > 5e3) warning("This is a large voteList object. This operation will increase the object size significantly.")
 
-  min_date = min(as.Date(x$metaList$date), na.rm = TRUE)
-  max_date = max(as.Date(x$metaList$date), na.rm = TRUE)
+  min_date <- min(as.Date(x$metaList$date), na.rm = TRUE)
+  max_date <- max(as.Date(x$metaList$date), na.rm = TRUE)
 
   all_dates <- seq.Date(from = min_date, to = max_date, by = 1)
 
@@ -221,9 +223,9 @@ addPartyInfo.voteList <- function(x, includetype = "basic",
   term_start <- as.Date(term_start)
 
   if (max_date < max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE)) {
-    end_date_selection = max(as.Date(x$cabinetInfo$start_date, na.rm = TRUE)) + 1
+    end_date_selection <- max(as.Date(x$cabinetInfo$start_date, na.rm = TRUE)) + 1
   } else {
-    end_date_selection = max_date + 1
+    end_date_selection <- max_date + 1
   }
 
   cabinet_name <- cut(all_dates,
@@ -484,8 +486,9 @@ addInfo.default <- function(x, ...) {}
 #' @export
 #' @examples
 #' examplevotes_with_info <- addInfo(examplevotes)
-addInfo <- function(x, ...)
+addInfo <- function(x, ...) {
   UseMethod("addInfo")
+}
 
 #' @describeIn addInfo Add information to voteList object
 #' @export

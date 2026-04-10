@@ -13,8 +13,9 @@ rice.default <- function(x, ...) {}
 #' @export
 #' @examples
 #' rice(examplevotes)
-rice <- function(x, ...)
+rice <- function(x, ...) {
   UseMethod("rice")
+}
 
 #' @describeIn rice Rice index for voteList object
 #' @export

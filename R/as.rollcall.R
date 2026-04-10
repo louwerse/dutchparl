@@ -9,8 +9,9 @@ as.rollcall.default <- function(x, ...) {}
 #' @export
 #' @examples
 #' as.rollcall(examplevotes)
-as.rollcall <- function(x, ...)
+as.rollcall <- function(x, ...) {
   UseMethod("as.rollcall")
+}
 
 #' @describeIn as.rollcall Transform voteList object into rollcall object
 #' @export
