@@ -21,4 +21,3 @@ Note that this operation can be expensive for very large datasets. It is recomme
 \examples{
 cosponsors(examplevotes)
 }
-

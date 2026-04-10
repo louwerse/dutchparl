@@ -20,4 +20,3 @@ Select a random number of votes from a voteList object
 \examples{
 randomvotes(examplevotes)
 }
-

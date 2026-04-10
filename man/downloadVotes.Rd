@@ -22,4 +22,3 @@ Download Dutch Parliamentary Behaviour Dataset from the internet
 downloadVotes()
 }
 }
-

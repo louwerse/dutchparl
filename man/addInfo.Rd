@@ -29,7 +29,7 @@ This is a wrapper that runs both addCabinetInfo and addPartyInfo with default se
 \itemize{
 \item \code{voteList}: Add information to voteList object
 }}
+
 \examples{
 examplevotes_with_info <- addInfo(examplevotes)
 }
-

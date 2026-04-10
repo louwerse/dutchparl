@@ -26,7 +26,7 @@ is obtained from ParlGov (http://www.parlgov.org/).
 \itemize{
 \item \code{voteList}: Cabinet Information for voteList object
 }}
+
 \examples{
 addCabinetInfo(examplevotes)
 }
-
