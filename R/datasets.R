@@ -17,7 +17,7 @@
 #'
 #' @docType data
 #' @keywords datasets
-#' @name examplevotes
+#' @name examplequestions
 #' @usage data(examplequestions)
 #' @format A questionList object
 "examplequestions"
