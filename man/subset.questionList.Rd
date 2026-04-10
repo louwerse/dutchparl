@@ -4,8 +4,7 @@
 \alias{subset.questionList}
 \title{Subset questionList object}
 \usage{
-\method{subset}{questionList}(x, df, subset, select, drop = FALSE,
-  drop.levels = TRUE, ...)
+\method{subset}{questionList}(x, df, subset, select, drop = FALSE, drop.levels = TRUE, ...)
 }
 \arguments{
 \item{x}{A questionList object, most of the time the questions object from the Dutch Parliamentary Behaviour Dataset.}

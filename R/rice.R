@@ -25,8 +25,13 @@ rice.voteList <- function(x, minvotes=10, ...) {
     dplyr::filter_(.dots=lazyeval::interp(~ x %in% y,
                                           .values=list(x = as.name("party"),
                                                        y = includeParties)))
+  
+  # If votePerParty variables are named 0, 1, 8 instead of vote_0, vote_1, vote_8, fix:
+  if(is.null(x$votePerParty$`vote_0`) & (!is.null(x$votePerParty$`0`))) { x$votePerParty$`vote_0` <- x$votePerParty$`0` }
+  if(is.null(x$votePerParty$`vote_1`) & (!is.null(x$votePerParty$`1`))) { x$votePerParty$`vote_1` <- x$votePerParty$`1` }
+  if(is.null(x$votePerParty$`vote_8`) & (!is.null(x$votePerParty$`8`))) { x$votePerParty$`vote_8` <- x$votePerParty$`8` }
 
-  x$votePerParty$rice <- abs(x$votePerParty$`1` - x$votePerParty$`0`) / (x$votePerParty$`1` + x$votePerParty$`0`)
+  x$votePerParty$rice <- abs(x$votePerParty$`vote_1` - x$votePerParty$`vote_0`) / (x$votePerParty$`vote_1` + x$votePerParty$`vote_0`)
 
   rice_out <- x$votePerParty %>%
     dplyr::group_by_(.dots="party") %>%

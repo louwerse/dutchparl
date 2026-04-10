@@ -1,8 +1,8 @@
 Package: dutchparl
 Type: Package
 Title: Dutch Parliamentary Behaviour
-Version: 0.0.0.9002
-Date: 2017-06-26
+Version: 0.0.0.9003
+Date: 2020-05-22
 Authors@R: person("Tom", "Louwerse", email = "t.p.louwerse@fsw.leidenuniv.nl",
     role = c("aut", "cre"))
 Description: Scripts for the Dutch Parliamentary Behaviour Dataset.
@@ -17,5 +17,5 @@ Imports:
 	  car,
 	  lazyeval
 Depends:
-    R (>= 2.10)
-RoxygenNote: 6.1.1
+    R (>= 3.6)
+RoxygenNote: 7.1.0
