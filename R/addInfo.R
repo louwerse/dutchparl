@@ -121,11 +121,10 @@ addCabinetInfo.questionList <- function(x, ...) {
                                                 stringsAsFactors = FALSE),
                                      x$cabinetInfo,
                                      by="cabinet_name") %>%
-    dplyr::mutate_(.dots=stats::setNames("as.numeric(date > formal_resignation)",
-                                         "cabinet_resigned")) %>%
-    dplyr::select_(.dots=list("date", "cabinet_name",
+    dplyr::mutate(cabinet_resigned = as.numeric(.data$date > .data$formal_resignation)) %>%
+    dplyr::select(dplyr::any_of(c("date", "cabinet_name",
                               "cabinet_name_parlementcom",
-                              "caretaker", "cabinet_resigned"))
+                              "caretaker", "cabinet_resigned")))
   
   cabInfoAllDays$cabinet_name <- factor(cabInfoAllDays$cabinet_name,
                                         levels=levels(cabinet_name), ordered=TRUE)
@@ -209,14 +208,14 @@ addPartyInfo.voteList <- function(x, includetype="basic",
       x$partyCabinetInfo,
       by = "cabinet_name"
     ) %>%
-    dplyr::select_(.dots = list("date", "party", "cabinet_party", "prime_minister"))
+    dplyr::select(dplyr::any_of(c("date", "party", "cabinet_party", "prime_minister")))
   
 
   partyElectionInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, term_start),
                                                x$partyElectionInfo,
                                                by="term_start") %>%
-    dplyr::rename_(.dots=stats::setNames("seats", "party_seats")) %>%
-    dplyr::select_(.dots=list("date", "party", "vote_share", "seat_share", "party_seats"))
+    dplyr::rename("party_seats" = "seats") %>%
+    dplyr::select(dplyr::any_of(c("date", "party", "vote_share", "seat_share", "party_seats")))
 
   combinedInfo <- dplyr::full_join(partyCabinetInfoAllDays, partyElectionInfoAllDays,
                             by=c("date", "party"))
@@ -236,8 +235,8 @@ addPartyInfo.voteList <- function(x, includetype="basic",
     x$voteList$id <- as.character(x$voteList$id)
     if(!("date" %in% names(x$voteList))) {
       x$voteList <- dplyr::left_join(x$voteList,
-                                     dplyr::select_(x$metaList,
-                                                    .dots=list("id", "date")),
+                                     dplyr::select(x$metaList,
+                                                   dplyr::any_of(c("id", "date"))),
                                      by="id")
     }
     if(all(colnames(combinedInfo) %in% colnames(x$voteList))) {
@@ -258,8 +257,8 @@ addPartyInfo.voteList <- function(x, includetype="basic",
 
     if(is.null(x$sponsorList$date)) {
       x$sponsorList <- dplyr::left_join(x$sponsorList,
-                       dplyr::select_(x$metaList,
-                                      .dots=list("id", "date")), by="id")
+                       dplyr::select(x$metaList,
+                                     dplyr::any_of(c("id", "date"))), by="id")
     }
     if(all(colnames(combinedInfo[-c(1:2)]) %in% colnames(x$sponsorList))) {
       warning("All party information is already in sponsorList. Did not add.")
@@ -280,7 +279,7 @@ addPartyInfo.voteList <- function(x, includetype="basic",
 
     if(!("date" %in% names(x$votePerParty))) {
       x$votePerParty <- dplyr::left_join(x$votePerParty,
-                       dplyr::select_(x$metaList, .dots=list("id", "date")), by="id")
+                       dplyr::select(x$metaList, dplyr::any_of(c("id", "date"))), by="id")
     }
       # Only include columns that are not yet in the data
       notYetPresent <- colnames(combinedInfo)[-c(1:2)][which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$votePerParty))]
@@ -314,8 +313,8 @@ all_dates <- seq.Date(from=as.Date(min(c(date.na.omit(x$metaList$dateResponse)),
                                                  date.na.omit(x$metaList$dateQuestion))))),
                       by=1)
   term_starts_unique <- x$electionInfo %>%
-    dplyr::select_(.dots="term_start") %>%
-    dplyr::arrange_(.dots="term_start")
+    dplyr::select("term_start") %>%
+    dplyr::arrange("term_start")
   
   term_start <- cut(all_dates,
                     breaks=c(term_starts_unique$term_start,
@@ -333,14 +332,14 @@ all_dates <- seq.Date(from=as.Date(min(c(date.na.omit(x$metaList$dateResponse)),
   partyCabinetInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, cabinet_name=as.character(cabinet_name), stringsAsFactors=FALSE),
                                               x$partyCabinetInfo,
                                               by="cabinet_name") %>%
-    dplyr::select_(.dots=list("date", "party", "cabinet_party", "prime_minister"))
+    dplyr::select(dplyr::any_of(c("date", "party", "cabinet_party", "prime_minister")))
   
   
   partyElectionInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, term_start),
                                                x$partyElectionInfo,
                                                by="term_start") %>%
-    dplyr::rename_(.dots=stats::setNames("seats", "party_seats")) %>%
-    dplyr::select_(.dots=list("date", "party", "vote_share", "seat_share", "party_seats"))
+    dplyr::rename("party_seats" = "seats") %>%
+    dplyr::select(dplyr::any_of(c("date", "party", "vote_share", "seat_share", "party_seats")))
   
   combinedInfo <- dplyr::full_join(partyCabinetInfoAllDays, partyElectionInfoAllDays,
                                    by=c("date", "party"))
@@ -360,8 +359,8 @@ all_dates <- seq.Date(from=as.Date(min(c(date.na.omit(x$metaList$dateResponse)),
     x$questionerList$dcIdentifier <- as.character(x$questionerList$dcIdentifier)
     if(is.null(x$questionerList$dateQuestion)) {
       x$questionerList <- dplyr::left_join(x$questionerList,
-                                     dplyr::select_(x$metaList,
-                                                    .dots=list("dcIdentifier", "dateQuestion")),
+                                     dplyr::select(x$metaList,
+                                                   dplyr::any_of(c("dcIdentifier", "dateQuestion"))),
                                      by="dcIdentifier")
     }
     if(all(colnames(combinedInfo) %in% colnames(x$questionerList))) {
@@ -379,8 +378,8 @@ all_dates <- seq.Date(from=as.Date(min(c(date.na.omit(x$metaList$dateResponse)),
     x$responderList$dcIdentifier <- as.character(x$responderList$dcIdentifier)
     if(is.null(x$responderList$dateResponse)) {
       x$responderList <- dplyr::left_join(x$responderList,
-                                           dplyr::select_(x$metaList,
-                                                          .dots=list("dcIdentifier", "dateResponse")),
+                                           dplyr::select(x$metaList,
+                                                         dplyr::any_of(c("dcIdentifier", "dateResponse"))),
                                            by="dcIdentifier")
     }
     if(all(colnames(combinedInfo) %in% colnames(x$responderList))) {
