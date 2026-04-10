@@ -31,10 +31,12 @@ addCabinetInfo.voteList <- function(x, ...) {
   all_dates <- seq.Date(from=min_date, to=max_date, by=1)
 
   
-  end_date_selection <- if_else(max_date < max(x$cabinetInfo$start_date, na.rm=TRUE),
-                                max(x$cabinetInfo$start_date, na.rm=TRUE) + 1,
-                                max_date + 1)
-  
+  if(max_date < max(as.Date(x$cabinetInfo$start_date), na.rm=TRUE)) {
+    end_date_selection = max(as.Date(x$cabinetInfo$start_date, na.rm=TRUE)) + 1
+  } else {
+    end_date_selection = max_date + 1
+  }
+
   cabinet_name <- cut(all_dates,
                       breaks=c(x$cabinetInfo$start_date,
                                end_date_selection +1),
@@ -62,7 +64,7 @@ addCabinetInfo.voteList <- function(x, ...) {
   }
   
   cabInfoAllDays <- cabInfoAllDays %>%
-    dplyr::select(any_of(c("date", "cabinet_name",
+    dplyr::select(dplyr::any_of(c("date", "cabinet_name",
                            "cabinet_name_parlementcom",
                            "caretaker", "cabinet_resigned")))
   
@@ -185,9 +187,11 @@ addPartyInfo.voteList <- function(x, includetype="basic",
                     ordered_result=FALSE)
   term_start <- as.Date(term_start)
 
-  end_date_selection <- if_else(max_date < max(x$cabinetInfo$start_date, na.rm=TRUE),
-                                max(x$cabinetInfo$start_date, na.rm=TRUE) + 1,
-                                max_date + 1)
+  if(max_date < max(as.Date(x$cabinetInfo$start_date), na.rm=TRUE)) {
+    end_date_selection = max(as.Date(x$cabinetInfo$start_date, na.rm=TRUE)) + 1
+  } else {
+    end_date_selection = max_date + 1
+  }
   
   cabinet_name <- cut(all_dates,
                       breaks=c(x$cabinetInfo$start_date,
