@@ -24,7 +24,7 @@ Transform into rollcall object
 \itemize{
 \item \code{voteList}: Transform voteList object into rollcall object
 }}
+
 \examples{
 as.rollcall(examplevotes)
 }
-

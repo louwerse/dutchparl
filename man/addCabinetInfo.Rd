@@ -3,20 +3,23 @@
 \name{addCabinetInfo}
 \alias{addCabinetInfo}
 \alias{addCabinetInfo.voteList}
+\alias{addCabinetInfo.questionList}
 \title{Add information on cabinet composition and elections to metadata. This data
 is obtained from ParlGov (http://www.parlgov.org/).}
 \usage{
 addCabinetInfo(x, ...)
 
 \method{addCabinetInfo}{voteList}(x, ...)
+
+\method{addCabinetInfo}{questionList}(x, ...)
 }
 \arguments{
-\item{x}{A voteList object}
+\item{x}{A voteList or questionList object}
 
 \item{...}{Other parameters passed on.}
 }
 \value{
-A voteList object
+A voteList or questionList object
 }
 \description{
 Add information on cabinet composition and elections to metadata. This data
@@ -25,8 +28,10 @@ is obtained from ParlGov (http://www.parlgov.org/).
 \section{Methods (by class)}{
 \itemize{
 \item \code{voteList}: Cabinet Information for voteList object
+
+\item \code{questionList}: Cabinet Information for questionList object. Information is valid for the date of the response to the question
 }}
+
 \examples{
 addCabinetInfo(examplevotes)
 }
-

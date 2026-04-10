@@ -1,6 +1,6 @@
 #' Subset voteList object
 #'
-#' @param x A voteList object, most of the time the votes objects that comes with the dutchparl package.
+#' @param x A voteList object, most of the time the votes object from the Dutch Parliamentary Behaviour Dataset.
 #' @param df The name of the data.frame in the voteList to filter on. Options include metaList, sponsorList, and categoryList.
 #' @param subset The subset command.
 #' @param select Expression, indicating columns to select from data frame
@@ -51,6 +51,59 @@ subset.voteList <- function (x, df, subset, select, drop = FALSE, drop.levels=TR
 
   return(voteList)
 }
+
+
+
+#' Subset questionList object
+#'
+#' @param x A questionList object, most of the time the questions object from the Dutch Parliamentary Behaviour Dataset.
+#' @param df The name of the data.frame in the questionList to filter on. Options include metaList, questionerList, responderList, and categoryList.
+#' @param subset The subset command.
+#' @param select Expression, indicating columns to select from data frame
+#' @param drop passed on to [ indexing operator
+#' @param drop.levels If true, superfluous levels in the data.frames will be removed.
+#' @param ... Other parameters (ignored)
+#' @return The subsetted questionList object.
+#' @export
+#' @examples
+#' subset(examplequestions, examplequestions$metaList, dateQuestion > as.Date("2010-01-04"))
+subset.questionList <- function (x, df, subset, select, drop = FALSE, drop.levels=TRUE, ...)
+{
+  if (missing(subset))
+    r <- TRUE
+  else {
+    e <- substitute(subset)
+    r <- eval(e, df, parent.frame())
+    if (!is.logical(r))
+      stop("'subset' must evaluate to logical")
+    r <- r & !is.na(r)
+  }
+  if (missing(select))
+    vars <- TRUE
+  else {
+    nl <- as.list(seq_along(df))
+    names(nl) <- names(df)
+    vars <- eval(substitute(select), nl, parent.frame())
+  }
+  ss <- df[r, vars, drop = drop]
+  select_ids <- ss$dcIdentifier
+  
+  questionList <- x
+  questionList$metaList <- questionList$metaList[questionList$metaList$dcIdentifier %in% select_ids,]
+  questionList$questionerList <- questionList$questionerList[questionList$questionerList$dcIdentifier %in% select_ids,]
+  questionList$responderList <- questionList$responderList[questionList$responderList$dcIdentifier %in% select_ids,]
+  questionList$categoryList <- questionList$categoryList[questionList$categoryList$dcIdentifier %in% select_ids,]
+  
+  if(drop.levels) {
+    questionList$metaList <- droplevels(questionList$metaList)
+    questionList$questionerList <- droplevels(questionList$questionerList)
+    questionList$responderList <- droplevels(questionList$responderList)
+    questionList$categoryList <- droplevels(questionList$categoryList)
+  }
+  
+  return(questionList)
+}
+
 
 #' Select a random number of votes from a voteList object
 #'

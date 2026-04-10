@@ -8,7 +8,7 @@
   drop.levels = TRUE, ...)
 }
 \arguments{
-\item{x}{A voteList object, most of the time the votes objects that comes with the dutchparl package.}
+\item{x}{A voteList object, most of the time the votes object from the Dutch Parliamentary Behaviour Dataset.}
 
 \item{df}{The name of the data.frame in the voteList to filter on. Options include metaList, sponsorList, and categoryList.}
 
@@ -31,4 +31,3 @@ Subset voteList object
 \examples{
 subset(examplevotes, examplevotes$metaList, date > as.Date("2010-01-15"))
 }
-
