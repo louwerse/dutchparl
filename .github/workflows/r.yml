@@ -19,12 +19,12 @@ jobs:
     runs-on: macOS-latest
     strategy:
       matrix:
-        r-version: [3.5, 3.6]
+        r-version: [3.6, 4.1.0]
 
     steps:
       - uses: actions/checkout@v2
       - name: Set up R ${{ matrix.r-version }}
-        uses: r-lib/actions/setup-r@ffe45a39586f073cc2e9af79c4ba563b657dc6e3
+        uses: r-lib/actions/setup-r@630f4c9d8b813f45d0327a2fc20eb264fd518450
         with:
           r-version: ${{ matrix.r-version }}
       - name: Install dependencies
