@@ -47,5 +47,5 @@ is obtained from ParlGov (http://www.parlgov.org/).
 }}
 
 \examples{
-examplevotes_with_partyinfo = addPartyInfo(examplevotes)
+examplevotes_with_partyinfo <- addPartyInfo(examplevotes)
 }
