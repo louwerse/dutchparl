@@ -16,8 +16,7 @@ summary.voteList <- function(object, ...) {
 }
 
 #' @export
-print.summary.voteList <- function(x, digits=max(3L, getOption("digits") - 3L), ...) {
-
+print.summary.voteList <- function(x, digits = max(3L, getOption("digits") - 3L), ...) {
   cat("Number of votes in dataset: ", x$nVotes, "\n")
 
   cat("Category count: \n")
@@ -28,9 +27,7 @@ print.summary.voteList <- function(x, digits=max(3L, getOption("digits") - 3L), 
 }
 
 #' @export
-print.voteList <- function(x, verbose=FALSE, ...) {
-
-  if(verbose) print.default(x)
-  if(!verbose) print(summary.default(x))
-
+print.voteList <- function(x, verbose = FALSE, ...) {
+  if (verbose) print.default(x)
+  if (!verbose) print(summary.default(x))
 }
