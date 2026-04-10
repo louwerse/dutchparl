@@ -8,9 +8,8 @@ citEntry("Article",
     textVersion="Tom Louwerse, Simon Otjes and Cynthia Van Vonno (published online 2017) The Dutch Parliamentary Behaviour Dataset, Acta Politica. doi: 10.1057/s41269-017-0042-4")
 citEntry("Manual",
     author= c(person("Tom", "Louwerse")),
-    journal="Acta Politica",
     url="https://github.com/louwerse/dutchparl",
     title="dutchparl - An R package for the Dutch Parliamentary Behaviour Dataset",
     year=2017,
-    textVersion="Tom Louwerse (2017) dutchparl - An R package for the Dutch Parliamentary Behaviour Dataset. https://github.com/louwerse/dutchparl")
+    textVersion="Tom Louwerse (2021) dutchparl - An R package for the Dutch Parliamentary Behaviour Dataset. https://github.com/louwerse/dutchparl")
 
