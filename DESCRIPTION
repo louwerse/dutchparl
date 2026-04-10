@@ -1,14 +1,14 @@
 Type: Package
 Package: dutchparl
 Title: Dutch Parliamentary Behaviour
-Version: 0.0.0.9006
-Date: 2021-07-02
+Version: 0.0.0.9007
+Date: 2021-08-10
 Authors@R: 
     person(given = "Tom",
            family = "Louwerse",
            role = c("aut", "cre"),
            email = "t.p.louwerse@fsw.leidenuniv.nl")
-Description: Scripts for the Dutch Parliamentary Behaviour Dataset.
+Description: Functions for working with the Dutch Parliamentary Behaviour Dataset.
 License: GPL-3
 Depends:
     R (>= 3.6)
