@@ -1,4 +1,5 @@
 # rice --------------------------------------------------------------------
+#' @exportS3Method
 rice.default <- function(x, ...) {}
 
 #' Calculate rice score
@@ -7,7 +8,6 @@ rice.default <- function(x, ...) {}
 #' @param minvotes The minimum number of votes for a party to have participated in. Defaults to 10.
 #' @return A list of rice scores.
 #' @param ... Other parameters passed on.
-#' @importFrom magrittr "%>%"
 #' @importFrom stats "setNames"
 #' @export
 #' @examples

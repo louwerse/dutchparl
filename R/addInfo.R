@@ -1,4 +1,5 @@
 # addCabinetInfo ----------------------------------------------------------
+#' @exportS3Method
 addCabinetInfo.default <- function(x, ...) {}
 
 #' Add information on cabinet composition and elections to metadata. This data
@@ -7,7 +8,6 @@ addCabinetInfo.default <- function(x, ...) {}
 #' @param x A voteList or questionList object
 #' @return A voteList or questionList object
 #' @param ... Other parameters passed on.
-#' @importFrom magrittr "%>%"
 #' @importFrom rlang .data
 #' @export
 #' @examples
@@ -57,22 +57,22 @@ addCabinetInfo.voteList <- function(x, ...) {
 
   term_start <- as.Date(term_start)
 
-  cabInfoAllDays <- dplyr::left_join(data.frame(
-    date = all_dates,
-    cabinet_name = as.character(cabinet_name),
-    stringsAsFactors = FALSE
-  ),
-  x$cabinetInfo,
-  by = "cabinet_name"
+  cabInfoAllDays <- dplyr::left_join(
+    data.frame(
+      date = all_dates,
+      cabinet_name = as.character(cabinet_name)
+    ),
+    x$cabinetInfo,
+    by = "cabinet_name"
   )
 
   # formal_resignation is not part of parlgov data, so check if it is present
   if ("formal_resignation" %in% colnames(cabInfoAllDays)) {
-    cabInfoAllDays <- cabInfoAllDays %>%
+    cabInfoAllDays <- cabInfoAllDays |>
       dplyr::mutate(cabinet_resigned = as.numeric(.data$date > .data$formal_resignation))
   }
 
-  cabInfoAllDays <- cabInfoAllDays %>%
+  cabInfoAllDays <- cabInfoAllDays |>
     dplyr::select(dplyr::any_of(c(
       "date", "cabinet_name",
       "cabinet_name_parlementcom",
@@ -85,12 +85,10 @@ addCabinetInfo.voteList <- function(x, ...) {
   )
 
 
-  electionInfoAllDays <- dplyr::left_join(data.frame(
-    date = all_dates,
-    term_start
-  ),
-  x$electionInfo,
-  by = "term_start"
+  electionInfoAllDays <- dplyr::left_join(
+    data.frame(date = all_dates, term_start),
+    x$electionInfo,
+    by = "term_start"
   )
   out <- x
   out$metaList <- dplyr::left_join(out$metaList, cabInfoAllDays, by = "date")
@@ -139,15 +137,15 @@ addCabinetInfo.questionList <- function(x, ...) {
   term_start <- as.Date(term_start)
 
 
-  cabInfoAllDays <- dplyr::left_join(data.frame(
-    date = all_dates,
-    cabinet_name = as.character(cabinet_name),
-    stringsAsFactors = FALSE
-  ),
-  x$cabinetInfo,
-  by = "cabinet_name"
-  ) %>%
-    dplyr::mutate(cabinet_resigned = as.numeric(.data$date > .data$formal_resignation)) %>%
+  cabInfoAllDays <- dplyr::left_join(
+    data.frame(
+      date = all_dates,
+      cabinet_name = as.character(cabinet_name)
+    ),
+    x$cabinetInfo,
+    by = "cabinet_name"
+  ) |>
+    dplyr::mutate(cabinet_resigned = as.numeric(.data$date > .data$formal_resignation)) |>
     dplyr::select(dplyr::any_of(c(
       "date", "cabinet_name",
       "cabinet_name_parlementcom",
@@ -159,12 +157,10 @@ addCabinetInfo.questionList <- function(x, ...) {
   )
 
 
-  electionInfoAllDays <- dplyr::left_join(data.frame(
-    date = all_dates,
-    term_start
-  ),
-  x$electionInfo,
-  by = "term_start"
+  electionInfoAllDays <- dplyr::left_join(
+    data.frame(date = all_dates, term_start),
+    x$electionInfo,
+    by = "term_start"
   )
   out <- x
   out$metaList <- dplyr::left_join(out$metaList, cabInfoAllDays, by = c("dateResponse" = "date"))
@@ -178,6 +174,7 @@ addCabinetInfo.questionList <- function(x, ...) {
 
 # addPartyInfo ------------------------------------------------------------
 
+#' @exportS3Method
 addPartyInfo.default <- function(x, ...) {}
 
 #' Add information on party characteristics to voteList or questionerList object. This data
@@ -188,7 +185,6 @@ addPartyInfo.default <- function(x, ...) {}
 #' @param addto Character vector including the subtables to which party information should be added. Defaults to c("voteList", "sponsorList","votePerParty") vote a voteList object or c("questionerList", "responderList") for a questionList object.
 #' @return A voteList or questionList object.
 #' @param ... Other parameters passed on.
-#' @importFrom magrittr "%>%"
 #' @export
 #' @examples
 #' examplevotes_with_partyinfo <- addPartyInfo(examplevotes)
@@ -208,9 +204,9 @@ addPartyInfo.voteList <- function(x, includetype = "basic",
 
   all_dates <- seq.Date(from = min_date, to = max_date, by = 1)
 
-  term_starts_unique <- x$electionInfo %>%
-    dplyr::select("term_start") %>%
-    dplyr::arrange("term_start")
+  term_starts_unique <- x$electionInfo |>
+    dplyr::select("term_start") |>
+    dplyr::arrange(term_start)
 
   term_start <- cut(all_dates,
     breaks = c(
@@ -241,20 +237,20 @@ addPartyInfo.voteList <- function(x, includetype = "basic",
     dplyr::left_join(
       data.frame(
         date = all_dates,
-        cabinet_name = as.character(cabinet_name),
-        stringsAsFactors = FALSE
+        cabinet_name = as.character(cabinet_name)
       ),
       x$partyCabinetInfo,
       by = "cabinet_name"
-    ) %>%
+    ) |>
     dplyr::select(dplyr::any_of(c("date", "party", "cabinet_party", "prime_minister")))
 
 
-  partyElectionInfoAllDays <- dplyr::left_join(data.frame(date = all_dates, term_start),
+  partyElectionInfoAllDays <- dplyr::left_join(
+    data.frame(date = all_dates, term_start),
     x$partyElectionInfo,
     by = "term_start"
-  ) %>%
-    dplyr::rename("party_seats" = "seats") %>%
+  ) |>
+    dplyr::rename("party_seats" = "seats") |>
     dplyr::select(dplyr::any_of(c("date", "party", "vote_share", "seat_share", "party_seats")))
 
   combinedInfo <- dplyr::full_join(partyCabinetInfoAllDays, partyElectionInfoAllDays,
@@ -369,9 +365,9 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
     )))),
     by = 1
   )
-  term_starts_unique <- x$electionInfo %>%
-    dplyr::select("term_start") %>%
-    dplyr::arrange("term_start")
+  term_starts_unique <- x$electionInfo |>
+    dplyr::select("term_start") |>
+    dplyr::arrange(term_start)
 
   term_start <- cut(all_dates,
     breaks = c(
@@ -392,18 +388,20 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
     ordered_result = TRUE
   )
 
-  partyCabinetInfoAllDays <- dplyr::left_join(data.frame(date = all_dates, cabinet_name = as.character(cabinet_name), stringsAsFactors = FALSE),
+  partyCabinetInfoAllDays <- dplyr::left_join(
+    data.frame(date = all_dates, cabinet_name = as.character(cabinet_name)),
     x$partyCabinetInfo,
     by = "cabinet_name"
-  ) %>%
+  ) |>
     dplyr::select(dplyr::any_of(c("date", "party", "cabinet_party", "prime_minister")))
 
 
-  partyElectionInfoAllDays <- dplyr::left_join(data.frame(date = all_dates, term_start),
+  partyElectionInfoAllDays <- dplyr::left_join(
+    data.frame(date = all_dates, term_start),
     x$partyElectionInfo,
     by = "term_start"
-  ) %>%
-    dplyr::rename("party_seats" = "seats") %>%
+  ) |>
+    dplyr::rename("party_seats" = "seats") |>
     dplyr::select(dplyr::any_of(c("date", "party", "vote_share", "seat_share", "party_seats")))
 
   combinedInfo <- dplyr::full_join(partyCabinetInfoAllDays, partyElectionInfoAllDays,
@@ -473,6 +471,7 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
 
 
 # addInfo -----------------------------------------------------------------
+#' @exportS3Method
 addInfo.default <- function(x, ...) {}
 
 #' Add information on cabinets, elections and parties to dataset. This data
@@ -482,7 +481,6 @@ addInfo.default <- function(x, ...) {}
 #' @return A voteList object
 #' @param ... Other parameters passed on.
 #' @details This is a wrapper that runs both addCabinetInfo and addPartyInfo with default settings.
-#' @importFrom magrittr "%>%"
 #' @export
 #' @examples
 #' examplevotes_with_info <- addInfo(examplevotes)

@@ -24,9 +24,9 @@ Calculate rice score
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{voteList}: Rice index for voteList object
-}}
+\item \code{rice(voteList)}: Rice index for voteList object
 
+}}
 \examples{
 rice(examplevotes)
 }

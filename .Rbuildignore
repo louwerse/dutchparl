@@ -5,3 +5,4 @@
 ^pkgdown$
 ^README\.Rmd$
 ^\.github$
+^dutchparl\.code-workspace$

@@ -27,11 +27,11 @@ is obtained from ParlGov (http://www.parlgov.org/).
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{voteList}: Cabinet Information for voteList object
+\item \code{addCabinetInfo(voteList)}: Cabinet Information for voteList object
 
-\item \code{questionList}: Cabinet Information for questionList object. Information is valid for the date of the response to the question
+\item \code{addCabinetInfo(questionList)}: Cabinet Information for questionList object. Information is valid for the date of the response to the question
+
 }}
-
 \examples{
 addCabinetInfo(examplevotes)
 }

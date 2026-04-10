@@ -54,6 +54,105 @@ subset.voteList <- function(x, df, subset, select, drop = FALSE, drop.levels = T
 
 
 
+# filter ------------------------------------------------------------------
+
+#' Filter a voteList object
+#'
+#' @param .data A voteList object.
+#' @param ... Logical expressions passed to [dplyr::filter()], evaluated
+#'   against the sub-table specified by \code{.table}. Multiple conditions are
+#'   combined with \code{&}.
+#' @param .table Name of the sub-table to filter on. One of \code{"metaList"}
+#'   (default), \code{"voteList"}, \code{"votePerParty"}, \code{"sponsorList"},
+#'   or \code{"categoryList"}. The matching \code{id}s are then used to subset
+#'   all other sub-tables.
+#' @param drop.levels If \code{TRUE} (default), unused factor levels are
+#'   dropped from all sub-tables after filtering.
+#' @return A voteList object containing only the votes whose rows in
+#'   \code{.table} match the filter conditions.
+#' @importFrom dplyr filter
+#' @export
+#' @examples
+#' # Filter on metaList (default)
+#' dplyr::filter(examplevotes, date > as.Date("2010-01-15"))
+#'
+#' # Filter on sponsorList to keep only votes with a specific sponsor party
+#' dplyr::filter(examplevotes, sponsorParty == "VVD", .table = "sponsorList")
+filter.voteList <- function(.data, ..., .table = "metaList", drop.levels = TRUE) {
+  valid_tables <- c("metaList", "voteList", "votePerParty", "sponsorList", "categoryList")
+  if (!.table %in% valid_tables) {
+    stop("`.table` must be one of: ", paste(valid_tables, collapse = ", "))
+  }
+
+  selected_ids <- dplyr::filter(.data[[.table]], ...)$id
+
+  out <- .data
+  out$metaList     <- out$metaList[out$metaList$id %in% selected_ids, ]
+  out$voteList     <- out$voteList[out$voteList$id %in% selected_ids, ]
+  out$voteMatrix   <- out$voteMatrix[out$voteMatrix$id %in% selected_ids, ]
+  out$sponsorList  <- out$sponsorList[out$sponsorList$id %in% selected_ids, ]
+  out$categoryList <- out$categoryList[out$categoryList$id %in% selected_ids, ]
+  out$votePerParty <- out$votePerParty[out$votePerParty$id %in% selected_ids, ]
+
+  if (drop.levels) {
+    out$metaList     <- droplevels(out$metaList)
+    out$voteList     <- droplevels(out$voteList)
+    out$voteMatrix   <- droplevels(out$voteMatrix)
+    if (!is.null(out$sponsorList))  out$sponsorList  <- droplevels(out$sponsorList)
+    if (!is.null(out$categoryList)) out$categoryList <- droplevels(out$categoryList)
+    if (!is.null(out$votePerParty)) out$votePerParty <- droplevels(out$votePerParty)
+  }
+
+  return(out)
+}
+
+#' Filter a questionList object
+#'
+#' @param .data A questionList object.
+#' @param ... Logical expressions passed to [dplyr::filter()], evaluated
+#'   against the sub-table specified by \code{.table}. Multiple conditions are
+#'   combined with \code{&}.
+#' @param .table Name of the sub-table to filter on. One of \code{"metaList"}
+#'   (default), \code{"questionerList"}, \code{"responderList"}, or
+#'   \code{"categoryList"}. The matching \code{dcIdentifier}s are then used to
+#'   subset all other sub-tables.
+#' @param drop.levels If \code{TRUE} (default), unused factor levels are
+#'   dropped from all sub-tables after filtering.
+#' @return A questionList object containing only the questions whose rows in
+#'   \code{.table} match the filter conditions.
+#' @importFrom dplyr filter
+#' @export
+#' @examples
+#' # Filter on metaList (default)
+#' dplyr::filter(examplequestions, dateQuestion > as.Date("2010-01-04"))
+#'
+#' # Filter on responderList to keep only questions answered by a specific party
+#' dplyr::filter(examplequestions, responderParty == "VVD", .table = "responderList")
+filter.questionList <- function(.data, ..., .table = "metaList", drop.levels = TRUE) {
+  valid_tables <- c("metaList", "questionerList", "responderList", "categoryList")
+  if (!.table %in% valid_tables) {
+    stop("`.table` must be one of: ", paste(valid_tables, collapse = ", "))
+  }
+
+  selected_ids <- dplyr::filter(.data[[.table]], ...)$dcIdentifier
+
+  out <- .data
+  out$metaList        <- out$metaList[out$metaList$dcIdentifier %in% selected_ids, ]
+  out$questionerList  <- out$questionerList[out$questionerList$dcIdentifier %in% selected_ids, ]
+  out$responderList   <- out$responderList[out$responderList$dcIdentifier %in% selected_ids, ]
+  out$categoryList    <- out$categoryList[out$categoryList$dcIdentifier %in% selected_ids, ]
+
+  if (drop.levels) {
+    out$metaList       <- droplevels(out$metaList)
+    out$questionerList <- droplevels(out$questionerList)
+    out$responderList  <- droplevels(out$responderList)
+    out$categoryList   <- droplevels(out$categoryList)
+  }
+
+  return(out)
+}
+
+
 #' Subset questionList object
 #'
 #' @param x A questionList object, most of the time the questions object from the Dutch Parliamentary Behaviour Dataset.
@@ -117,6 +216,6 @@ randomvotes <- function(voteList, size = 10) {
   n <- nrow(voteList$metaList)
   selected <- sample.int(n, size)
   ids <- voteList$metaList$id[selected]
-  out <- subset(voteList, voteList$metaList, voteList$metaList$id %in% ids)
+  out <- dplyr::filter(voteList, id %in% ids)
   return(out)
 }

@@ -30,11 +30,11 @@ This is a wrapper that runs both addCabinetInfo and addPartyInfo with default se
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{voteList}: Add information to voteList object
+\item \code{addInfo(voteList)}: Add information to voteList object
 
-\item \code{questionList}: Add information to questionList object
+\item \code{addInfo(questionList)}: Add information to questionList object
+
 }}
-
 \examples{
 examplevotes_with_info <- addInfo(examplevotes)
 }

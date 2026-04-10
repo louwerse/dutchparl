@@ -27,11 +27,11 @@ Calculate the percentate of votes in which parties voted the same
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{rollcall}: Votesame for rollcall object
+\item \code{votesame(rollcall)}: Votesame for rollcall object
 
-\item \code{voteList}: Votesame for voteList object
+\item \code{votesame(voteList)}: Votesame for voteList object
+
 }}
-
 \examples{
 votesame(examplevotes)
 }

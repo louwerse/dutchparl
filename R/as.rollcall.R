@@ -1,4 +1,5 @@
 
+#' @exportS3Method
 as.rollcall.default <- function(x, ...) {}
 
 #' Transform into rollcall object

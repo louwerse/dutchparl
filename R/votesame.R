@@ -1,5 +1,6 @@
-# voteSame ----------------------------------------------------------------
-votesame.default <- function(x) {}
+# votesame ---------------------------------------------------------------
+#' @exportS3Method
+votesame.default <- function(x, ...) {}
 
 #' Calculate the percentate of votes in which parties voted the same
 #'
@@ -7,7 +8,6 @@ votesame.default <- function(x) {}
 #' @param order.x Character matrix of legislator names. This is used to re-order legislator (or party) columns, if desired.
 #' @return A matrix of voting similarities
 #' @param ... Other parameters passed on.
-#' @importFrom magrittr "%>%"
 #' @export
 #' @examples
 #' votesame(examplevotes)
@@ -37,7 +37,7 @@ votesame.rollcall <- function(x, order.x = NULL, ...) {
 #' @describeIn votesame Votesame for voteList object
 #' @export
 votesame.voteList <- function(x, order.x = NULL, ...) {
-  if (class(x) == "voteList") {
+  if (inherits(x, "voteList")) {
     return(votesame(as.rollcall(x), order.x = order.x, ...))
   } else {
     stop("x is not a voteList object")

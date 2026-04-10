@@ -41,11 +41,11 @@ is obtained from ParlGov (http://www.parlgov.org/).
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{voteList}: Party characteristics for voteList object
+\item \code{addPartyInfo(voteList)}: Party characteristics for voteList object
 
-\item \code{questionList}: Party characteristics for questionList object. Information for questioners refers to the day the question was asked, for the responders it pertains to the day the response was given.
+\item \code{addPartyInfo(questionList)}: Party characteristics for questionList object. Information for questioners refers to the day the question was asked, for the responders it pertains to the day the response was given.
+
 }}
-
 \examples{
 examplevotes_with_partyinfo <- addPartyInfo(examplevotes)
 }
