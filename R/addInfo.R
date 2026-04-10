@@ -1,7 +1,8 @@
 # addCabinetInfo ----------------------------------------------------------
 addCabinetInfo.default <- function(x, ...) {}
 
-#' Add information on cabinet composition and elections to metadata
+#' Add information on cabinet composition and elections to metadata. This data
+#' is obtained from ParlGov (http://www.parlgov.org/). 
 #'
 #' @param x A voteList object
 #' @return A voteList object
@@ -71,7 +72,8 @@ addCabinetInfo.voteList <- function(x, ...) {
 
 addPartyInfo.default <- function(x, ...) {}
 
-#' Add information on party characteristics to voteList object
+#' Add information on party characteristics to voteList object. This data
+#' is obtained from ParlGov (http://www.parlgov.org/). 
 #'
 #' @param x A voteList object
 #' @param includetype A charcter value, "basic" or "all". Defaults to "basic". Basic only includes party characteristics that vary by date, while all includes all party characteristics.
@@ -203,7 +205,8 @@ addPartyInfo.voteList <- function(x, includetype="basic",
 # addInfo -----------------------------------------------------------------
 addInfo.default <- function(x, ...) {}
 
-#' Add information on cabinets, elections and parties to dataset
+#' Add information on cabinets, elections and parties to dataset. This data
+#' is obtained from ParlGov (http://www.parlgov.org/). 
 #'
 #' @param x A voteList object
 #' @return A voteList object

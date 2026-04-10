@@ -3,7 +3,8 @@
 \name{addCabinetInfo}
 \alias{addCabinetInfo}
 \alias{addCabinetInfo.voteList}
-\title{Add information on cabinet composition and elections to metadata}
+\title{Add information on cabinet composition and elections to metadata. This data
+is obtained from ParlGov (http://www.parlgov.org/).}
 \usage{
 addCabinetInfo(x, ...)
 
@@ -18,7 +19,8 @@ addCabinetInfo(x, ...)
 A voteList object
 }
 \description{
-Add information on cabinet composition and elections to metadata
+Add information on cabinet composition and elections to metadata. This data
+is obtained from ParlGov (http://www.parlgov.org/).
 }
 \section{Methods (by class)}{
 \itemize{
