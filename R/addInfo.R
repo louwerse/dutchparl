@@ -24,18 +24,26 @@ addCabinetInfo.voteList <- function(x, ...) {
     return(x)
   }
 
-  all_dates <- seq.Date(from=as.Date(min(x$metaList$date)),
-                        to=as.Date(as.Date(max(x$metaList$date))), by=1)
+  
+  min_date = min(as.Date(x$metaList$date), na.rm=TRUE)
+  max_date = max(as.Date(x$metaList$date), na.rm=TRUE)
+  
+  all_dates <- seq.Date(from=min_date, to=max_date, by=1)
 
+  
+  end_date_selection <- if_else(max_date < max(x$cabinetInfo$start_date, na.rm=TRUE),
+                                max(x$cabinetInfo$start_date, na.rm=TRUE) + 1,
+                                max_date + 1)
+  
   cabinet_name <- cut(all_dates,
                       breaks=c(x$cabinetInfo$start_date,
-                               as.Date(max(x$metaList$date))+1),
+                               end_date_selection +1),
                       labels=x$cabinetInfo$cabinet_name,
                       ordered_result=TRUE)
 
   term_start <- cut(all_dates,
                     breaks=c(x$electionInfo$term_start,
-                             as.Date(max(x$metaList$date))+1),
+                             max(as.Date(x$metaList$date), na.rm=TRUE)+1),
                     labels=x$electionInfo$term_start,
                     ordered_result=FALSE)
 
@@ -45,22 +53,19 @@ addCabinetInfo.voteList <- function(x, ...) {
                                                 cabinet_name=as.character(cabinet_name), 
                                                 stringsAsFactors = FALSE),
                                      x$cabinetInfo,
-                                     by="cabinet_name") %>%
-    dplyr::mutate(cabinet_resigned = as.numeric(.data$date > .data$formal_resignation)) %>%
-    dplyr::select(c("date", "cabinet_name",
-                    "cabinet_name_parlementcom",
-                    "caretaker", "cabinet_resigned"))
-  # 
-  # cabInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, 
-  #                                               cabinet_name=as.character(cabinet_name), 
-  #                                               stringsAsFactors = FALSE),
-  #                                    x$cabinetInfo,
-  #                                    by="cabinet_name") %>%
-  #   dplyr::mutate_(.dots=stats::setNames("as.numeric(date > formal_resignation)",
-  #                                        "cabinet_resigned")) %>%
-  #   dplyr::select_(.dots=list("date", "cabinet_name",
-  #                             "cabinet_name_parlementcom",
-  #                             "caretaker", "cabinet_resigned"))
+                                     by="cabinet_name") 
+  
+  # formal_resignation is not part of parlgov data, so check if it is present
+  if("formal_resignation" %in% colnames(cabInfoAllDays)) {
+    cabInfoAllDays <- cabInfoAllDays %>%
+      dplyr::mutate(cabinet_resigned = as.numeric(.data$date > .data$formal_resignation))
+  }
+  
+  cabInfoAllDays <- cabInfoAllDays %>%
+    dplyr::select(any_of(c("date", "cabinet_name",
+                           "cabinet_name_parlementcom",
+                           "caretaker", "cabinet_resigned")))
+  
 
   cabInfoAllDays$cabinet_name <- factor(cabInfoAllDays$cabinet_name,
                                         levels=levels(cabinet_name), ordered=TRUE)
@@ -89,6 +94,7 @@ addCabinetInfo.questionList <- function(x, ...) {
     warning("Cabinet names are already included in metaList. Nothing has been added.")
     return(x)
   }
+  
   
   all_dates <- seq.Date(from=as.Date(min(x$metaList$dateResponse)),
                         to=as.Date(as.Date(max(x$metaList$dateResponse))), by=1)
@@ -163,31 +169,44 @@ addPartyInfo.voteList <- function(x, includetype="basic",
 
   if(nrow(x$metaList) > 5e3) warning("This is a large voteList object. This operation will increase the object size significantly.")
 
-  all_dates <- seq.Date(from=as.Date(min(x$metaList$date)),
-                        to=as.Date(as.Date(max(x$metaList$date))), by=1)
+  min_date = min(as.Date(x$metaList$date), na.rm=TRUE)
+  max_date = max(as.Date(x$metaList$date), na.rm=TRUE)
+  
+  all_dates <- seq.Date(from=min_date, to=max_date, by=1)
 
   term_starts_unique <- x$electionInfo %>%
-    dplyr::select_(.dots="term_start") %>%
-    dplyr::arrange_(.dots="term_start")
+    dplyr::select("term_start") %>%
+    dplyr::arrange("term_start")
 
   term_start <- cut(all_dates,
                     breaks=c(term_starts_unique$term_start,
-                             as.Date(max(x$metaList$date))+1),
+                             max(as.Date(x$metaList$date), na.rm=TRUE)+1),
                     labels=term_starts_unique$term_start,
                     ordered_result=FALSE)
   term_start <- as.Date(term_start)
 
+  end_date_selection <- if_else(max_date < max(x$cabinetInfo$start_date, na.rm=TRUE),
+                                max(x$cabinetInfo$start_date, na.rm=TRUE) + 1,
+                                max_date + 1)
+  
   cabinet_name <- cut(all_dates,
                       breaks=c(x$cabinetInfo$start_date,
-                               as.Date(max(x$metaList$date))+1),
+                               end_date_selection +1),
                       labels=x$cabinetInfo$cabinet_name,
                       ordered_result=TRUE)
-
-  partyCabinetInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, cabinet_name=as.character(cabinet_name), stringsAsFactors=FALSE),
-                                              x$partyCabinetInfo,
-                                              by="cabinet_name") %>%
-    dplyr::select_(.dots=list("date", "party", "cabinet_party", "prime_minister"))
-
+  
+  partyCabinetInfoAllDays <-
+    dplyr::left_join(
+      data.frame(
+        date = all_dates,
+        cabinet_name = as.character(cabinet_name),
+        stringsAsFactors = FALSE
+      ),
+      x$partyCabinetInfo,
+      by = "cabinet_name"
+    ) %>%
+    dplyr::select_(.dots = list("date", "party", "cabinet_party", "prime_minister"))
+  
 
   partyElectionInfoAllDays <- dplyr::left_join(data.frame(date=all_dates, term_start),
                                                x$partyElectionInfo,
@@ -211,7 +230,7 @@ addPartyInfo.voteList <- function(x, includetype="basic",
   if("voteList" %in% addto) {
     x$metaList$id <- as.character(x$metaList$id)
     x$voteList$id <- as.character(x$voteList$id)
-    if(is.null(x$voteList$date)) {
+    if(!("date" %in% names(x$voteList))) {
       x$voteList <- dplyr::left_join(x$voteList,
                                      dplyr::select_(x$metaList,
                                                     .dots=list("id", "date")),
@@ -223,9 +242,12 @@ addPartyInfo.voteList <- function(x, includetype="basic",
       # Only include columns that are not yet in the data
       notYetPresent <- colnames(combinedInfo[-c(1:2)])[which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$voteList))]
       combinedInfo1 <- combinedInfo[,c("date","party",notYetPresent)]
-      x$voteList <- dplyr::left_join(x$voteList, combinedInfo1, by=c("date", "party"))
+      x$voteList <- dplyr::left_join(x$voteList, 
+                                     combinedInfo1, 
+                                     by=c("date", "party"))
     }
   }
+  
 
   if("sponsorList" %in% addto){
     x$sponsorList$id <- as.character(x$sponsorList$id)
@@ -252,7 +274,7 @@ addPartyInfo.voteList <- function(x, includetype="basic",
       warning("All party information is already in votePerParty. Did not add.")
     } else {
 
-    if(is.null(x$votePerParty$date)) {
+    if(!("date" %in% names(x$votePerParty))) {
       x$votePerParty <- dplyr::left_join(x$votePerParty,
                        dplyr::select_(x$metaList, .dots=list("id", "date")), by="id")
     }
