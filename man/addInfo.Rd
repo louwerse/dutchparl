@@ -3,12 +3,15 @@
 \name{addInfo}
 \alias{addInfo}
 \alias{addInfo.voteList}
+\alias{addInfo.questionList}
 \title{Add information on cabinets, elections and parties to dataset. This data
 is obtained from ParlGov (http://www.parlgov.org/).}
 \usage{
 addInfo(x, ...)
 
 \method{addInfo}{voteList}(x, ...)
+
+\method{addInfo}{questionList}(x, ...)
 }
 \arguments{
 \item{x}{A voteList object}
@@ -28,6 +31,8 @@ This is a wrapper that runs both addCabinetInfo and addPartyInfo with default se
 \section{Methods (by class)}{
 \itemize{
 \item \code{voteList}: Add information to voteList object
+
+\item \code{questionList}: Add information to questionList object
 }}
 
 \examples{

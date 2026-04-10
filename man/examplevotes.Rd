@@ -3,13 +3,18 @@
 \docType{data}
 \name{examplevotes}
 \alias{examplevotes}
+\alias{examplevotes}
+\alias{examplequestions}
 \title{Dutch Parliamentary Behaviour Dataset (Votes)}
 \format{A voteList object}
 \usage{
 data(examplevotes)
+
+data(examplequestions)
 }
 \description{
-Votes taken in the Dutch lower house between 1946-2015. See full documentation
-for details on coding and use.
+Votes taken in the Dutch lower house in January 2010.
+
+Written Questions from Members of the Dutch lower house 3-5 January 2010.
 }
 \keyword{datasets}
