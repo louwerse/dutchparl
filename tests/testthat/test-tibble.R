@@ -21,14 +21,14 @@ test_that("addCabinetInfo gives the same values on tibbles", {
 })
 
 test_that("addPartyInfo gives the same values on tibbles", {
-  res_tb <- suppressWarnings(addPartyInfo(tb_votes))
+  res_tb <- addPartyInfo(tb_votes)
   res_df <- addPartyInfo(examplevotes)
   for (tbl in c("voteList", "sponsorList", "votePerParty")) {
     expect_equal(as.data.frame(res_tb[[tbl]]), as.data.frame(res_df[[tbl]]),
       ignore_attr = TRUE, label = tbl
     )
   }
-  res_tb <- suppressWarnings(addPartyInfo(tb_questions))
+  res_tb <- addPartyInfo(tb_questions)
   res_df <- addPartyInfo(examplequestions)
   for (tbl in c("questionerList", "responderList")) {
     expect_equal(as.data.frame(res_tb[[tbl]]), as.data.frame(res_df[[tbl]]),
@@ -38,7 +38,7 @@ test_that("addPartyInfo gives the same values on tibbles", {
 })
 
 test_that("rice gives the same values on tibbles", {
-  expect_equal(suppressWarnings(rice(tb_votes)), rice(examplevotes))
+  expect_equal(rice(tb_votes), rice(examplevotes))
 })
 
 test_that("cosponsors gives the same values on tibbles", {
@@ -68,4 +68,13 @@ test_that("filter and subset give the same ids on tibbles", {
     subset(tb_votes, tb_votes$metaList, date > as.Date("2010-01-15"))$metaList$id,
     subset(examplevotes, examplevotes$metaList, date > as.Date("2010-01-15"))$metaList$id
   )
+})
+
+test_that("functions do not warn about unknown columns on tibbles", {
+  expect_no_warning(addPartyInfo(tb_votes))
+  expect_no_warning(addPartyInfo(tb_questions))
+  expect_no_warning(addInfo(tb_votes))
+  expect_no_warning(addInfo(tb_questions))
+  expect_no_warning(rice(tb_votes))
+  expect_no_warning(cosponsors(tb_votes))
 })

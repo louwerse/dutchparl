@@ -1,8 +1,8 @@
 Type: Package
 Package: dutchparl
 Title: Dutch Parliamentary Behaviour
-Version: 0.0.0.9008
-Date: 2026-04-10
+Version: 0.0.0.9009
+Date: 2026-09-24
 Authors@R: 
     person(given = "Tom",
            family = "Louwerse",
@@ -20,7 +20,7 @@ Imports:
     pscl,
     rlang,
     tibble,
-    tidyr (>= 1.0.0)
+    tidyr (>= 1.1.0)
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.3.3
