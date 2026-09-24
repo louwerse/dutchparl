@@ -1,0 +1,10216 @@
+# Filter a questionList object
+
+Filter a questionList object
+
+## Usage
+
+``` r
+# S3 method for class 'questionList'
+filter(.data, ..., .table = "metaList", drop.levels = TRUE)
+```
+
+## Arguments
+
+- .data:
+
+  A questionList object.
+
+- ...:
+
+  Logical expressions passed to \[dplyr::filter()\], evaluated against
+  the sub-table specified by `.table`. Multiple conditions are combined
+  with `&`.
+
+- .table:
+
+  Name of the sub-table to filter on. One of `"metaList"` (default),
+  `"questionerList"`, `"responderList"`, or `"categoryList"`. The
+  matching `dcIdentifier`s are then used to subset all other sub-tables.
+
+- drop.levels:
+
+  If `TRUE` (default), unused factor levels are dropped from all
+  sub-tables after filtering.
+
+## Value
+
+A questionList object containing only the questions whose rows in
+`.table` match the filter conditions.
+
+## Examples
+
+``` r
+# Filter on metaList (default)
+dplyr::filter(examplequestions, dateQuestion > as.Date("2010-01-04"))
+#> $metaList
+#>              dcIdentifier
+#> 30938 ah-tk-20092010-1207
+#> 30939 ah-tk-20092010-1208
+#> 31035 ah-tk-20092010-1295
+#> 31036 ah-tk-20092010-1296
+#> 31100 ah-tk-20092010-1353
+#> 31101 ah-tk-20092010-1354
+#> 31135 ah-tk-20092010-1385
+#> 31145 ah-tk-20092010-1394
+#> 31154 ah-tk-20092010-1401
+#> 31170 ah-tk-20092010-1416
+#> 31238 ah-tk-20092010-1478
+#> 31304 ah-tk-20092010-1537
+#> 31504 ah-tk-20092010-1717
+#> 31537 ah-tk-20092010-1747
+#>                                                                                                                                                     dcTitle
+#> 30938                                                                      Antwoord vragen Fritsma, Brinkman en Wilders inzake ongeregeldheden in Culemborg
+#> 30939                                                                            Antwoord vragen Thieme over jacht op landelijke vrijgestelde schadesoorten
+#> 31035 Antwoord vragen Van Haersma Buma over de berichtgeving van de journalist die met een insulinespuit op Schiphol aan boord van een vliegtuig is gekomen
+#> 31036                                                         Uitstel beantwoording vragen Teeven over woningovervallen in Amsterdam Nieuw- West (de Akker)
+#> 31100                                                                      Uitstel beantwoording vragen Vietsch en Elias over de bouw van negen ecopassages
+#> 31101                     Antwoord vragen Atsma en Jacobi over het bericht dat de terreinbeherende instantie It Fryske Gea een verbod wil op het eierzoeken
+#> 31135                                         Uitstel beantwoording vragen Kuiken en Heerts over het verhalen van schade op daders van vandalisme en geweld
+#> 31145                                                                                                         Antwoord vragen Kuiken over de politiesterkte
+#> 31154                                    Antwoord vragen Dijsselbloem over het binnen een jaar weglopen van 400 jongeren uit gesloten jeugdzorginstellingen
+#> 31170                                    Antwoord vragen Bashir en Kant over het artikel ''Bankier van ABN Amro hekelt het bonuscircus en verlaat de bank''
+#> 31238                                                                                   Antwoord vragen Vietsch en Elias over de bouw van negen ecopassages
+#> 31304                                                                                               Antwoord vragen Jansen over Woonbron en de ss Rotterdam
+#> 31504                                                      Antwoord vragen Kuiken en Heerts over het verhalen van schade op daders van vandalisme en geweld
+#> 31537                                                                        Antwoord vragen Teeven over woningovervallen in Amsterdam Nieuw-West (de Aker)
+#>       questionNumber aanhangselNumber dateQuestion dateResponse questionerCount
+#> 30938     2010Z00055             1207   2010-01-05   2010-01-12               3
+#> 30939     2010Z00069             1208   2010-01-05   2010-01-12               1
+#> 31035     2010Z00056             1295   2010-01-05   2010-01-27               1
+#> 31036     2010Z00061             1296   2010-01-05   2010-01-27               1
+#> 31100     2010Z00058             1353   2010-01-05   2010-01-25               2
+#> 31101     2010Z00063             1354   2010-01-05   2010-01-25               2
+#> 31135     2010Z00071             1385   2010-01-05   2010-01-26               2
+#> 31145     2010Z00070             1394   2010-01-05   2010-01-28               1
+#> 31154     2010Z01648             1401   2010-01-05   2010-01-28               1
+#> 31170     2010Z00062             1416   2010-01-05   2010-01-29               2
+#> 31238     2010Z00058             1478   2010-01-05   2010-02-04               2
+#> 31304     2010Z00059             1537   2010-01-05   2010-02-09               1
+#> 31504     2010Z00071             1717   2010-01-05   2010-02-23               2
+#> 31537     2010Z00061             1747   2010-01-05   2010-03-01               1
+#>       responderCount aanhangselType
+#> 30938              3       Antwoord
+#> 30939              1       Antwoord
+#> 31035              1       Antwoord
+#> 31036              1     Mededeling
+#> 31100              1       Antwoord
+#> 31101              1       Antwoord
+#> 31135              1       Antwoord
+#> 31145              1       Antwoord
+#> 31154              1       Antwoord
+#> 31170              1       Antwoord
+#> 31238              1       Antwoord
+#> 31304              1       Antwoord
+#> 31504              1       Antwoord
+#> 31537              1       Antwoord
+#> 
+#> $questionerList
+#>              dcIdentifier           questionerName questionerId questionerParty
+#> 43695 ah-tk-20092010-1207           Sietse Fritsma        03131             PVV
+#> 43696 ah-tk-20092010-1207            Geert Wilders        02258             PVV
+#> 43697 ah-tk-20092010-1207            Hero Brinkman        03099             PVV
+#> 43698 ah-tk-20092010-1208          Marianne Thieme        03100            PvdD
+#> 43832 ah-tk-20092010-1295 Sybrand van Haersma Buma        02316             CDA
+#> 43833 ah-tk-20092010-1296              Fred Teeven        02336             VVD
+#> 43915 ah-tk-20092010-1353       Antoinette Vietsch        02372             CDA
+#> 43916 ah-tk-20092010-1353                Ton Elias        03064             VVD
+#> 43917 ah-tk-20092010-1354               Joop Atsma        02204             CDA
+#> 43918 ah-tk-20092010-1354              Lutz Jacobi        03079            PvdA
+#> 43958 ah-tk-20092010-1385             Attje Kuiken        03075            PvdA
+#> 43959 ah-tk-20092010-1385               Ton Heerts        03073            PvdA
+#> 43972 ah-tk-20092010-1394             Attje Kuiken        03075            PvdA
+#> 43984 ah-tk-20092010-1401      Jeroen Dijsselbloem        02200            PvdA
+#> 44005 ah-tk-20092010-1416           Farshad Bashir        03149              SP
+#> 44006 ah-tk-20092010-1416               Agnes Kant        02226              SP
+#> 44099 ah-tk-20092010-1478       Antoinette Vietsch        02372             CDA
+#> 44100 ah-tk-20092010-1478                Ton Elias        03064             VVD
+#> 44178 ah-tk-20092010-1537            Paulus Jansen        03106              SP
+#> 44435 ah-tk-20092010-1717             Attje Kuiken        03075            PvdA
+#> 44436 ah-tk-20092010-1717               Ton Heerts        03073            PvdA
+#> 44480 ah-tk-20092010-1747              Fred Teeven        02336             VVD
+#> 
+#> $responderList
+#>              dcIdentifier         responderName responderId responderParty
+#> 31641 ah-tk-20092010-1207 Eberhard van der Laan       03180           PvdA
+#> 31642 ah-tk-20092010-1207   Ernst Hirsch Ballin       02963            CDA
+#> 31643 ah-tk-20092010-1207      Guusje ter Horst       03152           PvdA
+#> 31644 ah-tk-20092010-1208         Gerda Verburg       02246            CDA
+#> 31744 ah-tk-20092010-1295   Ernst Hirsch Ballin       02963            CDA
+#> 31745 ah-tk-20092010-1296   Ernst Hirsch Ballin       02963            CDA
+#> 31811 ah-tk-20092010-1353       Camiel Eurlings       02216            CDA
+#> 31812 ah-tk-20092010-1354         Gerda Verburg       02246            CDA
+#> 31846 ah-tk-20092010-1385   Ernst Hirsch Ballin       02963            CDA
+#> 31857 ah-tk-20092010-1394      Guusje ter Horst       03152           PvdA
+#> 31866 ah-tk-20092010-1401         Andre Rouvoet       02541   ChristenUnie
+#> 31882 ah-tk-20092010-1416            Wouter Bos       02212           PvdA
+#> 31953 ah-tk-20092010-1478       Camiel Eurlings       02216            CDA
+#> 32050 ah-tk-20092010-1537 Eberhard van der Laan       03180           PvdA
+#> 32261 ah-tk-20092010-1717   Ernst Hirsch Ballin       02963            CDA
+#> 32294 ah-tk-20092010-1747   Ernst Hirsch Ballin       02963            CDA
+#> 
+#> $categoryList
+#>              dcIdentifier                    category
+#> 63192 ah-tk-20092010-1207 Openbare orde en veiligheid
+#> 63193 ah-tk-20092010-1207          Zorg en gezondheid
+#> 63194 ah-tk-20092010-1207      Migratie en integratie
+#> 63195 ah-tk-20092010-1208            Natuur en milieu
+#> 63196 ah-tk-20092010-1208                     Bestuur
+#> 63390 ah-tk-20092010-1295 Openbare orde en veiligheid
+#> 63391 ah-tk-20092010-1295 Openbare orde en veiligheid
+#> 63392 ah-tk-20092010-1295    Ruimte en infrastructuur
+#> 63393 ah-tk-20092010-1295                     Verkeer
+#> 63394 ah-tk-20092010-1296 Openbare orde en veiligheid
+#> 63395 ah-tk-20092010-1296 Openbare orde en veiligheid
+#> 63516 ah-tk-20092010-1353                    Economie
+#> 63517 ah-tk-20092010-1353                    Economie
+#> 63518 ah-tk-20092010-1353            Natuur en milieu
+#> 63519 ah-tk-20092010-1353    Ruimte en infrastructuur
+#> 63520 ah-tk-20092010-1354            Natuur en milieu
+#> 63598 ah-tk-20092010-1385                    Economie
+#> 63599 ah-tk-20092010-1385                       Recht
+#> 63600 ah-tk-20092010-1385                       Recht
+#> 63624 ah-tk-20092010-1394 Openbare orde en veiligheid
+#> 63643 ah-tk-20092010-1401          Zorg en gezondheid
+#> 63644 ah-tk-20092010-1401          Zorg en gezondheid
+#> 63645 ah-tk-20092010-1401          Zorg en gezondheid
+#> 63681 ah-tk-20092010-1416                    Economie
+#> 63682 ah-tk-20092010-1416                   Financien
+#> 63833 ah-tk-20092010-1478                    Economie
+#> 63834 ah-tk-20092010-1478                    Economie
+#> 63835 ah-tk-20092010-1478            Natuur en milieu
+#> 63836 ah-tk-20092010-1478    Ruimte en infrastructuur
+#> 63964 ah-tk-20092010-1537                     Verkeer
+#> 63965 ah-tk-20092010-1537                 Huisvesting
+#> 64349 ah-tk-20092010-1717                    Economie
+#> 64350 ah-tk-20092010-1717                       Recht
+#> 64351 ah-tk-20092010-1717                       Recht
+#> 64416 ah-tk-20092010-1747 Openbare orde en veiligheid
+#> 64417 ah-tk-20092010-1747 Openbare orde en veiligheid
+#>                              subcategory
+#> 63192                      Criminaliteit
+#> 63193                           Jongeren
+#> 63194                         Integratie
+#> 63195        Natuur- en landschapsbeheer
+#> 63196                         Provincies
+#> 63390                      Criminaliteit
+#> 63391              Organisatie en beleid
+#> 63392              Organisatie en beleid
+#> 63393                         Luchtvaart
+#> 63394                      Criminaliteit
+#> 63395 Politie, brandweer en hulpdiensten
+#> 63516                         Ondernemen
+#> 63517                      Markttoezicht
+#> 63518        Natuur- en landschapsbeheer
+#> 63519              Organisatie en beleid
+#> 63520        Natuur- en landschapsbeheer
+#> 63598       Overige economische sectoren
+#> 63599                   Burgerlijk recht
+#> 63600                         Strafrecht
+#> 63624 Politie, brandweer en hulpdiensten
+#> 63643              Organisatie en beleid
+#> 63644                      Verzekeringen
+#> 63645                           Jongeren
+#> 63681       Overige economische sectoren
+#> 63682                     Inkomensbeleid
+#> 63833                         Ondernemen
+#> 63834                      Markttoezicht
+#> 63835        Natuur- en landschapsbeheer
+#> 63836              Organisatie en beleid
+#> 63964                              Water
+#> 63965              Organisatie en beleid
+#> 64349       Overige economische sectoren
+#> 64350                   Burgerlijk recht
+#> 64351                         Strafrecht
+#> 64416                      Criminaliteit
+#> 64417 Politie, brandweer en hulpdiensten
+#> 
+#> $cabinetInfo
+#>                  cabinet_name cabinet_name_parlementcom start_date
+#> 1     Ruijs de Beerenbrouck I                      <NA> 1918-09-09
+#> 11   Ruijs de Beerenbrouck II                      <NA> 1922-09-18
+#> 21                   Colijn I                      <NA> 1925-08-04
+#> 32                  De Geer I                      <NA> 1926-03-08
+#> 43  Ruijs de Beerenbrouck III                      <NA> 1929-08-10
+#> 54                  Colijn II                      <NA> 1933-05-26
+#> 69                 Colijn III                      <NA> 1935-07-31
+#> 84                  Colijn IV                      <NA> 1937-06-24
+#> 94                   Colijn V                      <NA> 1939-07-25
+#> 105                De Geer II                      <NA> 1939-08-10
+#> 116              Schermerhorn              Schermerhorn 1945-06-24
+#> 127                    Beel I                    Beel I 1946-07-03
+#> 134                   Drees I                   Drees I 1948-08-07
+#> 142                  Drees II                  Drees II 1951-03-15
+#> 150                 Drees III                 Drees III 1952-09-02
+#> 158                  Drees IV                  Drees IV 1956-10-12
+#> 165                   Beel II                   Beel II 1958-12-22
+#> 172                   De Quay                   De Quay 1959-05-19
+#> 180                  Marijnen                  Marijnen 1963-07-24
+#> 190                      Cals                      Cals 1965-04-14
+#> 200                  Zijlstra                  Zijlstra 1966-11-22
+#> 210                   De Jong                   De Jong 1967-04-05
+#> 221              Biesheuvel I              Biesheuvel I 1971-06-07
+#> 235             Biesheuvel II             Biesheuvel II 1972-08-09
+#> 250                 Den Uyl I                 Den Uyl I 1973-05-11
+#> 264                Den Uyl II                 Den Uyl I 1977-05-25
+#> 275                 Van Agt I                 Van Agt I 1977-12-19
+#> 286                Van Agt II                Van Agt II 1981-09-11
+#> 296               Van Agt III               Van Agt III 1982-05-29
+#> 306                 Lubbers I                 Lubbers I 1982-11-04
+#> 318                Lubbers II                Lubbers II 1986-07-14
+#> 327               Lubbers III               Lubbers III 1989-11-07
+#> 336                     Kok I                     Kok I 1994-08-22
+#> 348                    Kok II                    Kok II 1998-08-03
+#> 357              Balkenende I              Balkenende I 2002-07-22
+#> 367             Balkenende II              Balkenende I 2002-10-16
+#> 377            Balkenende III             Balkenende II 2003-05-27
+#> 386             Balkenende IV            Balkenende III 2006-07-07
+#> 396              Balkenende V             Balkenende IV 2007-02-22
+#> 406             Balkenende VI             Balkenende IV 2010-02-23
+#> 416                   Rutte I                   Rutte I 2010-10-14
+#> 426                  Rutte II                   Rutte I 2012-04-23
+#> 437                 Rutte III                  Rutte II 2012-11-05
+#> 448                  Rutte IV                      <NA> 2017-03-15
+#> 462                   Rutte V                      <NA> 2017-10-26
+#>     formal_resignation   end_date caretaker
+#> 1                 <NA> 1922-09-17         0
+#> 11                <NA> 1925-08-03         0
+#> 21                <NA> 1926-03-07         0
+#> 32                <NA> 1929-08-09         0
+#> 43                <NA> 1933-05-25         0
+#> 54                <NA> 1935-07-30         0
+#> 69                <NA> 1937-06-23         0
+#> 84                <NA> 1939-07-24         0
+#> 94                <NA> 1939-08-09         0
+#> 105               <NA> 1945-06-23         0
+#> 116         1946-05-17 1946-07-02         1
+#> 127         1948-07-07 1948-08-06         0
+#> 134         1951-01-24 1951-03-14         0
+#> 142         1952-06-25 1952-09-01         0
+#> 150         1956-06-13 1956-10-11         0
+#> 158         1958-12-12 1958-12-21         0
+#> 165         1959-03-12 1959-05-18         1
+#> 172         1963-05-15 1963-07-23         0
+#> 180         1965-02-27 1965-04-13         0
+#> 190         1966-10-15 1966-11-21         0
+#> 200         1967-02-15 1967-04-04         1
+#> 210         1971-04-28 1971-06-06         0
+#> 221         1972-07-20 1972-08-08         0
+#> 235         1972-11-28 1973-05-10         1
+#> 250         1977-03-22 1977-05-24         0
+#> 264         1977-12-18 1977-12-18         1
+#> 275         1981-05-27 1981-09-10         0
+#> 286         1982-05-12 1982-05-28         0
+#> 296         1982-09-09 1982-11-03         1
+#> 306         1986-05-21 1986-07-13         0
+#> 318         1989-05-02 1989-11-06         0
+#> 327         1994-05-03 1994-08-21         0
+#> 336         1998-05-05 1998-08-02         0
+#> 348         2002-04-16 2002-07-21         0
+#> 357         2002-10-15 2002-10-15         0
+#> 367         2003-05-26 2003-05-26         1
+#> 377         2006-06-30 2006-07-06         0
+#> 386         2006-11-22 2007-02-21         1
+#> 396         2010-02-22 2010-02-22         0
+#> 406         2010-10-13 2010-10-13         1
+#> 416         2012-04-22 2012-04-22         0
+#> 426         2012-11-04 2012-11-04         1
+#> 437         2017-03-15 2017-03-14         0
+#> 448               <NA> 2017-10-25         1
+#> 462               <NA>       <NA>         0
+#> 
+#> $partyElectionInfo
+#>             party election_date term_start election_id
+#> 1          50PLUS    2012-09-12 2012-09-20         785
+#> 2          50PLUS    2017-03-15 2017-03-23        1012
+#> 3             AOV    1994-05-03 1994-05-17         570
+#> 4             AOV    2002-05-15 2002-05-23          74
+#> 5             ARP    1918-07-03       <NA>         937
+#> 6             ARP    1922-07-05       <NA>         938
+#> 7             ARP    1925-07-01       <NA>         939
+#> 8             ARP    1929-07-03       <NA>         940
+#> 9             ARP    1933-04-26       <NA>         941
+#> 10            ARP    1937-05-26 1937-06-08         942
+#> 11            ARP    1946-05-17 1946-06-04         182
+#> 12            ARP    1948-07-07 1948-07-27         497
+#> 13            ARP    1952-06-25 1952-07-15         543
+#> 14            ARP    1956-06-13 1956-07-03         437
+#> 15            ARP    1959-03-12 1959-03-20         667
+#> 16            ARP    1963-05-15 1963-06-05         529
+#> 17            ARP    1967-02-15 1967-02-23         204
+#> 18            ARP    1971-04-28 1971-05-11         125
+#> 19            ARP    1972-11-29 1972-12-07          51
+#> 20             BP    1963-05-15 1963-06-05         529
+#> 21             BP    1967-02-15 1967-02-23         204
+#> 22             BP    1971-04-28 1971-05-11         125
+#> 23             BP    1972-11-29 1972-12-07          51
+#> 24             BP    1977-05-25 1977-06-08         635
+#> 25             CD    1989-09-06 1989-09-14         627
+#> 26             CD    1994-05-03 1994-05-17         570
+#> 27             CD    1998-05-06 1998-05-19         372
+#> 28            CDA    1977-05-25 1977-06-08         635
+#> 29            CDA    1981-05-26 1981-06-10          81
+#> 30            CDA    1982-09-08 1982-09-16         116
+#> 31            CDA    1986-05-21 1986-06-03          62
+#> 32            CDA    1989-09-06 1989-09-14         627
+#> 33            CDA    1994-05-03 1994-05-17         570
+#> 34            CDA    1998-05-06 1998-05-19         372
+#> 35            CDA    2002-05-15 2002-05-23          74
+#> 36            CDA    2003-01-22 2003-01-30         335
+#> 37            CDA    2006-11-22 2006-11-30         578
+#> 38            CDA    2010-06-09 2010-06-17         530
+#> 39            CDA    2012-09-12 2012-09-20         785
+#> 40            CDA    2017-03-15 2017-03-23        1012
+#> 41            CDU    1933-04-26       <NA>         941
+#> 42            CDU    1937-05-26 1937-06-08         942
+#> 43  Centrumpartij    1982-09-08 1982-09-16         116
+#> 44  Centrumpartij    1994-05-03 1994-05-17         570
+#> 45   ChristenUnie    2002-05-15 2002-05-23          74
+#> 46   ChristenUnie    2003-01-22 2003-01-30         335
+#> 47   ChristenUnie    2006-11-22 2006-11-30         578
+#> 48   ChristenUnie    2010-06-09 2010-06-17         530
+#> 49   ChristenUnie    2012-09-12 2012-09-20         785
+#> 50   ChristenUnie    2017-03-15 2017-03-23        1012
+#> 51            CHU    1918-07-03       <NA>         937
+#> 52            CHU    1922-07-05       <NA>         938
+#> 53            CHU    1925-07-01       <NA>         939
+#> 54            CHU    1929-07-03       <NA>         940
+#> 55            CHU    1933-04-26       <NA>         941
+#> 56            CHU    1937-05-26 1937-06-08         942
+#> 57            CHU    1946-05-17 1946-06-04         182
+#> 58            CHU    1948-07-07 1948-07-27         497
+#> 59            CHU    1952-06-25 1952-07-15         543
+#> 60            CHU    1956-06-13 1956-07-03         437
+#> 61            CHU    1959-03-12 1959-03-20         667
+#> 62            CHU    1963-05-15 1963-06-05         529
+#> 63            CHU    1967-02-15 1967-02-23         204
+#> 64            CHU    1971-04-28 1971-05-11         125
+#> 65            CHU    1972-11-29 1972-12-07          51
+#> 66            CPN    1918-07-03       <NA>         937
+#> 67            CPN    1922-07-05       <NA>         938
+#> 68            CPN    1925-07-01       <NA>         939
+#> 69            CPN    1929-07-03       <NA>         940
+#> 70            CPN    1933-04-26       <NA>         941
+#> 71            CPN    1937-05-26 1937-06-08         942
+#> 72            CPN    1946-05-17 1946-06-04         182
+#> 73            CPN    1948-07-07 1948-07-27         497
+#> 74            CPN    1952-06-25 1952-07-15         543
+#> 75            CPN    1956-06-13 1956-07-03         437
+#> 76            CPN    1959-03-12 1959-03-20         667
+#> 77            CPN    1963-05-15 1963-06-05         529
+#> 78            CPN    1967-02-15 1967-02-23         204
+#> 79            CPN    1971-04-28 1971-05-11         125
+#> 80            CPN    1972-11-29 1972-12-07          51
+#> 81            CPN    1977-05-25 1977-06-08         635
+#> 82            CPN    1981-05-26 1981-06-10          81
+#> 83            CPN    1982-09-08 1982-09-16         116
+#> 84            CPN    1986-05-21 1986-06-03          62
+#> 85            D66    1967-02-15 1967-02-23         204
+#> 86            D66    1971-04-28 1971-05-11         125
+#> 87            D66    1972-11-29 1972-12-07          51
+#> 88            D66    1977-05-25 1977-06-08         635
+#> 89            D66    1981-05-26 1981-06-10          81
+#> 90            D66    1982-09-08 1982-09-16         116
+#> 91            D66    1986-05-21 1986-06-03          62
+#> 92            D66    1989-09-06 1989-09-14         627
+#> 93            D66    1994-05-03 1994-05-17         570
+#> 94            D66    1998-05-06 1998-05-19         372
+#> 95            D66    2002-05-15 2002-05-23          74
+#> 96            D66    2003-01-22 2003-01-30         335
+#> 97            D66    2006-11-22 2006-11-30         578
+#> 98            D66    2010-06-09 2010-06-17         530
+#> 99            D66    2012-09-12 2012-09-20         785
+#> 100           D66    2017-03-15 2017-03-23        1012
+#> 101          DS70    1971-04-28 1971-05-11         125
+#> 102          DS70    1972-11-29 1972-12-07          51
+#> 103          DS70    1977-05-25 1977-06-08         635
+#> 104          DS70    1981-05-26 1981-06-10          81
+#> 105           GPV    1952-06-25 1952-07-15         543
+#> 106           GPV    1956-06-13 1956-07-03         437
+#> 107           GPV    1959-03-12 1959-03-20         667
+#> 108           GPV    1963-05-15 1963-06-05         529
+#> 109           GPV    1967-02-15 1967-02-23         204
+#> 110           GPV    1971-04-28 1971-05-11         125
+#> 111           GPV    1972-11-29 1972-12-07          51
+#> 112           GPV    1977-05-25 1977-06-08         635
+#> 113           GPV    1981-05-26 1981-06-10          81
+#> 114           GPV    1982-09-08 1982-09-16         116
+#> 115           GPV    1986-05-21 1986-06-03          62
+#> 116           GPV    1989-09-06 1989-09-14         627
+#> 117           GPV    1994-05-03 1994-05-17         570
+#> 118           GPV    1998-05-06 1998-05-19         372
+#> 119    GroenLinks    1989-09-06 1989-09-14         627
+#> 120    GroenLinks    1994-05-03 1994-05-17         570
+#> 121    GroenLinks    1998-05-06 1998-05-19         372
+#> 122    GroenLinks    2002-05-15 2002-05-23          74
+#> 123    GroenLinks    2003-01-22 2003-01-30         335
+#> 124    GroenLinks    2006-11-22 2006-11-30         578
+#> 125    GroenLinks    2010-06-09 2010-06-17         530
+#> 126    GroenLinks    2012-09-12 2012-09-20         785
+#> 127    GroenLinks    2017-03-15 2017-03-23        1012
+#> 128           KNP    1948-07-07 1948-07-27         497
+#> 129           KNP    1952-06-25 1952-07-15         543
+#> 130           KVP    1946-05-17 1946-06-04         182
+#> 131           KVP    1948-07-07 1948-07-27         497
+#> 132           KVP    1952-06-25 1952-07-15         543
+#> 133           KVP    1956-06-13 1956-07-03         437
+#> 134           KVP    1959-03-12 1959-03-20         667
+#> 135           KVP    1963-05-15 1963-06-05         529
+#> 136           KVP    1967-02-15 1967-02-23         204
+#> 137           KVP    1971-04-28 1971-05-11         125
+#> 138           KVP    1972-11-29 1972-12-07          51
+#> 139            LN    2002-05-15 2002-05-23          74
+#> 140           LPF    2002-05-15 2002-05-23          74
+#> 141           LPF    2003-01-22 2003-01-30         335
+#> 142           NMP    1971-04-28 1971-05-11         125
+#> 143           NMP    1972-11-29 1972-12-07          51
+#> 144           PPR    1971-04-28 1971-05-11         125
+#> 145           PPR    1972-11-29 1972-12-07          51
+#> 146           PPR    1977-05-25 1977-06-08         635
+#> 147           PPR    1981-05-26 1981-06-10          81
+#> 148           PPR    1982-09-08 1982-09-16         116
+#> 149           PPR    1986-05-21 1986-06-03          62
+#> 150           PSP    1959-03-12 1959-03-20         667
+#> 151           PSP    1963-05-15 1963-06-05         529
+#> 152           PSP    1967-02-15 1967-02-23         204
+#> 153           PSP    1971-04-28 1971-05-11         125
+#> 154           PSP    1972-11-29 1972-12-07          51
+#> 155           PSP    1977-05-25 1977-06-08         635
+#> 156           PSP    1981-05-26 1981-06-10          81
+#> 157           PSP    1982-09-08 1982-09-16         116
+#> 158           PSP    1986-05-21 1986-06-03          62
+#> 159          PvdA    1946-05-17 1946-06-04         182
+#> 160          PvdA    1948-07-07 1948-07-27         497
+#> 161          PvdA    1952-06-25 1952-07-15         543
+#> 162          PvdA    1956-06-13 1956-07-03         437
+#> 163          PvdA    1959-03-12 1959-03-20         667
+#> 164          PvdA    1963-05-15 1963-06-05         529
+#> 165          PvdA    1967-02-15 1967-02-23         204
+#> 166          PvdA    1971-04-28 1971-05-11         125
+#> 167          PvdA    1972-11-29 1972-12-07          51
+#> 168          PvdA    1977-05-25 1977-06-08         635
+#> 169          PvdA    1981-05-26 1981-06-10          81
+#> 170          PvdA    1982-09-08 1982-09-16         116
+#> 171          PvdA    1986-05-21 1986-06-03          62
+#> 172          PvdA    1989-09-06 1989-09-14         627
+#> 173          PvdA    1994-05-03 1994-05-17         570
+#> 174          PvdA    1998-05-06 1998-05-19         372
+#> 175          PvdA    2002-05-15 2002-05-23          74
+#> 176          PvdA    2003-01-22 2003-01-30         335
+#> 177          PvdA    2006-11-22 2006-11-30         578
+#> 178          PvdA    2010-06-09 2010-06-17         530
+#> 179          PvdA    2012-09-12 2012-09-20         785
+#> 180          PvdA    2017-03-15 2017-03-23        1012
+#> 181          PvdD    2003-01-22 2003-01-30         335
+#> 182          PvdD    2006-11-22 2006-11-30         578
+#> 183          PvdD    2010-06-09 2010-06-17         530
+#> 184          PvdD    2012-09-12 2012-09-20         785
+#> 185          PvdD    2017-03-15 2017-03-23        1012
+#> 186           PVV    2006-11-22 2006-11-30         578
+#> 187           PVV    2010-06-09 2010-06-17         530
+#> 188           PVV    2012-09-12 2012-09-20         785
+#> 189           PVV    2017-03-15 2017-03-23        1012
+#> 190          RKSP    1918-07-03       <NA>         937
+#> 191          RKSP    1922-07-05       <NA>         938
+#> 192          RKSP    1925-07-01       <NA>         939
+#> 193          RKSP    1929-07-03       <NA>         940
+#> 194          RKSP    1933-04-26       <NA>         941
+#> 195          RKSP    1937-05-26 1937-06-08         942
+#> 196           RPF    1977-05-25 1977-06-08         635
+#> 197           RPF    1981-05-26 1981-06-10          81
+#> 198           RPF    1982-09-08 1982-09-16         116
+#> 199           RPF    1986-05-21 1986-06-03          62
+#> 200           RPF    1989-09-06 1989-09-14         627
+#> 201           RPF    1994-05-03 1994-05-17         570
+#> 202           RPF    1998-05-06 1998-05-19         372
+#> 203          SDAP    1918-07-03       <NA>         937
+#> 204          SDAP    1922-07-05       <NA>         938
+#> 205          SDAP    1925-07-01       <NA>         939
+#> 206          SDAP    1929-07-03       <NA>         940
+#> 207          SDAP    1933-04-26       <NA>         941
+#> 208          SDAP    1937-05-26 1937-06-08         942
+#> 209           SGP    1922-07-05       <NA>         938
+#> 210           SGP    1925-07-01       <NA>         939
+#> 211           SGP    1929-07-03       <NA>         940
+#> 212           SGP    1933-04-26       <NA>         941
+#> 213           SGP    1937-05-26 1937-06-08         942
+#> 214           SGP    1946-05-17 1946-06-04         182
+#> 215           SGP    1948-07-07 1948-07-27         497
+#> 216           SGP    1952-06-25 1952-07-15         543
+#> 217           SGP    1956-06-13 1956-07-03         437
+#> 218           SGP    1959-03-12 1959-03-20         667
+#> 219           SGP    1963-05-15 1963-06-05         529
+#> 220           SGP    1967-02-15 1967-02-23         204
+#> 221           SGP    1971-04-28 1971-05-11         125
+#> 222           SGP    1972-11-29 1972-12-07          51
+#> 223           SGP    1977-05-25 1977-06-08         635
+#> 224           SGP    1981-05-26 1981-06-10          81
+#> 225           SGP    1982-09-08 1982-09-16         116
+#> 226           SGP    1986-05-21 1986-06-03          62
+#> 227           SGP    1989-09-06 1989-09-14         627
+#> 228           SGP    1994-05-03 1994-05-17         570
+#> 229           SGP    1998-05-06 1998-05-19         372
+#> 230           SGP    2002-05-15 2002-05-23          74
+#> 231           SGP    2003-01-22 2003-01-30         335
+#> 232           SGP    2006-11-22 2006-11-30         578
+#> 233           SGP    2010-06-09 2010-06-17         530
+#> 234           SGP    2012-09-12 2012-09-20         785
+#> 235           SGP    2017-03-15 2017-03-23        1012
+#> 236            SP    1982-09-08 1982-09-16         116
+#> 237            SP    1989-09-06 1989-09-14         627
+#> 238            SP    1994-05-03 1994-05-17         570
+#> 239            SP    1998-05-06 1998-05-19         372
+#> 240            SP    2002-05-15 2002-05-23          74
+#> 241            SP    2003-01-22 2003-01-30         335
+#> 242            SP    2006-11-22 2006-11-30         578
+#> 243            SP    2010-06-09 2010-06-17         530
+#> 244            SP    2012-09-12 2012-09-20         785
+#> 245            SP    2017-03-15 2017-03-23        1012
+#> 246           VDB    1918-07-03       <NA>         937
+#> 247           VDB    1922-07-05       <NA>         938
+#> 248           VDB    1925-07-01       <NA>         939
+#> 249           VDB    1929-07-03       <NA>         940
+#> 250           VDB    1933-04-26       <NA>         941
+#> 251           VDB    1937-05-26 1937-06-08         942
+#> 252           VVD    1946-05-17 1946-06-04         182
+#> 253           VVD    1948-07-07 1948-07-27         497
+#> 254           VVD    1952-06-25 1952-07-15         543
+#> 255           VVD    1956-06-13 1956-07-03         437
+#> 256           VVD    1959-03-12 1959-03-20         667
+#> 257           VVD    1963-05-15 1963-06-05         529
+#> 258           VVD    1967-02-15 1967-02-23         204
+#> 259           VVD    1971-04-28 1971-05-11         125
+#> 260           VVD    1972-11-29 1972-12-07          51
+#> 261           VVD    1977-05-25 1977-06-08         635
+#> 262           VVD    1981-05-26 1981-06-10          81
+#> 263           VVD    1982-09-08 1982-09-16         116
+#> 264           VVD    1986-05-21 1986-06-03          62
+#> 265           VVD    1989-09-06 1989-09-14         627
+#> 266           VVD    1994-05-03 1994-05-17         570
+#> 267           VVD    1998-05-06 1998-05-19         372
+#> 268           VVD    2002-05-15 2002-05-23          74
+#> 269           VVD    2003-01-22 2003-01-30         335
+#> 270           VVD    2006-11-22 2006-11-30         578
+#> 271           VVD    2010-06-09 2010-06-17         530
+#> 272           VVD    2012-09-12 2012-09-20         785
+#> 273           VVD    2017-03-15 2017-03-23        1012
+#>     previous_parliament_election_id party_name_short
+#> 1                               530              50+
+#> 2                               785              50+
+#> 3                               627          AOV|VSP
+#> 4                               372          AOV|VSP
+#> 5                                NA              ARP
+#> 6                               937              ARP
+#> 7                               938              ARP
+#> 8                               939              ARP
+#> 9                               940              ARP
+#> 10                              941              ARP
+#> 11                              942              ARP
+#> 12                              182              ARP
+#> 13                              497              ARP
+#> 14                              543              ARP
+#> 15                              437              ARP
+#> 16                              667              ARP
+#> 17                              529              ARP
+#> 18                              204              ARP
+#> 19                              125              ARP
+#> 20                              667               Bp
+#> 21                              529               Bp
+#> 22                              204               Bp
+#> 23                              125               Bp
+#> 24                               51               Bp
+#> 25                               62               CD
+#> 26                              627               CD
+#> 27                              570               CD
+#> 28                               51              CDA
+#> 29                              635              CDA
+#> 30                               81              CDA
+#> 31                              116              CDA
+#> 32                               62              CDA
+#> 33                              627              CDA
+#> 34                              570              CDA
+#> 35                              372              CDA
+#> 36                               74              CDA
+#> 37                              335              CDA
+#> 38                              578              CDA
+#> 39                              530              CDA
+#> 40                              785              CDA
+#> 41                              940              CDU
+#> 42                              941              CDU
+#> 43                               81               CP
+#> 44                              627               CP
+#> 45                              372               CU
+#> 46                               74               CU
+#> 47                              335               CU
+#> 48                              578               CU
+#> 49                              530               CU
+#> 50                              785               CU
+#> 51                               NA              CHU
+#> 52                              937              CHU
+#> 53                              938              CHU
+#> 54                              939              CHU
+#> 55                              940              CHU
+#> 56                              941              CHU
+#> 57                              942              CHU
+#> 58                              182              CHU
+#> 59                              497              CHU
+#> 60                              543              CHU
+#> 61                              437              CHU
+#> 62                              667              CHU
+#> 63                              529              CHU
+#> 64                              204              CHU
+#> 65                              125              CHU
+#> 66                               NA              CPN
+#> 67                              937              CPN
+#> 68                              938              CPN
+#> 69                              939              CPN
+#> 70                              940              CPN
+#> 71                              941              CPN
+#> 72                              942              CPN
+#> 73                              182              CPN
+#> 74                              497              CPN
+#> 75                              543              CPN
+#> 76                              437              CPN
+#> 77                              667              CPN
+#> 78                              529              CPN
+#> 79                              204              CPN
+#> 80                              125              CPN
+#> 81                               51              CPN
+#> 82                              635              CPN
+#> 83                               81              CPN
+#> 84                              116              CPN
+#> 85                              529              D66
+#> 86                              204              D66
+#> 87                              125              D66
+#> 88                               51              D66
+#> 89                              635              D66
+#> 90                               81              D66
+#> 91                              116              D66
+#> 92                               62              D66
+#> 93                              627              D66
+#> 94                              570              D66
+#> 95                              372              D66
+#> 96                               74              D66
+#> 97                              335              D66
+#> 98                              578              D66
+#> 99                              530              D66
+#> 100                             785              D66
+#> 101                             204             DS70
+#> 102                             125             DS70
+#> 103                              51             DS70
+#> 104                             635             DS70
+#> 105                             497              GPV
+#> 106                             543              GPV
+#> 107                             437              GPV
+#> 108                             667              GPV
+#> 109                             529              GPV
+#> 110                             204              GPV
+#> 111                             125              GPV
+#> 112                              51              GPV
+#> 113                             635              GPV
+#> 114                              81              GPV
+#> 115                             116              GPV
+#> 116                              62              GPV
+#> 117                             627              GPV
+#> 118                             570              GPV
+#> 119                              62               GL
+#> 120                             627               GL
+#> 121                             570               GL
+#> 122                             372               GL
+#> 123                              74               GL
+#> 124                             335               GL
+#> 125                             578               GL
+#> 126                             530               GL
+#> 127                             785               GL
+#> 128                             182              KNP
+#> 129                             497              KNP
+#> 130                             942              KVP
+#> 131                             182              KVP
+#> 132                             497              KVP
+#> 133                             543              KVP
+#> 134                             437              KVP
+#> 135                             667              KVP
+#> 136                             529              KVP
+#> 137                             204              KVP
+#> 138                             125              KVP
+#> 139                             372               LN
+#> 140                             372              LPF
+#> 141                              74              LPF
+#> 142                             204               MP
+#> 143                             125               MP
+#> 144                             204              PPR
+#> 145                             125              PPR
+#> 146                              51              PPR
+#> 147                             635              PPR
+#> 148                              81              PPR
+#> 149                             116              PPR
+#> 150                             437              PSP
+#> 151                             667              PSP
+#> 152                             529              PSP
+#> 153                             204              PSP
+#> 154                             125              PSP
+#> 155                              51              PSP
+#> 156                             635              PSP
+#> 157                              81              PSP
+#> 158                             116              PSP
+#> 159                             942             PvdA
+#> 160                             182             PvdA
+#> 161                             497             PvdA
+#> 162                             543             PvdA
+#> 163                             437             PvdA
+#> 164                             667             PvdA
+#> 165                             529             PvdA
+#> 166                             204             PvdA
+#> 167                             125             PvdA
+#> 168                              51             PvdA
+#> 169                             635             PvdA
+#> 170                              81             PvdA
+#> 171                             116             PvdA
+#> 172                              62             PvdA
+#> 173                             627             PvdA
+#> 174                             570             PvdA
+#> 175                             372             PvdA
+#> 176                              74             PvdA
+#> 177                             335             PvdA
+#> 178                             578             PvdA
+#> 179                             530             PvdA
+#> 180                             785             PvdA
+#> 181                              74             PvdD
+#> 182                             335             PvdD
+#> 183                             578             PvdD
+#> 184                             530             PvdD
+#> 185                             785             PvdD
+#> 186                             335              PVV
+#> 187                             578              PVV
+#> 188                             530              PVV
+#> 189                             785              PVV
+#> 190                              NA              RKP
+#> 191                             937              RKP
+#> 192                             938              RKP
+#> 193                             939              RKP
+#> 194                             940              RKP
+#> 195                             941              RKP
+#> 196                              51              RPF
+#> 197                             635              RPF
+#> 198                              81              RPF
+#> 199                             116              RPF
+#> 200                              62              RPF
+#> 201                             627              RPF
+#> 202                             570              RPF
+#> 203                              NA             SDAP
+#> 204                             937             SDAP
+#> 205                             938             SDAP
+#> 206                             939             SDAP
+#> 207                             940             SDAP
+#> 208                             941             SDAP
+#> 209                             937              SGP
+#> 210                             938              SGP
+#> 211                             939              SGP
+#> 212                             940              SGP
+#> 213                             941              SGP
+#> 214                             942              SGP
+#> 215                             182              SGP
+#> 216                             497              SGP
+#> 217                             543              SGP
+#> 218                             437              SGP
+#> 219                             667              SGP
+#> 220                             529              SGP
+#> 221                             204              SGP
+#> 222                             125              SGP
+#> 223                              51              SGP
+#> 224                             635              SGP
+#> 225                              81              SGP
+#> 226                             116              SGP
+#> 227                              62              SGP
+#> 228                             627              SGP
+#> 229                             570              SGP
+#> 230                             372              SGP
+#> 231                              74              SGP
+#> 232                             335              SGP
+#> 233                             578              SGP
+#> 234                             530              SGP
+#> 235                             785              SGP
+#> 236                              81               SP
+#> 237                              62               SP
+#> 238                             627               SP
+#> 239                             570               SP
+#> 240                             372               SP
+#> 241                              74               SP
+#> 242                             335               SP
+#> 243                             578               SP
+#> 244                             530               SP
+#> 245                             785               SP
+#> 246                              NA              VDB
+#> 247                             937              VDB
+#> 248                             938              VDB
+#> 249                             939              VDB
+#> 250                             940              VDB
+#> 251                             941              VDB
+#> 252                             942              VVD
+#> 253                             182              VVD
+#> 254                             497              VVD
+#> 255                             543              VVD
+#> 256                             437              VVD
+#> 257                             667              VVD
+#> 258                             529              VVD
+#> 259                             204              VVD
+#> 260                             125              VVD
+#> 261                              51              VVD
+#> 262                             635              VVD
+#> 263                              81              VVD
+#> 264                             116              VVD
+#> 265                              62              VVD
+#> 266                             627              VVD
+#> 267                             570              VVD
+#> 268                             372              VVD
+#> 269                              74              VVD
+#> 270                             335              VVD
+#> 271                             578              VVD
+#> 272                             530              VVD
+#> 273                             785              VVD
+#>                                               party_name
+#> 1                                                 50PLUS
+#> 2                                                 50PLUS
+#> 3   Algemeen Ouderen Verbond | Verenigde Senioren Partij
+#> 4   Algemeen Ouderen Verbond | Verenigde Senioren Partij
+#> 5                             Anti-Revolutionaire Partij
+#> 6                             Anti-Revolutionaire Partij
+#> 7                             Anti-Revolutionaire Partij
+#> 8                             Anti-Revolutionaire Partij
+#> 9                             Anti-Revolutionaire Partij
+#> 10                            Anti-Revolutionaire Partij
+#> 11                            Anti-Revolutionaire Partij
+#> 12                            Anti-Revolutionaire Partij
+#> 13                            Anti-Revolutionaire Partij
+#> 14                            Anti-Revolutionaire Partij
+#> 15                            Anti-Revolutionaire Partij
+#> 16                            Anti-Revolutionaire Partij
+#> 17                            Anti-Revolutionaire Partij
+#> 18                            Anti-Revolutionaire Partij
+#> 19                            Anti-Revolutionaire Partij
+#> 20                                          Boerenpartij
+#> 21                                          Boerenpartij
+#> 22                                          Boerenpartij
+#> 23                                          Boerenpartij
+#> 24                                          Boerenpartij
+#> 25                                    Centrum Democraten
+#> 26                                    Centrum Democraten
+#> 27                                    Centrum Democraten
+#> 28                           Christen Democratisch Appel
+#> 29                           Christen Democratisch Appel
+#> 30                           Christen Democratisch Appel
+#> 31                           Christen Democratisch Appel
+#> 32                           Christen Democratisch Appel
+#> 33                           Christen Democratisch Appel
+#> 34                           Christen Democratisch Appel
+#> 35                           Christen Democratisch Appel
+#> 36                           Christen Democratisch Appel
+#> 37                           Christen Democratisch Appel
+#> 38                           Christen Democratisch Appel
+#> 39                           Christen Democratisch Appel
+#> 40                           Christen Democratisch Appel
+#> 41                        Christelijk-Democratische Unie
+#> 42                        Christelijk-Democratische Unie
+#> 43                                         Centrumpartij
+#> 44                                         Centrumpartij
+#> 45                                          ChristenUnie
+#> 46                                          ChristenUnie
+#> 47                                          ChristenUnie
+#> 48                                          ChristenUnie
+#> 49                                          ChristenUnie
+#> 50                                          ChristenUnie
+#> 51                          Christelijk-Historische Unie
+#> 52                          Christelijk-Historische Unie
+#> 53                          Christelijk-Historische Unie
+#> 54                          Christelijk-Historische Unie
+#> 55                          Christelijk-Historische Unie
+#> 56                          Christelijk-Historische Unie
+#> 57                          Christelijk-Historische Unie
+#> 58                          Christelijk-Historische Unie
+#> 59                          Christelijk-Historische Unie
+#> 60                          Christelijk-Historische Unie
+#> 61                          Christelijk-Historische Unie
+#> 62                          Christelijk-Historische Unie
+#> 63                          Christelijk-Historische Unie
+#> 64                          Christelijk-Historische Unie
+#> 65                          Christelijk-Historische Unie
+#> 66                       Communistische Partij Nederland
+#> 67                       Communistische Partij Nederland
+#> 68                       Communistische Partij Nederland
+#> 69                       Communistische Partij Nederland
+#> 70                       Communistische Partij Nederland
+#> 71                       Communistische Partij Nederland
+#> 72                       Communistische Partij Nederland
+#> 73                       Communistische Partij Nederland
+#> 74                       Communistische Partij Nederland
+#> 75                       Communistische Partij Nederland
+#> 76                       Communistische Partij Nederland
+#> 77                       Communistische Partij Nederland
+#> 78                       Communistische Partij Nederland
+#> 79                       Communistische Partij Nederland
+#> 80                       Communistische Partij Nederland
+#> 81                       Communistische Partij Nederland
+#> 82                       Communistische Partij Nederland
+#> 83                       Communistische Partij Nederland
+#> 84                       Communistische Partij Nederland
+#> 85                                         Democraten 66
+#> 86                                         Democraten 66
+#> 87                                         Democraten 66
+#> 88                                         Democraten 66
+#> 89                                         Democraten 66
+#> 90                                         Democraten 66
+#> 91                                         Democraten 66
+#> 92                                         Democraten 66
+#> 93                                         Democraten 66
+#> 94                                         Democraten 66
+#> 95                                         Democraten 66
+#> 96                                         Democraten 66
+#> 97                                         Democraten 66
+#> 98                                         Democraten 66
+#> 99                                         Democraten 66
+#> 100                                        Democraten 66
+#> 101                          Democratisch Socialisten 70
+#> 102                          Democratisch Socialisten 70
+#> 103                          Democratisch Socialisten 70
+#> 104                          Democratisch Socialisten 70
+#> 105                        Gereformeerd Politiek Verbond
+#> 106                        Gereformeerd Politiek Verbond
+#> 107                        Gereformeerd Politiek Verbond
+#> 108                        Gereformeerd Politiek Verbond
+#> 109                        Gereformeerd Politiek Verbond
+#> 110                        Gereformeerd Politiek Verbond
+#> 111                        Gereformeerd Politiek Verbond
+#> 112                        Gereformeerd Politiek Verbond
+#> 113                        Gereformeerd Politiek Verbond
+#> 114                        Gereformeerd Politiek Verbond
+#> 115                        Gereformeerd Politiek Verbond
+#> 116                        Gereformeerd Politiek Verbond
+#> 117                        Gereformeerd Politiek Verbond
+#> 118                        Gereformeerd Politiek Verbond
+#> 119                                           GroenLinks
+#> 120                                           GroenLinks
+#> 121                                           GroenLinks
+#> 122                                           GroenLinks
+#> 123                                           GroenLinks
+#> 124                                           GroenLinks
+#> 125                                           GroenLinks
+#> 126                                           GroenLinks
+#> 127                                           GroenLinks
+#> 128                          Katholieke Nationale Partij
+#> 129                          Katholieke Nationale Partij
+#> 130                               Katholieke Volkspartij
+#> 131                               Katholieke Volkspartij
+#> 132                               Katholieke Volkspartij
+#> 133                               Katholieke Volkspartij
+#> 134                               Katholieke Volkspartij
+#> 135                               Katholieke Volkspartij
+#> 136                               Katholieke Volkspartij
+#> 137                               Katholieke Volkspartij
+#> 138                               Katholieke Volkspartij
+#> 139                                   Leefbaar Nederland
+#> 140                                    Lijst Pim Fortuyn
+#> 141                                    Lijst Pim Fortuyn
+#> 142                                        Midden Partij
+#> 143                                        Midden Partij
+#> 144                           Politieke Partij Radikalen
+#> 145                           Politieke Partij Radikalen
+#> 146                           Politieke Partij Radikalen
+#> 147                           Politieke Partij Radikalen
+#> 148                           Politieke Partij Radikalen
+#> 149                           Politieke Partij Radikalen
+#> 150                   Pacifistisch Socialistische Partij
+#> 151                   Pacifistisch Socialistische Partij
+#> 152                   Pacifistisch Socialistische Partij
+#> 153                   Pacifistisch Socialistische Partij
+#> 154                   Pacifistisch Socialistische Partij
+#> 155                   Pacifistisch Socialistische Partij
+#> 156                   Pacifistisch Socialistische Partij
+#> 157                   Pacifistisch Socialistische Partij
+#> 158                   Pacifistisch Socialistische Partij
+#> 159                                 Partij van de Arbeid
+#> 160                                 Partij van de Arbeid
+#> 161                                 Partij van de Arbeid
+#> 162                                 Partij van de Arbeid
+#> 163                                 Partij van de Arbeid
+#> 164                                 Partij van de Arbeid
+#> 165                                 Partij van de Arbeid
+#> 166                                 Partij van de Arbeid
+#> 167                                 Partij van de Arbeid
+#> 168                                 Partij van de Arbeid
+#> 169                                 Partij van de Arbeid
+#> 170                                 Partij van de Arbeid
+#> 171                                 Partij van de Arbeid
+#> 172                                 Partij van de Arbeid
+#> 173                                 Partij van de Arbeid
+#> 174                                 Partij van de Arbeid
+#> 175                                 Partij van de Arbeid
+#> 176                                 Partij van de Arbeid
+#> 177                                 Partij van de Arbeid
+#> 178                                 Partij van de Arbeid
+#> 179                                 Partij van de Arbeid
+#> 180                                 Partij van de Arbeid
+#> 181                                Partij voor de Dieren
+#> 182                                Partij voor de Dieren
+#> 183                                Partij voor de Dieren
+#> 184                                Partij voor de Dieren
+#> 185                                Partij voor de Dieren
+#> 186                              Partij voor de Vrijheid
+#> 187                              Partij voor de Vrijheid
+#> 188                              Partij voor de Vrijheid
+#> 189                              Partij voor de Vrijheid
+#> 190                            Roomsch Katholieke Partij
+#> 191                            Roomsch Katholieke Partij
+#> 192                            Roomsch Katholieke Partij
+#> 193                            Roomsch Katholieke Partij
+#> 194                            Roomsch Katholieke Partij
+#> 195                            Roomsch Katholieke Partij
+#> 196                   Reformatorische Politieke Federati
+#> 197                   Reformatorische Politieke Federati
+#> 198                   Reformatorische Politieke Federati
+#> 199                   Reformatorische Politieke Federati
+#> 200                   Reformatorische Politieke Federati
+#> 201                   Reformatorische Politieke Federati
+#> 202                   Reformatorische Politieke Federati
+#> 203               Sociaal Democratische Arbeiders Partij
+#> 204               Sociaal Democratische Arbeiders Partij
+#> 205               Sociaal Democratische Arbeiders Partij
+#> 206               Sociaal Democratische Arbeiders Partij
+#> 207               Sociaal Democratische Arbeiders Partij
+#> 208               Sociaal Democratische Arbeiders Partij
+#> 209                     Staatkundig Gereformeerde Partij
+#> 210                     Staatkundig Gereformeerde Partij
+#> 211                     Staatkundig Gereformeerde Partij
+#> 212                     Staatkundig Gereformeerde Partij
+#> 213                     Staatkundig Gereformeerde Partij
+#> 214                     Staatkundig Gereformeerde Partij
+#> 215                     Staatkundig Gereformeerde Partij
+#> 216                     Staatkundig Gereformeerde Partij
+#> 217                     Staatkundig Gereformeerde Partij
+#> 218                     Staatkundig Gereformeerde Partij
+#> 219                     Staatkundig Gereformeerde Partij
+#> 220                     Staatkundig Gereformeerde Partij
+#> 221                     Staatkundig Gereformeerde Partij
+#> 222                     Staatkundig Gereformeerde Partij
+#> 223                     Staatkundig Gereformeerde Partij
+#> 224                     Staatkundig Gereformeerde Partij
+#> 225                     Staatkundig Gereformeerde Partij
+#> 226                     Staatkundig Gereformeerde Partij
+#> 227                     Staatkundig Gereformeerde Partij
+#> 228                     Staatkundig Gereformeerde Partij
+#> 229                     Staatkundig Gereformeerde Partij
+#> 230                     Staatkundig Gereformeerde Partij
+#> 231                     Staatkundig Gereformeerde Partij
+#> 232                     Staatkundig Gereformeerde Partij
+#> 233                     Staatkundig Gereformeerde Partij
+#> 234                     Staatkundig Gereformeerde Partij
+#> 235                     Staatkundig Gereformeerde Partij
+#> 236                                 Socialistiese Partij
+#> 237                                 Socialistiese Partij
+#> 238                                 Socialistiese Partij
+#> 239                                 Socialistiese Partij
+#> 240                                 Socialistiese Partij
+#> 241                                 Socialistiese Partij
+#> 242                                 Socialistiese Partij
+#> 243                                 Socialistiese Partij
+#> 244                                 Socialistiese Partij
+#> 245                                 Socialistiese Partij
+#> 246                        Vrijzinnig Democratische Bond
+#> 247                        Vrijzinnig Democratische Bond
+#> 248                        Vrijzinnig Democratische Bond
+#> 249                        Vrijzinnig Democratische Bond
+#> 250                        Vrijzinnig Democratische Bond
+#> 251                        Vrijzinnig Democratische Bond
+#> 252              Volkspartij voor Vrijheid en Democratie
+#> 253              Volkspartij voor Vrijheid en Democratie
+#> 254              Volkspartij voor Vrijheid en Democratie
+#> 255              Volkspartij voor Vrijheid en Democratie
+#> 256              Volkspartij voor Vrijheid en Democratie
+#> 257              Volkspartij voor Vrijheid en Democratie
+#> 258              Volkspartij voor Vrijheid en Democratie
+#> 259              Volkspartij voor Vrijheid en Democratie
+#> 260              Volkspartij voor Vrijheid en Democratie
+#> 261              Volkspartij voor Vrijheid en Democratie
+#> 262              Volkspartij voor Vrijheid en Democratie
+#> 263              Volkspartij voor Vrijheid en Democratie
+#> 264              Volkspartij voor Vrijheid en Democratie
+#> 265              Volkspartij voor Vrijheid en Democratie
+#> 266              Volkspartij voor Vrijheid en Democratie
+#> 267              Volkspartij voor Vrijheid en Democratie
+#> 268              Volkspartij voor Vrijheid en Democratie
+#> 269              Volkspartij voor Vrijheid en Democratie
+#> 270              Volkspartij voor Vrijheid en Democratie
+#> 271              Volkspartij voor Vrijheid en Democratie
+#> 272              Volkspartij voor Vrijheid en Democratie
+#> 273              Volkspartij voor Vrijheid en Democratie
+#>                              party_name_english parlgov_party_id vote_share
+#> 1                                        50PLUS             2109       1.88
+#> 2                                        50PLUS             2109       3.10
+#> 3   General Senior Union | United Seniors Party              112       3.63
+#> 4   General Senior Union | United Seniors Party              112       0.41
+#> 5                      Anti-Revolutionary Party              300      13.40
+#> 6                      Anti-Revolutionary Party              300      13.70
+#> 7                      Anti-Revolutionary Party              300      12.20
+#> 8                      Anti-Revolutionary Party              300      11.60
+#> 9                      Anti-Revolutionary Party              300      13.40
+#> 10                     Anti-Revolutionary Party              300      16.40
+#> 11                     Anti-Revolutionary Party              300      12.90
+#> 12                     Anti-Revolutionary Party              300      13.21
+#> 13                     Anti-Revolutionary Party              300      11.31
+#> 14                     Anti-Revolutionary Party              300       9.91
+#> 15                     Anti-Revolutionary Party              300       9.39
+#> 16                     Anti-Revolutionary Party              300       8.72
+#> 17                     Anti-Revolutionary Party              300       9.90
+#> 18                     Anti-Revolutionary Party              300       8.59
+#> 19                     Anti-Revolutionary Party              300       8.84
+#> 20                                Farmers Party             1595       2.13
+#> 21                                Farmers Party             1595       4.77
+#> 22                                Farmers Party             1595       1.10
+#> 23                                Farmers Party             1595       1.94
+#> 24                                Farmers Party             1595       0.84
+#> 25                             Centre Democrats              209       0.92
+#> 26                             Centre Democrats              209       2.46
+#> 27                             Centre Democrats              209       0.61
+#> 28                  Christian Democratic Appeal              235      31.89
+#> 29                  Christian Democratic Appeal              235      30.81
+#> 30                  Christian Democratic Appeal              235      29.39
+#> 31                  Christian Democratic Appeal              235      34.59
+#> 32                  Christian Democratic Appeal              235      35.31
+#> 33                  Christian Democratic Appeal              235      22.23
+#> 34                  Christian Democratic Appeal              235      18.37
+#> 35                  Christian Democratic Appeal              235      27.93
+#> 36                  Christian Democratic Appeal              235      28.62
+#> 37                  Christian Democratic Appeal              235      26.51
+#> 38                  Christian Democratic Appeal              235      13.61
+#> 39                  Christian Democratic Appeal              235       8.51
+#> 40                  Christian Democratic Appeal              235      12.40
+#> 41                   Christian Democratic Union             2542       1.00
+#> 42                   Christian Democratic Union             2542       2.10
+#> 43                                 Centre Party              275       0.83
+#> 44                                 Centre Party              275       0.36
+#> 45                               ChristianUnion             1206       2.54
+#> 46                               ChristianUnion             1206       2.12
+#> 47                               ChristianUnion             1206       3.97
+#> 48                               ChristianUnion             1206       3.24
+#> 49                               ChristianUnion             1206       3.13
+#> 50                               ChristianUnion             1206       3.40
+#> 51                   Christian Historical Union              405       6.50
+#> 52                   Christian Historical Union              405      10.90
+#> 53                   Christian Historical Union              405       9.90
+#> 54                   Christian Historical Union              405      10.50
+#> 55                   Christian Historical Union              405       9.10
+#> 56                   Christian Historical Union              405       7.50
+#> 57                   Christian Historical Union              405       7.84
+#> 58                   Christian Historical Union              405       9.19
+#> 59                   Christian Historical Union              405       8.92
+#> 60                   Christian Historical Union              405       8.43
+#> 61                   Christian Historical Union              405       8.11
+#> 62                   Christian Historical Union              405       8.58
+#> 63                   Christian Historical Union              405       8.14
+#> 64                   Christian Historical Union              405       6.32
+#> 65                   Christian Historical Union              405       4.79
+#> 66           Communist Party of the Netherlands             1194       2.30
+#> 67           Communist Party of the Netherlands             1194       1.80
+#> 68           Communist Party of the Netherlands             1194       1.20
+#> 69           Communist Party of the Netherlands             1194       2.00
+#> 70           Communist Party of the Netherlands             1194       3.20
+#> 71           Communist Party of the Netherlands             1194       3.40
+#> 72           Communist Party of the Netherlands             1194      10.56
+#> 73           Communist Party of the Netherlands             1194       7.74
+#> 74           Communist Party of the Netherlands             1194       6.16
+#> 75           Communist Party of the Netherlands             1194       4.75
+#> 76           Communist Party of the Netherlands             1194       2.41
+#> 77           Communist Party of the Netherlands             1194       2.77
+#> 78           Communist Party of the Netherlands             1194       3.61
+#> 79           Communist Party of the Netherlands             1194       3.90
+#> 80           Communist Party of the Netherlands             1194       4.47
+#> 81           Communist Party of the Netherlands             1194       1.73
+#> 82           Communist Party of the Netherlands             1194       2.05
+#> 83           Communist Party of the Netherlands             1194       1.79
+#> 84           Communist Party of the Netherlands             1194       0.63
+#> 85                                 Democrats 66              345       4.48
+#> 86                                 Democrats 66              345       6.78
+#> 87                                 Democrats 66              345       4.15
+#> 88                                 Democrats 66              345       5.44
+#> 89                                 Democrats 66              345      11.06
+#> 90                                 Democrats 66              345       4.26
+#> 91                                 Democrats 66              345       6.13
+#> 92                                 Democrats 66              345       7.89
+#> 93                                 Democrats 66              345      15.49
+#> 94                                 Democrats 66              345       8.99
+#> 95                                 Democrats 66              345       5.10
+#> 96                                 Democrats 66              345       4.07
+#> 97                                 Democrats 66              345       1.96
+#> 98                                 Democrats 66              345       6.95
+#> 99                                 Democrats 66              345       8.03
+#> 100                                Democrats 66              345      12.20
+#> 101                    Democratic Socialists 70              402       5.33
+#> 102                    Democratic Socialists 70              402       4.12
+#> 103                    Democratic Socialists 70              402       0.72
+#> 104                    Democratic Socialists 70              402       0.56
+#> 105                   Reformed Political League              625       0.67
+#> 106                   Reformed Political League              625       0.65
+#> 107                   Reformed Political League              625       0.67
+#> 108                   Reformed Political League              625       0.74
+#> 109                   Reformed Political League              625       0.86
+#> 110                   Reformed Political League              625       1.61
+#> 111                   Reformed Political League              625       1.77
+#> 112                   Reformed Political League              625       0.95
+#> 113                   Reformed Political League              625       0.82
+#> 114                   Reformed Political League              625       0.82
+#> 115                   Reformed Political League              625       0.96
+#> 116                   Reformed Political League              625       1.23
+#> 117                   Reformed Political League              625       1.33
+#> 118                   Reformed Political League              625       1.26
+#> 119                                   GreenLeft              756       4.07
+#> 120                                   GreenLeft              756       3.47
+#> 121                                   GreenLeft              756       7.27
+#> 122                                   GreenLeft              756       6.95
+#> 123                                   GreenLeft              756       5.14
+#> 124                                   GreenLeft              756       4.60
+#> 125                                   GreenLeft              756       6.67
+#> 126                                   GreenLeft              756       2.33
+#> 127                                   GreenLeft              756       9.10
+#> 128                     Catholic National Party                3       1.26
+#> 129                     Catholic National Party                3       2.71
+#> 130                      Catholic Peoples Party              451      30.81
+#> 131                      Catholic Peoples Party              451      31.04
+#> 132                      Catholic Peoples Party              451      28.67
+#> 133                      Catholic Peoples Party              451      31.69
+#> 134                      Catholic Peoples Party              451      31.60
+#> 135                      Catholic Peoples Party              451      31.88
+#> 136                      Catholic Peoples Party              451      26.50
+#> 137                      Catholic Peoples Party              451      21.84
+#> 138                      Catholic Peoples Party              451      17.65
+#> 139                         Livable Netherlands              744       1.61
+#> 140                                Fortuyn List              456      17.00
+#> 141                                Fortuyn List              456       5.70
+#> 142                                Middle Party               87       1.51
+#> 143                                Middle Party               87       0.56
+#> 144                     Radical Political Party              342       1.84
+#> 145                     Radical Political Party              342       4.80
+#> 146                     Radical Political Party              342       1.69
+#> 147                     Radical Political Party              342       1.97
+#> 148                     Radical Political Party              342       1.66
+#> 149                     Radical Political Party              342       1.26
+#> 150                    Pacifist Socialist Party             1452       1.84
+#> 151                    Pacifist Socialist Party             1452       3.03
+#> 152                    Pacifist Socialist Party             1452       2.87
+#> 153                    Pacifist Socialist Party             1452       1.44
+#> 154                    Pacifist Socialist Party             1452       1.50
+#> 155                    Pacifist Socialist Party             1452       0.94
+#> 156                    Pacifist Socialist Party             1452       2.12
+#> 157                    Pacifist Socialist Party             1452       2.28
+#> 158                    Pacifist Socialist Party             1452       1.20
+#> 159                                Labour Party              742      28.31
+#> 160                                Labour Party              742      25.60
+#> 161                                Labour Party              742      28.97
+#> 162                                Labour Party              742      32.69
+#> 163                                Labour Party              742      30.36
+#> 164                                Labour Party              742      28.01
+#> 165                                Labour Party              742      23.55
+#> 166                                Labour Party              742      24.60
+#> 167                                Labour Party              742      27.34
+#> 168                                Labour Party              742      33.83
+#> 169                                Labour Party              742      28.29
+#> 170                                Labour Party              742      30.40
+#> 171                                Labour Party              742      33.27
+#> 172                                Labour Party              742      31.88
+#> 173                                Labour Party              742      23.97
+#> 174                                Labour Party              742      28.98
+#> 175                                Labour Party              742      15.11
+#> 176                                Labour Party              742      27.26
+#> 177                                Labour Party              742      21.19
+#> 178                                Labour Party              742      19.63
+#> 179                                Labour Party              742      24.84
+#> 180                                Labour Party              742       5.70
+#> 181                       Party for the Animals              990       0.49
+#> 182                       Party for the Animals              990       1.83
+#> 183                       Party for the Animals              990       1.30
+#> 184                       Party for the Animals              990       1.93
+#> 185                       Party for the Animals              990       3.20
+#> 186                           Party for Freedom             1501       5.89
+#> 187                           Party for Freedom             1501      15.45
+#> 188                           Party for Freedom             1501      10.08
+#> 189                           Party for Freedom             1501      13.10
+#> 190                        Roman Catholic Party             2539      30.00
+#> 191                        Roman Catholic Party             2539      29.90
+#> 192                        Roman Catholic Party             2539      28.60
+#> 193                        Roman Catholic Party             2539      29.60
+#> 194                        Roman Catholic Party             2539      27.90
+#> 195                        Roman Catholic Party             2539      28.80
+#> 196            Reformatory Political Federation              212       0.64
+#> 197            Reformatory Political Federation              212       1.25
+#> 198            Reformatory Political Federation              212       1.51
+#> 199            Reformatory Political Federation              212       0.91
+#> 200            Reformatory Political Federation              212       0.96
+#> 201            Reformatory Political Federation              212       1.77
+#> 202            Reformatory Political Federation              212       2.03
+#> 203            Social Democratic Workers' Party             1451      22.00
+#> 204            Social Democratic Workers' Party             1451      19.40
+#> 205            Social Democratic Workers' Party             1451      22.90
+#> 206            Social Democratic Workers' Party             1451      23.80
+#> 207            Social Democratic Workers' Party             1451      21.50
+#> 208            Social Democratic Workers' Party             1451      21.90
+#> 209                    Political Reformed Party             1251       0.90
+#> 210                    Political Reformed Party             1251       2.00
+#> 211                    Political Reformed Party             1251       2.30
+#> 212                    Political Reformed Party             1251       2.50
+#> 213                    Political Reformed Party             1251       1.90
+#> 214                    Political Reformed Party             1251       2.14
+#> 215                    Political Reformed Party             1251       2.37
+#> 216                    Political Reformed Party             1251       2.42
+#> 217                    Political Reformed Party             1251       2.26
+#> 218                    Political Reformed Party             1251       2.16
+#> 219                    Political Reformed Party             1251       2.30
+#> 220                    Political Reformed Party             1251       2.01
+#> 221                    Political Reformed Party             1251       2.35
+#> 222                    Political Reformed Party             1251       2.21
+#> 223                    Political Reformed Party             1251       2.13
+#> 224                    Political Reformed Party             1251       1.97
+#> 225                    Political Reformed Party             1251       1.90
+#> 226                    Political Reformed Party             1251       1.74
+#> 227                    Political Reformed Party             1251       1.87
+#> 228                    Political Reformed Party             1251       1.73
+#> 229                    Political Reformed Party             1251       1.78
+#> 230                    Political Reformed Party             1251       1.72
+#> 231                    Political Reformed Party             1251       1.56
+#> 232                    Political Reformed Party             1251       1.56
+#> 233                    Political Reformed Party             1251       1.74
+#> 234                    Political Reformed Party             1251       2.09
+#> 235                    Political Reformed Party             1251       2.10
+#> 236                             Socialist Party              357       0.55
+#> 237                             Socialist Party              357       0.44
+#> 238                             Socialist Party              357       1.32
+#> 239                             Socialist Party              357       3.53
+#> 240                             Socialist Party              357       5.90
+#> 241                             Socialist Party              357       6.32
+#> 242                             Socialist Party              357      16.58
+#> 243                             Socialist Party              357       9.82
+#> 244                             Socialist Party              357       9.65
+#> 245                             Socialist Party              357       9.10
+#> 246             Free-thinking Democratic League              944       5.30
+#> 247             Free-thinking Democratic League              944       4.60
+#> 248             Free-thinking Democratic League              944       6.10
+#> 249             Free-thinking Democratic League              944       6.20
+#> 250             Free-thinking Democratic League              944       5.10
+#> 251             Free-thinking Democratic League              944       5.90
+#> 252    People's Party for Freedom and Democracy             1409       6.41
+#> 253    People's Party for Freedom and Democracy             1409       7.95
+#> 254    People's Party for Freedom and Democracy             1409       8.83
+#> 255    People's Party for Freedom and Democracy             1409       8.77
+#> 256    People's Party for Freedom and Democracy             1409      12.21
+#> 257    People's Party for Freedom and Democracy             1409      10.29
+#> 258    People's Party for Freedom and Democracy             1409      10.73
+#> 259    People's Party for Freedom and Democracy             1409      10.34
+#> 260    People's Party for Freedom and Democracy             1409      14.45
+#> 261    People's Party for Freedom and Democracy             1409      17.95
+#> 262    People's Party for Freedom and Democracy             1409      17.32
+#> 263    People's Party for Freedom and Democracy             1409      23.08
+#> 264    People's Party for Freedom and Democracy             1409      17.41
+#> 265    People's Party for Freedom and Democracy             1409      14.57
+#> 266    People's Party for Freedom and Democracy             1409      19.96
+#> 267    People's Party for Freedom and Democracy             1409      24.69
+#> 268    People's Party for Freedom and Democracy             1409      15.44
+#> 269    People's Party for Freedom and Democracy             1409      17.91
+#> 270    People's Party for Freedom and Democracy             1409      14.67
+#> 271    People's Party for Freedom and Democracy             1409      20.49
+#> 272    People's Party for Freedom and Democracy             1409      26.58
+#> 273    People's Party for Freedom and Democracy             1409      21.30
+#>     seat_share seats
+#> 1    1.3333333     2
+#> 2    2.6666667     4
+#> 3    4.0000000     6
+#> 4    0.0000000     0
+#> 5   13.9784946    13
+#> 6   16.0000000    16
+#> 7   13.0000000    13
+#> 8   12.0000000    12
+#> 9   14.0000000    14
+#> 10  17.0000000    17
+#> 11  13.0000000    13
+#> 12  13.0000000    13
+#> 13  12.0000000    12
+#> 14  10.0000000    15
+#> 15   9.3333333    14
+#> 16   8.6666667    13
+#> 17  10.0000000    15
+#> 18   8.6666667    13
+#> 19   9.3333333    14
+#> 20   2.0000000     3
+#> 21   4.6666667     7
+#> 22   0.6666667     1
+#> 23   2.0000000     3
+#> 24   0.6666667     1
+#> 25   0.6666667     1
+#> 26   2.0000000     3
+#> 27   0.0000000     0
+#> 28  32.6666667    49
+#> 29  32.0000000    48
+#> 30  30.0000000    45
+#> 31  36.0000000    54
+#> 32  36.0000000    54
+#> 33  22.6666667    34
+#> 34  19.3333333    29
+#> 35  28.6666667    43
+#> 36  29.3333333    44
+#> 37  27.3333333    41
+#> 38  14.0000000    21
+#> 39   8.6666667    13
+#> 40  12.6666667    19
+#> 41   1.0000000     1
+#> 42   2.0000000     2
+#> 43   0.6666667     1
+#> 44   0.0000000     0
+#> 45   2.6666667     4
+#> 46   2.0000000     3
+#> 47   4.0000000     6
+#> 48   3.3333333     5
+#> 49   3.3333333     5
+#> 50   3.3333333     5
+#> 51   7.5268817     7
+#> 52  11.0000000    11
+#> 53  11.0000000    11
+#> 54  11.0000000    11
+#> 55  10.0000000    10
+#> 56   8.0000000     8
+#> 57   8.0000000     8
+#> 58   9.0000000     9
+#> 59   9.0000000     9
+#> 60   8.6666667    13
+#> 61   8.0000000    12
+#> 62   8.6666667    13
+#> 63   8.0000000    12
+#> 64   6.6666667    10
+#> 65   4.6666667     7
+#> 66   2.1505376     2
+#> 67   2.0000000     2
+#> 68   1.0000000     1
+#> 69   2.0000000     2
+#> 70   4.0000000     4
+#> 71   3.0000000     3
+#> 72  10.0000000    10
+#> 73   8.0000000     8
+#> 74   6.0000000     6
+#> 75   4.6666667     7
+#> 76   2.0000000     3
+#> 77   2.6666667     4
+#> 78   3.3333333     5
+#> 79   4.0000000     6
+#> 80   4.6666667     7
+#> 81   1.3333333     2
+#> 82   2.0000000     3
+#> 83   2.0000000     3
+#> 84   0.0000000     0
+#> 85   4.6666667     7
+#> 86   7.3333333    11
+#> 87   4.0000000     6
+#> 88   5.3333333     8
+#> 89  11.3333333    17
+#> 90   4.0000000     6
+#> 91   6.0000000     9
+#> 92   8.0000000    12
+#> 93  16.0000000    24
+#> 94   9.3333333    14
+#> 95   4.6666667     7
+#> 96   4.0000000     6
+#> 97   2.0000000     3
+#> 98   6.6666667    10
+#> 99   8.0000000    12
+#> 100 12.6666667    19
+#> 101  5.3333333     8
+#> 102  4.0000000     6
+#> 103  0.6666667     1
+#> 104  0.0000000     0
+#> 105  0.0000000     0
+#> 106  0.0000000     0
+#> 107  0.0000000     0
+#> 108  0.6666667     1
+#> 109  0.6666667     1
+#> 110  1.3333333     2
+#> 111  1.3333333     2
+#> 112  0.6666667     1
+#> 113  0.6666667     1
+#> 114  0.6666667     1
+#> 115  0.6666667     1
+#> 116  1.3333333     2
+#> 117  1.3333333     2
+#> 118  1.3333333     2
+#> 119  4.0000000     6
+#> 120  3.3333333     5
+#> 121  7.3333333    11
+#> 122  6.6666667    10
+#> 123  5.3333333     8
+#> 124  4.6666667     7
+#> 125  6.6666667    10
+#> 126  2.6666667     4
+#> 127  9.3333333    14
+#> 128  1.0000000     1
+#> 129  2.0000000     2
+#> 130 32.0000000    32
+#> 131 32.0000000    32
+#> 132 30.0000000    30
+#> 133 32.6666667    49
+#> 134 32.6666667    49
+#> 135 33.3333333    50
+#> 136 28.0000000    42
+#> 137 23.3333333    35
+#> 138 18.0000000    27
+#> 139  1.3333333     2
+#> 140 17.3333333    26
+#> 141  5.3333333     8
+#> 142  1.3333333     2
+#> 143  0.0000000     0
+#> 144  1.3333333     2
+#> 145  4.6666667     7
+#> 146  2.0000000     3
+#> 147  2.0000000     3
+#> 148  1.3333333     2
+#> 149  1.3333333     2
+#> 150  1.3333333     2
+#> 151  2.6666667     4
+#> 152  2.6666667     4
+#> 153  1.3333333     2
+#> 154  1.3333333     2
+#> 155  0.6666667     1
+#> 156  2.0000000     3
+#> 157  2.0000000     3
+#> 158  0.6666667     1
+#> 159 29.0000000    29
+#> 160 27.0000000    27
+#> 161 30.0000000    30
+#> 162 33.3333333    50
+#> 163 32.0000000    48
+#> 164 28.6666667    43
+#> 165 24.6666667    37
+#> 166 26.0000000    39
+#> 167 28.6666667    43
+#> 168 35.3333333    53
+#> 169 29.3333333    44
+#> 170 31.3333333    47
+#> 171 34.6666667    52
+#> 172 32.6666667    49
+#> 173 24.6666667    37
+#> 174 30.0000000    45
+#> 175 15.3333333    23
+#> 176 28.0000000    42
+#> 177 22.0000000    33
+#> 178 20.0000000    30
+#> 179 25.3333333    38
+#> 180  6.0000000     9
+#> 181  0.0000000     0
+#> 182  1.3333333     2
+#> 183  1.3333333     2
+#> 184  1.3333333     2
+#> 185  3.3333333     5
+#> 186  6.0000000     9
+#> 187 16.0000000    24
+#> 188 10.0000000    15
+#> 189 13.3333333    20
+#> 190 32.2580645    30
+#> 191 32.0000000    32
+#> 192 30.0000000    30
+#> 193 30.0000000    30
+#> 194 28.0000000    28
+#> 195 31.0000000    31
+#> 196  0.0000000     0
+#> 197  1.3333333     2
+#> 198  1.3333333     2
+#> 199  0.6666667     1
+#> 200  0.6666667     1
+#> 201  2.0000000     3
+#> 202  2.0000000     3
+#> 203 23.6559140    22
+#> 204 20.0000000    20
+#> 205 24.0000000    24
+#> 206 24.0000000    24
+#> 207 22.0000000    22
+#> 208 23.0000000    23
+#> 209  1.0000000     1
+#> 210  2.0000000     2
+#> 211  3.0000000     3
+#> 212  3.0000000     3
+#> 213  2.0000000     2
+#> 214  2.0000000     2
+#> 215  2.0000000     2
+#> 216  2.0000000     2
+#> 217  2.0000000     3
+#> 218  2.0000000     3
+#> 219  2.0000000     3
+#> 220  2.0000000     3
+#> 221  2.0000000     3
+#> 222  2.0000000     3
+#> 223  2.0000000     3
+#> 224  2.0000000     3
+#> 225  2.0000000     3
+#> 226  2.0000000     3
+#> 227  2.0000000     3
+#> 228  1.3333333     2
+#> 229  2.0000000     3
+#> 230  1.3333333     2
+#> 231  1.3333333     2
+#> 232  1.3333333     2
+#> 233  1.3333333     2
+#> 234  2.0000000     3
+#> 235  2.0000000     3
+#> 236  0.0000000     0
+#> 237  0.0000000     0
+#> 238  1.3333333     2
+#> 239  3.3333333     5
+#> 240  6.0000000     9
+#> 241  6.0000000     9
+#> 242 16.6666667    25
+#> 243 10.0000000    15
+#> 244 10.0000000    15
+#> 245  9.3333333    14
+#> 246  5.3763441     5
+#> 247  5.0000000     5
+#> 248  7.0000000     7
+#> 249  7.0000000     7
+#> 250  6.0000000     6
+#> 251  6.0000000     6
+#> 252  6.0000000     6
+#> 253  8.0000000     8
+#> 254  9.0000000     9
+#> 255  8.6666667    13
+#> 256 12.6666667    19
+#> 257 10.6666667    16
+#> 258 11.3333333    17
+#> 259 10.6666667    16
+#> 260 14.6666667    22
+#> 261 18.6666667    28
+#> 262 17.3333333    26
+#> 263 24.0000000    36
+#> 264 18.0000000    27
+#> 265 14.6666667    22
+#> 266 20.6666667    31
+#> 267 25.3333333    38
+#> 268 16.0000000    24
+#> 269 18.6666667    28
+#> 270 14.6666667    22
+#> 271 20.6666667    31
+#> 272 27.3333333    41
+#> 273 22.0000000    33
+#> 
+#> $electionInfo
+#>    election_date term_start
+#> 1     1937-05-26 1937-06-08
+#> 2     1946-05-17 1946-06-04
+#> 3     1948-07-07 1948-07-27
+#> 4     1952-06-25 1952-07-15
+#> 5     1956-06-13 1956-07-03
+#> 6     1959-03-12 1959-03-20
+#> 7     1963-05-15 1963-06-05
+#> 8     1967-02-15 1967-02-23
+#> 9     1971-04-28 1971-05-11
+#> 10    1972-11-29 1972-12-07
+#> 11    1977-05-25 1977-06-08
+#> 12    1981-05-26 1981-06-10
+#> 13    1982-09-08 1982-09-16
+#> 14    1986-05-21 1986-06-03
+#> 15    1989-09-06 1989-09-14
+#> 16    1994-05-03 1994-05-17
+#> 17    1998-05-06 1998-05-19
+#> 18    2002-05-15 2002-05-23
+#> 19    2003-01-22 2003-01-30
+#> 20    2006-11-22 2006-11-30
+#> 21    2010-06-09 2010-06-17
+#> 22    2012-09-12 2012-09-20
+#> 23    2017-03-15 2017-03-23
+#> 
+#> $partyInfo
+#>                     party parlgov_party_id country_name_short country_name
+#> 1                  50PLUS             2109                NLD  Netherlands
+#> 2                  Aarden               NA               <NA>         <NA>
+#> 3                     AOV              112                NLD  Netherlands
+#> 4                     ARP              300                NLD  Netherlands
+#> 5                  Bontes               NA               <NA>         <NA>
+#> 6     Bontes/Van Klaveren               NA               <NA>         <NA>
+#> 7                      BP             1595                NLD  Netherlands
+#> 8                Brinkman               NA               <NA>         <NA>
+#> 9                      CD              209                NLD  Netherlands
+#> 10                    CDA              235                NLD  Netherlands
+#> 11                    CDU             2542                NLD  Netherlands
+#> 12          Centrumpartij              275                NLD  Netherlands
+#> 13           ChristenUnie             1206                NLD  Netherlands
+#> 14                    CHU              405                NLD  Netherlands
+#> 15                    CPN             1194                NLD  Netherlands
+#> 16                    D66              345                NLD  Netherlands
+#> 17                De Jong               NA               <NA>         <NA>
+#> 18                   DS70              402                NLD  Netherlands
+#> 19 Eerdmans/Van Schijndel               NA               <NA>         <NA>
+#> 20                    EVP               NA               <NA>         <NA>
+#> 21               Goedhart               NA               <NA>         <NA>
+#> 22                Gortzak               NA               <NA>         <NA>
+#> 23                    GPV              625                NLD  Netherlands
+#> 24             GroenLinks              756                NLD  Netherlands
+#> 25                Harmsen               NA               <NA>         <NA>
+#> 26               Hendriks               NA               <NA>         <NA>
+#> 27                Houwers               NA               <NA>         <NA>
+#> 28                Huijsen               NA               <NA>         <NA>
+#> 29                Janmaat               NA               <NA>         <NA>
+#> 30                  Klein               NA               <NA>         <NA>
+#> 31                    KNP                3                NLD  Netherlands
+#> 32                Koekoek               NA               <NA>         <NA>
+#> 33  Kortenoeven/Hernandez               NA               <NA>         <NA>
+#> 34                    KPN               NA               <NA>         <NA>
+#> 35             Kronenburg               NA               <NA>         <NA>
+#> 36            Kuzu/Ozturk               NA               <NA>         <NA>
+#> 37                    KVP              451                NLD  Netherlands
+#> 38                 Lazrak               NA               <NA>         <NA>
+#> 39                     LN              744                NLD  Netherlands
+#> 40                    LPF              456                NLD  Netherlands
+#> 41                 Nawijn               NA               <NA>         <NA>
+#> 42                Nijpels               NA               <NA>         <NA>
+#> 43                    NMP               87                NLD  Netherlands
+#> 44              Nooteboom               NA               <NA>         <NA>
+#> 45                 Ockels               NA               <NA>         <NA>
+#> 46                    PPR              342                NLD  Netherlands
+#> 47                    PSP             1452                NLD  Netherlands
+#> 48                   PvdA              742                NLD  Netherlands
+#> 49                   PvdD              990                NLD  Netherlands
+#> 50                   PvdV               NA               <NA>         <NA>
+#> 51                    PVV             1501                NLD  Netherlands
+#> 52                   RKPN               NA               <NA>         <NA>
+#> 53                   RKSP             2539                NLD  Netherlands
+#> 54                    RPF              212                NLD  Netherlands
+#> 55               Scholten               NA               <NA>         <NA>
+#> 56       Scholten/Dijkman               NA               <NA>         <NA>
+#> 57                   SDAP             1451                NLD  Netherlands
+#> 58                    SGP             1251                NLD  Netherlands
+#> 59                     SP              357                NLD  Netherlands
+#> 60             Ubels-Veen               NA               <NA>         <NA>
+#> 61               Unie 55+               NA               <NA>         <NA>
+#> 62           Van der Spek               NA               <NA>         <NA>
+#> 63           Van Klaveren               NA               <NA>         <NA>
+#> 64         Van Oudenallen               NA               <NA>         <NA>
+#> 65          Van Schijndel               NA               <NA>         <NA>
+#> 66              Van Vliet               NA               <NA>         <NA>
+#> 67                    VDB              944                NLD  Netherlands
+#> 68                Verdonk               NA               <NA>         <NA>
+#> 69                Verkerk               NA               <NA>         <NA>
+#> 70                  Voogd               NA               <NA>         <NA>
+#> 71          Vrijheidsbond               NA               <NA>         <NA>
+#> 72                    VVD             1409                NLD  Netherlands
+#> 73               Wagenaar               NA               <NA>         <NA>
+#> 74             Wijnschenk               NA               <NA>         <NA>
+#> 75                Wilders               NA               <NA>         <NA>
+#>    party_name_short                          party_name_english
+#> 1               50+                                      50PLUS
+#> 2              <NA>                                        <NA>
+#> 3           AOV|VSP General Senior Union | United Seniors Party
+#> 4               ARP                    Anti-Revolutionary Party
+#> 5              <NA>                                        <NA>
+#> 6              <NA>                                        <NA>
+#> 7                Bp                               Farmers Party
+#> 8              <NA>                                        <NA>
+#> 9                CD                            Centre Democrats
+#> 10              CDA                 Christian Democratic Appeal
+#> 11              CDU                  Christian Democratic Union
+#> 12               CP                                Centre Party
+#> 13               CU                              ChristianUnion
+#> 14              CHU                  Christian Historical Union
+#> 15              CPN          Communist Party of the Netherlands
+#> 16              D66                                Democrats 66
+#> 17             <NA>                                        <NA>
+#> 18             DS70                    Democratic Socialists 70
+#> 19             <NA>                                        <NA>
+#> 20             <NA>                                        <NA>
+#> 21             <NA>                                        <NA>
+#> 22             <NA>                                        <NA>
+#> 23              GPV                   Reformed Political League
+#> 24               GL                                   GreenLeft
+#> 25             <NA>                                        <NA>
+#> 26             <NA>                                        <NA>
+#> 27             <NA>                                        <NA>
+#> 28             <NA>                                        <NA>
+#> 29             <NA>                                        <NA>
+#> 30             <NA>                                        <NA>
+#> 31              KNP                     Catholic National Party
+#> 32             <NA>                                        <NA>
+#> 33             <NA>                                        <NA>
+#> 34             <NA>                                        <NA>
+#> 35             <NA>                                        <NA>
+#> 36             <NA>                                        <NA>
+#> 37              KVP                      Catholic Peoples Party
+#> 38             <NA>                                        <NA>
+#> 39               LN                         Livable Netherlands
+#> 40              LPF                                Fortuyn List
+#> 41             <NA>                                        <NA>
+#> 42             <NA>                                        <NA>
+#> 43               MP                                Middle Party
+#> 44             <NA>                                        <NA>
+#> 45             <NA>                                        <NA>
+#> 46              PPR                     Radical Political Party
+#> 47              PSP                    Pacifist Socialist Party
+#> 48             PvdA                                Labour Party
+#> 49             PvdD                       Party for the Animals
+#> 50             <NA>                                        <NA>
+#> 51              PVV                           Party for Freedom
+#> 52             <NA>                                        <NA>
+#> 53              RKP                        Roman Catholic Party
+#> 54              RPF            Reformatory Political Federation
+#> 55             <NA>                                        <NA>
+#> 56             <NA>                                        <NA>
+#> 57             SDAP            Social Democratic Workers' Party
+#> 58              SGP                    Political Reformed Party
+#> 59               SP                             Socialist Party
+#> 60             <NA>                                        <NA>
+#> 61             <NA>                                        <NA>
+#> 62             <NA>                                        <NA>
+#> 63             <NA>                                        <NA>
+#> 64             <NA>                                        <NA>
+#> 65             <NA>                                        <NA>
+#> 66             <NA>                                        <NA>
+#> 67              VDB             Free-thinking Democratic League
+#> 68             <NA>                                        <NA>
+#> 69             <NA>                                        <NA>
+#> 70             <NA>                                        <NA>
+#> 71             <NA>                                        <NA>
+#> 72              VVD    People's Party for Freedom and Democracy
+#> 73             <NA>                                        <NA>
+#> 74             <NA>                                        <NA>
+#> 75             <NA>                                        <NA>
+#>                                              party_name
+#> 1                                                50PLUS
+#> 2                                                  <NA>
+#> 3  Algemeen Ouderen Verbond | Verenigde Senioren Partij
+#> 4                            Anti-Revolutionaire Partij
+#> 5                                                  <NA>
+#> 6                                                  <NA>
+#> 7                                          Boerenpartij
+#> 8                                                  <NA>
+#> 9                                    Centrum Democraten
+#> 10                          Christen Democratisch Appel
+#> 11                       Christelijk-Democratische Unie
+#> 12                                        Centrumpartij
+#> 13                                         ChristenUnie
+#> 14                         Christelijk-Historische Unie
+#> 15                      Communistische Partij Nederland
+#> 16                                        Democraten 66
+#> 17                                                 <NA>
+#> 18                          Democratisch Socialisten 70
+#> 19                                                 <NA>
+#> 20                                                 <NA>
+#> 21                                                 <NA>
+#> 22                                                 <NA>
+#> 23                        Gereformeerd Politiek Verbond
+#> 24                                           GroenLinks
+#> 25                                                 <NA>
+#> 26                                                 <NA>
+#> 27                                                 <NA>
+#> 28                                                 <NA>
+#> 29                                                 <NA>
+#> 30                                                 <NA>
+#> 31                          Katholieke Nationale Partij
+#> 32                                                 <NA>
+#> 33                                                 <NA>
+#> 34                                                 <NA>
+#> 35                                                 <NA>
+#> 36                                                 <NA>
+#> 37                               Katholieke Volkspartij
+#> 38                                                 <NA>
+#> 39                                   Leefbaar Nederland
+#> 40                                    Lijst Pim Fortuyn
+#> 41                                                 <NA>
+#> 42                                                 <NA>
+#> 43                                        Midden Partij
+#> 44                                                 <NA>
+#> 45                                                 <NA>
+#> 46                           Politieke Partij Radikalen
+#> 47                   Pacifistisch Socialistische Partij
+#> 48                                 Partij van de Arbeid
+#> 49                                Partij voor de Dieren
+#> 50                                                 <NA>
+#> 51                              Partij voor de Vrijheid
+#> 52                                                 <NA>
+#> 53                            Roomsch Katholieke Partij
+#> 54                   Reformatorische Politieke Federati
+#> 55                                                 <NA>
+#> 56                                                 <NA>
+#> 57               Sociaal Democratische Arbeiders Partij
+#> 58                     Staatkundig Gereformeerde Partij
+#> 59                                 Socialistiese Partij
+#> 60                                                 <NA>
+#> 61                                                 <NA>
+#> 62                                                 <NA>
+#> 63                                                 <NA>
+#> 64                                                 <NA>
+#> 65                                                 <NA>
+#> 66                                                 <NA>
+#> 67                        Vrijzinnig Democratische Bond
+#> 68                                                 <NA>
+#> 69                                                 <NA>
+#> 70                                                 <NA>
+#> 71                                                 <NA>
+#> 72              Volkspartij voor Vrijheid en Democratie
+#> 73                                                 <NA>
+#> 74                                                 <NA>
+#> 75                                                 <NA>
+#>                                        party_name_ascii family_name_short
+#> 1                                                50PLUS               lib
+#> 2                                                  <NA>              <NA>
+#> 3  Algemeen Ouderen Verbond | Verenigde Senioren Partij              spec
+#> 4                            Anti-Revolutionaire Partij               chr
+#> 5                                                  <NA>              <NA>
+#> 6                                                  <NA>              <NA>
+#> 7                                          Boerenpartij               agr
+#> 8                                                  <NA>              <NA>
+#> 9                                    Centrum Democraten             right
+#> 10                          Christen Democratisch Appel               chr
+#> 11                       Christelijk-Democratische Unie               chr
+#> 12                                        Centrumpartij             right
+#> 13                                         ChristenUnie               chr
+#> 14                         Christelijk-Historische Unie               chr
+#> 15                      Communistische Partij Nederland               com
+#> 16                                        Democraten 66               lib
+#> 17                                                 <NA>              <NA>
+#> 18                          Democratisch Socialisten 70               con
+#> 19                                                 <NA>              <NA>
+#> 20                                                 <NA>              <NA>
+#> 21                                                 <NA>              <NA>
+#> 22                                                 <NA>              <NA>
+#> 23                        Gereformeerd Politiek Verbond               con
+#> 24                                           GroenLinks               eco
+#> 25                                                 <NA>              <NA>
+#> 26                                                 <NA>              <NA>
+#> 27                                                 <NA>              <NA>
+#> 28                                                 <NA>              <NA>
+#> 29                                                 <NA>              <NA>
+#> 30                                                 <NA>              <NA>
+#> 31                          Katholieke Nationale Partij               chr
+#> 32                                                 <NA>              <NA>
+#> 33                                                 <NA>              <NA>
+#> 34                                                 <NA>              <NA>
+#> 35                                                 <NA>              <NA>
+#> 36                                                 <NA>              <NA>
+#> 37                               Katholieke Volkspartij               chr
+#> 38                                                 <NA>              <NA>
+#> 39                                   Leefbaar Nederland             right
+#> 40                                    Lijst Pim Fortuyn             right
+#> 41                                                 <NA>              <NA>
+#> 42                                                 <NA>              <NA>
+#> 43                                        Midden Partij               con
+#> 44                                                 <NA>              <NA>
+#> 45                                                 <NA>              <NA>
+#> 46                           Politieke Partij Radikalen               eco
+#> 47                   Pacifistisch Socialistische Partij               com
+#> 48                                 Partij van de Arbeid               soc
+#> 49                                Partij voor de Dieren              spec
+#> 50                                                 <NA>              <NA>
+#> 51                              Partij voor de Vrijheid               con
+#> 52                                                 <NA>              <NA>
+#> 53                            Roomsch Katholieke Partij               chr
+#> 54                   Reformatorische Politieke Federati               chr
+#> 55                                                 <NA>              <NA>
+#> 56                                                 <NA>              <NA>
+#> 57               Sociaal Democratische Arbeiders Partij               soc
+#> 58                     Staatkundig Gereformeerde Partij               con
+#> 59                                 Socialistiese Partij               com
+#> 60                                                 <NA>              <NA>
+#> 61                                                 <NA>              <NA>
+#> 62                                                 <NA>              <NA>
+#> 63                                                 <NA>              <NA>
+#> 64                                                 <NA>              <NA>
+#> 65                                                 <NA>              <NA>
+#> 66                                                 <NA>              <NA>
+#> 67                        Vrijzinnig Democratische Bond               lib
+#> 68                                                 <NA>              <NA>
+#> 69                                                 <NA>              <NA>
+#> 70                                                 <NA>              <NA>
+#> 71                                                 <NA>              <NA>
+#> 72              Volkspartij voor Vrijheid en Democratie               lib
+#> 73                                                 <NA>              <NA>
+#> 74                                                 <NA>              <NA>
+#> 75                                                 <NA>              <NA>
+#>            family_name left_right state_market liberty_authority eu_anti_pro
+#> 1              Liberal     6.0000       6.7000            3.5000      8.7000
+#> 2                 <NA>         NA           NA                NA          NA
+#> 3        Special issue         NA           NA                NA          NA
+#> 4  Christian democracy     5.8067       5.6933            6.7724      8.2894
+#> 5                 <NA>         NA           NA                NA          NA
+#> 6                 <NA>         NA           NA                NA          NA
+#> 7             Agrarian     5.3000       4.9000            6.5000      5.4000
+#> 8                 <NA>         NA           NA                NA          NA
+#> 9           Right-wing     9.4097       8.5714            9.2500      1.3120
+#> 10 Christian democracy     5.9376       5.8848            6.6882      7.7157
+#> 11 Christian democracy     6.2000       5.7000            7.2000      8.3000
+#> 12          Right-wing     8.7000       5.9000            8.6000      2.4000
+#> 13 Christian democracy     6.1732       4.6769            8.6005      4.4157
+#> 14 Christian democracy     5.8067       5.6933            6.7724      8.2894
+#> 15 Communist/Socialist     0.8000       1.4000            3.0000      5.0000
+#> 16             Liberal     4.5066       4.9917            1.7625      8.6233
+#> 17                <NA>         NA           NA                NA          NA
+#> 18        Conservative     3.8433       3.9133            3.5288      8.4641
+#> 19                <NA>         NA           NA                NA          NA
+#> 20                <NA>         NA           NA                NA          NA
+#> 21                <NA>         NA           NA                NA          NA
+#> 22                <NA>         NA           NA                NA          NA
+#> 23        Conservative     8.1444       5.8000            8.6364      3.4848
+#> 24     Green/Ecologist     2.0454       2.1108            1.6440      6.1973
+#> 25                <NA>         NA           NA                NA          NA
+#> 26                <NA>         NA           NA                NA          NA
+#> 27                <NA>         NA           NA                NA          NA
+#> 28                <NA>         NA           NA                NA          NA
+#> 29                <NA>         NA           NA                NA          NA
+#> 30                <NA>         NA           NA                NA          NA
+#> 31 Christian democracy     6.2000       5.7000            7.2000      8.3000
+#> 32                <NA>         NA           NA                NA          NA
+#> 33                <NA>         NA           NA                NA          NA
+#> 34                <NA>         NA           NA                NA          NA
+#> 35                <NA>         NA           NA                NA          NA
+#> 36                <NA>         NA           NA                NA          NA
+#> 37 Christian democracy     5.9473       5.8848            6.6882      7.7157
+#> 38                <NA>         NA           NA                NA          NA
+#> 39          Right-wing     8.7000       5.9000            8.6000      2.4000
+#> 40          Right-wing     8.5609       8.0776            4.7759      2.5798
+#> 41                <NA>         NA           NA                NA          NA
+#> 42                <NA>         NA           NA                NA          NA
+#> 43        Conservative     7.4000       6.4000            6.9000      7.8000
+#> 44                <NA>         NA           NA                NA          NA
+#> 45                <NA>         NA           NA                NA          NA
+#> 46     Green/Ecologist     1.6000       2.5000            1.8000      5.0000
+#> 47 Communist/Socialist     1.2000       1.4000            3.0000      5.0000
+#> 48    Social democracy     3.6118       3.8680            3.2028      7.9904
+#> 49       Special issue         NA           NA                NA          NA
+#> 50                <NA>         NA           NA                NA          NA
+#> 51        Conservative     8.8000       8.2900            6.5700      0.9167
+#> 52                <NA>         NA           NA                NA          NA
+#> 53 Christian democracy     6.2000       5.7000            7.2000      8.3000
+#> 54 Christian democracy     8.2963       6.0000            8.5455      3.5447
+#> 55                <NA>         NA           NA                NA          NA
+#> 56                <NA>         NA           NA                NA          NA
+#> 57    Social democracy     3.3000       3.5000            3.5000      8.1000
+#> 58        Conservative     8.7531       6.3487            9.7744      2.9307
+#> 59 Communist/Socialist     1.2146       1.0421            4.2099      2.5049
+#> 60                <NA>         NA           NA                NA          NA
+#> 61                <NA>         NA           NA                NA          NA
+#> 62                <NA>         NA           NA                NA          NA
+#> 63                <NA>         NA           NA                NA          NA
+#> 64                <NA>         NA           NA                NA          NA
+#> 65                <NA>         NA           NA                NA          NA
+#> 66                <NA>         NA           NA                NA          NA
+#> 67             Liberal     6.0000       6.7000            3.5000      8.7000
+#> 68                <NA>         NA           NA                NA          NA
+#> 69                <NA>         NA           NA                NA          NA
+#> 70                <NA>         NA           NA                NA          NA
+#> 71                <NA>         NA           NA                NA          NA
+#> 72             Liberal     7.3482       7.8979            4.3887      5.9471
+#> 73                <NA>         NA           NA                NA          NA
+#> 74                <NA>         NA           NA                NA          NA
+#> 75                <NA>         NA           NA                NA          NA
+#>      cmp euprofiler     ees castles_mair huber_inglehart  ray benoit_laver
+#> 1     NA         NA      NA           NA              NA   NA           NA
+#> 2     NA         NA      NA           NA              NA   NA           NA
+#> 3     NA         NA      NA           NA              NA   NA           NA
+#> 4  22523         NA      NA           NA              NA 1001           NA
+#> 5     NA         NA      NA           NA              NA   NA           NA
+#> 6     NA         NA      NA           NA              NA   NA           NA
+#> 7     NA         NA      NA           NA              NA   NA           NA
+#> 8     NA         NA      NA           NA              NA   NA           NA
+#> 9     NA         NA      NA           NA            2609 1009           NA
+#> 10 22521        293 1528521         1106            2604 1001         7040
+#> 11    NA         NA      NA           NA              NA   NA           NA
+#> 12    NA         NA      NA           NA              NA   NA           NA
+#> 13 22526        294 1528526           NA              NA   NA         7060
+#> 14 22525         NA      NA           NA              NA 1001           NA
+#> 15    NA         NA      NA         1102              NA 1012           NA
+#> 16 22330        295 1528330         1105            2603 1004         7080
+#> 17    NA         NA      NA           NA              NA   NA           NA
+#> 18 22524         NA      NA           NA              NA   NA           NA
+#> 19    NA         NA      NA           NA              NA   NA           NA
+#> 20    NA         NA      NA           NA              NA   NA           NA
+#> 21    NA         NA      NA           NA              NA   NA           NA
+#> 22    NA         NA      NA           NA              NA   NA           NA
+#> 23    NA         NA      NA         1108            2606 1007           NA
+#> 24 22110        297 1528110           NA            2601 1005         7100
+#> 25    NA         NA      NA           NA              NA   NA           NA
+#> 26    NA         NA      NA           NA              NA   NA           NA
+#> 27    NA         NA      NA           NA              NA   NA           NA
+#> 28    NA         NA      NA           NA              NA   NA           NA
+#> 29    NA         NA      NA           NA              NA   NA           NA
+#> 30    NA         NA      NA           NA              NA   NA           NA
+#> 31    NA         NA      NA           NA              NA   NA           NA
+#> 32    NA         NA      NA           NA              NA   NA           NA
+#> 33    NA         NA      NA           NA              NA   NA           NA
+#> 34    NA         NA      NA           NA              NA   NA           NA
+#> 35    NA         NA      NA           NA              NA   NA           NA
+#> 36    NA         NA      NA           NA              NA   NA           NA
+#> 37 22522         NA      NA         1106              NA 1001         7040
+#> 38    NA         NA      NA           NA              NA   NA           NA
+#> 39 22430         NA      NA           NA              NA   NA           NA
+#> 40 22720         NA      NA           NA              NA   NA         7120
+#> 41    NA         NA      NA           NA              NA   NA           NA
+#> 42    NA         NA      NA           NA              NA   NA           NA
+#> 43    NA         NA      NA           NA              NA   NA           NA
+#> 44    NA         NA      NA           NA              NA   NA           NA
+#> 45    NA         NA      NA           NA              NA   NA           NA
+#> 46 22310         NA      NA         1103              NA 1010           NA
+#> 47    NA         NA      NA           NA              NA 1011           NA
+#> 48 22320        299 1528320         1104            2602 1002         7140
+#> 49    NA        300 1528006           NA              NA   NA           NA
+#> 50    NA         NA      NA           NA              NA   NA           NA
+#> 51    NA        301 1528600           NA              NA   NA           NA
+#> 52    NA         NA      NA           NA              NA   NA           NA
+#> 53    NA         NA      NA           NA              NA   NA           NA
+#> 54    NA         NA      NA         1109            2608 1008           NA
+#> 55    NA         NA      NA           NA              NA   NA           NA
+#> 56    NA         NA      NA           NA              NA   NA           NA
+#> 57    NA         NA      NA           NA              NA   NA           NA
+#> 58    NA        294 1528527         1110            2607 1006         7160
+#> 59 22220        304 1528220         1101              NA   NA         7180
+#> 60    NA         NA      NA           NA              NA   NA           NA
+#> 61    NA         NA      NA           NA              NA   NA           NA
+#> 62    NA         NA      NA           NA              NA   NA           NA
+#> 63    NA         NA      NA           NA              NA   NA           NA
+#> 64    NA         NA      NA           NA              NA   NA           NA
+#> 65    NA         NA      NA           NA              NA   NA           NA
+#> 66    NA         NA      NA           NA              NA   NA           NA
+#> 67    NA         NA      NA           NA              NA   NA           NA
+#> 68    NA         NA      NA           NA              NA   NA           NA
+#> 69    NA         NA      NA           NA              NA   NA           NA
+#> 70    NA         NA      NA           NA              NA   NA           NA
+#> 71    NA         NA      NA           NA              NA   NA           NA
+#> 72 22420        305 1528420         1107            2605 1003         7200
+#> 73    NA         NA      NA           NA              NA   NA           NA
+#> 74    NA         NA      NA           NA              NA   NA           NA
+#> 75    NA         NA      NA           NA              NA   NA           NA
+#>    chess country_id family_id
+#> 1     NA          8         6
+#> 2     NA         NA        NA
+#> 3     NA          8        16
+#> 4   1001          8         3
+#> 5     NA         NA        NA
+#> 6     NA         NA        NA
+#> 7     NA          8         2
+#> 8     NA         NA        NA
+#> 9   1009          8        40
+#> 10  1001          8         3
+#> 11    NA          8         3
+#> 12    NA          8        40
+#> 13  1016          8         3
+#> 14  1001          8         3
+#> 15    NA          8        14
+#> 16  1004          8         6
+#> 17    NA         NA        NA
+#> 18  1002          8        26
+#> 19    NA         NA        NA
+#> 20    NA         NA        NA
+#> 21    NA         NA        NA
+#> 22    NA         NA        NA
+#> 23  1007          8        26
+#> 24  1005          8        19
+#> 25    NA         NA        NA
+#> 26    NA         NA        NA
+#> 27    NA         NA        NA
+#> 28    NA         NA        NA
+#> 29    NA         NA        NA
+#> 30    NA         NA        NA
+#> 31    NA          8         3
+#> 32    NA         NA        NA
+#> 33    NA         NA        NA
+#> 34    NA         NA        NA
+#> 35    NA         NA        NA
+#> 36    NA         NA        NA
+#> 37  1001          8         3
+#> 38    NA         NA        NA
+#> 39    NA          8        40
+#> 40  1015          8        40
+#> 41    NA         NA        NA
+#> 42    NA         NA        NA
+#> 43    NA          8        26
+#> 44    NA         NA        NA
+#> 45    NA         NA        NA
+#> 46    NA          8        19
+#> 47    NA          8        14
+#> 48  1002          8        11
+#> 49  1018          8        16
+#> 50    NA         NA        NA
+#> 51  1017          8        26
+#> 52    NA         NA        NA
+#> 53    NA          8         3
+#> 54  1008          8         3
+#> 55    NA         NA        NA
+#> 56    NA         NA        NA
+#> 57    NA          8        11
+#> 58  1019          8        26
+#> 59  1014          8        14
+#> 60    NA         NA        NA
+#> 61    NA         NA        NA
+#> 62    NA         NA        NA
+#> 63    NA         NA        NA
+#> 64    NA         NA        NA
+#> 65    NA         NA        NA
+#> 66    NA         NA        NA
+#> 67    NA          8         6
+#> 68    NA         NA        NA
+#> 69    NA         NA        NA
+#> 70    NA         NA        NA
+#> 71    NA         NA        NA
+#> 72  1003          8         6
+#> 73    NA         NA        NA
+#> 74    NA         NA        NA
+#> 75    NA         NA        NA
+#> 
+#> $partyCabinetInfo
+#>             party              cabinet_name cabinet_id previous_cabinet_id
+#> 1             ARP   Ruijs de Beerenbrouck I       1262                  NA
+#> 2             CHU   Ruijs de Beerenbrouck I       1262                  NA
+#> 3             CPN   Ruijs de Beerenbrouck I       1262                  NA
+#> 4            RKSP   Ruijs de Beerenbrouck I       1262                  NA
+#> 5            SDAP   Ruijs de Beerenbrouck I       1262                  NA
+#> 6             VDB   Ruijs de Beerenbrouck I       1262                  NA
+#> 7             ARP  Ruijs de Beerenbrouck II       1261                1262
+#> 8             CHU  Ruijs de Beerenbrouck II       1261                1262
+#> 9             CPN  Ruijs de Beerenbrouck II       1261                1262
+#> 10           RKSP  Ruijs de Beerenbrouck II       1261                1262
+#> 11           SDAP  Ruijs de Beerenbrouck II       1261                1262
+#> 12            SGP  Ruijs de Beerenbrouck II       1261                1262
+#> 13            VDB  Ruijs de Beerenbrouck II       1261                1262
+#> 14            ARP                  Colijn I       1260                1261
+#> 15            CHU                  Colijn I       1260                1261
+#> 16            CPN                  Colijn I       1260                1261
+#> 17           RKSP                  Colijn I       1260                1261
+#> 18           SDAP                  Colijn I       1260                1261
+#> 19            SGP                  Colijn I       1260                1261
+#> 20            VDB                  Colijn I       1260                1261
+#> 21            ARP                 De Geer I       1259                1260
+#> 22            CHU                 De Geer I       1259                1260
+#> 23            CPN                 De Geer I       1259                1260
+#> 24           RKSP                 De Geer I       1259                1260
+#> 25           SDAP                 De Geer I       1259                1260
+#> 26            SGP                 De Geer I       1259                1260
+#> 27            VDB                 De Geer I       1259                1260
+#> 28            ARP Ruijs de Beerenbrouck III       1258                1259
+#> 29            CHU Ruijs de Beerenbrouck III       1258                1259
+#> 30            CPN Ruijs de Beerenbrouck III       1258                1259
+#> 31           RKSP Ruijs de Beerenbrouck III       1258                1259
+#> 32           SDAP Ruijs de Beerenbrouck III       1258                1259
+#> 33            SGP Ruijs de Beerenbrouck III       1258                1259
+#> 34            VDB Ruijs de Beerenbrouck III       1258                1259
+#> 35            ARP                 Colijn II       1257                1258
+#> 36            CDU                 Colijn II       1257                1258
+#> 37            CHU                 Colijn II       1257                1258
+#> 38            CPN                 Colijn II       1257                1258
+#> 39           RKSP                 Colijn II       1257                1258
+#> 40           SDAP                 Colijn II       1257                1258
+#> 41            SGP                 Colijn II       1257                1258
+#> 42            VDB                 Colijn II       1257                1258
+#> 43            ARP                Colijn III       1256                1257
+#> 44            CDU                Colijn III       1256                1257
+#> 45            CHU                Colijn III       1256                1257
+#> 46            CPN                Colijn III       1256                1257
+#> 47           RKSP                Colijn III       1256                1257
+#> 48           SDAP                Colijn III       1256                1257
+#> 49            SGP                Colijn III       1256                1257
+#> 50            VDB                Colijn III       1256                1257
+#> 51            ARP                 Colijn IV       1255                1256
+#> 52            CDU                 Colijn IV       1255                1256
+#> 53            CHU                 Colijn IV       1255                1256
+#> 54            CPN                 Colijn IV       1255                1256
+#> 55           RKSP                 Colijn IV       1255                1256
+#> 56           SDAP                 Colijn IV       1255                1256
+#> 57            SGP                 Colijn IV       1255                1256
+#> 58            VDB                 Colijn IV       1255                1256
+#> 59            ARP                  Colijn V       1297                1255
+#> 60            CDU                  Colijn V       1297                1255
+#> 61            CHU                  Colijn V       1297                1255
+#> 62            CPN                  Colijn V       1297                1255
+#> 63           RKSP                  Colijn V       1297                1255
+#> 64           SDAP                  Colijn V       1297                1255
+#> 65            SGP                  Colijn V       1297                1255
+#> 66            VDB                  Colijn V       1297                1255
+#> 67            ARP                De Geer II       1254                1297
+#> 68            CDU                De Geer II       1254                1297
+#> 69            CHU                De Geer II       1254                1297
+#> 70            CPN                De Geer II       1254                1297
+#> 71           RKSP                De Geer II       1254                1297
+#> 72           SDAP                De Geer II       1254                1297
+#> 73            SGP                De Geer II       1254                1297
+#> 74            VDB                De Geer II       1254                1297
+#> 75            ARP              Schermerhorn        767                1254
+#> 76            CDU              Schermerhorn        767                1254
+#> 77            CHU              Schermerhorn        767                1254
+#> 78            CPN              Schermerhorn        767                1254
+#> 79            KVP              Schermerhorn        767                1254
+#> 80           RKSP              Schermerhorn        767                1254
+#> 81           SDAP              Schermerhorn        767                1254
+#> 82            SGP              Schermerhorn        767                1254
+#> 83            VDB              Schermerhorn        767                1254
+#> 84            ARP                    Beel I         96                 767
+#> 85            CHU                    Beel I         96                 767
+#> 86            CPN                    Beel I         96                 767
+#> 87            KVP                    Beel I         96                 767
+#> 88           PvdA                    Beel I         96                 767
+#> 89            SGP                    Beel I         96                 767
+#> 90            VVD                    Beel I         96                 767
+#> 91            ARP                   Drees I        128                  96
+#> 92            CHU                   Drees I        128                  96
+#> 93            CPN                   Drees I        128                  96
+#> 94            KNP                   Drees I        128                  96
+#> 95            KVP                   Drees I        128                  96
+#> 96           PvdA                   Drees I        128                  96
+#> 97            SGP                   Drees I        128                  96
+#> 98            VVD                   Drees I        128                  96
+#> 99            ARP                  Drees II        243                 128
+#> 100           CHU                  Drees II        243                 128
+#> 101           CPN                  Drees II        243                 128
+#> 102           KNP                  Drees II        243                 128
+#> 103           KVP                  Drees II        243                 128
+#> 104          PvdA                  Drees II        243                 128
+#> 105           SGP                  Drees II        243                 128
+#> 106           VVD                  Drees II        243                 128
+#> 107           ARP                 Drees III        366                 243
+#> 108           CHU                 Drees III        366                 243
+#> 109           CPN                 Drees III        366                 243
+#> 110           KNP                 Drees III        366                 243
+#> 111           KVP                 Drees III        366                 243
+#> 112          PvdA                 Drees III        366                 243
+#> 113           SGP                 Drees III        366                 243
+#> 114           VVD                 Drees III        366                 243
+#> 115           ARP                  Drees IV        761                 366
+#> 116           CHU                  Drees IV        761                 366
+#> 117           CPN                  Drees IV        761                 366
+#> 118           KVP                  Drees IV        761                 366
+#> 119          PvdA                  Drees IV        761                 366
+#> 120           SGP                  Drees IV        761                 366
+#> 121           VVD                  Drees IV        761                 366
+#> 122           ARP                   Beel II        741                 761
+#> 123           CHU                   Beel II        741                 761
+#> 124           CPN                   Beel II        741                 761
+#> 125           KVP                   Beel II        741                 761
+#> 126          PvdA                   Beel II        741                 761
+#> 127           SGP                   Beel II        741                 761
+#> 128           VVD                   Beel II        741                 761
+#> 129           ARP                   De Quay        694                 741
+#> 130           CHU                   De Quay        694                 741
+#> 131           CPN                   De Quay        694                 741
+#> 132           KVP                   De Quay        694                 741
+#> 133           PSP                   De Quay        694                 741
+#> 134          PvdA                   De Quay        694                 741
+#> 135           SGP                   De Quay        694                 741
+#> 136           VVD                   De Quay        694                 741
+#> 137           ARP                  Marijnen         35                 694
+#> 138            BP                  Marijnen         35                 694
+#> 139           CHU                  Marijnen         35                 694
+#> 140           CPN                  Marijnen         35                 694
+#> 141           GPV                  Marijnen         35                 694
+#> 142           KVP                  Marijnen         35                 694
+#> 143           PSP                  Marijnen         35                 694
+#> 144          PvdA                  Marijnen         35                 694
+#> 145           SGP                  Marijnen         35                 694
+#> 146           VVD                  Marijnen         35                 694
+#> 147           ARP                      Cals        518                  35
+#> 148            BP                      Cals        518                  35
+#> 149           CHU                      Cals        518                  35
+#> 150           CPN                      Cals        518                  35
+#> 151           GPV                      Cals        518                  35
+#> 152           KVP                      Cals        518                  35
+#> 153           PSP                      Cals        518                  35
+#> 154          PvdA                      Cals        518                  35
+#> 155           SGP                      Cals        518                  35
+#> 156           VVD                      Cals        518                  35
+#> 157           ARP                  Zijlstra        455                 518
+#> 158            BP                  Zijlstra        455                 518
+#> 159           CHU                  Zijlstra        455                 518
+#> 160           CPN                  Zijlstra        455                 518
+#> 161           GPV                  Zijlstra        455                 518
+#> 162           KVP                  Zijlstra        455                 518
+#> 163           PSP                  Zijlstra        455                 518
+#> 164          PvdA                  Zijlstra        455                 518
+#> 165           SGP                  Zijlstra        455                 518
+#> 166           VVD                  Zijlstra        455                 518
+#> 167           ARP                   De Jong        172                 455
+#> 168            BP                   De Jong        172                 455
+#> 169           CHU                   De Jong        172                 455
+#> 170           CPN                   De Jong        172                 455
+#> 171           D66                   De Jong        172                 455
+#> 172           GPV                   De Jong        172                 455
+#> 173           KVP                   De Jong        172                 455
+#> 174           PSP                   De Jong        172                 455
+#> 175          PvdA                   De Jong        172                 455
+#> 176           SGP                   De Jong        172                 455
+#> 177           VVD                   De Jong        172                 455
+#> 178           ARP              Biesheuvel I        231                 172
+#> 179            BP              Biesheuvel I        231                 172
+#> 180           CHU              Biesheuvel I        231                 172
+#> 181           CPN              Biesheuvel I        231                 172
+#> 182           D66              Biesheuvel I        231                 172
+#> 183          DS70              Biesheuvel I        231                 172
+#> 184           GPV              Biesheuvel I        231                 172
+#> 185           KVP              Biesheuvel I        231                 172
+#> 186           NMP              Biesheuvel I        231                 172
+#> 187           PPR              Biesheuvel I        231                 172
+#> 188           PSP              Biesheuvel I        231                 172
+#> 189          PvdA              Biesheuvel I        231                 172
+#> 190           SGP              Biesheuvel I        231                 172
+#> 191           VVD              Biesheuvel I        231                 172
+#> 192           ARP             Biesheuvel II        291                 231
+#> 193            BP             Biesheuvel II        291                 231
+#> 194           CHU             Biesheuvel II        291                 231
+#> 195           CPN             Biesheuvel II        291                 231
+#> 196           D66             Biesheuvel II        291                 231
+#> 197          DS70             Biesheuvel II        291                 231
+#> 198           GPV             Biesheuvel II        291                 231
+#> 199           KVP             Biesheuvel II        291                 231
+#> 200           NMP             Biesheuvel II        291                 231
+#> 201           PPR             Biesheuvel II        291                 231
+#> 202           PSP             Biesheuvel II        291                 231
+#> 203          PvdA             Biesheuvel II        291                 231
+#> 204           SGP             Biesheuvel II        291                 231
+#> 205           VVD             Biesheuvel II        291                 231
+#> 206           ARP                 Den Uyl I        765                 291
+#> 207            BP                 Den Uyl I        765                 291
+#> 208           CHU                 Den Uyl I        765                 291
+#> 209           CPN                 Den Uyl I        765                 291
+#> 210           D66                 Den Uyl I        765                 291
+#> 211          DS70                 Den Uyl I        765                 291
+#> 212           GPV                 Den Uyl I        765                 291
+#> 213           KVP                 Den Uyl I        765                 291
+#> 214           PPR                 Den Uyl I        765                 291
+#> 215           PSP                 Den Uyl I        765                 291
+#> 216          PvdA                 Den Uyl I        765                 291
+#> 217           SGP                 Den Uyl I        765                 291
+#> 218           VVD                 Den Uyl I        765                 291
+#> 219            BP                Den Uyl II        324                 765
+#> 220           CDA                Den Uyl II        324                 765
+#> 221           CPN                Den Uyl II        324                 765
+#> 222           D66                Den Uyl II        324                 765
+#> 223          DS70                Den Uyl II        324                 765
+#> 224           GPV                Den Uyl II        324                 765
+#> 225           PPR                Den Uyl II        324                 765
+#> 226           PSP                Den Uyl II        324                 765
+#> 227          PvdA                Den Uyl II        324                 765
+#> 228           SGP                Den Uyl II        324                 765
+#> 229           VVD                Den Uyl II        324                 765
+#> 230            BP                 Van Agt I        563                 324
+#> 231           CDA                 Van Agt I        563                 324
+#> 232           CPN                 Van Agt I        563                 324
+#> 233           D66                 Van Agt I        563                 324
+#> 234          DS70                 Van Agt I        563                 324
+#> 235           GPV                 Van Agt I        563                 324
+#> 236           PPR                 Van Agt I        563                 324
+#> 237           PSP                 Van Agt I        563                 324
+#> 238          PvdA                 Van Agt I        563                 324
+#> 239           SGP                 Van Agt I        563                 324
+#> 240           VVD                 Van Agt I        563                 324
+#> 241           CDA                Van Agt II        258                 563
+#> 242           CPN                Van Agt II        258                 563
+#> 243           D66                Van Agt II        258                 563
+#> 244           GPV                Van Agt II        258                 563
+#> 245           PPR                Van Agt II        258                 563
+#> 246           PSP                Van Agt II        258                 563
+#> 247          PvdA                Van Agt II        258                 563
+#> 248           RPF                Van Agt II        258                 563
+#> 249           SGP                Van Agt II        258                 563
+#> 250           VVD                Van Agt II        258                 563
+#> 251           CDA               Van Agt III          6                 258
+#> 252           CPN               Van Agt III          6                 258
+#> 253           D66               Van Agt III          6                 258
+#> 254           GPV               Van Agt III          6                 258
+#> 255           PPR               Van Agt III          6                 258
+#> 256           PSP               Van Agt III          6                 258
+#> 257          PvdA               Van Agt III          6                 258
+#> 258           RPF               Van Agt III          6                 258
+#> 259           SGP               Van Agt III          6                 258
+#> 260           VVD               Van Agt III          6                 258
+#> 261           CDA                 Lubbers I        270                   6
+#> 262 Centrumpartij                 Lubbers I        270                   6
+#> 263           CPN                 Lubbers I        270                   6
+#> 264           D66                 Lubbers I        270                   6
+#> 265           GPV                 Lubbers I        270                   6
+#> 266           PPR                 Lubbers I        270                   6
+#> 267           PSP                 Lubbers I        270                   6
+#> 268          PvdA                 Lubbers I        270                   6
+#> 269           RPF                 Lubbers I        270                   6
+#> 270           SGP                 Lubbers I        270                   6
+#> 271           VVD                 Lubbers I        270                   6
+#> 272           CDA                Lubbers II        550                 270
+#> 273           D66                Lubbers II        550                 270
+#> 274           GPV                Lubbers II        550                 270
+#> 275           PPR                Lubbers II        550                 270
+#> 276           PSP                Lubbers II        550                 270
+#> 277          PvdA                Lubbers II        550                 270
+#> 278           RPF                Lubbers II        550                 270
+#> 279           SGP                Lubbers II        550                 270
+#> 280           VVD                Lubbers II        550                 270
+#> 281            CD               Lubbers III        148                 550
+#> 282           CDA               Lubbers III        148                 550
+#> 283           D66               Lubbers III        148                 550
+#> 284    GroenLinks               Lubbers III        148                 550
+#> 285           GPV               Lubbers III        148                 550
+#> 286          PvdA               Lubbers III        148                 550
+#> 287           RPF               Lubbers III        148                 550
+#> 288           SGP               Lubbers III        148                 550
+#> 289           VVD               Lubbers III        148                 550
+#> 290           AOV                     Kok I        637                 148
+#> 291            CD                     Kok I        637                 148
+#> 292           CDA                     Kok I        637                 148
+#> 293           D66                     Kok I        637                 148
+#> 294    GroenLinks                     Kok I        637                 148
+#> 295           GPV                     Kok I        637                 148
+#> 296          PvdA                     Kok I        637                 148
+#> 297           RPF                     Kok I        637                 148
+#> 298           SGP                     Kok I        637                 148
+#> 299            SP                     Kok I        637                 148
+#> 300           VVD                     Kok I        637                 148
+#> 301           CDA                    Kok II        749                 637
+#> 302           D66                    Kok II        749                 637
+#> 303    GroenLinks                    Kok II        749                 637
+#> 304           GPV                    Kok II        749                 637
+#> 305          PvdA                    Kok II        749                 637
+#> 306           RPF                    Kok II        749                 637
+#> 307           SGP                    Kok II        749                 637
+#> 308            SP                    Kok II        749                 637
+#> 309           VVD                    Kok II        749                 637
+#> 310           CDA              Balkenende I        763                 749
+#> 311  ChristenUnie              Balkenende I        763                 749
+#> 312           D66              Balkenende I        763                 749
+#> 313    GroenLinks              Balkenende I        763                 749
+#> 314            LN              Balkenende I        763                 749
+#> 315           LPF              Balkenende I        763                 749
+#> 316          PvdA              Balkenende I        763                 749
+#> 317           SGP              Balkenende I        763                 749
+#> 318            SP              Balkenende I        763                 749
+#> 319           VVD              Balkenende I        763                 749
+#> 320           CDA             Balkenende II       1105                 763
+#> 321  ChristenUnie             Balkenende II       1105                 763
+#> 322           D66             Balkenende II       1105                 763
+#> 323    GroenLinks             Balkenende II       1105                 763
+#> 324            LN             Balkenende II       1105                 763
+#> 325           LPF             Balkenende II       1105                 763
+#> 326          PvdA             Balkenende II       1105                 763
+#> 327           SGP             Balkenende II       1105                 763
+#> 328            SP             Balkenende II       1105                 763
+#> 329           VVD             Balkenende II       1105                 763
+#> 330           CDA            Balkenende III        124                1105
+#> 331  ChristenUnie            Balkenende III        124                1105
+#> 332           D66            Balkenende III        124                1105
+#> 333    GroenLinks            Balkenende III        124                1105
+#> 334           LPF            Balkenende III        124                1105
+#> 335          PvdA            Balkenende III        124                1105
+#> 336           SGP            Balkenende III        124                1105
+#> 337            SP            Balkenende III        124                1105
+#> 338           VVD            Balkenende III        124                1105
+#> 339           CDA             Balkenende IV         65                 124
+#> 340  ChristenUnie             Balkenende IV         65                 124
+#> 341           D66             Balkenende IV         65                 124
+#> 342    GroenLinks             Balkenende IV         65                 124
+#> 343           LPF             Balkenende IV         65                 124
+#> 344           PVV             Balkenende IV         65                 124
+#> 345          PvdA             Balkenende IV         65                 124
+#> 346           SGP             Balkenende IV         65                 124
+#> 347            SP             Balkenende IV         65                 124
+#> 348           VVD             Balkenende IV         65                 124
+#> 349           CDA              Balkenende V         69                  65
+#> 350  ChristenUnie              Balkenende V         69                  65
+#> 351           D66              Balkenende V         69                  65
+#> 352    GroenLinks              Balkenende V         69                  65
+#> 353           PVV              Balkenende V         69                  65
+#> 354          PvdA              Balkenende V         69                  65
+#> 355          PvdD              Balkenende V         69                  65
+#> 356           SGP              Balkenende V         69                  65
+#> 357            SP              Balkenende V         69                  65
+#> 358           VVD              Balkenende V         69                  65
+#> 359           CDA             Balkenende VI        652                  69
+#> 360  ChristenUnie             Balkenende VI        652                  69
+#> 361           D66             Balkenende VI        652                  69
+#> 362    GroenLinks             Balkenende VI        652                  69
+#> 363           PVV             Balkenende VI        652                  69
+#> 364          PvdA             Balkenende VI        652                  69
+#> 365          PvdD             Balkenende VI        652                  69
+#> 366           SGP             Balkenende VI        652                  69
+#> 367            SP             Balkenende VI        652                  69
+#> 368           VVD             Balkenende VI        652                  69
+#> 369           CDA                   Rutte I        804                 652
+#> 370  ChristenUnie                   Rutte I        804                 652
+#> 371           D66                   Rutte I        804                 652
+#> 372    GroenLinks                   Rutte I        804                 652
+#> 373           PVV                   Rutte I        804                 652
+#> 374          PvdA                   Rutte I        804                 652
+#> 375          PvdD                   Rutte I        804                 652
+#> 376           SGP                   Rutte I        804                 652
+#> 377            SP                   Rutte I        804                 652
+#> 378           VVD                   Rutte I        804                 652
+#> 379           CDA                  Rutte II       1028                 804
+#> 380  ChristenUnie                  Rutte II       1028                 804
+#> 381           D66                  Rutte II       1028                 804
+#> 382    GroenLinks                  Rutte II       1028                 804
+#> 383           PVV                  Rutte II       1028                 804
+#> 384          PvdA                  Rutte II       1028                 804
+#> 385          PvdD                  Rutte II       1028                 804
+#> 386           SGP                  Rutte II       1028                 804
+#> 387            SP                  Rutte II       1028                 804
+#> 388           VVD                  Rutte II       1028                 804
+#> 389        50PLUS                 Rutte III       1041                1028
+#> 390           CDA                 Rutte III       1041                1028
+#> 391  ChristenUnie                 Rutte III       1041                1028
+#> 392           D66                 Rutte III       1041                1028
+#> 393    GroenLinks                 Rutte III       1041                1028
+#> 394           PVV                 Rutte III       1041                1028
+#> 395          PvdA                 Rutte III       1041                1028
+#> 396          PvdD                 Rutte III       1041                1028
+#> 397           SGP                 Rutte III       1041                1028
+#> 398            SP                 Rutte III       1041                1028
+#> 399           VVD                 Rutte III       1041                1028
+#> 400        50PLUS                  Rutte IV       1506                1041
+#> 401           CDA                  Rutte IV       1506                1041
+#> 402  ChristenUnie                  Rutte IV       1506                1041
+#> 403           D66                  Rutte IV       1506                1041
+#> 404    GroenLinks                  Rutte IV       1506                1041
+#> 405           PVV                  Rutte IV       1506                1041
+#> 406          PvdA                  Rutte IV       1506                1041
+#> 407          PvdD                  Rutte IV       1506                1041
+#> 408           SGP                  Rutte IV       1506                1041
+#> 409            SP                  Rutte IV       1506                1041
+#> 410           VVD                  Rutte IV       1506                1041
+#> 411        50PLUS                   Rutte V       1530                1506
+#> 412           CDA                   Rutte V       1530                1506
+#> 413  ChristenUnie                   Rutte V       1530                1506
+#> 414           D66                   Rutte V       1530                1506
+#> 415    GroenLinks                   Rutte V       1530                1506
+#> 416           PVV                   Rutte V       1530                1506
+#> 417          PvdA                   Rutte V       1530                1506
+#> 418          PvdD                   Rutte V       1530                1506
+#> 419           SGP                   Rutte V       1530                1506
+#> 420            SP                   Rutte V       1530                1506
+#> 421           VVD                   Rutte V       1530                1506
+#>     election_date start_date   end_date party_name_short
+#> 1      1918-07-03 1918-09-09 1922-09-17              ARP
+#> 2      1918-07-03 1918-09-09 1922-09-17              CHU
+#> 3      1918-07-03 1918-09-09 1922-09-17              CPN
+#> 4      1918-07-03 1918-09-09 1922-09-17              RKP
+#> 5      1918-07-03 1918-09-09 1922-09-17             SDAP
+#> 6      1918-07-03 1918-09-09 1922-09-17              VDB
+#> 7      1922-07-05 1922-09-18 1925-08-03              ARP
+#> 8      1922-07-05 1922-09-18 1925-08-03              CHU
+#> 9      1922-07-05 1922-09-18 1925-08-03              CPN
+#> 10     1922-07-05 1922-09-18 1925-08-03              RKP
+#> 11     1922-07-05 1922-09-18 1925-08-03             SDAP
+#> 12     1922-07-05 1922-09-18 1925-08-03              SGP
+#> 13     1922-07-05 1922-09-18 1925-08-03              VDB
+#> 14     1925-07-01 1925-08-04 1926-03-07              ARP
+#> 15     1925-07-01 1925-08-04 1926-03-07              CHU
+#> 16     1925-07-01 1925-08-04 1926-03-07              CPN
+#> 17     1925-07-01 1925-08-04 1926-03-07              RKP
+#> 18     1925-07-01 1925-08-04 1926-03-07             SDAP
+#> 19     1925-07-01 1925-08-04 1926-03-07              SGP
+#> 20     1925-07-01 1925-08-04 1926-03-07              VDB
+#> 21     1925-07-01 1926-03-08 1929-08-09              ARP
+#> 22     1925-07-01 1926-03-08 1929-08-09              CHU
+#> 23     1925-07-01 1926-03-08 1929-08-09              CPN
+#> 24     1925-07-01 1926-03-08 1929-08-09              RKP
+#> 25     1925-07-01 1926-03-08 1929-08-09             SDAP
+#> 26     1925-07-01 1926-03-08 1929-08-09              SGP
+#> 27     1925-07-01 1926-03-08 1929-08-09              VDB
+#> 28     1929-07-03 1929-08-10 1933-05-25              ARP
+#> 29     1929-07-03 1929-08-10 1933-05-25              CHU
+#> 30     1929-07-03 1929-08-10 1933-05-25              CPN
+#> 31     1929-07-03 1929-08-10 1933-05-25              RKP
+#> 32     1929-07-03 1929-08-10 1933-05-25             SDAP
+#> 33     1929-07-03 1929-08-10 1933-05-25              SGP
+#> 34     1929-07-03 1929-08-10 1933-05-25              VDB
+#> 35     1933-04-26 1933-05-26 1935-07-30              ARP
+#> 36     1933-04-26 1933-05-26 1935-07-30              CDU
+#> 37     1933-04-26 1933-05-26 1935-07-30              CHU
+#> 38     1933-04-26 1933-05-26 1935-07-30              CPN
+#> 39     1933-04-26 1933-05-26 1935-07-30              RKP
+#> 40     1933-04-26 1933-05-26 1935-07-30             SDAP
+#> 41     1933-04-26 1933-05-26 1935-07-30              SGP
+#> 42     1933-04-26 1933-05-26 1935-07-30              VDB
+#> 43     1933-04-26 1935-07-31 1937-06-23              ARP
+#> 44     1933-04-26 1935-07-31 1937-06-23              CDU
+#> 45     1933-04-26 1935-07-31 1937-06-23              CHU
+#> 46     1933-04-26 1935-07-31 1937-06-23              CPN
+#> 47     1933-04-26 1935-07-31 1937-06-23              RKP
+#> 48     1933-04-26 1935-07-31 1937-06-23             SDAP
+#> 49     1933-04-26 1935-07-31 1937-06-23              SGP
+#> 50     1933-04-26 1935-07-31 1937-06-23              VDB
+#> 51     1937-05-26 1937-06-24 1939-07-24              ARP
+#> 52     1937-05-26 1937-06-24 1939-07-24              CDU
+#> 53     1937-05-26 1937-06-24 1939-07-24              CHU
+#> 54     1937-05-26 1937-06-24 1939-07-24              CPN
+#> 55     1937-05-26 1937-06-24 1939-07-24              RKP
+#> 56     1937-05-26 1937-06-24 1939-07-24             SDAP
+#> 57     1937-05-26 1937-06-24 1939-07-24              SGP
+#> 58     1937-05-26 1937-06-24 1939-07-24              VDB
+#> 59     1937-05-26 1939-07-25 1939-08-09              ARP
+#> 60     1937-05-26 1939-07-25 1939-08-09              CDU
+#> 61     1937-05-26 1939-07-25 1939-08-09              CHU
+#> 62     1937-05-26 1939-07-25 1939-08-09              CPN
+#> 63     1937-05-26 1939-07-25 1939-08-09              RKP
+#> 64     1937-05-26 1939-07-25 1939-08-09             SDAP
+#> 65     1937-05-26 1939-07-25 1939-08-09              SGP
+#> 66     1937-05-26 1939-07-25 1939-08-09              VDB
+#> 67     1937-05-26 1939-08-10 1945-06-23              ARP
+#> 68     1937-05-26 1939-08-10 1945-06-23              CDU
+#> 69     1937-05-26 1939-08-10 1945-06-23              CHU
+#> 70     1937-05-26 1939-08-10 1945-06-23              CPN
+#> 71     1937-05-26 1939-08-10 1945-06-23              RKP
+#> 72     1937-05-26 1939-08-10 1945-06-23             SDAP
+#> 73     1937-05-26 1939-08-10 1945-06-23              SGP
+#> 74     1937-05-26 1939-08-10 1945-06-23              VDB
+#> 75     1937-05-26 1945-06-24 1946-07-02              ARP
+#> 76     1937-05-26 1945-06-24 1946-07-02              CDU
+#> 77     1937-05-26 1945-06-24 1946-07-02              CHU
+#> 78     1937-05-26 1945-06-24 1946-07-02              CPN
+#> 79     1937-05-26 1945-06-24 1946-07-02              KVP
+#> 80     1937-05-26 1945-06-24 1946-07-02              RKP
+#> 81     1937-05-26 1945-06-24 1946-07-02             SDAP
+#> 82     1937-05-26 1945-06-24 1946-07-02              SGP
+#> 83     1937-05-26 1945-06-24 1946-07-02              VDB
+#> 84     1946-05-17 1946-07-03 1948-08-06              ARP
+#> 85     1946-05-17 1946-07-03 1948-08-06              CHU
+#> 86     1946-05-17 1946-07-03 1948-08-06              CPN
+#> 87     1946-05-17 1946-07-03 1948-08-06              KVP
+#> 88     1946-05-17 1946-07-03 1948-08-06             PvdA
+#> 89     1946-05-17 1946-07-03 1948-08-06              SGP
+#> 90     1946-05-17 1946-07-03 1948-08-06              VVD
+#> 91     1948-07-07 1948-08-07 1951-03-14              ARP
+#> 92     1948-07-07 1948-08-07 1951-03-14              CHU
+#> 93     1948-07-07 1948-08-07 1951-03-14              CPN
+#> 94     1948-07-07 1948-08-07 1951-03-14              KNP
+#> 95     1948-07-07 1948-08-07 1951-03-14              KVP
+#> 96     1948-07-07 1948-08-07 1951-03-14             PvdA
+#> 97     1948-07-07 1948-08-07 1951-03-14              SGP
+#> 98     1948-07-07 1948-08-07 1951-03-14              VVD
+#> 99     1948-07-07 1951-03-15 1952-09-01              ARP
+#> 100    1948-07-07 1951-03-15 1952-09-01              CHU
+#> 101    1948-07-07 1951-03-15 1952-09-01              CPN
+#> 102    1948-07-07 1951-03-15 1952-09-01              KNP
+#> 103    1948-07-07 1951-03-15 1952-09-01              KVP
+#> 104    1948-07-07 1951-03-15 1952-09-01             PvdA
+#> 105    1948-07-07 1951-03-15 1952-09-01              SGP
+#> 106    1948-07-07 1951-03-15 1952-09-01              VVD
+#> 107    1952-06-25 1952-09-02 1956-10-11              ARP
+#> 108    1952-06-25 1952-09-02 1956-10-11              CHU
+#> 109    1952-06-25 1952-09-02 1956-10-11              CPN
+#> 110    1952-06-25 1952-09-02 1956-10-11              KNP
+#> 111    1952-06-25 1952-09-02 1956-10-11              KVP
+#> 112    1952-06-25 1952-09-02 1956-10-11             PvdA
+#> 113    1952-06-25 1952-09-02 1956-10-11              SGP
+#> 114    1952-06-25 1952-09-02 1956-10-11              VVD
+#> 115    1956-06-13 1956-10-12 1958-12-21              ARP
+#> 116    1956-06-13 1956-10-12 1958-12-21              CHU
+#> 117    1956-06-13 1956-10-12 1958-12-21              CPN
+#> 118    1956-06-13 1956-10-12 1958-12-21              KVP
+#> 119    1956-06-13 1956-10-12 1958-12-21             PvdA
+#> 120    1956-06-13 1956-10-12 1958-12-21              SGP
+#> 121    1956-06-13 1956-10-12 1958-12-21              VVD
+#> 122    1956-06-13 1958-12-22 1959-05-18              ARP
+#> 123    1956-06-13 1958-12-22 1959-05-18              CHU
+#> 124    1956-06-13 1958-12-22 1959-05-18              CPN
+#> 125    1956-06-13 1958-12-22 1959-05-18              KVP
+#> 126    1956-06-13 1958-12-22 1959-05-18             PvdA
+#> 127    1956-06-13 1958-12-22 1959-05-18              SGP
+#> 128    1956-06-13 1958-12-22 1959-05-18              VVD
+#> 129    1959-03-12 1959-05-19 1963-07-23              ARP
+#> 130    1959-03-12 1959-05-19 1963-07-23              CHU
+#> 131    1959-03-12 1959-05-19 1963-07-23              CPN
+#> 132    1959-03-12 1959-05-19 1963-07-23              KVP
+#> 133    1959-03-12 1959-05-19 1963-07-23              PSP
+#> 134    1959-03-12 1959-05-19 1963-07-23             PvdA
+#> 135    1959-03-12 1959-05-19 1963-07-23              SGP
+#> 136    1959-03-12 1959-05-19 1963-07-23              VVD
+#> 137    1963-05-15 1963-07-24 1965-04-13              ARP
+#> 138    1963-05-15 1963-07-24 1965-04-13               Bp
+#> 139    1963-05-15 1963-07-24 1965-04-13              CHU
+#> 140    1963-05-15 1963-07-24 1965-04-13              CPN
+#> 141    1963-05-15 1963-07-24 1965-04-13              GPV
+#> 142    1963-05-15 1963-07-24 1965-04-13              KVP
+#> 143    1963-05-15 1963-07-24 1965-04-13              PSP
+#> 144    1963-05-15 1963-07-24 1965-04-13             PvdA
+#> 145    1963-05-15 1963-07-24 1965-04-13              SGP
+#> 146    1963-05-15 1963-07-24 1965-04-13              VVD
+#> 147    1963-05-15 1965-04-14 1966-11-21              ARP
+#> 148    1963-05-15 1965-04-14 1966-11-21               Bp
+#> 149    1963-05-15 1965-04-14 1966-11-21              CHU
+#> 150    1963-05-15 1965-04-14 1966-11-21              CPN
+#> 151    1963-05-15 1965-04-14 1966-11-21              GPV
+#> 152    1963-05-15 1965-04-14 1966-11-21              KVP
+#> 153    1963-05-15 1965-04-14 1966-11-21              PSP
+#> 154    1963-05-15 1965-04-14 1966-11-21             PvdA
+#> 155    1963-05-15 1965-04-14 1966-11-21              SGP
+#> 156    1963-05-15 1965-04-14 1966-11-21              VVD
+#> 157    1963-05-15 1966-11-22 1967-04-04              ARP
+#> 158    1963-05-15 1966-11-22 1967-04-04               Bp
+#> 159    1963-05-15 1966-11-22 1967-04-04              CHU
+#> 160    1963-05-15 1966-11-22 1967-04-04              CPN
+#> 161    1963-05-15 1966-11-22 1967-04-04              GPV
+#> 162    1963-05-15 1966-11-22 1967-04-04              KVP
+#> 163    1963-05-15 1966-11-22 1967-04-04              PSP
+#> 164    1963-05-15 1966-11-22 1967-04-04             PvdA
+#> 165    1963-05-15 1966-11-22 1967-04-04              SGP
+#> 166    1963-05-15 1966-11-22 1967-04-04              VVD
+#> 167    1967-02-15 1967-04-05 1971-06-06              ARP
+#> 168    1967-02-15 1967-04-05 1971-06-06               Bp
+#> 169    1967-02-15 1967-04-05 1971-06-06              CHU
+#> 170    1967-02-15 1967-04-05 1971-06-06              CPN
+#> 171    1967-02-15 1967-04-05 1971-06-06              D66
+#> 172    1967-02-15 1967-04-05 1971-06-06              GPV
+#> 173    1967-02-15 1967-04-05 1971-06-06              KVP
+#> 174    1967-02-15 1967-04-05 1971-06-06              PSP
+#> 175    1967-02-15 1967-04-05 1971-06-06             PvdA
+#> 176    1967-02-15 1967-04-05 1971-06-06              SGP
+#> 177    1967-02-15 1967-04-05 1971-06-06              VVD
+#> 178    1971-04-28 1971-06-07 1972-08-08              ARP
+#> 179    1971-04-28 1971-06-07 1972-08-08               Bp
+#> 180    1971-04-28 1971-06-07 1972-08-08              CHU
+#> 181    1971-04-28 1971-06-07 1972-08-08              CPN
+#> 182    1971-04-28 1971-06-07 1972-08-08              D66
+#> 183    1971-04-28 1971-06-07 1972-08-08             DS70
+#> 184    1971-04-28 1971-06-07 1972-08-08              GPV
+#> 185    1971-04-28 1971-06-07 1972-08-08              KVP
+#> 186    1971-04-28 1971-06-07 1972-08-08               MP
+#> 187    1971-04-28 1971-06-07 1972-08-08              PPR
+#> 188    1971-04-28 1971-06-07 1972-08-08              PSP
+#> 189    1971-04-28 1971-06-07 1972-08-08             PvdA
+#> 190    1971-04-28 1971-06-07 1972-08-08              SGP
+#> 191    1971-04-28 1971-06-07 1972-08-08              VVD
+#> 192    1971-04-28 1972-08-09 1973-05-10              ARP
+#> 193    1971-04-28 1972-08-09 1973-05-10               Bp
+#> 194    1971-04-28 1972-08-09 1973-05-10              CHU
+#> 195    1971-04-28 1972-08-09 1973-05-10              CPN
+#> 196    1971-04-28 1972-08-09 1973-05-10              D66
+#> 197    1971-04-28 1972-08-09 1973-05-10             DS70
+#> 198    1971-04-28 1972-08-09 1973-05-10              GPV
+#> 199    1971-04-28 1972-08-09 1973-05-10              KVP
+#> 200    1971-04-28 1972-08-09 1973-05-10               MP
+#> 201    1971-04-28 1972-08-09 1973-05-10              PPR
+#> 202    1971-04-28 1972-08-09 1973-05-10              PSP
+#> 203    1971-04-28 1972-08-09 1973-05-10             PvdA
+#> 204    1971-04-28 1972-08-09 1973-05-10              SGP
+#> 205    1971-04-28 1972-08-09 1973-05-10              VVD
+#> 206    1972-11-29 1973-05-11 1977-05-24              ARP
+#> 207    1972-11-29 1973-05-11 1977-05-24               Bp
+#> 208    1972-11-29 1973-05-11 1977-05-24              CHU
+#> 209    1972-11-29 1973-05-11 1977-05-24              CPN
+#> 210    1972-11-29 1973-05-11 1977-05-24              D66
+#> 211    1972-11-29 1973-05-11 1977-05-24             DS70
+#> 212    1972-11-29 1973-05-11 1977-05-24              GPV
+#> 213    1972-11-29 1973-05-11 1977-05-24              KVP
+#> 214    1972-11-29 1973-05-11 1977-05-24              PPR
+#> 215    1972-11-29 1973-05-11 1977-05-24              PSP
+#> 216    1972-11-29 1973-05-11 1977-05-24             PvdA
+#> 217    1972-11-29 1973-05-11 1977-05-24              SGP
+#> 218    1972-11-29 1973-05-11 1977-05-24              VVD
+#> 219    1977-05-25 1977-05-25 1977-12-18               Bp
+#> 220    1977-05-25 1977-05-25 1977-12-18              CDA
+#> 221    1977-05-25 1977-05-25 1977-12-18              CPN
+#> 222    1977-05-25 1977-05-25 1977-12-18              D66
+#> 223    1977-05-25 1977-05-25 1977-12-18             DS70
+#> 224    1977-05-25 1977-05-25 1977-12-18              GPV
+#> 225    1977-05-25 1977-05-25 1977-12-18              PPR
+#> 226    1977-05-25 1977-05-25 1977-12-18              PSP
+#> 227    1977-05-25 1977-05-25 1977-12-18             PvdA
+#> 228    1977-05-25 1977-05-25 1977-12-18              SGP
+#> 229    1977-05-25 1977-05-25 1977-12-18              VVD
+#> 230    1977-05-25 1977-12-19 1981-09-10               Bp
+#> 231    1977-05-25 1977-12-19 1981-09-10              CDA
+#> 232    1977-05-25 1977-12-19 1981-09-10              CPN
+#> 233    1977-05-25 1977-12-19 1981-09-10              D66
+#> 234    1977-05-25 1977-12-19 1981-09-10             DS70
+#> 235    1977-05-25 1977-12-19 1981-09-10              GPV
+#> 236    1977-05-25 1977-12-19 1981-09-10              PPR
+#> 237    1977-05-25 1977-12-19 1981-09-10              PSP
+#> 238    1977-05-25 1977-12-19 1981-09-10             PvdA
+#> 239    1977-05-25 1977-12-19 1981-09-10              SGP
+#> 240    1977-05-25 1977-12-19 1981-09-10              VVD
+#> 241    1981-05-26 1981-09-11 1982-05-28              CDA
+#> 242    1981-05-26 1981-09-11 1982-05-28              CPN
+#> 243    1981-05-26 1981-09-11 1982-05-28              D66
+#> 244    1981-05-26 1981-09-11 1982-05-28              GPV
+#> 245    1981-05-26 1981-09-11 1982-05-28              PPR
+#> 246    1981-05-26 1981-09-11 1982-05-28              PSP
+#> 247    1981-05-26 1981-09-11 1982-05-28             PvdA
+#> 248    1981-05-26 1981-09-11 1982-05-28              RPF
+#> 249    1981-05-26 1981-09-11 1982-05-28              SGP
+#> 250    1981-05-26 1981-09-11 1982-05-28              VVD
+#> 251    1981-05-26 1982-05-29 1982-11-03              CDA
+#> 252    1981-05-26 1982-05-29 1982-11-03              CPN
+#> 253    1981-05-26 1982-05-29 1982-11-03              D66
+#> 254    1981-05-26 1982-05-29 1982-11-03              GPV
+#> 255    1981-05-26 1982-05-29 1982-11-03              PPR
+#> 256    1981-05-26 1982-05-29 1982-11-03              PSP
+#> 257    1981-05-26 1982-05-29 1982-11-03             PvdA
+#> 258    1981-05-26 1982-05-29 1982-11-03              RPF
+#> 259    1981-05-26 1982-05-29 1982-11-03              SGP
+#> 260    1981-05-26 1982-05-29 1982-11-03              VVD
+#> 261    1982-09-08 1982-11-04 1986-07-13              CDA
+#> 262    1982-09-08 1982-11-04 1986-07-13               CP
+#> 263    1982-09-08 1982-11-04 1986-07-13              CPN
+#> 264    1982-09-08 1982-11-04 1986-07-13              D66
+#> 265    1982-09-08 1982-11-04 1986-07-13              GPV
+#> 266    1982-09-08 1982-11-04 1986-07-13              PPR
+#> 267    1982-09-08 1982-11-04 1986-07-13              PSP
+#> 268    1982-09-08 1982-11-04 1986-07-13             PvdA
+#> 269    1982-09-08 1982-11-04 1986-07-13              RPF
+#> 270    1982-09-08 1982-11-04 1986-07-13              SGP
+#> 271    1982-09-08 1982-11-04 1986-07-13              VVD
+#> 272    1986-05-21 1986-07-14 1989-11-06              CDA
+#> 273    1986-05-21 1986-07-14 1989-11-06              D66
+#> 274    1986-05-21 1986-07-14 1989-11-06              GPV
+#> 275    1986-05-21 1986-07-14 1989-11-06              PPR
+#> 276    1986-05-21 1986-07-14 1989-11-06              PSP
+#> 277    1986-05-21 1986-07-14 1989-11-06             PvdA
+#> 278    1986-05-21 1986-07-14 1989-11-06              RPF
+#> 279    1986-05-21 1986-07-14 1989-11-06              SGP
+#> 280    1986-05-21 1986-07-14 1989-11-06              VVD
+#> 281    1989-09-06 1989-11-07 1994-08-21               CD
+#> 282    1989-09-06 1989-11-07 1994-08-21              CDA
+#> 283    1989-09-06 1989-11-07 1994-08-21              D66
+#> 284    1989-09-06 1989-11-07 1994-08-21               GL
+#> 285    1989-09-06 1989-11-07 1994-08-21              GPV
+#> 286    1989-09-06 1989-11-07 1994-08-21             PvdA
+#> 287    1989-09-06 1989-11-07 1994-08-21              RPF
+#> 288    1989-09-06 1989-11-07 1994-08-21              SGP
+#> 289    1989-09-06 1989-11-07 1994-08-21              VVD
+#> 290    1994-05-03 1994-08-22 1998-08-02          AOV|VSP
+#> 291    1994-05-03 1994-08-22 1998-08-02               CD
+#> 292    1994-05-03 1994-08-22 1998-08-02              CDA
+#> 293    1994-05-03 1994-08-22 1998-08-02              D66
+#> 294    1994-05-03 1994-08-22 1998-08-02               GL
+#> 295    1994-05-03 1994-08-22 1998-08-02              GPV
+#> 296    1994-05-03 1994-08-22 1998-08-02             PvdA
+#> 297    1994-05-03 1994-08-22 1998-08-02              RPF
+#> 298    1994-05-03 1994-08-22 1998-08-02              SGP
+#> 299    1994-05-03 1994-08-22 1998-08-02               SP
+#> 300    1994-05-03 1994-08-22 1998-08-02              VVD
+#> 301    1998-05-06 1998-08-03 2002-07-21              CDA
+#> 302    1998-05-06 1998-08-03 2002-07-21              D66
+#> 303    1998-05-06 1998-08-03 2002-07-21               GL
+#> 304    1998-05-06 1998-08-03 2002-07-21              GPV
+#> 305    1998-05-06 1998-08-03 2002-07-21             PvdA
+#> 306    1998-05-06 1998-08-03 2002-07-21              RPF
+#> 307    1998-05-06 1998-08-03 2002-07-21              SGP
+#> 308    1998-05-06 1998-08-03 2002-07-21               SP
+#> 309    1998-05-06 1998-08-03 2002-07-21              VVD
+#> 310    2002-05-15 2002-07-22 2002-10-15              CDA
+#> 311    2002-05-15 2002-07-22 2002-10-15               CU
+#> 312    2002-05-15 2002-07-22 2002-10-15              D66
+#> 313    2002-05-15 2002-07-22 2002-10-15               GL
+#> 314    2002-05-15 2002-07-22 2002-10-15               LN
+#> 315    2002-05-15 2002-07-22 2002-10-15              LPF
+#> 316    2002-05-15 2002-07-22 2002-10-15             PvdA
+#> 317    2002-05-15 2002-07-22 2002-10-15              SGP
+#> 318    2002-05-15 2002-07-22 2002-10-15               SP
+#> 319    2002-05-15 2002-07-22 2002-10-15              VVD
+#> 320    2002-05-15 2002-10-16 2003-05-26              CDA
+#> 321    2002-05-15 2002-10-16 2003-05-26               CU
+#> 322    2002-05-15 2002-10-16 2003-05-26              D66
+#> 323    2002-05-15 2002-10-16 2003-05-26               GL
+#> 324    2002-05-15 2002-10-16 2003-05-26               LN
+#> 325    2002-05-15 2002-10-16 2003-05-26              LPF
+#> 326    2002-05-15 2002-10-16 2003-05-26             PvdA
+#> 327    2002-05-15 2002-10-16 2003-05-26              SGP
+#> 328    2002-05-15 2002-10-16 2003-05-26               SP
+#> 329    2002-05-15 2002-10-16 2003-05-26              VVD
+#> 330    2003-01-22 2003-05-27 2006-07-06              CDA
+#> 331    2003-01-22 2003-05-27 2006-07-06               CU
+#> 332    2003-01-22 2003-05-27 2006-07-06              D66
+#> 333    2003-01-22 2003-05-27 2006-07-06               GL
+#> 334    2003-01-22 2003-05-27 2006-07-06              LPF
+#> 335    2003-01-22 2003-05-27 2006-07-06             PvdA
+#> 336    2003-01-22 2003-05-27 2006-07-06              SGP
+#> 337    2003-01-22 2003-05-27 2006-07-06               SP
+#> 338    2003-01-22 2003-05-27 2006-07-06              VVD
+#> 339    2003-01-22 2006-07-07 2007-02-21              CDA
+#> 340    2003-01-22 2006-07-07 2007-02-21               CU
+#> 341    2003-01-22 2006-07-07 2007-02-21              D66
+#> 342    2003-01-22 2006-07-07 2007-02-21               GL
+#> 343    2003-01-22 2006-07-07 2007-02-21              LPF
+#> 344    2003-01-22 2006-07-07 2007-02-21              PVV
+#> 345    2003-01-22 2006-07-07 2007-02-21             PvdA
+#> 346    2003-01-22 2006-07-07 2007-02-21              SGP
+#> 347    2003-01-22 2006-07-07 2007-02-21               SP
+#> 348    2003-01-22 2006-07-07 2007-02-21              VVD
+#> 349    2006-11-22 2007-02-22 2010-02-22              CDA
+#> 350    2006-11-22 2007-02-22 2010-02-22               CU
+#> 351    2006-11-22 2007-02-22 2010-02-22              D66
+#> 352    2006-11-22 2007-02-22 2010-02-22               GL
+#> 353    2006-11-22 2007-02-22 2010-02-22              PVV
+#> 354    2006-11-22 2007-02-22 2010-02-22             PvdA
+#> 355    2006-11-22 2007-02-22 2010-02-22             PvdD
+#> 356    2006-11-22 2007-02-22 2010-02-22              SGP
+#> 357    2006-11-22 2007-02-22 2010-02-22               SP
+#> 358    2006-11-22 2007-02-22 2010-02-22              VVD
+#> 359    2006-11-22 2010-02-23 2010-10-13              CDA
+#> 360    2006-11-22 2010-02-23 2010-10-13               CU
+#> 361    2006-11-22 2010-02-23 2010-10-13              D66
+#> 362    2006-11-22 2010-02-23 2010-10-13               GL
+#> 363    2006-11-22 2010-02-23 2010-10-13              PVV
+#> 364    2006-11-22 2010-02-23 2010-10-13             PvdA
+#> 365    2006-11-22 2010-02-23 2010-10-13             PvdD
+#> 366    2006-11-22 2010-02-23 2010-10-13              SGP
+#> 367    2006-11-22 2010-02-23 2010-10-13               SP
+#> 368    2006-11-22 2010-02-23 2010-10-13              VVD
+#> 369    2010-06-09 2010-10-14 2012-04-22              CDA
+#> 370    2010-06-09 2010-10-14 2012-04-22               CU
+#> 371    2010-06-09 2010-10-14 2012-04-22              D66
+#> 372    2010-06-09 2010-10-14 2012-04-22               GL
+#> 373    2010-06-09 2010-10-14 2012-04-22              PVV
+#> 374    2010-06-09 2010-10-14 2012-04-22             PvdA
+#> 375    2010-06-09 2010-10-14 2012-04-22             PvdD
+#> 376    2010-06-09 2010-10-14 2012-04-22              SGP
+#> 377    2010-06-09 2010-10-14 2012-04-22               SP
+#> 378    2010-06-09 2010-10-14 2012-04-22              VVD
+#> 379    2010-06-09 2012-04-23 2012-11-04              CDA
+#> 380    2010-06-09 2012-04-23 2012-11-04               CU
+#> 381    2010-06-09 2012-04-23 2012-11-04              D66
+#> 382    2010-06-09 2012-04-23 2012-11-04               GL
+#> 383    2010-06-09 2012-04-23 2012-11-04              PVV
+#> 384    2010-06-09 2012-04-23 2012-11-04             PvdA
+#> 385    2010-06-09 2012-04-23 2012-11-04             PvdD
+#> 386    2010-06-09 2012-04-23 2012-11-04              SGP
+#> 387    2010-06-09 2012-04-23 2012-11-04               SP
+#> 388    2010-06-09 2012-04-23 2012-11-04              VVD
+#> 389    2012-09-12 2012-11-05 2017-03-14              50+
+#> 390    2012-09-12 2012-11-05 2017-03-14              CDA
+#> 391    2012-09-12 2012-11-05 2017-03-14               CU
+#> 392    2012-09-12 2012-11-05 2017-03-14              D66
+#> 393    2012-09-12 2012-11-05 2017-03-14               GL
+#> 394    2012-09-12 2012-11-05 2017-03-14              PVV
+#> 395    2012-09-12 2012-11-05 2017-03-14             PvdA
+#> 396    2012-09-12 2012-11-05 2017-03-14             PvdD
+#> 397    2012-09-12 2012-11-05 2017-03-14              SGP
+#> 398    2012-09-12 2012-11-05 2017-03-14               SP
+#> 399    2012-09-12 2012-11-05 2017-03-14              VVD
+#> 400    2017-03-15 2017-03-15 2017-10-25              50+
+#> 401    2017-03-15 2017-03-15 2017-10-25              CDA
+#> 402    2017-03-15 2017-03-15 2017-10-25               CU
+#> 403    2017-03-15 2017-03-15 2017-10-25              D66
+#> 404    2017-03-15 2017-03-15 2017-10-25               GL
+#> 405    2017-03-15 2017-03-15 2017-10-25              PVV
+#> 406    2017-03-15 2017-03-15 2017-10-25             PvdA
+#> 407    2017-03-15 2017-03-15 2017-10-25             PvdD
+#> 408    2017-03-15 2017-03-15 2017-10-25              SGP
+#> 409    2017-03-15 2017-03-15 2017-10-25               SP
+#> 410    2017-03-15 2017-03-15 2017-10-25              VVD
+#> 411    2017-03-15 2017-10-26       <NA>              50+
+#> 412    2017-03-15 2017-10-26       <NA>              CDA
+#> 413    2017-03-15 2017-10-26       <NA>               CU
+#> 414    2017-03-15 2017-10-26       <NA>              D66
+#> 415    2017-03-15 2017-10-26       <NA>               GL
+#> 416    2017-03-15 2017-10-26       <NA>              PVV
+#> 417    2017-03-15 2017-10-26       <NA>             PvdA
+#> 418    2017-03-15 2017-10-26       <NA>             PvdD
+#> 419    2017-03-15 2017-10-26       <NA>              SGP
+#> 420    2017-03-15 2017-10-26       <NA>               SP
+#> 421    2017-03-15 2017-10-26       <NA>              VVD
+#>                                               party_name
+#> 1                             Anti-Revolutionaire Partij
+#> 2                           Christelijk-Historische Unie
+#> 3                        Communistische Partij Nederland
+#> 4                              Roomsch Katholieke Partij
+#> 5                 Sociaal Democratische Arbeiders Partij
+#> 6                          Vrijzinnig Democratische Bond
+#> 7                             Anti-Revolutionaire Partij
+#> 8                           Christelijk-Historische Unie
+#> 9                        Communistische Partij Nederland
+#> 10                             Roomsch Katholieke Partij
+#> 11                Sociaal Democratische Arbeiders Partij
+#> 12                      Staatkundig Gereformeerde Partij
+#> 13                         Vrijzinnig Democratische Bond
+#> 14                            Anti-Revolutionaire Partij
+#> 15                          Christelijk-Historische Unie
+#> 16                       Communistische Partij Nederland
+#> 17                             Roomsch Katholieke Partij
+#> 18                Sociaal Democratische Arbeiders Partij
+#> 19                      Staatkundig Gereformeerde Partij
+#> 20                         Vrijzinnig Democratische Bond
+#> 21                            Anti-Revolutionaire Partij
+#> 22                          Christelijk-Historische Unie
+#> 23                       Communistische Partij Nederland
+#> 24                             Roomsch Katholieke Partij
+#> 25                Sociaal Democratische Arbeiders Partij
+#> 26                      Staatkundig Gereformeerde Partij
+#> 27                         Vrijzinnig Democratische Bond
+#> 28                            Anti-Revolutionaire Partij
+#> 29                          Christelijk-Historische Unie
+#> 30                       Communistische Partij Nederland
+#> 31                             Roomsch Katholieke Partij
+#> 32                Sociaal Democratische Arbeiders Partij
+#> 33                      Staatkundig Gereformeerde Partij
+#> 34                         Vrijzinnig Democratische Bond
+#> 35                            Anti-Revolutionaire Partij
+#> 36                        Christelijk-Democratische Unie
+#> 37                          Christelijk-Historische Unie
+#> 38                       Communistische Partij Nederland
+#> 39                             Roomsch Katholieke Partij
+#> 40                Sociaal Democratische Arbeiders Partij
+#> 41                      Staatkundig Gereformeerde Partij
+#> 42                         Vrijzinnig Democratische Bond
+#> 43                            Anti-Revolutionaire Partij
+#> 44                        Christelijk-Democratische Unie
+#> 45                          Christelijk-Historische Unie
+#> 46                       Communistische Partij Nederland
+#> 47                             Roomsch Katholieke Partij
+#> 48                Sociaal Democratische Arbeiders Partij
+#> 49                      Staatkundig Gereformeerde Partij
+#> 50                         Vrijzinnig Democratische Bond
+#> 51                            Anti-Revolutionaire Partij
+#> 52                        Christelijk-Democratische Unie
+#> 53                          Christelijk-Historische Unie
+#> 54                       Communistische Partij Nederland
+#> 55                             Roomsch Katholieke Partij
+#> 56                Sociaal Democratische Arbeiders Partij
+#> 57                      Staatkundig Gereformeerde Partij
+#> 58                         Vrijzinnig Democratische Bond
+#> 59                            Anti-Revolutionaire Partij
+#> 60                        Christelijk-Democratische Unie
+#> 61                          Christelijk-Historische Unie
+#> 62                       Communistische Partij Nederland
+#> 63                             Roomsch Katholieke Partij
+#> 64                Sociaal Democratische Arbeiders Partij
+#> 65                      Staatkundig Gereformeerde Partij
+#> 66                         Vrijzinnig Democratische Bond
+#> 67                            Anti-Revolutionaire Partij
+#> 68                        Christelijk-Democratische Unie
+#> 69                          Christelijk-Historische Unie
+#> 70                       Communistische Partij Nederland
+#> 71                             Roomsch Katholieke Partij
+#> 72                Sociaal Democratische Arbeiders Partij
+#> 73                      Staatkundig Gereformeerde Partij
+#> 74                         Vrijzinnig Democratische Bond
+#> 75                            Anti-Revolutionaire Partij
+#> 76                        Christelijk-Democratische Unie
+#> 77                          Christelijk-Historische Unie
+#> 78                       Communistische Partij Nederland
+#> 79                                Katholieke Volkspartij
+#> 80                             Roomsch Katholieke Partij
+#> 81                Sociaal Democratische Arbeiders Partij
+#> 82                      Staatkundig Gereformeerde Partij
+#> 83                         Vrijzinnig Democratische Bond
+#> 84                            Anti-Revolutionaire Partij
+#> 85                          Christelijk-Historische Unie
+#> 86                       Communistische Partij Nederland
+#> 87                                Katholieke Volkspartij
+#> 88                                  Partij van de Arbeid
+#> 89                      Staatkundig Gereformeerde Partij
+#> 90               Volkspartij voor Vrijheid en Democratie
+#> 91                            Anti-Revolutionaire Partij
+#> 92                          Christelijk-Historische Unie
+#> 93                       Communistische Partij Nederland
+#> 94                           Katholieke Nationale Partij
+#> 95                                Katholieke Volkspartij
+#> 96                                  Partij van de Arbeid
+#> 97                      Staatkundig Gereformeerde Partij
+#> 98               Volkspartij voor Vrijheid en Democratie
+#> 99                            Anti-Revolutionaire Partij
+#> 100                         Christelijk-Historische Unie
+#> 101                      Communistische Partij Nederland
+#> 102                          Katholieke Nationale Partij
+#> 103                               Katholieke Volkspartij
+#> 104                                 Partij van de Arbeid
+#> 105                     Staatkundig Gereformeerde Partij
+#> 106              Volkspartij voor Vrijheid en Democratie
+#> 107                           Anti-Revolutionaire Partij
+#> 108                         Christelijk-Historische Unie
+#> 109                      Communistische Partij Nederland
+#> 110                          Katholieke Nationale Partij
+#> 111                               Katholieke Volkspartij
+#> 112                                 Partij van de Arbeid
+#> 113                     Staatkundig Gereformeerde Partij
+#> 114              Volkspartij voor Vrijheid en Democratie
+#> 115                           Anti-Revolutionaire Partij
+#> 116                         Christelijk-Historische Unie
+#> 117                      Communistische Partij Nederland
+#> 118                               Katholieke Volkspartij
+#> 119                                 Partij van de Arbeid
+#> 120                     Staatkundig Gereformeerde Partij
+#> 121              Volkspartij voor Vrijheid en Democratie
+#> 122                           Anti-Revolutionaire Partij
+#> 123                         Christelijk-Historische Unie
+#> 124                      Communistische Partij Nederland
+#> 125                               Katholieke Volkspartij
+#> 126                                 Partij van de Arbeid
+#> 127                     Staatkundig Gereformeerde Partij
+#> 128              Volkspartij voor Vrijheid en Democratie
+#> 129                           Anti-Revolutionaire Partij
+#> 130                         Christelijk-Historische Unie
+#> 131                      Communistische Partij Nederland
+#> 132                               Katholieke Volkspartij
+#> 133                   Pacifistisch Socialistische Partij
+#> 134                                 Partij van de Arbeid
+#> 135                     Staatkundig Gereformeerde Partij
+#> 136              Volkspartij voor Vrijheid en Democratie
+#> 137                           Anti-Revolutionaire Partij
+#> 138                                         Boerenpartij
+#> 139                         Christelijk-Historische Unie
+#> 140                      Communistische Partij Nederland
+#> 141                        Gereformeerd Politiek Verbond
+#> 142                               Katholieke Volkspartij
+#> 143                   Pacifistisch Socialistische Partij
+#> 144                                 Partij van de Arbeid
+#> 145                     Staatkundig Gereformeerde Partij
+#> 146              Volkspartij voor Vrijheid en Democratie
+#> 147                           Anti-Revolutionaire Partij
+#> 148                                         Boerenpartij
+#> 149                         Christelijk-Historische Unie
+#> 150                      Communistische Partij Nederland
+#> 151                        Gereformeerd Politiek Verbond
+#> 152                               Katholieke Volkspartij
+#> 153                   Pacifistisch Socialistische Partij
+#> 154                                 Partij van de Arbeid
+#> 155                     Staatkundig Gereformeerde Partij
+#> 156              Volkspartij voor Vrijheid en Democratie
+#> 157                           Anti-Revolutionaire Partij
+#> 158                                         Boerenpartij
+#> 159                         Christelijk-Historische Unie
+#> 160                      Communistische Partij Nederland
+#> 161                        Gereformeerd Politiek Verbond
+#> 162                               Katholieke Volkspartij
+#> 163                   Pacifistisch Socialistische Partij
+#> 164                                 Partij van de Arbeid
+#> 165                     Staatkundig Gereformeerde Partij
+#> 166              Volkspartij voor Vrijheid en Democratie
+#> 167                           Anti-Revolutionaire Partij
+#> 168                                         Boerenpartij
+#> 169                         Christelijk-Historische Unie
+#> 170                      Communistische Partij Nederland
+#> 171                                        Democraten 66
+#> 172                        Gereformeerd Politiek Verbond
+#> 173                               Katholieke Volkspartij
+#> 174                   Pacifistisch Socialistische Partij
+#> 175                                 Partij van de Arbeid
+#> 176                     Staatkundig Gereformeerde Partij
+#> 177              Volkspartij voor Vrijheid en Democratie
+#> 178                           Anti-Revolutionaire Partij
+#> 179                                         Boerenpartij
+#> 180                         Christelijk-Historische Unie
+#> 181                      Communistische Partij Nederland
+#> 182                                        Democraten 66
+#> 183                          Democratisch Socialisten 70
+#> 184                        Gereformeerd Politiek Verbond
+#> 185                               Katholieke Volkspartij
+#> 186                                        Midden Partij
+#> 187                           Politieke Partij Radikalen
+#> 188                   Pacifistisch Socialistische Partij
+#> 189                                 Partij van de Arbeid
+#> 190                     Staatkundig Gereformeerde Partij
+#> 191              Volkspartij voor Vrijheid en Democratie
+#> 192                           Anti-Revolutionaire Partij
+#> 193                                         Boerenpartij
+#> 194                         Christelijk-Historische Unie
+#> 195                      Communistische Partij Nederland
+#> 196                                        Democraten 66
+#> 197                          Democratisch Socialisten 70
+#> 198                        Gereformeerd Politiek Verbond
+#> 199                               Katholieke Volkspartij
+#> 200                                        Midden Partij
+#> 201                           Politieke Partij Radikalen
+#> 202                   Pacifistisch Socialistische Partij
+#> 203                                 Partij van de Arbeid
+#> 204                     Staatkundig Gereformeerde Partij
+#> 205              Volkspartij voor Vrijheid en Democratie
+#> 206                           Anti-Revolutionaire Partij
+#> 207                                         Boerenpartij
+#> 208                         Christelijk-Historische Unie
+#> 209                      Communistische Partij Nederland
+#> 210                                        Democraten 66
+#> 211                          Democratisch Socialisten 70
+#> 212                        Gereformeerd Politiek Verbond
+#> 213                               Katholieke Volkspartij
+#> 214                           Politieke Partij Radikalen
+#> 215                   Pacifistisch Socialistische Partij
+#> 216                                 Partij van de Arbeid
+#> 217                     Staatkundig Gereformeerde Partij
+#> 218              Volkspartij voor Vrijheid en Democratie
+#> 219                                         Boerenpartij
+#> 220                          Christen Democratisch Appel
+#> 221                      Communistische Partij Nederland
+#> 222                                        Democraten 66
+#> 223                          Democratisch Socialisten 70
+#> 224                        Gereformeerd Politiek Verbond
+#> 225                           Politieke Partij Radikalen
+#> 226                   Pacifistisch Socialistische Partij
+#> 227                                 Partij van de Arbeid
+#> 228                     Staatkundig Gereformeerde Partij
+#> 229              Volkspartij voor Vrijheid en Democratie
+#> 230                                         Boerenpartij
+#> 231                          Christen Democratisch Appel
+#> 232                      Communistische Partij Nederland
+#> 233                                        Democraten 66
+#> 234                          Democratisch Socialisten 70
+#> 235                        Gereformeerd Politiek Verbond
+#> 236                           Politieke Partij Radikalen
+#> 237                   Pacifistisch Socialistische Partij
+#> 238                                 Partij van de Arbeid
+#> 239                     Staatkundig Gereformeerde Partij
+#> 240              Volkspartij voor Vrijheid en Democratie
+#> 241                          Christen Democratisch Appel
+#> 242                      Communistische Partij Nederland
+#> 243                                        Democraten 66
+#> 244                        Gereformeerd Politiek Verbond
+#> 245                           Politieke Partij Radikalen
+#> 246                   Pacifistisch Socialistische Partij
+#> 247                                 Partij van de Arbeid
+#> 248                   Reformatorische Politieke Federati
+#> 249                     Staatkundig Gereformeerde Partij
+#> 250              Volkspartij voor Vrijheid en Democratie
+#> 251                          Christen Democratisch Appel
+#> 252                      Communistische Partij Nederland
+#> 253                                        Democraten 66
+#> 254                        Gereformeerd Politiek Verbond
+#> 255                           Politieke Partij Radikalen
+#> 256                   Pacifistisch Socialistische Partij
+#> 257                                 Partij van de Arbeid
+#> 258                   Reformatorische Politieke Federati
+#> 259                     Staatkundig Gereformeerde Partij
+#> 260              Volkspartij voor Vrijheid en Democratie
+#> 261                          Christen Democratisch Appel
+#> 262                                        Centrumpartij
+#> 263                      Communistische Partij Nederland
+#> 264                                        Democraten 66
+#> 265                        Gereformeerd Politiek Verbond
+#> 266                           Politieke Partij Radikalen
+#> 267                   Pacifistisch Socialistische Partij
+#> 268                                 Partij van de Arbeid
+#> 269                   Reformatorische Politieke Federati
+#> 270                     Staatkundig Gereformeerde Partij
+#> 271              Volkspartij voor Vrijheid en Democratie
+#> 272                          Christen Democratisch Appel
+#> 273                                        Democraten 66
+#> 274                        Gereformeerd Politiek Verbond
+#> 275                           Politieke Partij Radikalen
+#> 276                   Pacifistisch Socialistische Partij
+#> 277                                 Partij van de Arbeid
+#> 278                   Reformatorische Politieke Federati
+#> 279                     Staatkundig Gereformeerde Partij
+#> 280              Volkspartij voor Vrijheid en Democratie
+#> 281                                   Centrum Democraten
+#> 282                          Christen Democratisch Appel
+#> 283                                        Democraten 66
+#> 284                                           GroenLinks
+#> 285                        Gereformeerd Politiek Verbond
+#> 286                                 Partij van de Arbeid
+#> 287                   Reformatorische Politieke Federati
+#> 288                     Staatkundig Gereformeerde Partij
+#> 289              Volkspartij voor Vrijheid en Democratie
+#> 290 Algemeen Ouderen Verbond | Verenigde Senioren Partij
+#> 291                                   Centrum Democraten
+#> 292                          Christen Democratisch Appel
+#> 293                                        Democraten 66
+#> 294                                           GroenLinks
+#> 295                        Gereformeerd Politiek Verbond
+#> 296                                 Partij van de Arbeid
+#> 297                   Reformatorische Politieke Federati
+#> 298                     Staatkundig Gereformeerde Partij
+#> 299                                 Socialistiese Partij
+#> 300              Volkspartij voor Vrijheid en Democratie
+#> 301                          Christen Democratisch Appel
+#> 302                                        Democraten 66
+#> 303                                           GroenLinks
+#> 304                        Gereformeerd Politiek Verbond
+#> 305                                 Partij van de Arbeid
+#> 306                   Reformatorische Politieke Federati
+#> 307                     Staatkundig Gereformeerde Partij
+#> 308                                 Socialistiese Partij
+#> 309              Volkspartij voor Vrijheid en Democratie
+#> 310                          Christen Democratisch Appel
+#> 311                                         ChristenUnie
+#> 312                                        Democraten 66
+#> 313                                           GroenLinks
+#> 314                                   Leefbaar Nederland
+#> 315                                    Lijst Pim Fortuyn
+#> 316                                 Partij van de Arbeid
+#> 317                     Staatkundig Gereformeerde Partij
+#> 318                                 Socialistiese Partij
+#> 319              Volkspartij voor Vrijheid en Democratie
+#> 320                          Christen Democratisch Appel
+#> 321                                         ChristenUnie
+#> 322                                        Democraten 66
+#> 323                                           GroenLinks
+#> 324                                   Leefbaar Nederland
+#> 325                                    Lijst Pim Fortuyn
+#> 326                                 Partij van de Arbeid
+#> 327                     Staatkundig Gereformeerde Partij
+#> 328                                 Socialistiese Partij
+#> 329              Volkspartij voor Vrijheid en Democratie
+#> 330                          Christen Democratisch Appel
+#> 331                                         ChristenUnie
+#> 332                                        Democraten 66
+#> 333                                           GroenLinks
+#> 334                                    Lijst Pim Fortuyn
+#> 335                                 Partij van de Arbeid
+#> 336                     Staatkundig Gereformeerde Partij
+#> 337                                 Socialistiese Partij
+#> 338              Volkspartij voor Vrijheid en Democratie
+#> 339                          Christen Democratisch Appel
+#> 340                                         ChristenUnie
+#> 341                                        Democraten 66
+#> 342                                           GroenLinks
+#> 343                                    Lijst Pim Fortuyn
+#> 344                              Partij voor de Vrijheid
+#> 345                                 Partij van de Arbeid
+#> 346                     Staatkundig Gereformeerde Partij
+#> 347                                 Socialistiese Partij
+#> 348              Volkspartij voor Vrijheid en Democratie
+#> 349                          Christen Democratisch Appel
+#> 350                                         ChristenUnie
+#> 351                                        Democraten 66
+#> 352                                           GroenLinks
+#> 353                              Partij voor de Vrijheid
+#> 354                                 Partij van de Arbeid
+#> 355                                Partij voor de Dieren
+#> 356                     Staatkundig Gereformeerde Partij
+#> 357                                 Socialistiese Partij
+#> 358              Volkspartij voor Vrijheid en Democratie
+#> 359                          Christen Democratisch Appel
+#> 360                                         ChristenUnie
+#> 361                                        Democraten 66
+#> 362                                           GroenLinks
+#> 363                              Partij voor de Vrijheid
+#> 364                                 Partij van de Arbeid
+#> 365                                Partij voor de Dieren
+#> 366                     Staatkundig Gereformeerde Partij
+#> 367                                 Socialistiese Partij
+#> 368              Volkspartij voor Vrijheid en Democratie
+#> 369                          Christen Democratisch Appel
+#> 370                                         ChristenUnie
+#> 371                                        Democraten 66
+#> 372                                           GroenLinks
+#> 373                              Partij voor de Vrijheid
+#> 374                                 Partij van de Arbeid
+#> 375                                Partij voor de Dieren
+#> 376                     Staatkundig Gereformeerde Partij
+#> 377                                 Socialistiese Partij
+#> 378              Volkspartij voor Vrijheid en Democratie
+#> 379                          Christen Democratisch Appel
+#> 380                                         ChristenUnie
+#> 381                                        Democraten 66
+#> 382                                           GroenLinks
+#> 383                              Partij voor de Vrijheid
+#> 384                                 Partij van de Arbeid
+#> 385                                Partij voor de Dieren
+#> 386                     Staatkundig Gereformeerde Partij
+#> 387                                 Socialistiese Partij
+#> 388              Volkspartij voor Vrijheid en Democratie
+#> 389                                               50PLUS
+#> 390                          Christen Democratisch Appel
+#> 391                                         ChristenUnie
+#> 392                                        Democraten 66
+#> 393                                           GroenLinks
+#> 394                              Partij voor de Vrijheid
+#> 395                                 Partij van de Arbeid
+#> 396                                Partij voor de Dieren
+#> 397                     Staatkundig Gereformeerde Partij
+#> 398                                 Socialistiese Partij
+#> 399              Volkspartij voor Vrijheid en Democratie
+#> 400                                               50PLUS
+#> 401                          Christen Democratisch Appel
+#> 402                                         ChristenUnie
+#> 403                                        Democraten 66
+#> 404                                           GroenLinks
+#> 405                              Partij voor de Vrijheid
+#> 406                                 Partij van de Arbeid
+#> 407                                Partij voor de Dieren
+#> 408                     Staatkundig Gereformeerde Partij
+#> 409                                 Socialistiese Partij
+#> 410              Volkspartij voor Vrijheid en Democratie
+#> 411                                               50PLUS
+#> 412                          Christen Democratisch Appel
+#> 413                                         ChristenUnie
+#> 414                                        Democraten 66
+#> 415                                           GroenLinks
+#> 416                              Partij voor de Vrijheid
+#> 417                                 Partij van de Arbeid
+#> 418                                Partij voor de Dieren
+#> 419                     Staatkundig Gereformeerde Partij
+#> 420                                 Socialistiese Partij
+#> 421              Volkspartij voor Vrijheid en Democratie
+#>                              party_name_english parlgov_party_id
+#> 1                      Anti-Revolutionary Party              300
+#> 2                    Christian Historical Union              405
+#> 3            Communist Party of the Netherlands             1194
+#> 4                          Roman Catholic Party             2539
+#> 5              Social Democratic Workers' Party             1451
+#> 6               Free-thinking Democratic League              944
+#> 7                      Anti-Revolutionary Party              300
+#> 8                    Christian Historical Union              405
+#> 9            Communist Party of the Netherlands             1194
+#> 10                         Roman Catholic Party             2539
+#> 11             Social Democratic Workers' Party             1451
+#> 12                     Political Reformed Party             1251
+#> 13              Free-thinking Democratic League              944
+#> 14                     Anti-Revolutionary Party              300
+#> 15                   Christian Historical Union              405
+#> 16           Communist Party of the Netherlands             1194
+#> 17                         Roman Catholic Party             2539
+#> 18             Social Democratic Workers' Party             1451
+#> 19                     Political Reformed Party             1251
+#> 20              Free-thinking Democratic League              944
+#> 21                     Anti-Revolutionary Party              300
+#> 22                   Christian Historical Union              405
+#> 23           Communist Party of the Netherlands             1194
+#> 24                         Roman Catholic Party             2539
+#> 25             Social Democratic Workers' Party             1451
+#> 26                     Political Reformed Party             1251
+#> 27              Free-thinking Democratic League              944
+#> 28                     Anti-Revolutionary Party              300
+#> 29                   Christian Historical Union              405
+#> 30           Communist Party of the Netherlands             1194
+#> 31                         Roman Catholic Party             2539
+#> 32             Social Democratic Workers' Party             1451
+#> 33                     Political Reformed Party             1251
+#> 34              Free-thinking Democratic League              944
+#> 35                     Anti-Revolutionary Party              300
+#> 36                   Christian Democratic Union             2542
+#> 37                   Christian Historical Union              405
+#> 38           Communist Party of the Netherlands             1194
+#> 39                         Roman Catholic Party             2539
+#> 40             Social Democratic Workers' Party             1451
+#> 41                     Political Reformed Party             1251
+#> 42              Free-thinking Democratic League              944
+#> 43                     Anti-Revolutionary Party              300
+#> 44                   Christian Democratic Union             2542
+#> 45                   Christian Historical Union              405
+#> 46           Communist Party of the Netherlands             1194
+#> 47                         Roman Catholic Party             2539
+#> 48             Social Democratic Workers' Party             1451
+#> 49                     Political Reformed Party             1251
+#> 50              Free-thinking Democratic League              944
+#> 51                     Anti-Revolutionary Party              300
+#> 52                   Christian Democratic Union             2542
+#> 53                   Christian Historical Union              405
+#> 54           Communist Party of the Netherlands             1194
+#> 55                         Roman Catholic Party             2539
+#> 56             Social Democratic Workers' Party             1451
+#> 57                     Political Reformed Party             1251
+#> 58              Free-thinking Democratic League              944
+#> 59                     Anti-Revolutionary Party              300
+#> 60                   Christian Democratic Union             2542
+#> 61                   Christian Historical Union              405
+#> 62           Communist Party of the Netherlands             1194
+#> 63                         Roman Catholic Party             2539
+#> 64             Social Democratic Workers' Party             1451
+#> 65                     Political Reformed Party             1251
+#> 66              Free-thinking Democratic League              944
+#> 67                     Anti-Revolutionary Party              300
+#> 68                   Christian Democratic Union             2542
+#> 69                   Christian Historical Union              405
+#> 70           Communist Party of the Netherlands             1194
+#> 71                         Roman Catholic Party             2539
+#> 72             Social Democratic Workers' Party             1451
+#> 73                     Political Reformed Party             1251
+#> 74              Free-thinking Democratic League              944
+#> 75                     Anti-Revolutionary Party              300
+#> 76                   Christian Democratic Union             2542
+#> 77                   Christian Historical Union              405
+#> 78           Communist Party of the Netherlands             1194
+#> 79                       Catholic Peoples Party              451
+#> 80                         Roman Catholic Party             2539
+#> 81             Social Democratic Workers' Party             1451
+#> 82                     Political Reformed Party             1251
+#> 83              Free-thinking Democratic League              944
+#> 84                     Anti-Revolutionary Party              300
+#> 85                   Christian Historical Union              405
+#> 86           Communist Party of the Netherlands             1194
+#> 87                       Catholic Peoples Party              451
+#> 88                                 Labour Party              742
+#> 89                     Political Reformed Party             1251
+#> 90     People's Party for Freedom and Democracy             1409
+#> 91                     Anti-Revolutionary Party              300
+#> 92                   Christian Historical Union              405
+#> 93           Communist Party of the Netherlands             1194
+#> 94                      Catholic National Party                3
+#> 95                       Catholic Peoples Party              451
+#> 96                                 Labour Party              742
+#> 97                     Political Reformed Party             1251
+#> 98     People's Party for Freedom and Democracy             1409
+#> 99                     Anti-Revolutionary Party              300
+#> 100                  Christian Historical Union              405
+#> 101          Communist Party of the Netherlands             1194
+#> 102                     Catholic National Party                3
+#> 103                      Catholic Peoples Party              451
+#> 104                                Labour Party              742
+#> 105                    Political Reformed Party             1251
+#> 106    People's Party for Freedom and Democracy             1409
+#> 107                    Anti-Revolutionary Party              300
+#> 108                  Christian Historical Union              405
+#> 109          Communist Party of the Netherlands             1194
+#> 110                     Catholic National Party                3
+#> 111                      Catholic Peoples Party              451
+#> 112                                Labour Party              742
+#> 113                    Political Reformed Party             1251
+#> 114    People's Party for Freedom and Democracy             1409
+#> 115                    Anti-Revolutionary Party              300
+#> 116                  Christian Historical Union              405
+#> 117          Communist Party of the Netherlands             1194
+#> 118                      Catholic Peoples Party              451
+#> 119                                Labour Party              742
+#> 120                    Political Reformed Party             1251
+#> 121    People's Party for Freedom and Democracy             1409
+#> 122                    Anti-Revolutionary Party              300
+#> 123                  Christian Historical Union              405
+#> 124          Communist Party of the Netherlands             1194
+#> 125                      Catholic Peoples Party              451
+#> 126                                Labour Party              742
+#> 127                    Political Reformed Party             1251
+#> 128    People's Party for Freedom and Democracy             1409
+#> 129                    Anti-Revolutionary Party              300
+#> 130                  Christian Historical Union              405
+#> 131          Communist Party of the Netherlands             1194
+#> 132                      Catholic Peoples Party              451
+#> 133                    Pacifist Socialist Party             1452
+#> 134                                Labour Party              742
+#> 135                    Political Reformed Party             1251
+#> 136    People's Party for Freedom and Democracy             1409
+#> 137                    Anti-Revolutionary Party              300
+#> 138                               Farmers Party             1595
+#> 139                  Christian Historical Union              405
+#> 140          Communist Party of the Netherlands             1194
+#> 141                   Reformed Political League              625
+#> 142                      Catholic Peoples Party              451
+#> 143                    Pacifist Socialist Party             1452
+#> 144                                Labour Party              742
+#> 145                    Political Reformed Party             1251
+#> 146    People's Party for Freedom and Democracy             1409
+#> 147                    Anti-Revolutionary Party              300
+#> 148                               Farmers Party             1595
+#> 149                  Christian Historical Union              405
+#> 150          Communist Party of the Netherlands             1194
+#> 151                   Reformed Political League              625
+#> 152                      Catholic Peoples Party              451
+#> 153                    Pacifist Socialist Party             1452
+#> 154                                Labour Party              742
+#> 155                    Political Reformed Party             1251
+#> 156    People's Party for Freedom and Democracy             1409
+#> 157                    Anti-Revolutionary Party              300
+#> 158                               Farmers Party             1595
+#> 159                  Christian Historical Union              405
+#> 160          Communist Party of the Netherlands             1194
+#> 161                   Reformed Political League              625
+#> 162                      Catholic Peoples Party              451
+#> 163                    Pacifist Socialist Party             1452
+#> 164                                Labour Party              742
+#> 165                    Political Reformed Party             1251
+#> 166    People's Party for Freedom and Democracy             1409
+#> 167                    Anti-Revolutionary Party              300
+#> 168                               Farmers Party             1595
+#> 169                  Christian Historical Union              405
+#> 170          Communist Party of the Netherlands             1194
+#> 171                                Democrats 66              345
+#> 172                   Reformed Political League              625
+#> 173                      Catholic Peoples Party              451
+#> 174                    Pacifist Socialist Party             1452
+#> 175                                Labour Party              742
+#> 176                    Political Reformed Party             1251
+#> 177    People's Party for Freedom and Democracy             1409
+#> 178                    Anti-Revolutionary Party              300
+#> 179                               Farmers Party             1595
+#> 180                  Christian Historical Union              405
+#> 181          Communist Party of the Netherlands             1194
+#> 182                                Democrats 66              345
+#> 183                    Democratic Socialists 70              402
+#> 184                   Reformed Political League              625
+#> 185                      Catholic Peoples Party              451
+#> 186                                Middle Party               87
+#> 187                     Radical Political Party              342
+#> 188                    Pacifist Socialist Party             1452
+#> 189                                Labour Party              742
+#> 190                    Political Reformed Party             1251
+#> 191    People's Party for Freedom and Democracy             1409
+#> 192                    Anti-Revolutionary Party              300
+#> 193                               Farmers Party             1595
+#> 194                  Christian Historical Union              405
+#> 195          Communist Party of the Netherlands             1194
+#> 196                                Democrats 66              345
+#> 197                    Democratic Socialists 70              402
+#> 198                   Reformed Political League              625
+#> 199                      Catholic Peoples Party              451
+#> 200                                Middle Party               87
+#> 201                     Radical Political Party              342
+#> 202                    Pacifist Socialist Party             1452
+#> 203                                Labour Party              742
+#> 204                    Political Reformed Party             1251
+#> 205    People's Party for Freedom and Democracy             1409
+#> 206                    Anti-Revolutionary Party              300
+#> 207                               Farmers Party             1595
+#> 208                  Christian Historical Union              405
+#> 209          Communist Party of the Netherlands             1194
+#> 210                                Democrats 66              345
+#> 211                    Democratic Socialists 70              402
+#> 212                   Reformed Political League              625
+#> 213                      Catholic Peoples Party              451
+#> 214                     Radical Political Party              342
+#> 215                    Pacifist Socialist Party             1452
+#> 216                                Labour Party              742
+#> 217                    Political Reformed Party             1251
+#> 218    People's Party for Freedom and Democracy             1409
+#> 219                               Farmers Party             1595
+#> 220                 Christian Democratic Appeal              235
+#> 221          Communist Party of the Netherlands             1194
+#> 222                                Democrats 66              345
+#> 223                    Democratic Socialists 70              402
+#> 224                   Reformed Political League              625
+#> 225                     Radical Political Party              342
+#> 226                    Pacifist Socialist Party             1452
+#> 227                                Labour Party              742
+#> 228                    Political Reformed Party             1251
+#> 229    People's Party for Freedom and Democracy             1409
+#> 230                               Farmers Party             1595
+#> 231                 Christian Democratic Appeal              235
+#> 232          Communist Party of the Netherlands             1194
+#> 233                                Democrats 66              345
+#> 234                    Democratic Socialists 70              402
+#> 235                   Reformed Political League              625
+#> 236                     Radical Political Party              342
+#> 237                    Pacifist Socialist Party             1452
+#> 238                                Labour Party              742
+#> 239                    Political Reformed Party             1251
+#> 240    People's Party for Freedom and Democracy             1409
+#> 241                 Christian Democratic Appeal              235
+#> 242          Communist Party of the Netherlands             1194
+#> 243                                Democrats 66              345
+#> 244                   Reformed Political League              625
+#> 245                     Radical Political Party              342
+#> 246                    Pacifist Socialist Party             1452
+#> 247                                Labour Party              742
+#> 248            Reformatory Political Federation              212
+#> 249                    Political Reformed Party             1251
+#> 250    People's Party for Freedom and Democracy             1409
+#> 251                 Christian Democratic Appeal              235
+#> 252          Communist Party of the Netherlands             1194
+#> 253                                Democrats 66              345
+#> 254                   Reformed Political League              625
+#> 255                     Radical Political Party              342
+#> 256                    Pacifist Socialist Party             1452
+#> 257                                Labour Party              742
+#> 258            Reformatory Political Federation              212
+#> 259                    Political Reformed Party             1251
+#> 260    People's Party for Freedom and Democracy             1409
+#> 261                 Christian Democratic Appeal              235
+#> 262                                Centre Party              275
+#> 263          Communist Party of the Netherlands             1194
+#> 264                                Democrats 66              345
+#> 265                   Reformed Political League              625
+#> 266                     Radical Political Party              342
+#> 267                    Pacifist Socialist Party             1452
+#> 268                                Labour Party              742
+#> 269            Reformatory Political Federation              212
+#> 270                    Political Reformed Party             1251
+#> 271    People's Party for Freedom and Democracy             1409
+#> 272                 Christian Democratic Appeal              235
+#> 273                                Democrats 66              345
+#> 274                   Reformed Political League              625
+#> 275                     Radical Political Party              342
+#> 276                    Pacifist Socialist Party             1452
+#> 277                                Labour Party              742
+#> 278            Reformatory Political Federation              212
+#> 279                    Political Reformed Party             1251
+#> 280    People's Party for Freedom and Democracy             1409
+#> 281                            Centre Democrats              209
+#> 282                 Christian Democratic Appeal              235
+#> 283                                Democrats 66              345
+#> 284                                   GreenLeft              756
+#> 285                   Reformed Political League              625
+#> 286                                Labour Party              742
+#> 287            Reformatory Political Federation              212
+#> 288                    Political Reformed Party             1251
+#> 289    People's Party for Freedom and Democracy             1409
+#> 290 General Senior Union | United Seniors Party              112
+#> 291                            Centre Democrats              209
+#> 292                 Christian Democratic Appeal              235
+#> 293                                Democrats 66              345
+#> 294                                   GreenLeft              756
+#> 295                   Reformed Political League              625
+#> 296                                Labour Party              742
+#> 297            Reformatory Political Federation              212
+#> 298                    Political Reformed Party             1251
+#> 299                             Socialist Party              357
+#> 300    People's Party for Freedom and Democracy             1409
+#> 301                 Christian Democratic Appeal              235
+#> 302                                Democrats 66              345
+#> 303                                   GreenLeft              756
+#> 304                   Reformed Political League              625
+#> 305                                Labour Party              742
+#> 306            Reformatory Political Federation              212
+#> 307                    Political Reformed Party             1251
+#> 308                             Socialist Party              357
+#> 309    People's Party for Freedom and Democracy             1409
+#> 310                 Christian Democratic Appeal              235
+#> 311                              ChristianUnion             1206
+#> 312                                Democrats 66              345
+#> 313                                   GreenLeft              756
+#> 314                         Livable Netherlands              744
+#> 315                                Fortuyn List              456
+#> 316                                Labour Party              742
+#> 317                    Political Reformed Party             1251
+#> 318                             Socialist Party              357
+#> 319    People's Party for Freedom and Democracy             1409
+#> 320                 Christian Democratic Appeal              235
+#> 321                              ChristianUnion             1206
+#> 322                                Democrats 66              345
+#> 323                                   GreenLeft              756
+#> 324                         Livable Netherlands              744
+#> 325                                Fortuyn List              456
+#> 326                                Labour Party              742
+#> 327                    Political Reformed Party             1251
+#> 328                             Socialist Party              357
+#> 329    People's Party for Freedom and Democracy             1409
+#> 330                 Christian Democratic Appeal              235
+#> 331                              ChristianUnion             1206
+#> 332                                Democrats 66              345
+#> 333                                   GreenLeft              756
+#> 334                                Fortuyn List              456
+#> 335                                Labour Party              742
+#> 336                    Political Reformed Party             1251
+#> 337                             Socialist Party              357
+#> 338    People's Party for Freedom and Democracy             1409
+#> 339                 Christian Democratic Appeal              235
+#> 340                              ChristianUnion             1206
+#> 341                                Democrats 66              345
+#> 342                                   GreenLeft              756
+#> 343                                Fortuyn List              456
+#> 344                           Party for Freedom             1501
+#> 345                                Labour Party              742
+#> 346                    Political Reformed Party             1251
+#> 347                             Socialist Party              357
+#> 348    People's Party for Freedom and Democracy             1409
+#> 349                 Christian Democratic Appeal              235
+#> 350                              ChristianUnion             1206
+#> 351                                Democrats 66              345
+#> 352                                   GreenLeft              756
+#> 353                           Party for Freedom             1501
+#> 354                                Labour Party              742
+#> 355                       Party for the Animals              990
+#> 356                    Political Reformed Party             1251
+#> 357                             Socialist Party              357
+#> 358    People's Party for Freedom and Democracy             1409
+#> 359                 Christian Democratic Appeal              235
+#> 360                              ChristianUnion             1206
+#> 361                                Democrats 66              345
+#> 362                                   GreenLeft              756
+#> 363                           Party for Freedom             1501
+#> 364                                Labour Party              742
+#> 365                       Party for the Animals              990
+#> 366                    Political Reformed Party             1251
+#> 367                             Socialist Party              357
+#> 368    People's Party for Freedom and Democracy             1409
+#> 369                 Christian Democratic Appeal              235
+#> 370                              ChristianUnion             1206
+#> 371                                Democrats 66              345
+#> 372                                   GreenLeft              756
+#> 373                           Party for Freedom             1501
+#> 374                                Labour Party              742
+#> 375                       Party for the Animals              990
+#> 376                    Political Reformed Party             1251
+#> 377                             Socialist Party              357
+#> 378    People's Party for Freedom and Democracy             1409
+#> 379                 Christian Democratic Appeal              235
+#> 380                              ChristianUnion             1206
+#> 381                                Democrats 66              345
+#> 382                                   GreenLeft              756
+#> 383                           Party for Freedom             1501
+#> 384                                Labour Party              742
+#> 385                       Party for the Animals              990
+#> 386                    Political Reformed Party             1251
+#> 387                             Socialist Party              357
+#> 388    People's Party for Freedom and Democracy             1409
+#> 389                                      50PLUS             2109
+#> 390                 Christian Democratic Appeal              235
+#> 391                              ChristianUnion             1206
+#> 392                                Democrats 66              345
+#> 393                                   GreenLeft              756
+#> 394                           Party for Freedom             1501
+#> 395                                Labour Party              742
+#> 396                       Party for the Animals              990
+#> 397                    Political Reformed Party             1251
+#> 398                             Socialist Party              357
+#> 399    People's Party for Freedom and Democracy             1409
+#> 400                                      50PLUS             2109
+#> 401                 Christian Democratic Appeal              235
+#> 402                              ChristianUnion             1206
+#> 403                                Democrats 66              345
+#> 404                                   GreenLeft              756
+#> 405                           Party for Freedom             1501
+#> 406                                Labour Party              742
+#> 407                       Party for the Animals              990
+#> 408                    Political Reformed Party             1251
+#> 409                             Socialist Party              357
+#> 410    People's Party for Freedom and Democracy             1409
+#> 411                                      50PLUS             2109
+#> 412                 Christian Democratic Appeal              235
+#> 413                              ChristianUnion             1206
+#> 414                                Democrats 66              345
+#> 415                                   GreenLeft              756
+#> 416                           Party for Freedom             1501
+#> 417                                Labour Party              742
+#> 418                       Party for the Animals              990
+#> 419                    Political Reformed Party             1251
+#> 420                             Socialist Party              357
+#> 421    People's Party for Freedom and Democracy             1409
+#>     family_name_short         family_name family_id left_right state_market
+#> 1                 chr Christian democracy         3     5.8067       5.6933
+#> 2                 chr Christian democracy         3     5.8067       5.6933
+#> 3                 com Communist/Socialist        14     0.8000       1.4000
+#> 4                 chr Christian democracy         3     6.2000       5.7000
+#> 5                 soc    Social democracy        11     3.3000       3.5000
+#> 6                 lib             Liberal         6     6.0000       6.7000
+#> 7                 chr Christian democracy         3     5.8067       5.6933
+#> 8                 chr Christian democracy         3     5.8067       5.6933
+#> 9                 com Communist/Socialist        14     0.8000       1.4000
+#> 10                chr Christian democracy         3     6.2000       5.7000
+#> 11                soc    Social democracy        11     3.3000       3.5000
+#> 12                con        Conservative        26     8.7531       6.3487
+#> 13                lib             Liberal         6     6.0000       6.7000
+#> 14                chr Christian democracy         3     5.8067       5.6933
+#> 15                chr Christian democracy         3     5.8067       5.6933
+#> 16                com Communist/Socialist        14     0.8000       1.4000
+#> 17                chr Christian democracy         3     6.2000       5.7000
+#> 18                soc    Social democracy        11     3.3000       3.5000
+#> 19                con        Conservative        26     8.7531       6.3487
+#> 20                lib             Liberal         6     6.0000       6.7000
+#> 21                chr Christian democracy         3     5.8067       5.6933
+#> 22                chr Christian democracy         3     5.8067       5.6933
+#> 23                com Communist/Socialist        14     0.8000       1.4000
+#> 24                chr Christian democracy         3     6.2000       5.7000
+#> 25                soc    Social democracy        11     3.3000       3.5000
+#> 26                con        Conservative        26     8.7531       6.3487
+#> 27                lib             Liberal         6     6.0000       6.7000
+#> 28                chr Christian democracy         3     5.8067       5.6933
+#> 29                chr Christian democracy         3     5.8067       5.6933
+#> 30                com Communist/Socialist        14     0.8000       1.4000
+#> 31                chr Christian democracy         3     6.2000       5.7000
+#> 32                soc    Social democracy        11     3.3000       3.5000
+#> 33                con        Conservative        26     8.7531       6.3487
+#> 34                lib             Liberal         6     6.0000       6.7000
+#> 35                chr Christian democracy         3     5.8067       5.6933
+#> 36                chr Christian democracy         3     6.2000       5.7000
+#> 37                chr Christian democracy         3     5.8067       5.6933
+#> 38                com Communist/Socialist        14     0.8000       1.4000
+#> 39                chr Christian democracy         3     6.2000       5.7000
+#> 40                soc    Social democracy        11     3.3000       3.5000
+#> 41                con        Conservative        26     8.7531       6.3487
+#> 42                lib             Liberal         6     6.0000       6.7000
+#> 43                chr Christian democracy         3     5.8067       5.6933
+#> 44                chr Christian democracy         3     6.2000       5.7000
+#> 45                chr Christian democracy         3     5.8067       5.6933
+#> 46                com Communist/Socialist        14     0.8000       1.4000
+#> 47                chr Christian democracy         3     6.2000       5.7000
+#> 48                soc    Social democracy        11     3.3000       3.5000
+#> 49                con        Conservative        26     8.7531       6.3487
+#> 50                lib             Liberal         6     6.0000       6.7000
+#> 51                chr Christian democracy         3     5.8067       5.6933
+#> 52                chr Christian democracy         3     6.2000       5.7000
+#> 53                chr Christian democracy         3     5.8067       5.6933
+#> 54                com Communist/Socialist        14     0.8000       1.4000
+#> 55                chr Christian democracy         3     6.2000       5.7000
+#> 56                soc    Social democracy        11     3.3000       3.5000
+#> 57                con        Conservative        26     8.7531       6.3487
+#> 58                lib             Liberal         6     6.0000       6.7000
+#> 59                chr Christian democracy         3     5.8067       5.6933
+#> 60                chr Christian democracy         3     6.2000       5.7000
+#> 61                chr Christian democracy         3     5.8067       5.6933
+#> 62                com Communist/Socialist        14     0.8000       1.4000
+#> 63                chr Christian democracy         3     6.2000       5.7000
+#> 64                soc    Social democracy        11     3.3000       3.5000
+#> 65                con        Conservative        26     8.7531       6.3487
+#> 66                lib             Liberal         6     6.0000       6.7000
+#> 67                chr Christian democracy         3     5.8067       5.6933
+#> 68                chr Christian democracy         3     6.2000       5.7000
+#> 69                chr Christian democracy         3     5.8067       5.6933
+#> 70                com Communist/Socialist        14     0.8000       1.4000
+#> 71                chr Christian democracy         3     6.2000       5.7000
+#> 72                soc    Social democracy        11     3.3000       3.5000
+#> 73                con        Conservative        26     8.7531       6.3487
+#> 74                lib             Liberal         6     6.0000       6.7000
+#> 75                chr Christian democracy         3     5.8067       5.6933
+#> 76                chr Christian democracy         3     6.2000       5.7000
+#> 77                chr Christian democracy         3     5.8067       5.6933
+#> 78                com Communist/Socialist        14     0.8000       1.4000
+#> 79                chr Christian democracy         3     5.9473       5.8848
+#> 80                chr Christian democracy         3     6.2000       5.7000
+#> 81                soc    Social democracy        11     3.3000       3.5000
+#> 82                con        Conservative        26     8.7531       6.3487
+#> 83                lib             Liberal         6     6.0000       6.7000
+#> 84                chr Christian democracy         3     5.8067       5.6933
+#> 85                chr Christian democracy         3     5.8067       5.6933
+#> 86                com Communist/Socialist        14     0.8000       1.4000
+#> 87                chr Christian democracy         3     5.9473       5.8848
+#> 88                soc    Social democracy        11     3.6118       3.8680
+#> 89                con        Conservative        26     8.7531       6.3487
+#> 90                lib             Liberal         6     7.3482       7.8979
+#> 91                chr Christian democracy         3     5.8067       5.6933
+#> 92                chr Christian democracy         3     5.8067       5.6933
+#> 93                com Communist/Socialist        14     0.8000       1.4000
+#> 94                chr Christian democracy         3     6.2000       5.7000
+#> 95                chr Christian democracy         3     5.9473       5.8848
+#> 96                soc    Social democracy        11     3.6118       3.8680
+#> 97                con        Conservative        26     8.7531       6.3487
+#> 98                lib             Liberal         6     7.3482       7.8979
+#> 99                chr Christian democracy         3     5.8067       5.6933
+#> 100               chr Christian democracy         3     5.8067       5.6933
+#> 101               com Communist/Socialist        14     0.8000       1.4000
+#> 102               chr Christian democracy         3     6.2000       5.7000
+#> 103               chr Christian democracy         3     5.9473       5.8848
+#> 104               soc    Social democracy        11     3.6118       3.8680
+#> 105               con        Conservative        26     8.7531       6.3487
+#> 106               lib             Liberal         6     7.3482       7.8979
+#> 107               chr Christian democracy         3     5.8067       5.6933
+#> 108               chr Christian democracy         3     5.8067       5.6933
+#> 109               com Communist/Socialist        14     0.8000       1.4000
+#> 110               chr Christian democracy         3     6.2000       5.7000
+#> 111               chr Christian democracy         3     5.9473       5.8848
+#> 112               soc    Social democracy        11     3.6118       3.8680
+#> 113               con        Conservative        26     8.7531       6.3487
+#> 114               lib             Liberal         6     7.3482       7.8979
+#> 115               chr Christian democracy         3     5.8067       5.6933
+#> 116               chr Christian democracy         3     5.8067       5.6933
+#> 117               com Communist/Socialist        14     0.8000       1.4000
+#> 118               chr Christian democracy         3     5.9473       5.8848
+#> 119               soc    Social democracy        11     3.6118       3.8680
+#> 120               con        Conservative        26     8.7531       6.3487
+#> 121               lib             Liberal         6     7.3482       7.8979
+#> 122               chr Christian democracy         3     5.8067       5.6933
+#> 123               chr Christian democracy         3     5.8067       5.6933
+#> 124               com Communist/Socialist        14     0.8000       1.4000
+#> 125               chr Christian democracy         3     5.9473       5.8848
+#> 126               soc    Social democracy        11     3.6118       3.8680
+#> 127               con        Conservative        26     8.7531       6.3487
+#> 128               lib             Liberal         6     7.3482       7.8979
+#> 129               chr Christian democracy         3     5.8067       5.6933
+#> 130               chr Christian democracy         3     5.8067       5.6933
+#> 131               com Communist/Socialist        14     0.8000       1.4000
+#> 132               chr Christian democracy         3     5.9473       5.8848
+#> 133               com Communist/Socialist        14     1.2000       1.4000
+#> 134               soc    Social democracy        11     3.6118       3.8680
+#> 135               con        Conservative        26     8.7531       6.3487
+#> 136               lib             Liberal         6     7.3482       7.8979
+#> 137               chr Christian democracy         3     5.8067       5.6933
+#> 138               agr            Agrarian         2     5.3000       4.9000
+#> 139               chr Christian democracy         3     5.8067       5.6933
+#> 140               com Communist/Socialist        14     0.8000       1.4000
+#> 141               con        Conservative        26     8.1444       5.8000
+#> 142               chr Christian democracy         3     5.9473       5.8848
+#> 143               com Communist/Socialist        14     1.2000       1.4000
+#> 144               soc    Social democracy        11     3.6118       3.8680
+#> 145               con        Conservative        26     8.7531       6.3487
+#> 146               lib             Liberal         6     7.3482       7.8979
+#> 147               chr Christian democracy         3     5.8067       5.6933
+#> 148               agr            Agrarian         2     5.3000       4.9000
+#> 149               chr Christian democracy         3     5.8067       5.6933
+#> 150               com Communist/Socialist        14     0.8000       1.4000
+#> 151               con        Conservative        26     8.1444       5.8000
+#> 152               chr Christian democracy         3     5.9473       5.8848
+#> 153               com Communist/Socialist        14     1.2000       1.4000
+#> 154               soc    Social democracy        11     3.6118       3.8680
+#> 155               con        Conservative        26     8.7531       6.3487
+#> 156               lib             Liberal         6     7.3482       7.8979
+#> 157               chr Christian democracy         3     5.8067       5.6933
+#> 158               agr            Agrarian         2     5.3000       4.9000
+#> 159               chr Christian democracy         3     5.8067       5.6933
+#> 160               com Communist/Socialist        14     0.8000       1.4000
+#> 161               con        Conservative        26     8.1444       5.8000
+#> 162               chr Christian democracy         3     5.9473       5.8848
+#> 163               com Communist/Socialist        14     1.2000       1.4000
+#> 164               soc    Social democracy        11     3.6118       3.8680
+#> 165               con        Conservative        26     8.7531       6.3487
+#> 166               lib             Liberal         6     7.3482       7.8979
+#> 167               chr Christian democracy         3     5.8067       5.6933
+#> 168               agr            Agrarian         2     5.3000       4.9000
+#> 169               chr Christian democracy         3     5.8067       5.6933
+#> 170               com Communist/Socialist        14     0.8000       1.4000
+#> 171               lib             Liberal         6     4.5066       4.9917
+#> 172               con        Conservative        26     8.1444       5.8000
+#> 173               chr Christian democracy         3     5.9473       5.8848
+#> 174               com Communist/Socialist        14     1.2000       1.4000
+#> 175               soc    Social democracy        11     3.6118       3.8680
+#> 176               con        Conservative        26     8.7531       6.3487
+#> 177               lib             Liberal         6     7.3482       7.8979
+#> 178               chr Christian democracy         3     5.8067       5.6933
+#> 179               agr            Agrarian         2     5.3000       4.9000
+#> 180               chr Christian democracy         3     5.8067       5.6933
+#> 181               com Communist/Socialist        14     0.8000       1.4000
+#> 182               lib             Liberal         6     4.5066       4.9917
+#> 183               con        Conservative        26     3.8433       3.9133
+#> 184               con        Conservative        26     8.1444       5.8000
+#> 185               chr Christian democracy         3     5.9473       5.8848
+#> 186               con        Conservative        26     7.4000       6.4000
+#> 187               eco     Green/Ecologist        19     1.6000       2.5000
+#> 188               com Communist/Socialist        14     1.2000       1.4000
+#> 189               soc    Social democracy        11     3.6118       3.8680
+#> 190               con        Conservative        26     8.7531       6.3487
+#> 191               lib             Liberal         6     7.3482       7.8979
+#> 192               chr Christian democracy         3     5.8067       5.6933
+#> 193               agr            Agrarian         2     5.3000       4.9000
+#> 194               chr Christian democracy         3     5.8067       5.6933
+#> 195               com Communist/Socialist        14     0.8000       1.4000
+#> 196               lib             Liberal         6     4.5066       4.9917
+#> 197               con        Conservative        26     3.8433       3.9133
+#> 198               con        Conservative        26     8.1444       5.8000
+#> 199               chr Christian democracy         3     5.9473       5.8848
+#> 200               con        Conservative        26     7.4000       6.4000
+#> 201               eco     Green/Ecologist        19     1.6000       2.5000
+#> 202               com Communist/Socialist        14     1.2000       1.4000
+#> 203               soc    Social democracy        11     3.6118       3.8680
+#> 204               con        Conservative        26     8.7531       6.3487
+#> 205               lib             Liberal         6     7.3482       7.8979
+#> 206               chr Christian democracy         3     5.8067       5.6933
+#> 207               agr            Agrarian         2     5.3000       4.9000
+#> 208               chr Christian democracy         3     5.8067       5.6933
+#> 209               com Communist/Socialist        14     0.8000       1.4000
+#> 210               lib             Liberal         6     4.5066       4.9917
+#> 211               con        Conservative        26     3.8433       3.9133
+#> 212               con        Conservative        26     8.1444       5.8000
+#> 213               chr Christian democracy         3     5.9473       5.8848
+#> 214               eco     Green/Ecologist        19     1.6000       2.5000
+#> 215               com Communist/Socialist        14     1.2000       1.4000
+#> 216               soc    Social democracy        11     3.6118       3.8680
+#> 217               con        Conservative        26     8.7531       6.3487
+#> 218               lib             Liberal         6     7.3482       7.8979
+#> 219               agr            Agrarian         2     5.3000       4.9000
+#> 220               chr Christian democracy         3     5.9376       5.8848
+#> 221               com Communist/Socialist        14     0.8000       1.4000
+#> 222               lib             Liberal         6     4.5066       4.9917
+#> 223               con        Conservative        26     3.8433       3.9133
+#> 224               con        Conservative        26     8.1444       5.8000
+#> 225               eco     Green/Ecologist        19     1.6000       2.5000
+#> 226               com Communist/Socialist        14     1.2000       1.4000
+#> 227               soc    Social democracy        11     3.6118       3.8680
+#> 228               con        Conservative        26     8.7531       6.3487
+#> 229               lib             Liberal         6     7.3482       7.8979
+#> 230               agr            Agrarian         2     5.3000       4.9000
+#> 231               chr Christian democracy         3     5.9376       5.8848
+#> 232               com Communist/Socialist        14     0.8000       1.4000
+#> 233               lib             Liberal         6     4.5066       4.9917
+#> 234               con        Conservative        26     3.8433       3.9133
+#> 235               con        Conservative        26     8.1444       5.8000
+#> 236               eco     Green/Ecologist        19     1.6000       2.5000
+#> 237               com Communist/Socialist        14     1.2000       1.4000
+#> 238               soc    Social democracy        11     3.6118       3.8680
+#> 239               con        Conservative        26     8.7531       6.3487
+#> 240               lib             Liberal         6     7.3482       7.8979
+#> 241               chr Christian democracy         3     5.9376       5.8848
+#> 242               com Communist/Socialist        14     0.8000       1.4000
+#> 243               lib             Liberal         6     4.5066       4.9917
+#> 244               con        Conservative        26     8.1444       5.8000
+#> 245               eco     Green/Ecologist        19     1.6000       2.5000
+#> 246               com Communist/Socialist        14     1.2000       1.4000
+#> 247               soc    Social democracy        11     3.6118       3.8680
+#> 248               chr Christian democracy         3     8.2963       6.0000
+#> 249               con        Conservative        26     8.7531       6.3487
+#> 250               lib             Liberal         6     7.3482       7.8979
+#> 251               chr Christian democracy         3     5.9376       5.8848
+#> 252               com Communist/Socialist        14     0.8000       1.4000
+#> 253               lib             Liberal         6     4.5066       4.9917
+#> 254               con        Conservative        26     8.1444       5.8000
+#> 255               eco     Green/Ecologist        19     1.6000       2.5000
+#> 256               com Communist/Socialist        14     1.2000       1.4000
+#> 257               soc    Social democracy        11     3.6118       3.8680
+#> 258               chr Christian democracy         3     8.2963       6.0000
+#> 259               con        Conservative        26     8.7531       6.3487
+#> 260               lib             Liberal         6     7.3482       7.8979
+#> 261               chr Christian democracy         3     5.9376       5.8848
+#> 262             right          Right-wing        40     8.7000       5.9000
+#> 263               com Communist/Socialist        14     0.8000       1.4000
+#> 264               lib             Liberal         6     4.5066       4.9917
+#> 265               con        Conservative        26     8.1444       5.8000
+#> 266               eco     Green/Ecologist        19     1.6000       2.5000
+#> 267               com Communist/Socialist        14     1.2000       1.4000
+#> 268               soc    Social democracy        11     3.6118       3.8680
+#> 269               chr Christian democracy         3     8.2963       6.0000
+#> 270               con        Conservative        26     8.7531       6.3487
+#> 271               lib             Liberal         6     7.3482       7.8979
+#> 272               chr Christian democracy         3     5.9376       5.8848
+#> 273               lib             Liberal         6     4.5066       4.9917
+#> 274               con        Conservative        26     8.1444       5.8000
+#> 275               eco     Green/Ecologist        19     1.6000       2.5000
+#> 276               com Communist/Socialist        14     1.2000       1.4000
+#> 277               soc    Social democracy        11     3.6118       3.8680
+#> 278               chr Christian democracy         3     8.2963       6.0000
+#> 279               con        Conservative        26     8.7531       6.3487
+#> 280               lib             Liberal         6     7.3482       7.8979
+#> 281             right          Right-wing        40     9.4097       8.5714
+#> 282               chr Christian democracy         3     5.9376       5.8848
+#> 283               lib             Liberal         6     4.5066       4.9917
+#> 284               eco     Green/Ecologist        19     2.0454       2.1108
+#> 285               con        Conservative        26     8.1444       5.8000
+#> 286               soc    Social democracy        11     3.6118       3.8680
+#> 287               chr Christian democracy         3     8.2963       6.0000
+#> 288               con        Conservative        26     8.7531       6.3487
+#> 289               lib             Liberal         6     7.3482       7.8979
+#> 290              spec       Special issue        16         NA           NA
+#> 291             right          Right-wing        40     9.4097       8.5714
+#> 292               chr Christian democracy         3     5.9376       5.8848
+#> 293               lib             Liberal         6     4.5066       4.9917
+#> 294               eco     Green/Ecologist        19     2.0454       2.1108
+#> 295               con        Conservative        26     8.1444       5.8000
+#> 296               soc    Social democracy        11     3.6118       3.8680
+#> 297               chr Christian democracy         3     8.2963       6.0000
+#> 298               con        Conservative        26     8.7531       6.3487
+#> 299               com Communist/Socialist        14     1.2146       1.0421
+#> 300               lib             Liberal         6     7.3482       7.8979
+#> 301               chr Christian democracy         3     5.9376       5.8848
+#> 302               lib             Liberal         6     4.5066       4.9917
+#> 303               eco     Green/Ecologist        19     2.0454       2.1108
+#> 304               con        Conservative        26     8.1444       5.8000
+#> 305               soc    Social democracy        11     3.6118       3.8680
+#> 306               chr Christian democracy         3     8.2963       6.0000
+#> 307               con        Conservative        26     8.7531       6.3487
+#> 308               com Communist/Socialist        14     1.2146       1.0421
+#> 309               lib             Liberal         6     7.3482       7.8979
+#> 310               chr Christian democracy         3     5.9376       5.8848
+#> 311               chr Christian democracy         3     6.1732       4.6769
+#> 312               lib             Liberal         6     4.5066       4.9917
+#> 313               eco     Green/Ecologist        19     2.0454       2.1108
+#> 314             right          Right-wing        40     8.7000       5.9000
+#> 315             right          Right-wing        40     8.5609       8.0776
+#> 316               soc    Social democracy        11     3.6118       3.8680
+#> 317               con        Conservative        26     8.7531       6.3487
+#> 318               com Communist/Socialist        14     1.2146       1.0421
+#> 319               lib             Liberal         6     7.3482       7.8979
+#> 320               chr Christian democracy         3     5.9376       5.8848
+#> 321               chr Christian democracy         3     6.1732       4.6769
+#> 322               lib             Liberal         6     4.5066       4.9917
+#> 323               eco     Green/Ecologist        19     2.0454       2.1108
+#> 324             right          Right-wing        40     8.7000       5.9000
+#> 325             right          Right-wing        40     8.5609       8.0776
+#> 326               soc    Social democracy        11     3.6118       3.8680
+#> 327               con        Conservative        26     8.7531       6.3487
+#> 328               com Communist/Socialist        14     1.2146       1.0421
+#> 329               lib             Liberal         6     7.3482       7.8979
+#> 330               chr Christian democracy         3     5.9376       5.8848
+#> 331               chr Christian democracy         3     6.1732       4.6769
+#> 332               lib             Liberal         6     4.5066       4.9917
+#> 333               eco     Green/Ecologist        19     2.0454       2.1108
+#> 334             right          Right-wing        40     8.5609       8.0776
+#> 335               soc    Social democracy        11     3.6118       3.8680
+#> 336               con        Conservative        26     8.7531       6.3487
+#> 337               com Communist/Socialist        14     1.2146       1.0421
+#> 338               lib             Liberal         6     7.3482       7.8979
+#> 339               chr Christian democracy         3     5.9376       5.8848
+#> 340               chr Christian democracy         3     6.1732       4.6769
+#> 341               lib             Liberal         6     4.5066       4.9917
+#> 342               eco     Green/Ecologist        19     2.0454       2.1108
+#> 343             right          Right-wing        40     8.5609       8.0776
+#> 344               con        Conservative        26     8.8000       8.2900
+#> 345               soc    Social democracy        11     3.6118       3.8680
+#> 346               con        Conservative        26     8.7531       6.3487
+#> 347               com Communist/Socialist        14     1.2146       1.0421
+#> 348               lib             Liberal         6     7.3482       7.8979
+#> 349               chr Christian democracy         3     5.9376       5.8848
+#> 350               chr Christian democracy         3     6.1732       4.6769
+#> 351               lib             Liberal         6     4.5066       4.9917
+#> 352               eco     Green/Ecologist        19     2.0454       2.1108
+#> 353               con        Conservative        26     8.8000       8.2900
+#> 354               soc    Social democracy        11     3.6118       3.8680
+#> 355              spec       Special issue        16         NA           NA
+#> 356               con        Conservative        26     8.7531       6.3487
+#> 357               com Communist/Socialist        14     1.2146       1.0421
+#> 358               lib             Liberal         6     7.3482       7.8979
+#> 359               chr Christian democracy         3     5.9376       5.8848
+#> 360               chr Christian democracy         3     6.1732       4.6769
+#> 361               lib             Liberal         6     4.5066       4.9917
+#> 362               eco     Green/Ecologist        19     2.0454       2.1108
+#> 363               con        Conservative        26     8.8000       8.2900
+#> 364               soc    Social democracy        11     3.6118       3.8680
+#> 365              spec       Special issue        16         NA           NA
+#> 366               con        Conservative        26     8.7531       6.3487
+#> 367               com Communist/Socialist        14     1.2146       1.0421
+#> 368               lib             Liberal         6     7.3482       7.8979
+#> 369               chr Christian democracy         3     5.9376       5.8848
+#> 370               chr Christian democracy         3     6.1732       4.6769
+#> 371               lib             Liberal         6     4.5066       4.9917
+#> 372               eco     Green/Ecologist        19     2.0454       2.1108
+#> 373               con        Conservative        26     8.8000       8.2900
+#> 374               soc    Social democracy        11     3.6118       3.8680
+#> 375              spec       Special issue        16         NA           NA
+#> 376               con        Conservative        26     8.7531       6.3487
+#> 377               com Communist/Socialist        14     1.2146       1.0421
+#> 378               lib             Liberal         6     7.3482       7.8979
+#> 379               chr Christian democracy         3     5.9376       5.8848
+#> 380               chr Christian democracy         3     6.1732       4.6769
+#> 381               lib             Liberal         6     4.5066       4.9917
+#> 382               eco     Green/Ecologist        19     2.0454       2.1108
+#> 383               con        Conservative        26     8.8000       8.2900
+#> 384               soc    Social democracy        11     3.6118       3.8680
+#> 385              spec       Special issue        16         NA           NA
+#> 386               con        Conservative        26     8.7531       6.3487
+#> 387               com Communist/Socialist        14     1.2146       1.0421
+#> 388               lib             Liberal         6     7.3482       7.8979
+#> 389               lib             Liberal         6     6.0000       6.7000
+#> 390               chr Christian democracy         3     5.9376       5.8848
+#> 391               chr Christian democracy         3     6.1732       4.6769
+#> 392               lib             Liberal         6     4.5066       4.9917
+#> 393               eco     Green/Ecologist        19     2.0454       2.1108
+#> 394               con        Conservative        26     8.8000       8.2900
+#> 395               soc    Social democracy        11     3.6118       3.8680
+#> 396              spec       Special issue        16         NA           NA
+#> 397               con        Conservative        26     8.7531       6.3487
+#> 398               com Communist/Socialist        14     1.2146       1.0421
+#> 399               lib             Liberal         6     7.3482       7.8979
+#> 400               lib             Liberal         6     6.0000       6.7000
+#> 401               chr Christian democracy         3     5.9376       5.8848
+#> 402               chr Christian democracy         3     6.1732       4.6769
+#> 403               lib             Liberal         6     4.5066       4.9917
+#> 404               eco     Green/Ecologist        19     2.0454       2.1108
+#> 405               con        Conservative        26     8.8000       8.2900
+#> 406               soc    Social democracy        11     3.6118       3.8680
+#> 407              spec       Special issue        16         NA           NA
+#> 408               con        Conservative        26     8.7531       6.3487
+#> 409               com Communist/Socialist        14     1.2146       1.0421
+#> 410               lib             Liberal         6     7.3482       7.8979
+#> 411               lib             Liberal         6     6.0000       6.7000
+#> 412               chr Christian democracy         3     5.9376       5.8848
+#> 413               chr Christian democracy         3     6.1732       4.6769
+#> 414               lib             Liberal         6     4.5066       4.9917
+#> 415               eco     Green/Ecologist        19     2.0454       2.1108
+#> 416               con        Conservative        26     8.8000       8.2900
+#> 417               soc    Social democracy        11     3.6118       3.8680
+#> 418              spec       Special issue        16         NA           NA
+#> 419               con        Conservative        26     8.7531       6.3487
+#> 420               com Communist/Socialist        14     1.2146       1.0421
+#> 421               lib             Liberal         6     7.3482       7.8979
+#>     liberty_authority eu_anti_pro   cmp euprofiler     ees castles_mair
+#> 1              6.7724      8.2894 22523         NA      NA           NA
+#> 2              6.7724      8.2894 22525         NA      NA           NA
+#> 3              3.0000      5.0000    NA         NA      NA         1102
+#> 4              7.2000      8.3000    NA         NA      NA           NA
+#> 5              3.5000      8.1000    NA         NA      NA           NA
+#> 6              3.5000      8.7000    NA         NA      NA           NA
+#> 7              6.7724      8.2894 22523         NA      NA           NA
+#> 8              6.7724      8.2894 22525         NA      NA           NA
+#> 9              3.0000      5.0000    NA         NA      NA         1102
+#> 10             7.2000      8.3000    NA         NA      NA           NA
+#> 11             3.5000      8.1000    NA         NA      NA           NA
+#> 12             9.7744      2.9307    NA        294 1528527         1110
+#> 13             3.5000      8.7000    NA         NA      NA           NA
+#> 14             6.7724      8.2894 22523         NA      NA           NA
+#> 15             6.7724      8.2894 22525         NA      NA           NA
+#> 16             3.0000      5.0000    NA         NA      NA         1102
+#> 17             7.2000      8.3000    NA         NA      NA           NA
+#> 18             3.5000      8.1000    NA         NA      NA           NA
+#> 19             9.7744      2.9307    NA        294 1528527         1110
+#> 20             3.5000      8.7000    NA         NA      NA           NA
+#> 21             6.7724      8.2894 22523         NA      NA           NA
+#> 22             6.7724      8.2894 22525         NA      NA           NA
+#> 23             3.0000      5.0000    NA         NA      NA         1102
+#> 24             7.2000      8.3000    NA         NA      NA           NA
+#> 25             3.5000      8.1000    NA         NA      NA           NA
+#> 26             9.7744      2.9307    NA        294 1528527         1110
+#> 27             3.5000      8.7000    NA         NA      NA           NA
+#> 28             6.7724      8.2894 22523         NA      NA           NA
+#> 29             6.7724      8.2894 22525         NA      NA           NA
+#> 30             3.0000      5.0000    NA         NA      NA         1102
+#> 31             7.2000      8.3000    NA         NA      NA           NA
+#> 32             3.5000      8.1000    NA         NA      NA           NA
+#> 33             9.7744      2.9307    NA        294 1528527         1110
+#> 34             3.5000      8.7000    NA         NA      NA           NA
+#> 35             6.7724      8.2894 22523         NA      NA           NA
+#> 36             7.2000      8.3000    NA         NA      NA           NA
+#> 37             6.7724      8.2894 22525         NA      NA           NA
+#> 38             3.0000      5.0000    NA         NA      NA         1102
+#> 39             7.2000      8.3000    NA         NA      NA           NA
+#> 40             3.5000      8.1000    NA         NA      NA           NA
+#> 41             9.7744      2.9307    NA        294 1528527         1110
+#> 42             3.5000      8.7000    NA         NA      NA           NA
+#> 43             6.7724      8.2894 22523         NA      NA           NA
+#> 44             7.2000      8.3000    NA         NA      NA           NA
+#> 45             6.7724      8.2894 22525         NA      NA           NA
+#> 46             3.0000      5.0000    NA         NA      NA         1102
+#> 47             7.2000      8.3000    NA         NA      NA           NA
+#> 48             3.5000      8.1000    NA         NA      NA           NA
+#> 49             9.7744      2.9307    NA        294 1528527         1110
+#> 50             3.5000      8.7000    NA         NA      NA           NA
+#> 51             6.7724      8.2894 22523         NA      NA           NA
+#> 52             7.2000      8.3000    NA         NA      NA           NA
+#> 53             6.7724      8.2894 22525         NA      NA           NA
+#> 54             3.0000      5.0000    NA         NA      NA         1102
+#> 55             7.2000      8.3000    NA         NA      NA           NA
+#> 56             3.5000      8.1000    NA         NA      NA           NA
+#> 57             9.7744      2.9307    NA        294 1528527         1110
+#> 58             3.5000      8.7000    NA         NA      NA           NA
+#> 59             6.7724      8.2894 22523         NA      NA           NA
+#> 60             7.2000      8.3000    NA         NA      NA           NA
+#> 61             6.7724      8.2894 22525         NA      NA           NA
+#> 62             3.0000      5.0000    NA         NA      NA         1102
+#> 63             7.2000      8.3000    NA         NA      NA           NA
+#> 64             3.5000      8.1000    NA         NA      NA           NA
+#> 65             9.7744      2.9307    NA        294 1528527         1110
+#> 66             3.5000      8.7000    NA         NA      NA           NA
+#> 67             6.7724      8.2894 22523         NA      NA           NA
+#> 68             7.2000      8.3000    NA         NA      NA           NA
+#> 69             6.7724      8.2894 22525         NA      NA           NA
+#> 70             3.0000      5.0000    NA         NA      NA         1102
+#> 71             7.2000      8.3000    NA         NA      NA           NA
+#> 72             3.5000      8.1000    NA         NA      NA           NA
+#> 73             9.7744      2.9307    NA        294 1528527         1110
+#> 74             3.5000      8.7000    NA         NA      NA           NA
+#> 75             6.7724      8.2894 22523         NA      NA           NA
+#> 76             7.2000      8.3000    NA         NA      NA           NA
+#> 77             6.7724      8.2894 22525         NA      NA           NA
+#> 78             3.0000      5.0000    NA         NA      NA         1102
+#> 79             6.6882      7.7157 22522         NA      NA         1106
+#> 80             7.2000      8.3000    NA         NA      NA           NA
+#> 81             3.5000      8.1000    NA         NA      NA           NA
+#> 82             9.7744      2.9307    NA        294 1528527         1110
+#> 83             3.5000      8.7000    NA         NA      NA           NA
+#> 84             6.7724      8.2894 22523         NA      NA           NA
+#> 85             6.7724      8.2894 22525         NA      NA           NA
+#> 86             3.0000      5.0000    NA         NA      NA         1102
+#> 87             6.6882      7.7157 22522         NA      NA         1106
+#> 88             3.2028      7.9904 22320        299 1528320         1104
+#> 89             9.7744      2.9307    NA        294 1528527         1110
+#> 90             4.3887      5.9471 22420        305 1528420         1107
+#> 91             6.7724      8.2894 22523         NA      NA           NA
+#> 92             6.7724      8.2894 22525         NA      NA           NA
+#> 93             3.0000      5.0000    NA         NA      NA         1102
+#> 94             7.2000      8.3000    NA         NA      NA           NA
+#> 95             6.6882      7.7157 22522         NA      NA         1106
+#> 96             3.2028      7.9904 22320        299 1528320         1104
+#> 97             9.7744      2.9307    NA        294 1528527         1110
+#> 98             4.3887      5.9471 22420        305 1528420         1107
+#> 99             6.7724      8.2894 22523         NA      NA           NA
+#> 100            6.7724      8.2894 22525         NA      NA           NA
+#> 101            3.0000      5.0000    NA         NA      NA         1102
+#> 102            7.2000      8.3000    NA         NA      NA           NA
+#> 103            6.6882      7.7157 22522         NA      NA         1106
+#> 104            3.2028      7.9904 22320        299 1528320         1104
+#> 105            9.7744      2.9307    NA        294 1528527         1110
+#> 106            4.3887      5.9471 22420        305 1528420         1107
+#> 107            6.7724      8.2894 22523         NA      NA           NA
+#> 108            6.7724      8.2894 22525         NA      NA           NA
+#> 109            3.0000      5.0000    NA         NA      NA         1102
+#> 110            7.2000      8.3000    NA         NA      NA           NA
+#> 111            6.6882      7.7157 22522         NA      NA         1106
+#> 112            3.2028      7.9904 22320        299 1528320         1104
+#> 113            9.7744      2.9307    NA        294 1528527         1110
+#> 114            4.3887      5.9471 22420        305 1528420         1107
+#> 115            6.7724      8.2894 22523         NA      NA           NA
+#> 116            6.7724      8.2894 22525         NA      NA           NA
+#> 117            3.0000      5.0000    NA         NA      NA         1102
+#> 118            6.6882      7.7157 22522         NA      NA         1106
+#> 119            3.2028      7.9904 22320        299 1528320         1104
+#> 120            9.7744      2.9307    NA        294 1528527         1110
+#> 121            4.3887      5.9471 22420        305 1528420         1107
+#> 122            6.7724      8.2894 22523         NA      NA           NA
+#> 123            6.7724      8.2894 22525         NA      NA           NA
+#> 124            3.0000      5.0000    NA         NA      NA         1102
+#> 125            6.6882      7.7157 22522         NA      NA         1106
+#> 126            3.2028      7.9904 22320        299 1528320         1104
+#> 127            9.7744      2.9307    NA        294 1528527         1110
+#> 128            4.3887      5.9471 22420        305 1528420         1107
+#> 129            6.7724      8.2894 22523         NA      NA           NA
+#> 130            6.7724      8.2894 22525         NA      NA           NA
+#> 131            3.0000      5.0000    NA         NA      NA         1102
+#> 132            6.6882      7.7157 22522         NA      NA         1106
+#> 133            3.0000      5.0000    NA         NA      NA           NA
+#> 134            3.2028      7.9904 22320        299 1528320         1104
+#> 135            9.7744      2.9307    NA        294 1528527         1110
+#> 136            4.3887      5.9471 22420        305 1528420         1107
+#> 137            6.7724      8.2894 22523         NA      NA           NA
+#> 138            6.5000      5.4000    NA         NA      NA           NA
+#> 139            6.7724      8.2894 22525         NA      NA           NA
+#> 140            3.0000      5.0000    NA         NA      NA         1102
+#> 141            8.6364      3.4848    NA         NA      NA         1108
+#> 142            6.6882      7.7157 22522         NA      NA         1106
+#> 143            3.0000      5.0000    NA         NA      NA           NA
+#> 144            3.2028      7.9904 22320        299 1528320         1104
+#> 145            9.7744      2.9307    NA        294 1528527         1110
+#> 146            4.3887      5.9471 22420        305 1528420         1107
+#> 147            6.7724      8.2894 22523         NA      NA           NA
+#> 148            6.5000      5.4000    NA         NA      NA           NA
+#> 149            6.7724      8.2894 22525         NA      NA           NA
+#> 150            3.0000      5.0000    NA         NA      NA         1102
+#> 151            8.6364      3.4848    NA         NA      NA         1108
+#> 152            6.6882      7.7157 22522         NA      NA         1106
+#> 153            3.0000      5.0000    NA         NA      NA           NA
+#> 154            3.2028      7.9904 22320        299 1528320         1104
+#> 155            9.7744      2.9307    NA        294 1528527         1110
+#> 156            4.3887      5.9471 22420        305 1528420         1107
+#> 157            6.7724      8.2894 22523         NA      NA           NA
+#> 158            6.5000      5.4000    NA         NA      NA           NA
+#> 159            6.7724      8.2894 22525         NA      NA           NA
+#> 160            3.0000      5.0000    NA         NA      NA         1102
+#> 161            8.6364      3.4848    NA         NA      NA         1108
+#> 162            6.6882      7.7157 22522         NA      NA         1106
+#> 163            3.0000      5.0000    NA         NA      NA           NA
+#> 164            3.2028      7.9904 22320        299 1528320         1104
+#> 165            9.7744      2.9307    NA        294 1528527         1110
+#> 166            4.3887      5.9471 22420        305 1528420         1107
+#> 167            6.7724      8.2894 22523         NA      NA           NA
+#> 168            6.5000      5.4000    NA         NA      NA           NA
+#> 169            6.7724      8.2894 22525         NA      NA           NA
+#> 170            3.0000      5.0000    NA         NA      NA         1102
+#> 171            1.7625      8.6233 22330        295 1528330         1105
+#> 172            8.6364      3.4848    NA         NA      NA         1108
+#> 173            6.6882      7.7157 22522         NA      NA         1106
+#> 174            3.0000      5.0000    NA         NA      NA           NA
+#> 175            3.2028      7.9904 22320        299 1528320         1104
+#> 176            9.7744      2.9307    NA        294 1528527         1110
+#> 177            4.3887      5.9471 22420        305 1528420         1107
+#> 178            6.7724      8.2894 22523         NA      NA           NA
+#> 179            6.5000      5.4000    NA         NA      NA           NA
+#> 180            6.7724      8.2894 22525         NA      NA           NA
+#> 181            3.0000      5.0000    NA         NA      NA         1102
+#> 182            1.7625      8.6233 22330        295 1528330         1105
+#> 183            3.5288      8.4641 22524         NA      NA           NA
+#> 184            8.6364      3.4848    NA         NA      NA         1108
+#> 185            6.6882      7.7157 22522         NA      NA         1106
+#> 186            6.9000      7.8000    NA         NA      NA           NA
+#> 187            1.8000      5.0000 22310         NA      NA         1103
+#> 188            3.0000      5.0000    NA         NA      NA           NA
+#> 189            3.2028      7.9904 22320        299 1528320         1104
+#> 190            9.7744      2.9307    NA        294 1528527         1110
+#> 191            4.3887      5.9471 22420        305 1528420         1107
+#> 192            6.7724      8.2894 22523         NA      NA           NA
+#> 193            6.5000      5.4000    NA         NA      NA           NA
+#> 194            6.7724      8.2894 22525         NA      NA           NA
+#> 195            3.0000      5.0000    NA         NA      NA         1102
+#> 196            1.7625      8.6233 22330        295 1528330         1105
+#> 197            3.5288      8.4641 22524         NA      NA           NA
+#> 198            8.6364      3.4848    NA         NA      NA         1108
+#> 199            6.6882      7.7157 22522         NA      NA         1106
+#> 200            6.9000      7.8000    NA         NA      NA           NA
+#> 201            1.8000      5.0000 22310         NA      NA         1103
+#> 202            3.0000      5.0000    NA         NA      NA           NA
+#> 203            3.2028      7.9904 22320        299 1528320         1104
+#> 204            9.7744      2.9307    NA        294 1528527         1110
+#> 205            4.3887      5.9471 22420        305 1528420         1107
+#> 206            6.7724      8.2894 22523         NA      NA           NA
+#> 207            6.5000      5.4000    NA         NA      NA           NA
+#> 208            6.7724      8.2894 22525         NA      NA           NA
+#> 209            3.0000      5.0000    NA         NA      NA         1102
+#> 210            1.7625      8.6233 22330        295 1528330         1105
+#> 211            3.5288      8.4641 22524         NA      NA           NA
+#> 212            8.6364      3.4848    NA         NA      NA         1108
+#> 213            6.6882      7.7157 22522         NA      NA         1106
+#> 214            1.8000      5.0000 22310         NA      NA         1103
+#> 215            3.0000      5.0000    NA         NA      NA           NA
+#> 216            3.2028      7.9904 22320        299 1528320         1104
+#> 217            9.7744      2.9307    NA        294 1528527         1110
+#> 218            4.3887      5.9471 22420        305 1528420         1107
+#> 219            6.5000      5.4000    NA         NA      NA           NA
+#> 220            6.6882      7.7157 22521        293 1528521         1106
+#> 221            3.0000      5.0000    NA         NA      NA         1102
+#> 222            1.7625      8.6233 22330        295 1528330         1105
+#> 223            3.5288      8.4641 22524         NA      NA           NA
+#> 224            8.6364      3.4848    NA         NA      NA         1108
+#> 225            1.8000      5.0000 22310         NA      NA         1103
+#> 226            3.0000      5.0000    NA         NA      NA           NA
+#> 227            3.2028      7.9904 22320        299 1528320         1104
+#> 228            9.7744      2.9307    NA        294 1528527         1110
+#> 229            4.3887      5.9471 22420        305 1528420         1107
+#> 230            6.5000      5.4000    NA         NA      NA           NA
+#> 231            6.6882      7.7157 22521        293 1528521         1106
+#> 232            3.0000      5.0000    NA         NA      NA         1102
+#> 233            1.7625      8.6233 22330        295 1528330         1105
+#> 234            3.5288      8.4641 22524         NA      NA           NA
+#> 235            8.6364      3.4848    NA         NA      NA         1108
+#> 236            1.8000      5.0000 22310         NA      NA         1103
+#> 237            3.0000      5.0000    NA         NA      NA           NA
+#> 238            3.2028      7.9904 22320        299 1528320         1104
+#> 239            9.7744      2.9307    NA        294 1528527         1110
+#> 240            4.3887      5.9471 22420        305 1528420         1107
+#> 241            6.6882      7.7157 22521        293 1528521         1106
+#> 242            3.0000      5.0000    NA         NA      NA         1102
+#> 243            1.7625      8.6233 22330        295 1528330         1105
+#> 244            8.6364      3.4848    NA         NA      NA         1108
+#> 245            1.8000      5.0000 22310         NA      NA         1103
+#> 246            3.0000      5.0000    NA         NA      NA           NA
+#> 247            3.2028      7.9904 22320        299 1528320         1104
+#> 248            8.5455      3.5447    NA         NA      NA         1109
+#> 249            9.7744      2.9307    NA        294 1528527         1110
+#> 250            4.3887      5.9471 22420        305 1528420         1107
+#> 251            6.6882      7.7157 22521        293 1528521         1106
+#> 252            3.0000      5.0000    NA         NA      NA         1102
+#> 253            1.7625      8.6233 22330        295 1528330         1105
+#> 254            8.6364      3.4848    NA         NA      NA         1108
+#> 255            1.8000      5.0000 22310         NA      NA         1103
+#> 256            3.0000      5.0000    NA         NA      NA           NA
+#> 257            3.2028      7.9904 22320        299 1528320         1104
+#> 258            8.5455      3.5447    NA         NA      NA         1109
+#> 259            9.7744      2.9307    NA        294 1528527         1110
+#> 260            4.3887      5.9471 22420        305 1528420         1107
+#> 261            6.6882      7.7157 22521        293 1528521         1106
+#> 262            8.6000      2.4000    NA         NA      NA           NA
+#> 263            3.0000      5.0000    NA         NA      NA         1102
+#> 264            1.7625      8.6233 22330        295 1528330         1105
+#> 265            8.6364      3.4848    NA         NA      NA         1108
+#> 266            1.8000      5.0000 22310         NA      NA         1103
+#> 267            3.0000      5.0000    NA         NA      NA           NA
+#> 268            3.2028      7.9904 22320        299 1528320         1104
+#> 269            8.5455      3.5447    NA         NA      NA         1109
+#> 270            9.7744      2.9307    NA        294 1528527         1110
+#> 271            4.3887      5.9471 22420        305 1528420         1107
+#> 272            6.6882      7.7157 22521        293 1528521         1106
+#> 273            1.7625      8.6233 22330        295 1528330         1105
+#> 274            8.6364      3.4848    NA         NA      NA         1108
+#> 275            1.8000      5.0000 22310         NA      NA         1103
+#> 276            3.0000      5.0000    NA         NA      NA           NA
+#> 277            3.2028      7.9904 22320        299 1528320         1104
+#> 278            8.5455      3.5447    NA         NA      NA         1109
+#> 279            9.7744      2.9307    NA        294 1528527         1110
+#> 280            4.3887      5.9471 22420        305 1528420         1107
+#> 281            9.2500      1.3120    NA         NA      NA           NA
+#> 282            6.6882      7.7157 22521        293 1528521         1106
+#> 283            1.7625      8.6233 22330        295 1528330         1105
+#> 284            1.6440      6.1973 22110        297 1528110           NA
+#> 285            8.6364      3.4848    NA         NA      NA         1108
+#> 286            3.2028      7.9904 22320        299 1528320         1104
+#> 287            8.5455      3.5447    NA         NA      NA         1109
+#> 288            9.7744      2.9307    NA        294 1528527         1110
+#> 289            4.3887      5.9471 22420        305 1528420         1107
+#> 290                NA          NA    NA         NA      NA           NA
+#> 291            9.2500      1.3120    NA         NA      NA           NA
+#> 292            6.6882      7.7157 22521        293 1528521         1106
+#> 293            1.7625      8.6233 22330        295 1528330         1105
+#> 294            1.6440      6.1973 22110        297 1528110           NA
+#> 295            8.6364      3.4848    NA         NA      NA         1108
+#> 296            3.2028      7.9904 22320        299 1528320         1104
+#> 297            8.5455      3.5447    NA         NA      NA         1109
+#> 298            9.7744      2.9307    NA        294 1528527         1110
+#> 299            4.2099      2.5049 22220        304 1528220         1101
+#> 300            4.3887      5.9471 22420        305 1528420         1107
+#> 301            6.6882      7.7157 22521        293 1528521         1106
+#> 302            1.7625      8.6233 22330        295 1528330         1105
+#> 303            1.6440      6.1973 22110        297 1528110           NA
+#> 304            8.6364      3.4848    NA         NA      NA         1108
+#> 305            3.2028      7.9904 22320        299 1528320         1104
+#> 306            8.5455      3.5447    NA         NA      NA         1109
+#> 307            9.7744      2.9307    NA        294 1528527         1110
+#> 308            4.2099      2.5049 22220        304 1528220         1101
+#> 309            4.3887      5.9471 22420        305 1528420         1107
+#> 310            6.6882      7.7157 22521        293 1528521         1106
+#> 311            8.6005      4.4157 22526        294 1528526           NA
+#> 312            1.7625      8.6233 22330        295 1528330         1105
+#> 313            1.6440      6.1973 22110        297 1528110           NA
+#> 314            8.6000      2.4000 22430         NA      NA           NA
+#> 315            4.7759      2.5798 22720         NA      NA           NA
+#> 316            3.2028      7.9904 22320        299 1528320         1104
+#> 317            9.7744      2.9307    NA        294 1528527         1110
+#> 318            4.2099      2.5049 22220        304 1528220         1101
+#> 319            4.3887      5.9471 22420        305 1528420         1107
+#> 320            6.6882      7.7157 22521        293 1528521         1106
+#> 321            8.6005      4.4157 22526        294 1528526           NA
+#> 322            1.7625      8.6233 22330        295 1528330         1105
+#> 323            1.6440      6.1973 22110        297 1528110           NA
+#> 324            8.6000      2.4000 22430         NA      NA           NA
+#> 325            4.7759      2.5798 22720         NA      NA           NA
+#> 326            3.2028      7.9904 22320        299 1528320         1104
+#> 327            9.7744      2.9307    NA        294 1528527         1110
+#> 328            4.2099      2.5049 22220        304 1528220         1101
+#> 329            4.3887      5.9471 22420        305 1528420         1107
+#> 330            6.6882      7.7157 22521        293 1528521         1106
+#> 331            8.6005      4.4157 22526        294 1528526           NA
+#> 332            1.7625      8.6233 22330        295 1528330         1105
+#> 333            1.6440      6.1973 22110        297 1528110           NA
+#> 334            4.7759      2.5798 22720         NA      NA           NA
+#> 335            3.2028      7.9904 22320        299 1528320         1104
+#> 336            9.7744      2.9307    NA        294 1528527         1110
+#> 337            4.2099      2.5049 22220        304 1528220         1101
+#> 338            4.3887      5.9471 22420        305 1528420         1107
+#> 339            6.6882      7.7157 22521        293 1528521         1106
+#> 340            8.6005      4.4157 22526        294 1528526           NA
+#> 341            1.7625      8.6233 22330        295 1528330         1105
+#> 342            1.6440      6.1973 22110        297 1528110           NA
+#> 343            4.7759      2.5798 22720         NA      NA           NA
+#> 344            6.5700      0.9167    NA        301 1528600           NA
+#> 345            3.2028      7.9904 22320        299 1528320         1104
+#> 346            9.7744      2.9307    NA        294 1528527         1110
+#> 347            4.2099      2.5049 22220        304 1528220         1101
+#> 348            4.3887      5.9471 22420        305 1528420         1107
+#> 349            6.6882      7.7157 22521        293 1528521         1106
+#> 350            8.6005      4.4157 22526        294 1528526           NA
+#> 351            1.7625      8.6233 22330        295 1528330         1105
+#> 352            1.6440      6.1973 22110        297 1528110           NA
+#> 353            6.5700      0.9167    NA        301 1528600           NA
+#> 354            3.2028      7.9904 22320        299 1528320         1104
+#> 355                NA          NA    NA        300 1528006           NA
+#> 356            9.7744      2.9307    NA        294 1528527         1110
+#> 357            4.2099      2.5049 22220        304 1528220         1101
+#> 358            4.3887      5.9471 22420        305 1528420         1107
+#> 359            6.6882      7.7157 22521        293 1528521         1106
+#> 360            8.6005      4.4157 22526        294 1528526           NA
+#> 361            1.7625      8.6233 22330        295 1528330         1105
+#> 362            1.6440      6.1973 22110        297 1528110           NA
+#> 363            6.5700      0.9167    NA        301 1528600           NA
+#> 364            3.2028      7.9904 22320        299 1528320         1104
+#> 365                NA          NA    NA        300 1528006           NA
+#> 366            9.7744      2.9307    NA        294 1528527         1110
+#> 367            4.2099      2.5049 22220        304 1528220         1101
+#> 368            4.3887      5.9471 22420        305 1528420         1107
+#> 369            6.6882      7.7157 22521        293 1528521         1106
+#> 370            8.6005      4.4157 22526        294 1528526           NA
+#> 371            1.7625      8.6233 22330        295 1528330         1105
+#> 372            1.6440      6.1973 22110        297 1528110           NA
+#> 373            6.5700      0.9167    NA        301 1528600           NA
+#> 374            3.2028      7.9904 22320        299 1528320         1104
+#> 375                NA          NA    NA        300 1528006           NA
+#> 376            9.7744      2.9307    NA        294 1528527         1110
+#> 377            4.2099      2.5049 22220        304 1528220         1101
+#> 378            4.3887      5.9471 22420        305 1528420         1107
+#> 379            6.6882      7.7157 22521        293 1528521         1106
+#> 380            8.6005      4.4157 22526        294 1528526           NA
+#> 381            1.7625      8.6233 22330        295 1528330         1105
+#> 382            1.6440      6.1973 22110        297 1528110           NA
+#> 383            6.5700      0.9167    NA        301 1528600           NA
+#> 384            3.2028      7.9904 22320        299 1528320         1104
+#> 385                NA          NA    NA        300 1528006           NA
+#> 386            9.7744      2.9307    NA        294 1528527         1110
+#> 387            4.2099      2.5049 22220        304 1528220         1101
+#> 388            4.3887      5.9471 22420        305 1528420         1107
+#> 389            3.5000      8.7000    NA         NA      NA           NA
+#> 390            6.6882      7.7157 22521        293 1528521         1106
+#> 391            8.6005      4.4157 22526        294 1528526           NA
+#> 392            1.7625      8.6233 22330        295 1528330         1105
+#> 393            1.6440      6.1973 22110        297 1528110           NA
+#> 394            6.5700      0.9167    NA        301 1528600           NA
+#> 395            3.2028      7.9904 22320        299 1528320         1104
+#> 396                NA          NA    NA        300 1528006           NA
+#> 397            9.7744      2.9307    NA        294 1528527         1110
+#> 398            4.2099      2.5049 22220        304 1528220         1101
+#> 399            4.3887      5.9471 22420        305 1528420         1107
+#> 400            3.5000      8.7000    NA         NA      NA           NA
+#> 401            6.6882      7.7157 22521        293 1528521         1106
+#> 402            8.6005      4.4157 22526        294 1528526           NA
+#> 403            1.7625      8.6233 22330        295 1528330         1105
+#> 404            1.6440      6.1973 22110        297 1528110           NA
+#> 405            6.5700      0.9167    NA        301 1528600           NA
+#> 406            3.2028      7.9904 22320        299 1528320         1104
+#> 407                NA          NA    NA        300 1528006           NA
+#> 408            9.7744      2.9307    NA        294 1528527         1110
+#> 409            4.2099      2.5049 22220        304 1528220         1101
+#> 410            4.3887      5.9471 22420        305 1528420         1107
+#> 411            3.5000      8.7000    NA         NA      NA           NA
+#> 412            6.6882      7.7157 22521        293 1528521         1106
+#> 413            8.6005      4.4157 22526        294 1528526           NA
+#> 414            1.7625      8.6233 22330        295 1528330         1105
+#> 415            1.6440      6.1973 22110        297 1528110           NA
+#> 416            6.5700      0.9167    NA        301 1528600           NA
+#> 417            3.2028      7.9904 22320        299 1528320         1104
+#> 418                NA          NA    NA        300 1528006           NA
+#> 419            9.7744      2.9307    NA        294 1528527         1110
+#> 420            4.2099      2.5049 22220        304 1528220         1101
+#> 421            4.3887      5.9471 22420        305 1528420         1107
+#>     huber_inglehart  ray benoit_laver chess cabinet_party prime_minister
+#> 1                NA 1001           NA  1001             1              0
+#> 2                NA 1001           NA  1001             1              0
+#> 3                NA 1012           NA    NA             0              0
+#> 4                NA   NA           NA    NA             1              1
+#> 5                NA   NA           NA    NA             0              0
+#> 6                NA   NA           NA    NA             0              0
+#> 7                NA 1001           NA  1001             1              0
+#> 8                NA 1001           NA  1001             1              0
+#> 9                NA 1012           NA    NA             0              0
+#> 10               NA   NA           NA    NA             1              1
+#> 11               NA   NA           NA    NA             0              0
+#> 12             2607 1006         7160  1019             0              0
+#> 13               NA   NA           NA    NA             0              0
+#> 14               NA 1001           NA  1001             1              1
+#> 15               NA 1001           NA  1001             1              0
+#> 16               NA 1012           NA    NA             0              0
+#> 17               NA   NA           NA    NA             1              0
+#> 18               NA   NA           NA    NA             0              0
+#> 19             2607 1006         7160  1019             0              0
+#> 20               NA   NA           NA    NA             0              0
+#> 21               NA 1001           NA  1001             1              0
+#> 22               NA 1001           NA  1001             1              1
+#> 23               NA 1012           NA    NA             0              0
+#> 24               NA   NA           NA    NA             1              0
+#> 25               NA   NA           NA    NA             0              0
+#> 26             2607 1006         7160  1019             0              0
+#> 27               NA   NA           NA    NA             0              0
+#> 28               NA 1001           NA  1001             1              0
+#> 29               NA 1001           NA  1001             1              0
+#> 30               NA 1012           NA    NA             0              0
+#> 31               NA   NA           NA    NA             1              1
+#> 32               NA   NA           NA    NA             0              0
+#> 33             2607 1006         7160  1019             0              0
+#> 34               NA   NA           NA    NA             0              0
+#> 35               NA 1001           NA  1001             1              1
+#> 36               NA   NA           NA    NA             0              0
+#> 37               NA 1001           NA  1001             1              0
+#> 38               NA 1012           NA    NA             0              0
+#> 39               NA   NA           NA    NA             1              0
+#> 40               NA   NA           NA    NA             0              0
+#> 41             2607 1006         7160  1019             0              0
+#> 42               NA   NA           NA    NA             1              0
+#> 43               NA 1001           NA  1001             1              1
+#> 44               NA   NA           NA    NA             0              0
+#> 45               NA 1001           NA  1001             1              0
+#> 46               NA 1012           NA    NA             0              0
+#> 47               NA   NA           NA    NA             1              0
+#> 48               NA   NA           NA    NA             0              0
+#> 49             2607 1006         7160  1019             0              0
+#> 50               NA   NA           NA    NA             1              0
+#> 51               NA 1001           NA  1001             1              1
+#> 52               NA   NA           NA    NA             0              0
+#> 53               NA 1001           NA  1001             1              0
+#> 54               NA 1012           NA    NA             0              0
+#> 55               NA   NA           NA    NA             1              0
+#> 56               NA   NA           NA    NA             0              0
+#> 57             2607 1006         7160  1019             0              0
+#> 58               NA   NA           NA    NA             0              0
+#> 59               NA 1001           NA  1001             1              1
+#> 60               NA   NA           NA    NA             0              0
+#> 61               NA 1001           NA  1001             1              0
+#> 62               NA 1012           NA    NA             0              0
+#> 63               NA   NA           NA    NA             0              0
+#> 64               NA   NA           NA    NA             0              0
+#> 65             2607 1006         7160  1019             0              0
+#> 66               NA   NA           NA    NA             0              0
+#> 67               NA 1001           NA  1001             1              0
+#> 68               NA   NA           NA    NA             0              0
+#> 69               NA 1001           NA  1001             1              1
+#> 70               NA 1012           NA    NA             0              0
+#> 71               NA   NA           NA    NA             1              0
+#> 72               NA   NA           NA    NA             1              0
+#> 73             2607 1006         7160  1019             0              0
+#> 74               NA   NA           NA    NA             0              0
+#> 75               NA 1001           NA  1001             1              0
+#> 76               NA   NA           NA    NA             0              0
+#> 77               NA 1001           NA  1001             1              0
+#> 78               NA 1012           NA    NA             0              0
+#> 79               NA 1001         7040  1001             1              0
+#> 80               NA   NA           NA    NA             0              0
+#> 81               NA   NA           NA    NA             1              0
+#> 82             2607 1006         7160  1019             0              0
+#> 83               NA   NA           NA    NA             1              1
+#> 84               NA 1001           NA  1001             0              0
+#> 85               NA 1001           NA  1001             0              0
+#> 86               NA 1012           NA    NA             0              0
+#> 87               NA 1001         7040  1001             1              1
+#> 88             2602 1002         7140  1002             1              0
+#> 89             2607 1006         7160  1019             0              0
+#> 90             2605 1003         7200  1003             1              0
+#> 91               NA 1001           NA  1001             0              0
+#> 92               NA 1001           NA  1001             1              0
+#> 93               NA 1012           NA    NA             0              0
+#> 94               NA   NA           NA    NA             0              0
+#> 95               NA 1001         7040  1001             1              0
+#> 96             2602 1002         7140  1002             1              1
+#> 97             2607 1006         7160  1019             0              0
+#> 98             2605 1003         7200  1003             1              0
+#> 99               NA 1001           NA  1001             0              0
+#> 100              NA 1001           NA  1001             1              0
+#> 101              NA 1012           NA    NA             0              0
+#> 102              NA   NA           NA    NA             0              0
+#> 103              NA 1001         7040  1001             1              0
+#> 104            2602 1002         7140  1002             1              1
+#> 105            2607 1006         7160  1019             0              0
+#> 106            2605 1003         7200  1003             1              0
+#> 107              NA 1001           NA  1001             1              0
+#> 108              NA 1001           NA  1001             1              0
+#> 109              NA 1012           NA    NA             0              0
+#> 110              NA   NA           NA    NA             0              0
+#> 111              NA 1001         7040  1001             1              0
+#> 112            2602 1002         7140  1002             1              1
+#> 113            2607 1006         7160  1019             0              0
+#> 114            2605 1003         7200  1003             0              0
+#> 115              NA 1001           NA  1001             1              0
+#> 116              NA 1001           NA  1001             1              0
+#> 117              NA 1012           NA    NA             0              0
+#> 118              NA 1001         7040  1001             1              0
+#> 119            2602 1002         7140  1002             1              1
+#> 120            2607 1006         7160  1019             0              0
+#> 121            2605 1003         7200  1003             0              0
+#> 122              NA 1001           NA  1001             1              0
+#> 123              NA 1001           NA  1001             1              0
+#> 124              NA 1012           NA    NA             0              0
+#> 125              NA 1001         7040  1001             1              1
+#> 126            2602 1002         7140  1002             0              0
+#> 127            2607 1006         7160  1019             0              0
+#> 128            2605 1003         7200  1003             0              0
+#> 129              NA 1001           NA  1001             1              0
+#> 130              NA 1001           NA  1001             1              0
+#> 131              NA 1012           NA    NA             0              0
+#> 132              NA 1001         7040  1001             1              1
+#> 133              NA 1011           NA    NA             0              0
+#> 134            2602 1002         7140  1002             0              0
+#> 135            2607 1006         7160  1019             0              0
+#> 136            2605 1003         7200  1003             1              0
+#> 137              NA 1001           NA  1001             1              0
+#> 138              NA   NA           NA    NA             0              0
+#> 139              NA 1001           NA  1001             1              0
+#> 140              NA 1012           NA    NA             0              0
+#> 141            2606 1007           NA  1007             0              0
+#> 142              NA 1001         7040  1001             1              1
+#> 143              NA 1011           NA    NA             0              0
+#> 144            2602 1002         7140  1002             0              0
+#> 145            2607 1006         7160  1019             0              0
+#> 146            2605 1003         7200  1003             1              0
+#> 147              NA 1001           NA  1001             1              0
+#> 148              NA   NA           NA    NA             0              0
+#> 149              NA 1001           NA  1001             0              0
+#> 150              NA 1012           NA    NA             0              0
+#> 151            2606 1007           NA  1007             0              0
+#> 152              NA 1001         7040  1001             1              1
+#> 153              NA 1011           NA    NA             0              0
+#> 154            2602 1002         7140  1002             1              0
+#> 155            2607 1006         7160  1019             0              0
+#> 156            2605 1003         7200  1003             0              0
+#> 157              NA 1001           NA  1001             1              1
+#> 158              NA   NA           NA    NA             0              0
+#> 159              NA 1001           NA  1001             0              0
+#> 160              NA 1012           NA    NA             0              0
+#> 161            2606 1007           NA  1007             0              0
+#> 162              NA 1001         7040  1001             1              0
+#> 163              NA 1011           NA    NA             0              0
+#> 164            2602 1002         7140  1002             0              0
+#> 165            2607 1006         7160  1019             0              0
+#> 166            2605 1003         7200  1003             0              0
+#> 167              NA 1001           NA  1001             1              0
+#> 168              NA   NA           NA    NA             0              0
+#> 169              NA 1001           NA  1001             1              0
+#> 170              NA 1012           NA    NA             0              0
+#> 171            2603 1004         7080  1004             0              0
+#> 172            2606 1007           NA  1007             0              0
+#> 173              NA 1001         7040  1001             1              1
+#> 174              NA 1011           NA    NA             0              0
+#> 175            2602 1002         7140  1002             0              0
+#> 176            2607 1006         7160  1019             0              0
+#> 177            2605 1003         7200  1003             1              0
+#> 178              NA 1001           NA  1001             1              1
+#> 179              NA   NA           NA    NA             0              0
+#> 180              NA 1001           NA  1001             1              0
+#> 181              NA 1012           NA    NA             0              0
+#> 182            2603 1004         7080  1004             0              0
+#> 183              NA   NA           NA  1002             1              0
+#> 184            2606 1007           NA  1007             0              0
+#> 185              NA 1001         7040  1001             1              0
+#> 186              NA   NA           NA    NA             0              0
+#> 187              NA 1010           NA    NA             0              0
+#> 188              NA 1011           NA    NA             0              0
+#> 189            2602 1002         7140  1002             0              0
+#> 190            2607 1006         7160  1019             0              0
+#> 191            2605 1003         7200  1003             1              0
+#> 192              NA 1001           NA  1001             1              1
+#> 193              NA   NA           NA    NA             0              0
+#> 194              NA 1001           NA  1001             1              0
+#> 195              NA 1012           NA    NA             0              0
+#> 196            2603 1004         7080  1004             0              0
+#> 197              NA   NA           NA  1002             0              0
+#> 198            2606 1007           NA  1007             0              0
+#> 199              NA 1001         7040  1001             1              0
+#> 200              NA   NA           NA    NA             0              0
+#> 201              NA 1010           NA    NA             0              0
+#> 202              NA 1011           NA    NA             0              0
+#> 203            2602 1002         7140  1002             0              0
+#> 204            2607 1006         7160  1019             0              0
+#> 205            2605 1003         7200  1003             1              0
+#> 206              NA 1001           NA  1001             1              0
+#> 207              NA   NA           NA    NA             0              0
+#> 208              NA 1001           NA  1001             0              0
+#> 209              NA 1012           NA    NA             0              0
+#> 210            2603 1004         7080  1004             1              0
+#> 211              NA   NA           NA  1002             0              0
+#> 212            2606 1007           NA  1007             0              0
+#> 213              NA 1001         7040  1001             1              0
+#> 214              NA 1010           NA    NA             1              0
+#> 215              NA 1011           NA    NA             0              0
+#> 216            2602 1002         7140  1002             1              1
+#> 217            2607 1006         7160  1019             0              0
+#> 218            2605 1003         7200  1003             0              0
+#> 219              NA   NA           NA    NA             0              0
+#> 220            2604 1001         7040  1001             1              0
+#> 221              NA 1012           NA    NA             0              0
+#> 222            2603 1004         7080  1004             1              0
+#> 223              NA   NA           NA  1002             0              0
+#> 224            2606 1007           NA  1007             0              0
+#> 225              NA 1010           NA    NA             1              0
+#> 226              NA 1011           NA    NA             0              0
+#> 227            2602 1002         7140  1002             1              1
+#> 228            2607 1006         7160  1019             0              0
+#> 229            2605 1003         7200  1003             0              0
+#> 230              NA   NA           NA    NA             0              0
+#> 231            2604 1001         7040  1001             1              1
+#> 232              NA 1012           NA    NA             0              0
+#> 233            2603 1004         7080  1004             0              0
+#> 234              NA   NA           NA  1002             0              0
+#> 235            2606 1007           NA  1007             0              0
+#> 236              NA 1010           NA    NA             0              0
+#> 237              NA 1011           NA    NA             0              0
+#> 238            2602 1002         7140  1002             0              0
+#> 239            2607 1006         7160  1019             0              0
+#> 240            2605 1003         7200  1003             1              0
+#> 241            2604 1001         7040  1001             1              1
+#> 242              NA 1012           NA    NA             0              0
+#> 243            2603 1004         7080  1004             1              0
+#> 244            2606 1007           NA  1007             0              0
+#> 245              NA 1010           NA    NA             0              0
+#> 246              NA 1011           NA    NA             0              0
+#> 247            2602 1002         7140  1002             1              0
+#> 248            2608 1008           NA  1008             0              0
+#> 249            2607 1006         7160  1019             0              0
+#> 250            2605 1003         7200  1003             0              0
+#> 251            2604 1001         7040  1001             1              1
+#> 252              NA 1012           NA    NA             0              0
+#> 253            2603 1004         7080  1004             1              0
+#> 254            2606 1007           NA  1007             0              0
+#> 255              NA 1010           NA    NA             0              0
+#> 256              NA 1011           NA    NA             0              0
+#> 257            2602 1002         7140  1002             0              0
+#> 258            2608 1008           NA  1008             0              0
+#> 259            2607 1006         7160  1019             0              0
+#> 260            2605 1003         7200  1003             0              0
+#> 261            2604 1001         7040  1001             1              1
+#> 262              NA   NA           NA    NA             0              0
+#> 263              NA 1012           NA    NA             0              0
+#> 264            2603 1004         7080  1004             0              0
+#> 265            2606 1007           NA  1007             0              0
+#> 266              NA 1010           NA    NA             0              0
+#> 267              NA 1011           NA    NA             0              0
+#> 268            2602 1002         7140  1002             0              0
+#> 269            2608 1008           NA  1008             0              0
+#> 270            2607 1006         7160  1019             0              0
+#> 271            2605 1003         7200  1003             1              0
+#> 272            2604 1001         7040  1001             1              1
+#> 273            2603 1004         7080  1004             0              0
+#> 274            2606 1007           NA  1007             0              0
+#> 275              NA 1010           NA    NA             0              0
+#> 276              NA 1011           NA    NA             0              0
+#> 277            2602 1002         7140  1002             0              0
+#> 278            2608 1008           NA  1008             0              0
+#> 279            2607 1006         7160  1019             0              0
+#> 280            2605 1003         7200  1003             1              0
+#> 281            2609 1009           NA  1009             0              0
+#> 282            2604 1001         7040  1001             1              1
+#> 283            2603 1004         7080  1004             0              0
+#> 284            2601 1005         7100  1005             0              0
+#> 285            2606 1007           NA  1007             0              0
+#> 286            2602 1002         7140  1002             1              0
+#> 287            2608 1008           NA  1008             0              0
+#> 288            2607 1006         7160  1019             0              0
+#> 289            2605 1003         7200  1003             0              0
+#> 290              NA   NA           NA    NA             0              0
+#> 291            2609 1009           NA  1009             0              0
+#> 292            2604 1001         7040  1001             0              0
+#> 293            2603 1004         7080  1004             1              0
+#> 294            2601 1005         7100  1005             0              0
+#> 295            2606 1007           NA  1007             0              0
+#> 296            2602 1002         7140  1002             1              1
+#> 297            2608 1008           NA  1008             0              0
+#> 298            2607 1006         7160  1019             0              0
+#> 299              NA   NA         7180  1014             0              0
+#> 300            2605 1003         7200  1003             1              0
+#> 301            2604 1001         7040  1001             0              0
+#> 302            2603 1004         7080  1004             1              0
+#> 303            2601 1005         7100  1005             0              0
+#> 304            2606 1007           NA  1007             0              0
+#> 305            2602 1002         7140  1002             1              1
+#> 306            2608 1008           NA  1008             0              0
+#> 307            2607 1006         7160  1019             0              0
+#> 308              NA   NA         7180  1014             0              0
+#> 309            2605 1003         7200  1003             1              0
+#> 310            2604 1001         7040  1001             1              1
+#> 311              NA   NA         7060  1016             0              0
+#> 312            2603 1004         7080  1004             0              0
+#> 313            2601 1005         7100  1005             0              0
+#> 314              NA   NA           NA    NA             0              0
+#> 315              NA   NA         7120  1015             1              0
+#> 316            2602 1002         7140  1002             0              0
+#> 317            2607 1006         7160  1019             0              0
+#> 318              NA   NA         7180  1014             0              0
+#> 319            2605 1003         7200  1003             1              0
+#> 320            2604 1001         7040  1001             1              1
+#> 321              NA   NA         7060  1016             0              0
+#> 322            2603 1004         7080  1004             0              0
+#> 323            2601 1005         7100  1005             0              0
+#> 324              NA   NA           NA    NA             0              0
+#> 325              NA   NA         7120  1015             1              0
+#> 326            2602 1002         7140  1002             0              0
+#> 327            2607 1006         7160  1019             0              0
+#> 328              NA   NA         7180  1014             0              0
+#> 329            2605 1003         7200  1003             1              0
+#> 330            2604 1001         7040  1001             1              1
+#> 331              NA   NA         7060  1016             0              0
+#> 332            2603 1004         7080  1004             1              0
+#> 333            2601 1005         7100  1005             0              0
+#> 334              NA   NA         7120  1015             0              0
+#> 335            2602 1002         7140  1002             0              0
+#> 336            2607 1006         7160  1019             0              0
+#> 337              NA   NA         7180  1014             0              0
+#> 338            2605 1003         7200  1003             1              0
+#> 339            2604 1001         7040  1001             1              1
+#> 340              NA   NA         7060  1016             0              0
+#> 341            2603 1004         7080  1004             0              0
+#> 342            2601 1005         7100  1005             0              0
+#> 343              NA   NA         7120  1015             0              0
+#> 344              NA   NA           NA  1017             0              0
+#> 345            2602 1002         7140  1002             0              0
+#> 346            2607 1006         7160  1019             0              0
+#> 347              NA   NA         7180  1014             0              0
+#> 348            2605 1003         7200  1003             1              0
+#> 349            2604 1001         7040  1001             1              1
+#> 350              NA   NA         7060  1016             1              0
+#> 351            2603 1004         7080  1004             0              0
+#> 352            2601 1005         7100  1005             0              0
+#> 353              NA   NA           NA  1017             0              0
+#> 354            2602 1002         7140  1002             1              0
+#> 355              NA   NA           NA  1018             0              0
+#> 356            2607 1006         7160  1019             0              0
+#> 357              NA   NA         7180  1014             0              0
+#> 358            2605 1003         7200  1003             0              0
+#> 359            2604 1001         7040  1001             1              1
+#> 360              NA   NA         7060  1016             1              0
+#> 361            2603 1004         7080  1004             0              0
+#> 362            2601 1005         7100  1005             0              0
+#> 363              NA   NA           NA  1017             0              0
+#> 364            2602 1002         7140  1002             0              0
+#> 365              NA   NA           NA  1018             0              0
+#> 366            2607 1006         7160  1019             0              0
+#> 367              NA   NA         7180  1014             0              0
+#> 368            2605 1003         7200  1003             0              0
+#> 369            2604 1001         7040  1001             1              0
+#> 370              NA   NA         7060  1016             0              0
+#> 371            2603 1004         7080  1004             0              0
+#> 372            2601 1005         7100  1005             0              0
+#> 373              NA   NA           NA  1017             0              0
+#> 374            2602 1002         7140  1002             0              0
+#> 375              NA   NA           NA  1018             0              0
+#> 376            2607 1006         7160  1019             0              0
+#> 377              NA   NA         7180  1014             0              0
+#> 378            2605 1003         7200  1003             1              1
+#> 379            2604 1001         7040  1001             1              0
+#> 380              NA   NA         7060  1016             0              0
+#> 381            2603 1004         7080  1004             0              0
+#> 382            2601 1005         7100  1005             0              0
+#> 383              NA   NA           NA  1017             0              0
+#> 384            2602 1002         7140  1002             0              0
+#> 385              NA   NA           NA  1018             0              0
+#> 386            2607 1006         7160  1019             0              0
+#> 387              NA   NA         7180  1014             0              0
+#> 388            2605 1003         7200  1003             1              1
+#> 389              NA   NA           NA    NA             0              0
+#> 390            2604 1001         7040  1001             0              0
+#> 391              NA   NA         7060  1016             0              0
+#> 392            2603 1004         7080  1004             0              0
+#> 393            2601 1005         7100  1005             0              0
+#> 394              NA   NA           NA  1017             0              0
+#> 395            2602 1002         7140  1002             1              0
+#> 396              NA   NA           NA  1018             0              0
+#> 397            2607 1006         7160  1019             0              0
+#> 398              NA   NA         7180  1014             0              0
+#> 399            2605 1003         7200  1003             1              1
+#> 400              NA   NA           NA    NA             0              0
+#> 401            2604 1001         7040  1001             0              0
+#> 402              NA   NA         7060  1016             0              0
+#> 403            2603 1004         7080  1004             0              0
+#> 404            2601 1005         7100  1005             0              0
+#> 405              NA   NA           NA  1017             0              0
+#> 406            2602 1002         7140  1002             0              0
+#> 407              NA   NA           NA  1018             0              0
+#> 408            2607 1006         7160  1019             0              0
+#> 409              NA   NA         7180  1014             0              0
+#> 410            2605 1003         7200  1003             1              1
+#> 411              NA   NA           NA    NA             0              0
+#> 412            2604 1001         7040  1001             1              0
+#> 413              NA   NA         7060  1016             1              0
+#> 414            2603 1004         7080  1004             1              0
+#> 415            2601 1005         7100  1005             0              0
+#> 416              NA   NA           NA  1017             0              0
+#> 417            2602 1002         7140  1002             0              0
+#> 418              NA   NA           NA  1018             0              0
+#> 419            2607 1006         7160  1019             0              0
+#> 420              NA   NA         7180  1014             0              0
+#> 421            2605 1003         7200  1003             1              1
+#> 
+#> attr(,"class")
+#> [1] "questionList"
+
+# Filter on responderList to keep only questions answered by a specific party
+dplyr::filter(examplequestions, responderParty == "VVD", .table = "responderList")
+#> $metaList
+#> [1] dcIdentifier     dcTitle          questionNumber   aanhangselNumber
+#> [5] dateQuestion     dateResponse     questionerCount  responderCount  
+#> [9] aanhangselType  
+#> <0 rows> (or 0-length row.names)
+#> 
+#> $questionerList
+#> [1] dcIdentifier    questionerName  questionerId    questionerParty
+#> <0 rows> (or 0-length row.names)
+#> 
+#> $responderList
+#> [1] dcIdentifier   responderName  responderId    responderParty
+#> <0 rows> (or 0-length row.names)
+#> 
+#> $categoryList
+#> [1] dcIdentifier category     subcategory 
+#> <0 rows> (or 0-length row.names)
+#> 
+#> $cabinetInfo
+#>                  cabinet_name cabinet_name_parlementcom start_date
+#> 1     Ruijs de Beerenbrouck I                      <NA> 1918-09-09
+#> 11   Ruijs de Beerenbrouck II                      <NA> 1922-09-18
+#> 21                   Colijn I                      <NA> 1925-08-04
+#> 32                  De Geer I                      <NA> 1926-03-08
+#> 43  Ruijs de Beerenbrouck III                      <NA> 1929-08-10
+#> 54                  Colijn II                      <NA> 1933-05-26
+#> 69                 Colijn III                      <NA> 1935-07-31
+#> 84                  Colijn IV                      <NA> 1937-06-24
+#> 94                   Colijn V                      <NA> 1939-07-25
+#> 105                De Geer II                      <NA> 1939-08-10
+#> 116              Schermerhorn              Schermerhorn 1945-06-24
+#> 127                    Beel I                    Beel I 1946-07-03
+#> 134                   Drees I                   Drees I 1948-08-07
+#> 142                  Drees II                  Drees II 1951-03-15
+#> 150                 Drees III                 Drees III 1952-09-02
+#> 158                  Drees IV                  Drees IV 1956-10-12
+#> 165                   Beel II                   Beel II 1958-12-22
+#> 172                   De Quay                   De Quay 1959-05-19
+#> 180                  Marijnen                  Marijnen 1963-07-24
+#> 190                      Cals                      Cals 1965-04-14
+#> 200                  Zijlstra                  Zijlstra 1966-11-22
+#> 210                   De Jong                   De Jong 1967-04-05
+#> 221              Biesheuvel I              Biesheuvel I 1971-06-07
+#> 235             Biesheuvel II             Biesheuvel II 1972-08-09
+#> 250                 Den Uyl I                 Den Uyl I 1973-05-11
+#> 264                Den Uyl II                 Den Uyl I 1977-05-25
+#> 275                 Van Agt I                 Van Agt I 1977-12-19
+#> 286                Van Agt II                Van Agt II 1981-09-11
+#> 296               Van Agt III               Van Agt III 1982-05-29
+#> 306                 Lubbers I                 Lubbers I 1982-11-04
+#> 318                Lubbers II                Lubbers II 1986-07-14
+#> 327               Lubbers III               Lubbers III 1989-11-07
+#> 336                     Kok I                     Kok I 1994-08-22
+#> 348                    Kok II                    Kok II 1998-08-03
+#> 357              Balkenende I              Balkenende I 2002-07-22
+#> 367             Balkenende II              Balkenende I 2002-10-16
+#> 377            Balkenende III             Balkenende II 2003-05-27
+#> 386             Balkenende IV            Balkenende III 2006-07-07
+#> 396              Balkenende V             Balkenende IV 2007-02-22
+#> 406             Balkenende VI             Balkenende IV 2010-02-23
+#> 416                   Rutte I                   Rutte I 2010-10-14
+#> 426                  Rutte II                   Rutte I 2012-04-23
+#> 437                 Rutte III                  Rutte II 2012-11-05
+#> 448                  Rutte IV                      <NA> 2017-03-15
+#> 462                   Rutte V                      <NA> 2017-10-26
+#>     formal_resignation   end_date caretaker
+#> 1                 <NA> 1922-09-17         0
+#> 11                <NA> 1925-08-03         0
+#> 21                <NA> 1926-03-07         0
+#> 32                <NA> 1929-08-09         0
+#> 43                <NA> 1933-05-25         0
+#> 54                <NA> 1935-07-30         0
+#> 69                <NA> 1937-06-23         0
+#> 84                <NA> 1939-07-24         0
+#> 94                <NA> 1939-08-09         0
+#> 105               <NA> 1945-06-23         0
+#> 116         1946-05-17 1946-07-02         1
+#> 127         1948-07-07 1948-08-06         0
+#> 134         1951-01-24 1951-03-14         0
+#> 142         1952-06-25 1952-09-01         0
+#> 150         1956-06-13 1956-10-11         0
+#> 158         1958-12-12 1958-12-21         0
+#> 165         1959-03-12 1959-05-18         1
+#> 172         1963-05-15 1963-07-23         0
+#> 180         1965-02-27 1965-04-13         0
+#> 190         1966-10-15 1966-11-21         0
+#> 200         1967-02-15 1967-04-04         1
+#> 210         1971-04-28 1971-06-06         0
+#> 221         1972-07-20 1972-08-08         0
+#> 235         1972-11-28 1973-05-10         1
+#> 250         1977-03-22 1977-05-24         0
+#> 264         1977-12-18 1977-12-18         1
+#> 275         1981-05-27 1981-09-10         0
+#> 286         1982-05-12 1982-05-28         0
+#> 296         1982-09-09 1982-11-03         1
+#> 306         1986-05-21 1986-07-13         0
+#> 318         1989-05-02 1989-11-06         0
+#> 327         1994-05-03 1994-08-21         0
+#> 336         1998-05-05 1998-08-02         0
+#> 348         2002-04-16 2002-07-21         0
+#> 357         2002-10-15 2002-10-15         0
+#> 367         2003-05-26 2003-05-26         1
+#> 377         2006-06-30 2006-07-06         0
+#> 386         2006-11-22 2007-02-21         1
+#> 396         2010-02-22 2010-02-22         0
+#> 406         2010-10-13 2010-10-13         1
+#> 416         2012-04-22 2012-04-22         0
+#> 426         2012-11-04 2012-11-04         1
+#> 437         2017-03-15 2017-03-14         0
+#> 448               <NA> 2017-10-25         1
+#> 462               <NA>       <NA>         0
+#> 
+#> $partyElectionInfo
+#>             party election_date term_start election_id
+#> 1          50PLUS    2012-09-12 2012-09-20         785
+#> 2          50PLUS    2017-03-15 2017-03-23        1012
+#> 3             AOV    1994-05-03 1994-05-17         570
+#> 4             AOV    2002-05-15 2002-05-23          74
+#> 5             ARP    1918-07-03       <NA>         937
+#> 6             ARP    1922-07-05       <NA>         938
+#> 7             ARP    1925-07-01       <NA>         939
+#> 8             ARP    1929-07-03       <NA>         940
+#> 9             ARP    1933-04-26       <NA>         941
+#> 10            ARP    1937-05-26 1937-06-08         942
+#> 11            ARP    1946-05-17 1946-06-04         182
+#> 12            ARP    1948-07-07 1948-07-27         497
+#> 13            ARP    1952-06-25 1952-07-15         543
+#> 14            ARP    1956-06-13 1956-07-03         437
+#> 15            ARP    1959-03-12 1959-03-20         667
+#> 16            ARP    1963-05-15 1963-06-05         529
+#> 17            ARP    1967-02-15 1967-02-23         204
+#> 18            ARP    1971-04-28 1971-05-11         125
+#> 19            ARP    1972-11-29 1972-12-07          51
+#> 20             BP    1963-05-15 1963-06-05         529
+#> 21             BP    1967-02-15 1967-02-23         204
+#> 22             BP    1971-04-28 1971-05-11         125
+#> 23             BP    1972-11-29 1972-12-07          51
+#> 24             BP    1977-05-25 1977-06-08         635
+#> 25             CD    1989-09-06 1989-09-14         627
+#> 26             CD    1994-05-03 1994-05-17         570
+#> 27             CD    1998-05-06 1998-05-19         372
+#> 28            CDA    1977-05-25 1977-06-08         635
+#> 29            CDA    1981-05-26 1981-06-10          81
+#> 30            CDA    1982-09-08 1982-09-16         116
+#> 31            CDA    1986-05-21 1986-06-03          62
+#> 32            CDA    1989-09-06 1989-09-14         627
+#> 33            CDA    1994-05-03 1994-05-17         570
+#> 34            CDA    1998-05-06 1998-05-19         372
+#> 35            CDA    2002-05-15 2002-05-23          74
+#> 36            CDA    2003-01-22 2003-01-30         335
+#> 37            CDA    2006-11-22 2006-11-30         578
+#> 38            CDA    2010-06-09 2010-06-17         530
+#> 39            CDA    2012-09-12 2012-09-20         785
+#> 40            CDA    2017-03-15 2017-03-23        1012
+#> 41            CDU    1933-04-26       <NA>         941
+#> 42            CDU    1937-05-26 1937-06-08         942
+#> 43  Centrumpartij    1982-09-08 1982-09-16         116
+#> 44  Centrumpartij    1994-05-03 1994-05-17         570
+#> 45   ChristenUnie    2002-05-15 2002-05-23          74
+#> 46   ChristenUnie    2003-01-22 2003-01-30         335
+#> 47   ChristenUnie    2006-11-22 2006-11-30         578
+#> 48   ChristenUnie    2010-06-09 2010-06-17         530
+#> 49   ChristenUnie    2012-09-12 2012-09-20         785
+#> 50   ChristenUnie    2017-03-15 2017-03-23        1012
+#> 51            CHU    1918-07-03       <NA>         937
+#> 52            CHU    1922-07-05       <NA>         938
+#> 53            CHU    1925-07-01       <NA>         939
+#> 54            CHU    1929-07-03       <NA>         940
+#> 55            CHU    1933-04-26       <NA>         941
+#> 56            CHU    1937-05-26 1937-06-08         942
+#> 57            CHU    1946-05-17 1946-06-04         182
+#> 58            CHU    1948-07-07 1948-07-27         497
+#> 59            CHU    1952-06-25 1952-07-15         543
+#> 60            CHU    1956-06-13 1956-07-03         437
+#> 61            CHU    1959-03-12 1959-03-20         667
+#> 62            CHU    1963-05-15 1963-06-05         529
+#> 63            CHU    1967-02-15 1967-02-23         204
+#> 64            CHU    1971-04-28 1971-05-11         125
+#> 65            CHU    1972-11-29 1972-12-07          51
+#> 66            CPN    1918-07-03       <NA>         937
+#> 67            CPN    1922-07-05       <NA>         938
+#> 68            CPN    1925-07-01       <NA>         939
+#> 69            CPN    1929-07-03       <NA>         940
+#> 70            CPN    1933-04-26       <NA>         941
+#> 71            CPN    1937-05-26 1937-06-08         942
+#> 72            CPN    1946-05-17 1946-06-04         182
+#> 73            CPN    1948-07-07 1948-07-27         497
+#> 74            CPN    1952-06-25 1952-07-15         543
+#> 75            CPN    1956-06-13 1956-07-03         437
+#> 76            CPN    1959-03-12 1959-03-20         667
+#> 77            CPN    1963-05-15 1963-06-05         529
+#> 78            CPN    1967-02-15 1967-02-23         204
+#> 79            CPN    1971-04-28 1971-05-11         125
+#> 80            CPN    1972-11-29 1972-12-07          51
+#> 81            CPN    1977-05-25 1977-06-08         635
+#> 82            CPN    1981-05-26 1981-06-10          81
+#> 83            CPN    1982-09-08 1982-09-16         116
+#> 84            CPN    1986-05-21 1986-06-03          62
+#> 85            D66    1967-02-15 1967-02-23         204
+#> 86            D66    1971-04-28 1971-05-11         125
+#> 87            D66    1972-11-29 1972-12-07          51
+#> 88            D66    1977-05-25 1977-06-08         635
+#> 89            D66    1981-05-26 1981-06-10          81
+#> 90            D66    1982-09-08 1982-09-16         116
+#> 91            D66    1986-05-21 1986-06-03          62
+#> 92            D66    1989-09-06 1989-09-14         627
+#> 93            D66    1994-05-03 1994-05-17         570
+#> 94            D66    1998-05-06 1998-05-19         372
+#> 95            D66    2002-05-15 2002-05-23          74
+#> 96            D66    2003-01-22 2003-01-30         335
+#> 97            D66    2006-11-22 2006-11-30         578
+#> 98            D66    2010-06-09 2010-06-17         530
+#> 99            D66    2012-09-12 2012-09-20         785
+#> 100           D66    2017-03-15 2017-03-23        1012
+#> 101          DS70    1971-04-28 1971-05-11         125
+#> 102          DS70    1972-11-29 1972-12-07          51
+#> 103          DS70    1977-05-25 1977-06-08         635
+#> 104          DS70    1981-05-26 1981-06-10          81
+#> 105           GPV    1952-06-25 1952-07-15         543
+#> 106           GPV    1956-06-13 1956-07-03         437
+#> 107           GPV    1959-03-12 1959-03-20         667
+#> 108           GPV    1963-05-15 1963-06-05         529
+#> 109           GPV    1967-02-15 1967-02-23         204
+#> 110           GPV    1971-04-28 1971-05-11         125
+#> 111           GPV    1972-11-29 1972-12-07          51
+#> 112           GPV    1977-05-25 1977-06-08         635
+#> 113           GPV    1981-05-26 1981-06-10          81
+#> 114           GPV    1982-09-08 1982-09-16         116
+#> 115           GPV    1986-05-21 1986-06-03          62
+#> 116           GPV    1989-09-06 1989-09-14         627
+#> 117           GPV    1994-05-03 1994-05-17         570
+#> 118           GPV    1998-05-06 1998-05-19         372
+#> 119    GroenLinks    1989-09-06 1989-09-14         627
+#> 120    GroenLinks    1994-05-03 1994-05-17         570
+#> 121    GroenLinks    1998-05-06 1998-05-19         372
+#> 122    GroenLinks    2002-05-15 2002-05-23          74
+#> 123    GroenLinks    2003-01-22 2003-01-30         335
+#> 124    GroenLinks    2006-11-22 2006-11-30         578
+#> 125    GroenLinks    2010-06-09 2010-06-17         530
+#> 126    GroenLinks    2012-09-12 2012-09-20         785
+#> 127    GroenLinks    2017-03-15 2017-03-23        1012
+#> 128           KNP    1948-07-07 1948-07-27         497
+#> 129           KNP    1952-06-25 1952-07-15         543
+#> 130           KVP    1946-05-17 1946-06-04         182
+#> 131           KVP    1948-07-07 1948-07-27         497
+#> 132           KVP    1952-06-25 1952-07-15         543
+#> 133           KVP    1956-06-13 1956-07-03         437
+#> 134           KVP    1959-03-12 1959-03-20         667
+#> 135           KVP    1963-05-15 1963-06-05         529
+#> 136           KVP    1967-02-15 1967-02-23         204
+#> 137           KVP    1971-04-28 1971-05-11         125
+#> 138           KVP    1972-11-29 1972-12-07          51
+#> 139            LN    2002-05-15 2002-05-23          74
+#> 140           LPF    2002-05-15 2002-05-23          74
+#> 141           LPF    2003-01-22 2003-01-30         335
+#> 142           NMP    1971-04-28 1971-05-11         125
+#> 143           NMP    1972-11-29 1972-12-07          51
+#> 144           PPR    1971-04-28 1971-05-11         125
+#> 145           PPR    1972-11-29 1972-12-07          51
+#> 146           PPR    1977-05-25 1977-06-08         635
+#> 147           PPR    1981-05-26 1981-06-10          81
+#> 148           PPR    1982-09-08 1982-09-16         116
+#> 149           PPR    1986-05-21 1986-06-03          62
+#> 150           PSP    1959-03-12 1959-03-20         667
+#> 151           PSP    1963-05-15 1963-06-05         529
+#> 152           PSP    1967-02-15 1967-02-23         204
+#> 153           PSP    1971-04-28 1971-05-11         125
+#> 154           PSP    1972-11-29 1972-12-07          51
+#> 155           PSP    1977-05-25 1977-06-08         635
+#> 156           PSP    1981-05-26 1981-06-10          81
+#> 157           PSP    1982-09-08 1982-09-16         116
+#> 158           PSP    1986-05-21 1986-06-03          62
+#> 159          PvdA    1946-05-17 1946-06-04         182
+#> 160          PvdA    1948-07-07 1948-07-27         497
+#> 161          PvdA    1952-06-25 1952-07-15         543
+#> 162          PvdA    1956-06-13 1956-07-03         437
+#> 163          PvdA    1959-03-12 1959-03-20         667
+#> 164          PvdA    1963-05-15 1963-06-05         529
+#> 165          PvdA    1967-02-15 1967-02-23         204
+#> 166          PvdA    1971-04-28 1971-05-11         125
+#> 167          PvdA    1972-11-29 1972-12-07          51
+#> 168          PvdA    1977-05-25 1977-06-08         635
+#> 169          PvdA    1981-05-26 1981-06-10          81
+#> 170          PvdA    1982-09-08 1982-09-16         116
+#> 171          PvdA    1986-05-21 1986-06-03          62
+#> 172          PvdA    1989-09-06 1989-09-14         627
+#> 173          PvdA    1994-05-03 1994-05-17         570
+#> 174          PvdA    1998-05-06 1998-05-19         372
+#> 175          PvdA    2002-05-15 2002-05-23          74
+#> 176          PvdA    2003-01-22 2003-01-30         335
+#> 177          PvdA    2006-11-22 2006-11-30         578
+#> 178          PvdA    2010-06-09 2010-06-17         530
+#> 179          PvdA    2012-09-12 2012-09-20         785
+#> 180          PvdA    2017-03-15 2017-03-23        1012
+#> 181          PvdD    2003-01-22 2003-01-30         335
+#> 182          PvdD    2006-11-22 2006-11-30         578
+#> 183          PvdD    2010-06-09 2010-06-17         530
+#> 184          PvdD    2012-09-12 2012-09-20         785
+#> 185          PvdD    2017-03-15 2017-03-23        1012
+#> 186           PVV    2006-11-22 2006-11-30         578
+#> 187           PVV    2010-06-09 2010-06-17         530
+#> 188           PVV    2012-09-12 2012-09-20         785
+#> 189           PVV    2017-03-15 2017-03-23        1012
+#> 190          RKSP    1918-07-03       <NA>         937
+#> 191          RKSP    1922-07-05       <NA>         938
+#> 192          RKSP    1925-07-01       <NA>         939
+#> 193          RKSP    1929-07-03       <NA>         940
+#> 194          RKSP    1933-04-26       <NA>         941
+#> 195          RKSP    1937-05-26 1937-06-08         942
+#> 196           RPF    1977-05-25 1977-06-08         635
+#> 197           RPF    1981-05-26 1981-06-10          81
+#> 198           RPF    1982-09-08 1982-09-16         116
+#> 199           RPF    1986-05-21 1986-06-03          62
+#> 200           RPF    1989-09-06 1989-09-14         627
+#> 201           RPF    1994-05-03 1994-05-17         570
+#> 202           RPF    1998-05-06 1998-05-19         372
+#> 203          SDAP    1918-07-03       <NA>         937
+#> 204          SDAP    1922-07-05       <NA>         938
+#> 205          SDAP    1925-07-01       <NA>         939
+#> 206          SDAP    1929-07-03       <NA>         940
+#> 207          SDAP    1933-04-26       <NA>         941
+#> 208          SDAP    1937-05-26 1937-06-08         942
+#> 209           SGP    1922-07-05       <NA>         938
+#> 210           SGP    1925-07-01       <NA>         939
+#> 211           SGP    1929-07-03       <NA>         940
+#> 212           SGP    1933-04-26       <NA>         941
+#> 213           SGP    1937-05-26 1937-06-08         942
+#> 214           SGP    1946-05-17 1946-06-04         182
+#> 215           SGP    1948-07-07 1948-07-27         497
+#> 216           SGP    1952-06-25 1952-07-15         543
+#> 217           SGP    1956-06-13 1956-07-03         437
+#> 218           SGP    1959-03-12 1959-03-20         667
+#> 219           SGP    1963-05-15 1963-06-05         529
+#> 220           SGP    1967-02-15 1967-02-23         204
+#> 221           SGP    1971-04-28 1971-05-11         125
+#> 222           SGP    1972-11-29 1972-12-07          51
+#> 223           SGP    1977-05-25 1977-06-08         635
+#> 224           SGP    1981-05-26 1981-06-10          81
+#> 225           SGP    1982-09-08 1982-09-16         116
+#> 226           SGP    1986-05-21 1986-06-03          62
+#> 227           SGP    1989-09-06 1989-09-14         627
+#> 228           SGP    1994-05-03 1994-05-17         570
+#> 229           SGP    1998-05-06 1998-05-19         372
+#> 230           SGP    2002-05-15 2002-05-23          74
+#> 231           SGP    2003-01-22 2003-01-30         335
+#> 232           SGP    2006-11-22 2006-11-30         578
+#> 233           SGP    2010-06-09 2010-06-17         530
+#> 234           SGP    2012-09-12 2012-09-20         785
+#> 235           SGP    2017-03-15 2017-03-23        1012
+#> 236            SP    1982-09-08 1982-09-16         116
+#> 237            SP    1989-09-06 1989-09-14         627
+#> 238            SP    1994-05-03 1994-05-17         570
+#> 239            SP    1998-05-06 1998-05-19         372
+#> 240            SP    2002-05-15 2002-05-23          74
+#> 241            SP    2003-01-22 2003-01-30         335
+#> 242            SP    2006-11-22 2006-11-30         578
+#> 243            SP    2010-06-09 2010-06-17         530
+#> 244            SP    2012-09-12 2012-09-20         785
+#> 245            SP    2017-03-15 2017-03-23        1012
+#> 246           VDB    1918-07-03       <NA>         937
+#> 247           VDB    1922-07-05       <NA>         938
+#> 248           VDB    1925-07-01       <NA>         939
+#> 249           VDB    1929-07-03       <NA>         940
+#> 250           VDB    1933-04-26       <NA>         941
+#> 251           VDB    1937-05-26 1937-06-08         942
+#> 252           VVD    1946-05-17 1946-06-04         182
+#> 253           VVD    1948-07-07 1948-07-27         497
+#> 254           VVD    1952-06-25 1952-07-15         543
+#> 255           VVD    1956-06-13 1956-07-03         437
+#> 256           VVD    1959-03-12 1959-03-20         667
+#> 257           VVD    1963-05-15 1963-06-05         529
+#> 258           VVD    1967-02-15 1967-02-23         204
+#> 259           VVD    1971-04-28 1971-05-11         125
+#> 260           VVD    1972-11-29 1972-12-07          51
+#> 261           VVD    1977-05-25 1977-06-08         635
+#> 262           VVD    1981-05-26 1981-06-10          81
+#> 263           VVD    1982-09-08 1982-09-16         116
+#> 264           VVD    1986-05-21 1986-06-03          62
+#> 265           VVD    1989-09-06 1989-09-14         627
+#> 266           VVD    1994-05-03 1994-05-17         570
+#> 267           VVD    1998-05-06 1998-05-19         372
+#> 268           VVD    2002-05-15 2002-05-23          74
+#> 269           VVD    2003-01-22 2003-01-30         335
+#> 270           VVD    2006-11-22 2006-11-30         578
+#> 271           VVD    2010-06-09 2010-06-17         530
+#> 272           VVD    2012-09-12 2012-09-20         785
+#> 273           VVD    2017-03-15 2017-03-23        1012
+#>     previous_parliament_election_id party_name_short
+#> 1                               530              50+
+#> 2                               785              50+
+#> 3                               627          AOV|VSP
+#> 4                               372          AOV|VSP
+#> 5                                NA              ARP
+#> 6                               937              ARP
+#> 7                               938              ARP
+#> 8                               939              ARP
+#> 9                               940              ARP
+#> 10                              941              ARP
+#> 11                              942              ARP
+#> 12                              182              ARP
+#> 13                              497              ARP
+#> 14                              543              ARP
+#> 15                              437              ARP
+#> 16                              667              ARP
+#> 17                              529              ARP
+#> 18                              204              ARP
+#> 19                              125              ARP
+#> 20                              667               Bp
+#> 21                              529               Bp
+#> 22                              204               Bp
+#> 23                              125               Bp
+#> 24                               51               Bp
+#> 25                               62               CD
+#> 26                              627               CD
+#> 27                              570               CD
+#> 28                               51              CDA
+#> 29                              635              CDA
+#> 30                               81              CDA
+#> 31                              116              CDA
+#> 32                               62              CDA
+#> 33                              627              CDA
+#> 34                              570              CDA
+#> 35                              372              CDA
+#> 36                               74              CDA
+#> 37                              335              CDA
+#> 38                              578              CDA
+#> 39                              530              CDA
+#> 40                              785              CDA
+#> 41                              940              CDU
+#> 42                              941              CDU
+#> 43                               81               CP
+#> 44                              627               CP
+#> 45                              372               CU
+#> 46                               74               CU
+#> 47                              335               CU
+#> 48                              578               CU
+#> 49                              530               CU
+#> 50                              785               CU
+#> 51                               NA              CHU
+#> 52                              937              CHU
+#> 53                              938              CHU
+#> 54                              939              CHU
+#> 55                              940              CHU
+#> 56                              941              CHU
+#> 57                              942              CHU
+#> 58                              182              CHU
+#> 59                              497              CHU
+#> 60                              543              CHU
+#> 61                              437              CHU
+#> 62                              667              CHU
+#> 63                              529              CHU
+#> 64                              204              CHU
+#> 65                              125              CHU
+#> 66                               NA              CPN
+#> 67                              937              CPN
+#> 68                              938              CPN
+#> 69                              939              CPN
+#> 70                              940              CPN
+#> 71                              941              CPN
+#> 72                              942              CPN
+#> 73                              182              CPN
+#> 74                              497              CPN
+#> 75                              543              CPN
+#> 76                              437              CPN
+#> 77                              667              CPN
+#> 78                              529              CPN
+#> 79                              204              CPN
+#> 80                              125              CPN
+#> 81                               51              CPN
+#> 82                              635              CPN
+#> 83                               81              CPN
+#> 84                              116              CPN
+#> 85                              529              D66
+#> 86                              204              D66
+#> 87                              125              D66
+#> 88                               51              D66
+#> 89                              635              D66
+#> 90                               81              D66
+#> 91                              116              D66
+#> 92                               62              D66
+#> 93                              627              D66
+#> 94                              570              D66
+#> 95                              372              D66
+#> 96                               74              D66
+#> 97                              335              D66
+#> 98                              578              D66
+#> 99                              530              D66
+#> 100                             785              D66
+#> 101                             204             DS70
+#> 102                             125             DS70
+#> 103                              51             DS70
+#> 104                             635             DS70
+#> 105                             497              GPV
+#> 106                             543              GPV
+#> 107                             437              GPV
+#> 108                             667              GPV
+#> 109                             529              GPV
+#> 110                             204              GPV
+#> 111                             125              GPV
+#> 112                              51              GPV
+#> 113                             635              GPV
+#> 114                              81              GPV
+#> 115                             116              GPV
+#> 116                              62              GPV
+#> 117                             627              GPV
+#> 118                             570              GPV
+#> 119                              62               GL
+#> 120                             627               GL
+#> 121                             570               GL
+#> 122                             372               GL
+#> 123                              74               GL
+#> 124                             335               GL
+#> 125                             578               GL
+#> 126                             530               GL
+#> 127                             785               GL
+#> 128                             182              KNP
+#> 129                             497              KNP
+#> 130                             942              KVP
+#> 131                             182              KVP
+#> 132                             497              KVP
+#> 133                             543              KVP
+#> 134                             437              KVP
+#> 135                             667              KVP
+#> 136                             529              KVP
+#> 137                             204              KVP
+#> 138                             125              KVP
+#> 139                             372               LN
+#> 140                             372              LPF
+#> 141                              74              LPF
+#> 142                             204               MP
+#> 143                             125               MP
+#> 144                             204              PPR
+#> 145                             125              PPR
+#> 146                              51              PPR
+#> 147                             635              PPR
+#> 148                              81              PPR
+#> 149                             116              PPR
+#> 150                             437              PSP
+#> 151                             667              PSP
+#> 152                             529              PSP
+#> 153                             204              PSP
+#> 154                             125              PSP
+#> 155                              51              PSP
+#> 156                             635              PSP
+#> 157                              81              PSP
+#> 158                             116              PSP
+#> 159                             942             PvdA
+#> 160                             182             PvdA
+#> 161                             497             PvdA
+#> 162                             543             PvdA
+#> 163                             437             PvdA
+#> 164                             667             PvdA
+#> 165                             529             PvdA
+#> 166                             204             PvdA
+#> 167                             125             PvdA
+#> 168                              51             PvdA
+#> 169                             635             PvdA
+#> 170                              81             PvdA
+#> 171                             116             PvdA
+#> 172                              62             PvdA
+#> 173                             627             PvdA
+#> 174                             570             PvdA
+#> 175                             372             PvdA
+#> 176                              74             PvdA
+#> 177                             335             PvdA
+#> 178                             578             PvdA
+#> 179                             530             PvdA
+#> 180                             785             PvdA
+#> 181                              74             PvdD
+#> 182                             335             PvdD
+#> 183                             578             PvdD
+#> 184                             530             PvdD
+#> 185                             785             PvdD
+#> 186                             335              PVV
+#> 187                             578              PVV
+#> 188                             530              PVV
+#> 189                             785              PVV
+#> 190                              NA              RKP
+#> 191                             937              RKP
+#> 192                             938              RKP
+#> 193                             939              RKP
+#> 194                             940              RKP
+#> 195                             941              RKP
+#> 196                              51              RPF
+#> 197                             635              RPF
+#> 198                              81              RPF
+#> 199                             116              RPF
+#> 200                              62              RPF
+#> 201                             627              RPF
+#> 202                             570              RPF
+#> 203                              NA             SDAP
+#> 204                             937             SDAP
+#> 205                             938             SDAP
+#> 206                             939             SDAP
+#> 207                             940             SDAP
+#> 208                             941             SDAP
+#> 209                             937              SGP
+#> 210                             938              SGP
+#> 211                             939              SGP
+#> 212                             940              SGP
+#> 213                             941              SGP
+#> 214                             942              SGP
+#> 215                             182              SGP
+#> 216                             497              SGP
+#> 217                             543              SGP
+#> 218                             437              SGP
+#> 219                             667              SGP
+#> 220                             529              SGP
+#> 221                             204              SGP
+#> 222                             125              SGP
+#> 223                              51              SGP
+#> 224                             635              SGP
+#> 225                              81              SGP
+#> 226                             116              SGP
+#> 227                              62              SGP
+#> 228                             627              SGP
+#> 229                             570              SGP
+#> 230                             372              SGP
+#> 231                              74              SGP
+#> 232                             335              SGP
+#> 233                             578              SGP
+#> 234                             530              SGP
+#> 235                             785              SGP
+#> 236                              81               SP
+#> 237                              62               SP
+#> 238                             627               SP
+#> 239                             570               SP
+#> 240                             372               SP
+#> 241                              74               SP
+#> 242                             335               SP
+#> 243                             578               SP
+#> 244                             530               SP
+#> 245                             785               SP
+#> 246                              NA              VDB
+#> 247                             937              VDB
+#> 248                             938              VDB
+#> 249                             939              VDB
+#> 250                             940              VDB
+#> 251                             941              VDB
+#> 252                             942              VVD
+#> 253                             182              VVD
+#> 254                             497              VVD
+#> 255                             543              VVD
+#> 256                             437              VVD
+#> 257                             667              VVD
+#> 258                             529              VVD
+#> 259                             204              VVD
+#> 260                             125              VVD
+#> 261                              51              VVD
+#> 262                             635              VVD
+#> 263                              81              VVD
+#> 264                             116              VVD
+#> 265                              62              VVD
+#> 266                             627              VVD
+#> 267                             570              VVD
+#> 268                             372              VVD
+#> 269                              74              VVD
+#> 270                             335              VVD
+#> 271                             578              VVD
+#> 272                             530              VVD
+#> 273                             785              VVD
+#>                                               party_name
+#> 1                                                 50PLUS
+#> 2                                                 50PLUS
+#> 3   Algemeen Ouderen Verbond | Verenigde Senioren Partij
+#> 4   Algemeen Ouderen Verbond | Verenigde Senioren Partij
+#> 5                             Anti-Revolutionaire Partij
+#> 6                             Anti-Revolutionaire Partij
+#> 7                             Anti-Revolutionaire Partij
+#> 8                             Anti-Revolutionaire Partij
+#> 9                             Anti-Revolutionaire Partij
+#> 10                            Anti-Revolutionaire Partij
+#> 11                            Anti-Revolutionaire Partij
+#> 12                            Anti-Revolutionaire Partij
+#> 13                            Anti-Revolutionaire Partij
+#> 14                            Anti-Revolutionaire Partij
+#> 15                            Anti-Revolutionaire Partij
+#> 16                            Anti-Revolutionaire Partij
+#> 17                            Anti-Revolutionaire Partij
+#> 18                            Anti-Revolutionaire Partij
+#> 19                            Anti-Revolutionaire Partij
+#> 20                                          Boerenpartij
+#> 21                                          Boerenpartij
+#> 22                                          Boerenpartij
+#> 23                                          Boerenpartij
+#> 24                                          Boerenpartij
+#> 25                                    Centrum Democraten
+#> 26                                    Centrum Democraten
+#> 27                                    Centrum Democraten
+#> 28                           Christen Democratisch Appel
+#> 29                           Christen Democratisch Appel
+#> 30                           Christen Democratisch Appel
+#> 31                           Christen Democratisch Appel
+#> 32                           Christen Democratisch Appel
+#> 33                           Christen Democratisch Appel
+#> 34                           Christen Democratisch Appel
+#> 35                           Christen Democratisch Appel
+#> 36                           Christen Democratisch Appel
+#> 37                           Christen Democratisch Appel
+#> 38                           Christen Democratisch Appel
+#> 39                           Christen Democratisch Appel
+#> 40                           Christen Democratisch Appel
+#> 41                        Christelijk-Democratische Unie
+#> 42                        Christelijk-Democratische Unie
+#> 43                                         Centrumpartij
+#> 44                                         Centrumpartij
+#> 45                                          ChristenUnie
+#> 46                                          ChristenUnie
+#> 47                                          ChristenUnie
+#> 48                                          ChristenUnie
+#> 49                                          ChristenUnie
+#> 50                                          ChristenUnie
+#> 51                          Christelijk-Historische Unie
+#> 52                          Christelijk-Historische Unie
+#> 53                          Christelijk-Historische Unie
+#> 54                          Christelijk-Historische Unie
+#> 55                          Christelijk-Historische Unie
+#> 56                          Christelijk-Historische Unie
+#> 57                          Christelijk-Historische Unie
+#> 58                          Christelijk-Historische Unie
+#> 59                          Christelijk-Historische Unie
+#> 60                          Christelijk-Historische Unie
+#> 61                          Christelijk-Historische Unie
+#> 62                          Christelijk-Historische Unie
+#> 63                          Christelijk-Historische Unie
+#> 64                          Christelijk-Historische Unie
+#> 65                          Christelijk-Historische Unie
+#> 66                       Communistische Partij Nederland
+#> 67                       Communistische Partij Nederland
+#> 68                       Communistische Partij Nederland
+#> 69                       Communistische Partij Nederland
+#> 70                       Communistische Partij Nederland
+#> 71                       Communistische Partij Nederland
+#> 72                       Communistische Partij Nederland
+#> 73                       Communistische Partij Nederland
+#> 74                       Communistische Partij Nederland
+#> 75                       Communistische Partij Nederland
+#> 76                       Communistische Partij Nederland
+#> 77                       Communistische Partij Nederland
+#> 78                       Communistische Partij Nederland
+#> 79                       Communistische Partij Nederland
+#> 80                       Communistische Partij Nederland
+#> 81                       Communistische Partij Nederland
+#> 82                       Communistische Partij Nederland
+#> 83                       Communistische Partij Nederland
+#> 84                       Communistische Partij Nederland
+#> 85                                         Democraten 66
+#> 86                                         Democraten 66
+#> 87                                         Democraten 66
+#> 88                                         Democraten 66
+#> 89                                         Democraten 66
+#> 90                                         Democraten 66
+#> 91                                         Democraten 66
+#> 92                                         Democraten 66
+#> 93                                         Democraten 66
+#> 94                                         Democraten 66
+#> 95                                         Democraten 66
+#> 96                                         Democraten 66
+#> 97                                         Democraten 66
+#> 98                                         Democraten 66
+#> 99                                         Democraten 66
+#> 100                                        Democraten 66
+#> 101                          Democratisch Socialisten 70
+#> 102                          Democratisch Socialisten 70
+#> 103                          Democratisch Socialisten 70
+#> 104                          Democratisch Socialisten 70
+#> 105                        Gereformeerd Politiek Verbond
+#> 106                        Gereformeerd Politiek Verbond
+#> 107                        Gereformeerd Politiek Verbond
+#> 108                        Gereformeerd Politiek Verbond
+#> 109                        Gereformeerd Politiek Verbond
+#> 110                        Gereformeerd Politiek Verbond
+#> 111                        Gereformeerd Politiek Verbond
+#> 112                        Gereformeerd Politiek Verbond
+#> 113                        Gereformeerd Politiek Verbond
+#> 114                        Gereformeerd Politiek Verbond
+#> 115                        Gereformeerd Politiek Verbond
+#> 116                        Gereformeerd Politiek Verbond
+#> 117                        Gereformeerd Politiek Verbond
+#> 118                        Gereformeerd Politiek Verbond
+#> 119                                           GroenLinks
+#> 120                                           GroenLinks
+#> 121                                           GroenLinks
+#> 122                                           GroenLinks
+#> 123                                           GroenLinks
+#> 124                                           GroenLinks
+#> 125                                           GroenLinks
+#> 126                                           GroenLinks
+#> 127                                           GroenLinks
+#> 128                          Katholieke Nationale Partij
+#> 129                          Katholieke Nationale Partij
+#> 130                               Katholieke Volkspartij
+#> 131                               Katholieke Volkspartij
+#> 132                               Katholieke Volkspartij
+#> 133                               Katholieke Volkspartij
+#> 134                               Katholieke Volkspartij
+#> 135                               Katholieke Volkspartij
+#> 136                               Katholieke Volkspartij
+#> 137                               Katholieke Volkspartij
+#> 138                               Katholieke Volkspartij
+#> 139                                   Leefbaar Nederland
+#> 140                                    Lijst Pim Fortuyn
+#> 141                                    Lijst Pim Fortuyn
+#> 142                                        Midden Partij
+#> 143                                        Midden Partij
+#> 144                           Politieke Partij Radikalen
+#> 145                           Politieke Partij Radikalen
+#> 146                           Politieke Partij Radikalen
+#> 147                           Politieke Partij Radikalen
+#> 148                           Politieke Partij Radikalen
+#> 149                           Politieke Partij Radikalen
+#> 150                   Pacifistisch Socialistische Partij
+#> 151                   Pacifistisch Socialistische Partij
+#> 152                   Pacifistisch Socialistische Partij
+#> 153                   Pacifistisch Socialistische Partij
+#> 154                   Pacifistisch Socialistische Partij
+#> 155                   Pacifistisch Socialistische Partij
+#> 156                   Pacifistisch Socialistische Partij
+#> 157                   Pacifistisch Socialistische Partij
+#> 158                   Pacifistisch Socialistische Partij
+#> 159                                 Partij van de Arbeid
+#> 160                                 Partij van de Arbeid
+#> 161                                 Partij van de Arbeid
+#> 162                                 Partij van de Arbeid
+#> 163                                 Partij van de Arbeid
+#> 164                                 Partij van de Arbeid
+#> 165                                 Partij van de Arbeid
+#> 166                                 Partij van de Arbeid
+#> 167                                 Partij van de Arbeid
+#> 168                                 Partij van de Arbeid
+#> 169                                 Partij van de Arbeid
+#> 170                                 Partij van de Arbeid
+#> 171                                 Partij van de Arbeid
+#> 172                                 Partij van de Arbeid
+#> 173                                 Partij van de Arbeid
+#> 174                                 Partij van de Arbeid
+#> 175                                 Partij van de Arbeid
+#> 176                                 Partij van de Arbeid
+#> 177                                 Partij van de Arbeid
+#> 178                                 Partij van de Arbeid
+#> 179                                 Partij van de Arbeid
+#> 180                                 Partij van de Arbeid
+#> 181                                Partij voor de Dieren
+#> 182                                Partij voor de Dieren
+#> 183                                Partij voor de Dieren
+#> 184                                Partij voor de Dieren
+#> 185                                Partij voor de Dieren
+#> 186                              Partij voor de Vrijheid
+#> 187                              Partij voor de Vrijheid
+#> 188                              Partij voor de Vrijheid
+#> 189                              Partij voor de Vrijheid
+#> 190                            Roomsch Katholieke Partij
+#> 191                            Roomsch Katholieke Partij
+#> 192                            Roomsch Katholieke Partij
+#> 193                            Roomsch Katholieke Partij
+#> 194                            Roomsch Katholieke Partij
+#> 195                            Roomsch Katholieke Partij
+#> 196                   Reformatorische Politieke Federati
+#> 197                   Reformatorische Politieke Federati
+#> 198                   Reformatorische Politieke Federati
+#> 199                   Reformatorische Politieke Federati
+#> 200                   Reformatorische Politieke Federati
+#> 201                   Reformatorische Politieke Federati
+#> 202                   Reformatorische Politieke Federati
+#> 203               Sociaal Democratische Arbeiders Partij
+#> 204               Sociaal Democratische Arbeiders Partij
+#> 205               Sociaal Democratische Arbeiders Partij
+#> 206               Sociaal Democratische Arbeiders Partij
+#> 207               Sociaal Democratische Arbeiders Partij
+#> 208               Sociaal Democratische Arbeiders Partij
+#> 209                     Staatkundig Gereformeerde Partij
+#> 210                     Staatkundig Gereformeerde Partij
+#> 211                     Staatkundig Gereformeerde Partij
+#> 212                     Staatkundig Gereformeerde Partij
+#> 213                     Staatkundig Gereformeerde Partij
+#> 214                     Staatkundig Gereformeerde Partij
+#> 215                     Staatkundig Gereformeerde Partij
+#> 216                     Staatkundig Gereformeerde Partij
+#> 217                     Staatkundig Gereformeerde Partij
+#> 218                     Staatkundig Gereformeerde Partij
+#> 219                     Staatkundig Gereformeerde Partij
+#> 220                     Staatkundig Gereformeerde Partij
+#> 221                     Staatkundig Gereformeerde Partij
+#> 222                     Staatkundig Gereformeerde Partij
+#> 223                     Staatkundig Gereformeerde Partij
+#> 224                     Staatkundig Gereformeerde Partij
+#> 225                     Staatkundig Gereformeerde Partij
+#> 226                     Staatkundig Gereformeerde Partij
+#> 227                     Staatkundig Gereformeerde Partij
+#> 228                     Staatkundig Gereformeerde Partij
+#> 229                     Staatkundig Gereformeerde Partij
+#> 230                     Staatkundig Gereformeerde Partij
+#> 231                     Staatkundig Gereformeerde Partij
+#> 232                     Staatkundig Gereformeerde Partij
+#> 233                     Staatkundig Gereformeerde Partij
+#> 234                     Staatkundig Gereformeerde Partij
+#> 235                     Staatkundig Gereformeerde Partij
+#> 236                                 Socialistiese Partij
+#> 237                                 Socialistiese Partij
+#> 238                                 Socialistiese Partij
+#> 239                                 Socialistiese Partij
+#> 240                                 Socialistiese Partij
+#> 241                                 Socialistiese Partij
+#> 242                                 Socialistiese Partij
+#> 243                                 Socialistiese Partij
+#> 244                                 Socialistiese Partij
+#> 245                                 Socialistiese Partij
+#> 246                        Vrijzinnig Democratische Bond
+#> 247                        Vrijzinnig Democratische Bond
+#> 248                        Vrijzinnig Democratische Bond
+#> 249                        Vrijzinnig Democratische Bond
+#> 250                        Vrijzinnig Democratische Bond
+#> 251                        Vrijzinnig Democratische Bond
+#> 252              Volkspartij voor Vrijheid en Democratie
+#> 253              Volkspartij voor Vrijheid en Democratie
+#> 254              Volkspartij voor Vrijheid en Democratie
+#> 255              Volkspartij voor Vrijheid en Democratie
+#> 256              Volkspartij voor Vrijheid en Democratie
+#> 257              Volkspartij voor Vrijheid en Democratie
+#> 258              Volkspartij voor Vrijheid en Democratie
+#> 259              Volkspartij voor Vrijheid en Democratie
+#> 260              Volkspartij voor Vrijheid en Democratie
+#> 261              Volkspartij voor Vrijheid en Democratie
+#> 262              Volkspartij voor Vrijheid en Democratie
+#> 263              Volkspartij voor Vrijheid en Democratie
+#> 264              Volkspartij voor Vrijheid en Democratie
+#> 265              Volkspartij voor Vrijheid en Democratie
+#> 266              Volkspartij voor Vrijheid en Democratie
+#> 267              Volkspartij voor Vrijheid en Democratie
+#> 268              Volkspartij voor Vrijheid en Democratie
+#> 269              Volkspartij voor Vrijheid en Democratie
+#> 270              Volkspartij voor Vrijheid en Democratie
+#> 271              Volkspartij voor Vrijheid en Democratie
+#> 272              Volkspartij voor Vrijheid en Democratie
+#> 273              Volkspartij voor Vrijheid en Democratie
+#>                              party_name_english parlgov_party_id vote_share
+#> 1                                        50PLUS             2109       1.88
+#> 2                                        50PLUS             2109       3.10
+#> 3   General Senior Union | United Seniors Party              112       3.63
+#> 4   General Senior Union | United Seniors Party              112       0.41
+#> 5                      Anti-Revolutionary Party              300      13.40
+#> 6                      Anti-Revolutionary Party              300      13.70
+#> 7                      Anti-Revolutionary Party              300      12.20
+#> 8                      Anti-Revolutionary Party              300      11.60
+#> 9                      Anti-Revolutionary Party              300      13.40
+#> 10                     Anti-Revolutionary Party              300      16.40
+#> 11                     Anti-Revolutionary Party              300      12.90
+#> 12                     Anti-Revolutionary Party              300      13.21
+#> 13                     Anti-Revolutionary Party              300      11.31
+#> 14                     Anti-Revolutionary Party              300       9.91
+#> 15                     Anti-Revolutionary Party              300       9.39
+#> 16                     Anti-Revolutionary Party              300       8.72
+#> 17                     Anti-Revolutionary Party              300       9.90
+#> 18                     Anti-Revolutionary Party              300       8.59
+#> 19                     Anti-Revolutionary Party              300       8.84
+#> 20                                Farmers Party             1595       2.13
+#> 21                                Farmers Party             1595       4.77
+#> 22                                Farmers Party             1595       1.10
+#> 23                                Farmers Party             1595       1.94
+#> 24                                Farmers Party             1595       0.84
+#> 25                             Centre Democrats              209       0.92
+#> 26                             Centre Democrats              209       2.46
+#> 27                             Centre Democrats              209       0.61
+#> 28                  Christian Democratic Appeal              235      31.89
+#> 29                  Christian Democratic Appeal              235      30.81
+#> 30                  Christian Democratic Appeal              235      29.39
+#> 31                  Christian Democratic Appeal              235      34.59
+#> 32                  Christian Democratic Appeal              235      35.31
+#> 33                  Christian Democratic Appeal              235      22.23
+#> 34                  Christian Democratic Appeal              235      18.37
+#> 35                  Christian Democratic Appeal              235      27.93
+#> 36                  Christian Democratic Appeal              235      28.62
+#> 37                  Christian Democratic Appeal              235      26.51
+#> 38                  Christian Democratic Appeal              235      13.61
+#> 39                  Christian Democratic Appeal              235       8.51
+#> 40                  Christian Democratic Appeal              235      12.40
+#> 41                   Christian Democratic Union             2542       1.00
+#> 42                   Christian Democratic Union             2542       2.10
+#> 43                                 Centre Party              275       0.83
+#> 44                                 Centre Party              275       0.36
+#> 45                               ChristianUnion             1206       2.54
+#> 46                               ChristianUnion             1206       2.12
+#> 47                               ChristianUnion             1206       3.97
+#> 48                               ChristianUnion             1206       3.24
+#> 49                               ChristianUnion             1206       3.13
+#> 50                               ChristianUnion             1206       3.40
+#> 51                   Christian Historical Union              405       6.50
+#> 52                   Christian Historical Union              405      10.90
+#> 53                   Christian Historical Union              405       9.90
+#> 54                   Christian Historical Union              405      10.50
+#> 55                   Christian Historical Union              405       9.10
+#> 56                   Christian Historical Union              405       7.50
+#> 57                   Christian Historical Union              405       7.84
+#> 58                   Christian Historical Union              405       9.19
+#> 59                   Christian Historical Union              405       8.92
+#> 60                   Christian Historical Union              405       8.43
+#> 61                   Christian Historical Union              405       8.11
+#> 62                   Christian Historical Union              405       8.58
+#> 63                   Christian Historical Union              405       8.14
+#> 64                   Christian Historical Union              405       6.32
+#> 65                   Christian Historical Union              405       4.79
+#> 66           Communist Party of the Netherlands             1194       2.30
+#> 67           Communist Party of the Netherlands             1194       1.80
+#> 68           Communist Party of the Netherlands             1194       1.20
+#> 69           Communist Party of the Netherlands             1194       2.00
+#> 70           Communist Party of the Netherlands             1194       3.20
+#> 71           Communist Party of the Netherlands             1194       3.40
+#> 72           Communist Party of the Netherlands             1194      10.56
+#> 73           Communist Party of the Netherlands             1194       7.74
+#> 74           Communist Party of the Netherlands             1194       6.16
+#> 75           Communist Party of the Netherlands             1194       4.75
+#> 76           Communist Party of the Netherlands             1194       2.41
+#> 77           Communist Party of the Netherlands             1194       2.77
+#> 78           Communist Party of the Netherlands             1194       3.61
+#> 79           Communist Party of the Netherlands             1194       3.90
+#> 80           Communist Party of the Netherlands             1194       4.47
+#> 81           Communist Party of the Netherlands             1194       1.73
+#> 82           Communist Party of the Netherlands             1194       2.05
+#> 83           Communist Party of the Netherlands             1194       1.79
+#> 84           Communist Party of the Netherlands             1194       0.63
+#> 85                                 Democrats 66              345       4.48
+#> 86                                 Democrats 66              345       6.78
+#> 87                                 Democrats 66              345       4.15
+#> 88                                 Democrats 66              345       5.44
+#> 89                                 Democrats 66              345      11.06
+#> 90                                 Democrats 66              345       4.26
+#> 91                                 Democrats 66              345       6.13
+#> 92                                 Democrats 66              345       7.89
+#> 93                                 Democrats 66              345      15.49
+#> 94                                 Democrats 66              345       8.99
+#> 95                                 Democrats 66              345       5.10
+#> 96                                 Democrats 66              345       4.07
+#> 97                                 Democrats 66              345       1.96
+#> 98                                 Democrats 66              345       6.95
+#> 99                                 Democrats 66              345       8.03
+#> 100                                Democrats 66              345      12.20
+#> 101                    Democratic Socialists 70              402       5.33
+#> 102                    Democratic Socialists 70              402       4.12
+#> 103                    Democratic Socialists 70              402       0.72
+#> 104                    Democratic Socialists 70              402       0.56
+#> 105                   Reformed Political League              625       0.67
+#> 106                   Reformed Political League              625       0.65
+#> 107                   Reformed Political League              625       0.67
+#> 108                   Reformed Political League              625       0.74
+#> 109                   Reformed Political League              625       0.86
+#> 110                   Reformed Political League              625       1.61
+#> 111                   Reformed Political League              625       1.77
+#> 112                   Reformed Political League              625       0.95
+#> 113                   Reformed Political League              625       0.82
+#> 114                   Reformed Political League              625       0.82
+#> 115                   Reformed Political League              625       0.96
+#> 116                   Reformed Political League              625       1.23
+#> 117                   Reformed Political League              625       1.33
+#> 118                   Reformed Political League              625       1.26
+#> 119                                   GreenLeft              756       4.07
+#> 120                                   GreenLeft              756       3.47
+#> 121                                   GreenLeft              756       7.27
+#> 122                                   GreenLeft              756       6.95
+#> 123                                   GreenLeft              756       5.14
+#> 124                                   GreenLeft              756       4.60
+#> 125                                   GreenLeft              756       6.67
+#> 126                                   GreenLeft              756       2.33
+#> 127                                   GreenLeft              756       9.10
+#> 128                     Catholic National Party                3       1.26
+#> 129                     Catholic National Party                3       2.71
+#> 130                      Catholic Peoples Party              451      30.81
+#> 131                      Catholic Peoples Party              451      31.04
+#> 132                      Catholic Peoples Party              451      28.67
+#> 133                      Catholic Peoples Party              451      31.69
+#> 134                      Catholic Peoples Party              451      31.60
+#> 135                      Catholic Peoples Party              451      31.88
+#> 136                      Catholic Peoples Party              451      26.50
+#> 137                      Catholic Peoples Party              451      21.84
+#> 138                      Catholic Peoples Party              451      17.65
+#> 139                         Livable Netherlands              744       1.61
+#> 140                                Fortuyn List              456      17.00
+#> 141                                Fortuyn List              456       5.70
+#> 142                                Middle Party               87       1.51
+#> 143                                Middle Party               87       0.56
+#> 144                     Radical Political Party              342       1.84
+#> 145                     Radical Political Party              342       4.80
+#> 146                     Radical Political Party              342       1.69
+#> 147                     Radical Political Party              342       1.97
+#> 148                     Radical Political Party              342       1.66
+#> 149                     Radical Political Party              342       1.26
+#> 150                    Pacifist Socialist Party             1452       1.84
+#> 151                    Pacifist Socialist Party             1452       3.03
+#> 152                    Pacifist Socialist Party             1452       2.87
+#> 153                    Pacifist Socialist Party             1452       1.44
+#> 154                    Pacifist Socialist Party             1452       1.50
+#> 155                    Pacifist Socialist Party             1452       0.94
+#> 156                    Pacifist Socialist Party             1452       2.12
+#> 157                    Pacifist Socialist Party             1452       2.28
+#> 158                    Pacifist Socialist Party             1452       1.20
+#> 159                                Labour Party              742      28.31
+#> 160                                Labour Party              742      25.60
+#> 161                                Labour Party              742      28.97
+#> 162                                Labour Party              742      32.69
+#> 163                                Labour Party              742      30.36
+#> 164                                Labour Party              742      28.01
+#> 165                                Labour Party              742      23.55
+#> 166                                Labour Party              742      24.60
+#> 167                                Labour Party              742      27.34
+#> 168                                Labour Party              742      33.83
+#> 169                                Labour Party              742      28.29
+#> 170                                Labour Party              742      30.40
+#> 171                                Labour Party              742      33.27
+#> 172                                Labour Party              742      31.88
+#> 173                                Labour Party              742      23.97
+#> 174                                Labour Party              742      28.98
+#> 175                                Labour Party              742      15.11
+#> 176                                Labour Party              742      27.26
+#> 177                                Labour Party              742      21.19
+#> 178                                Labour Party              742      19.63
+#> 179                                Labour Party              742      24.84
+#> 180                                Labour Party              742       5.70
+#> 181                       Party for the Animals              990       0.49
+#> 182                       Party for the Animals              990       1.83
+#> 183                       Party for the Animals              990       1.30
+#> 184                       Party for the Animals              990       1.93
+#> 185                       Party for the Animals              990       3.20
+#> 186                           Party for Freedom             1501       5.89
+#> 187                           Party for Freedom             1501      15.45
+#> 188                           Party for Freedom             1501      10.08
+#> 189                           Party for Freedom             1501      13.10
+#> 190                        Roman Catholic Party             2539      30.00
+#> 191                        Roman Catholic Party             2539      29.90
+#> 192                        Roman Catholic Party             2539      28.60
+#> 193                        Roman Catholic Party             2539      29.60
+#> 194                        Roman Catholic Party             2539      27.90
+#> 195                        Roman Catholic Party             2539      28.80
+#> 196            Reformatory Political Federation              212       0.64
+#> 197            Reformatory Political Federation              212       1.25
+#> 198            Reformatory Political Federation              212       1.51
+#> 199            Reformatory Political Federation              212       0.91
+#> 200            Reformatory Political Federation              212       0.96
+#> 201            Reformatory Political Federation              212       1.77
+#> 202            Reformatory Political Federation              212       2.03
+#> 203            Social Democratic Workers' Party             1451      22.00
+#> 204            Social Democratic Workers' Party             1451      19.40
+#> 205            Social Democratic Workers' Party             1451      22.90
+#> 206            Social Democratic Workers' Party             1451      23.80
+#> 207            Social Democratic Workers' Party             1451      21.50
+#> 208            Social Democratic Workers' Party             1451      21.90
+#> 209                    Political Reformed Party             1251       0.90
+#> 210                    Political Reformed Party             1251       2.00
+#> 211                    Political Reformed Party             1251       2.30
+#> 212                    Political Reformed Party             1251       2.50
+#> 213                    Political Reformed Party             1251       1.90
+#> 214                    Political Reformed Party             1251       2.14
+#> 215                    Political Reformed Party             1251       2.37
+#> 216                    Political Reformed Party             1251       2.42
+#> 217                    Political Reformed Party             1251       2.26
+#> 218                    Political Reformed Party             1251       2.16
+#> 219                    Political Reformed Party             1251       2.30
+#> 220                    Political Reformed Party             1251       2.01
+#> 221                    Political Reformed Party             1251       2.35
+#> 222                    Political Reformed Party             1251       2.21
+#> 223                    Political Reformed Party             1251       2.13
+#> 224                    Political Reformed Party             1251       1.97
+#> 225                    Political Reformed Party             1251       1.90
+#> 226                    Political Reformed Party             1251       1.74
+#> 227                    Political Reformed Party             1251       1.87
+#> 228                    Political Reformed Party             1251       1.73
+#> 229                    Political Reformed Party             1251       1.78
+#> 230                    Political Reformed Party             1251       1.72
+#> 231                    Political Reformed Party             1251       1.56
+#> 232                    Political Reformed Party             1251       1.56
+#> 233                    Political Reformed Party             1251       1.74
+#> 234                    Political Reformed Party             1251       2.09
+#> 235                    Political Reformed Party             1251       2.10
+#> 236                             Socialist Party              357       0.55
+#> 237                             Socialist Party              357       0.44
+#> 238                             Socialist Party              357       1.32
+#> 239                             Socialist Party              357       3.53
+#> 240                             Socialist Party              357       5.90
+#> 241                             Socialist Party              357       6.32
+#> 242                             Socialist Party              357      16.58
+#> 243                             Socialist Party              357       9.82
+#> 244                             Socialist Party              357       9.65
+#> 245                             Socialist Party              357       9.10
+#> 246             Free-thinking Democratic League              944       5.30
+#> 247             Free-thinking Democratic League              944       4.60
+#> 248             Free-thinking Democratic League              944       6.10
+#> 249             Free-thinking Democratic League              944       6.20
+#> 250             Free-thinking Democratic League              944       5.10
+#> 251             Free-thinking Democratic League              944       5.90
+#> 252    People's Party for Freedom and Democracy             1409       6.41
+#> 253    People's Party for Freedom and Democracy             1409       7.95
+#> 254    People's Party for Freedom and Democracy             1409       8.83
+#> 255    People's Party for Freedom and Democracy             1409       8.77
+#> 256    People's Party for Freedom and Democracy             1409      12.21
+#> 257    People's Party for Freedom and Democracy             1409      10.29
+#> 258    People's Party for Freedom and Democracy             1409      10.73
+#> 259    People's Party for Freedom and Democracy             1409      10.34
+#> 260    People's Party for Freedom and Democracy             1409      14.45
+#> 261    People's Party for Freedom and Democracy             1409      17.95
+#> 262    People's Party for Freedom and Democracy             1409      17.32
+#> 263    People's Party for Freedom and Democracy             1409      23.08
+#> 264    People's Party for Freedom and Democracy             1409      17.41
+#> 265    People's Party for Freedom and Democracy             1409      14.57
+#> 266    People's Party for Freedom and Democracy             1409      19.96
+#> 267    People's Party for Freedom and Democracy             1409      24.69
+#> 268    People's Party for Freedom and Democracy             1409      15.44
+#> 269    People's Party for Freedom and Democracy             1409      17.91
+#> 270    People's Party for Freedom and Democracy             1409      14.67
+#> 271    People's Party for Freedom and Democracy             1409      20.49
+#> 272    People's Party for Freedom and Democracy             1409      26.58
+#> 273    People's Party for Freedom and Democracy             1409      21.30
+#>     seat_share seats
+#> 1    1.3333333     2
+#> 2    2.6666667     4
+#> 3    4.0000000     6
+#> 4    0.0000000     0
+#> 5   13.9784946    13
+#> 6   16.0000000    16
+#> 7   13.0000000    13
+#> 8   12.0000000    12
+#> 9   14.0000000    14
+#> 10  17.0000000    17
+#> 11  13.0000000    13
+#> 12  13.0000000    13
+#> 13  12.0000000    12
+#> 14  10.0000000    15
+#> 15   9.3333333    14
+#> 16   8.6666667    13
+#> 17  10.0000000    15
+#> 18   8.6666667    13
+#> 19   9.3333333    14
+#> 20   2.0000000     3
+#> 21   4.6666667     7
+#> 22   0.6666667     1
+#> 23   2.0000000     3
+#> 24   0.6666667     1
+#> 25   0.6666667     1
+#> 26   2.0000000     3
+#> 27   0.0000000     0
+#> 28  32.6666667    49
+#> 29  32.0000000    48
+#> 30  30.0000000    45
+#> 31  36.0000000    54
+#> 32  36.0000000    54
+#> 33  22.6666667    34
+#> 34  19.3333333    29
+#> 35  28.6666667    43
+#> 36  29.3333333    44
+#> 37  27.3333333    41
+#> 38  14.0000000    21
+#> 39   8.6666667    13
+#> 40  12.6666667    19
+#> 41   1.0000000     1
+#> 42   2.0000000     2
+#> 43   0.6666667     1
+#> 44   0.0000000     0
+#> 45   2.6666667     4
+#> 46   2.0000000     3
+#> 47   4.0000000     6
+#> 48   3.3333333     5
+#> 49   3.3333333     5
+#> 50   3.3333333     5
+#> 51   7.5268817     7
+#> 52  11.0000000    11
+#> 53  11.0000000    11
+#> 54  11.0000000    11
+#> 55  10.0000000    10
+#> 56   8.0000000     8
+#> 57   8.0000000     8
+#> 58   9.0000000     9
+#> 59   9.0000000     9
+#> 60   8.6666667    13
+#> 61   8.0000000    12
+#> 62   8.6666667    13
+#> 63   8.0000000    12
+#> 64   6.6666667    10
+#> 65   4.6666667     7
+#> 66   2.1505376     2
+#> 67   2.0000000     2
+#> 68   1.0000000     1
+#> 69   2.0000000     2
+#> 70   4.0000000     4
+#> 71   3.0000000     3
+#> 72  10.0000000    10
+#> 73   8.0000000     8
+#> 74   6.0000000     6
+#> 75   4.6666667     7
+#> 76   2.0000000     3
+#> 77   2.6666667     4
+#> 78   3.3333333     5
+#> 79   4.0000000     6
+#> 80   4.6666667     7
+#> 81   1.3333333     2
+#> 82   2.0000000     3
+#> 83   2.0000000     3
+#> 84   0.0000000     0
+#> 85   4.6666667     7
+#> 86   7.3333333    11
+#> 87   4.0000000     6
+#> 88   5.3333333     8
+#> 89  11.3333333    17
+#> 90   4.0000000     6
+#> 91   6.0000000     9
+#> 92   8.0000000    12
+#> 93  16.0000000    24
+#> 94   9.3333333    14
+#> 95   4.6666667     7
+#> 96   4.0000000     6
+#> 97   2.0000000     3
+#> 98   6.6666667    10
+#> 99   8.0000000    12
+#> 100 12.6666667    19
+#> 101  5.3333333     8
+#> 102  4.0000000     6
+#> 103  0.6666667     1
+#> 104  0.0000000     0
+#> 105  0.0000000     0
+#> 106  0.0000000     0
+#> 107  0.0000000     0
+#> 108  0.6666667     1
+#> 109  0.6666667     1
+#> 110  1.3333333     2
+#> 111  1.3333333     2
+#> 112  0.6666667     1
+#> 113  0.6666667     1
+#> 114  0.6666667     1
+#> 115  0.6666667     1
+#> 116  1.3333333     2
+#> 117  1.3333333     2
+#> 118  1.3333333     2
+#> 119  4.0000000     6
+#> 120  3.3333333     5
+#> 121  7.3333333    11
+#> 122  6.6666667    10
+#> 123  5.3333333     8
+#> 124  4.6666667     7
+#> 125  6.6666667    10
+#> 126  2.6666667     4
+#> 127  9.3333333    14
+#> 128  1.0000000     1
+#> 129  2.0000000     2
+#> 130 32.0000000    32
+#> 131 32.0000000    32
+#> 132 30.0000000    30
+#> 133 32.6666667    49
+#> 134 32.6666667    49
+#> 135 33.3333333    50
+#> 136 28.0000000    42
+#> 137 23.3333333    35
+#> 138 18.0000000    27
+#> 139  1.3333333     2
+#> 140 17.3333333    26
+#> 141  5.3333333     8
+#> 142  1.3333333     2
+#> 143  0.0000000     0
+#> 144  1.3333333     2
+#> 145  4.6666667     7
+#> 146  2.0000000     3
+#> 147  2.0000000     3
+#> 148  1.3333333     2
+#> 149  1.3333333     2
+#> 150  1.3333333     2
+#> 151  2.6666667     4
+#> 152  2.6666667     4
+#> 153  1.3333333     2
+#> 154  1.3333333     2
+#> 155  0.6666667     1
+#> 156  2.0000000     3
+#> 157  2.0000000     3
+#> 158  0.6666667     1
+#> 159 29.0000000    29
+#> 160 27.0000000    27
+#> 161 30.0000000    30
+#> 162 33.3333333    50
+#> 163 32.0000000    48
+#> 164 28.6666667    43
+#> 165 24.6666667    37
+#> 166 26.0000000    39
+#> 167 28.6666667    43
+#> 168 35.3333333    53
+#> 169 29.3333333    44
+#> 170 31.3333333    47
+#> 171 34.6666667    52
+#> 172 32.6666667    49
+#> 173 24.6666667    37
+#> 174 30.0000000    45
+#> 175 15.3333333    23
+#> 176 28.0000000    42
+#> 177 22.0000000    33
+#> 178 20.0000000    30
+#> 179 25.3333333    38
+#> 180  6.0000000     9
+#> 181  0.0000000     0
+#> 182  1.3333333     2
+#> 183  1.3333333     2
+#> 184  1.3333333     2
+#> 185  3.3333333     5
+#> 186  6.0000000     9
+#> 187 16.0000000    24
+#> 188 10.0000000    15
+#> 189 13.3333333    20
+#> 190 32.2580645    30
+#> 191 32.0000000    32
+#> 192 30.0000000    30
+#> 193 30.0000000    30
+#> 194 28.0000000    28
+#> 195 31.0000000    31
+#> 196  0.0000000     0
+#> 197  1.3333333     2
+#> 198  1.3333333     2
+#> 199  0.6666667     1
+#> 200  0.6666667     1
+#> 201  2.0000000     3
+#> 202  2.0000000     3
+#> 203 23.6559140    22
+#> 204 20.0000000    20
+#> 205 24.0000000    24
+#> 206 24.0000000    24
+#> 207 22.0000000    22
+#> 208 23.0000000    23
+#> 209  1.0000000     1
+#> 210  2.0000000     2
+#> 211  3.0000000     3
+#> 212  3.0000000     3
+#> 213  2.0000000     2
+#> 214  2.0000000     2
+#> 215  2.0000000     2
+#> 216  2.0000000     2
+#> 217  2.0000000     3
+#> 218  2.0000000     3
+#> 219  2.0000000     3
+#> 220  2.0000000     3
+#> 221  2.0000000     3
+#> 222  2.0000000     3
+#> 223  2.0000000     3
+#> 224  2.0000000     3
+#> 225  2.0000000     3
+#> 226  2.0000000     3
+#> 227  2.0000000     3
+#> 228  1.3333333     2
+#> 229  2.0000000     3
+#> 230  1.3333333     2
+#> 231  1.3333333     2
+#> 232  1.3333333     2
+#> 233  1.3333333     2
+#> 234  2.0000000     3
+#> 235  2.0000000     3
+#> 236  0.0000000     0
+#> 237  0.0000000     0
+#> 238  1.3333333     2
+#> 239  3.3333333     5
+#> 240  6.0000000     9
+#> 241  6.0000000     9
+#> 242 16.6666667    25
+#> 243 10.0000000    15
+#> 244 10.0000000    15
+#> 245  9.3333333    14
+#> 246  5.3763441     5
+#> 247  5.0000000     5
+#> 248  7.0000000     7
+#> 249  7.0000000     7
+#> 250  6.0000000     6
+#> 251  6.0000000     6
+#> 252  6.0000000     6
+#> 253  8.0000000     8
+#> 254  9.0000000     9
+#> 255  8.6666667    13
+#> 256 12.6666667    19
+#> 257 10.6666667    16
+#> 258 11.3333333    17
+#> 259 10.6666667    16
+#> 260 14.6666667    22
+#> 261 18.6666667    28
+#> 262 17.3333333    26
+#> 263 24.0000000    36
+#> 264 18.0000000    27
+#> 265 14.6666667    22
+#> 266 20.6666667    31
+#> 267 25.3333333    38
+#> 268 16.0000000    24
+#> 269 18.6666667    28
+#> 270 14.6666667    22
+#> 271 20.6666667    31
+#> 272 27.3333333    41
+#> 273 22.0000000    33
+#> 
+#> $electionInfo
+#>    election_date term_start
+#> 1     1937-05-26 1937-06-08
+#> 2     1946-05-17 1946-06-04
+#> 3     1948-07-07 1948-07-27
+#> 4     1952-06-25 1952-07-15
+#> 5     1956-06-13 1956-07-03
+#> 6     1959-03-12 1959-03-20
+#> 7     1963-05-15 1963-06-05
+#> 8     1967-02-15 1967-02-23
+#> 9     1971-04-28 1971-05-11
+#> 10    1972-11-29 1972-12-07
+#> 11    1977-05-25 1977-06-08
+#> 12    1981-05-26 1981-06-10
+#> 13    1982-09-08 1982-09-16
+#> 14    1986-05-21 1986-06-03
+#> 15    1989-09-06 1989-09-14
+#> 16    1994-05-03 1994-05-17
+#> 17    1998-05-06 1998-05-19
+#> 18    2002-05-15 2002-05-23
+#> 19    2003-01-22 2003-01-30
+#> 20    2006-11-22 2006-11-30
+#> 21    2010-06-09 2010-06-17
+#> 22    2012-09-12 2012-09-20
+#> 23    2017-03-15 2017-03-23
+#> 
+#> $partyInfo
+#>                     party parlgov_party_id country_name_short country_name
+#> 1                  50PLUS             2109                NLD  Netherlands
+#> 2                  Aarden               NA               <NA>         <NA>
+#> 3                     AOV              112                NLD  Netherlands
+#> 4                     ARP              300                NLD  Netherlands
+#> 5                  Bontes               NA               <NA>         <NA>
+#> 6     Bontes/Van Klaveren               NA               <NA>         <NA>
+#> 7                      BP             1595                NLD  Netherlands
+#> 8                Brinkman               NA               <NA>         <NA>
+#> 9                      CD              209                NLD  Netherlands
+#> 10                    CDA              235                NLD  Netherlands
+#> 11                    CDU             2542                NLD  Netherlands
+#> 12          Centrumpartij              275                NLD  Netherlands
+#> 13           ChristenUnie             1206                NLD  Netherlands
+#> 14                    CHU              405                NLD  Netherlands
+#> 15                    CPN             1194                NLD  Netherlands
+#> 16                    D66              345                NLD  Netherlands
+#> 17                De Jong               NA               <NA>         <NA>
+#> 18                   DS70              402                NLD  Netherlands
+#> 19 Eerdmans/Van Schijndel               NA               <NA>         <NA>
+#> 20                    EVP               NA               <NA>         <NA>
+#> 21               Goedhart               NA               <NA>         <NA>
+#> 22                Gortzak               NA               <NA>         <NA>
+#> 23                    GPV              625                NLD  Netherlands
+#> 24             GroenLinks              756                NLD  Netherlands
+#> 25                Harmsen               NA               <NA>         <NA>
+#> 26               Hendriks               NA               <NA>         <NA>
+#> 27                Houwers               NA               <NA>         <NA>
+#> 28                Huijsen               NA               <NA>         <NA>
+#> 29                Janmaat               NA               <NA>         <NA>
+#> 30                  Klein               NA               <NA>         <NA>
+#> 31                    KNP                3                NLD  Netherlands
+#> 32                Koekoek               NA               <NA>         <NA>
+#> 33  Kortenoeven/Hernandez               NA               <NA>         <NA>
+#> 34                    KPN               NA               <NA>         <NA>
+#> 35             Kronenburg               NA               <NA>         <NA>
+#> 36            Kuzu/Ozturk               NA               <NA>         <NA>
+#> 37                    KVP              451                NLD  Netherlands
+#> 38                 Lazrak               NA               <NA>         <NA>
+#> 39                     LN              744                NLD  Netherlands
+#> 40                    LPF              456                NLD  Netherlands
+#> 41                 Nawijn               NA               <NA>         <NA>
+#> 42                Nijpels               NA               <NA>         <NA>
+#> 43                    NMP               87                NLD  Netherlands
+#> 44              Nooteboom               NA               <NA>         <NA>
+#> 45                 Ockels               NA               <NA>         <NA>
+#> 46                    PPR              342                NLD  Netherlands
+#> 47                    PSP             1452                NLD  Netherlands
+#> 48                   PvdA              742                NLD  Netherlands
+#> 49                   PvdD              990                NLD  Netherlands
+#> 50                   PvdV               NA               <NA>         <NA>
+#> 51                    PVV             1501                NLD  Netherlands
+#> 52                   RKPN               NA               <NA>         <NA>
+#> 53                   RKSP             2539                NLD  Netherlands
+#> 54                    RPF              212                NLD  Netherlands
+#> 55               Scholten               NA               <NA>         <NA>
+#> 56       Scholten/Dijkman               NA               <NA>         <NA>
+#> 57                   SDAP             1451                NLD  Netherlands
+#> 58                    SGP             1251                NLD  Netherlands
+#> 59                     SP              357                NLD  Netherlands
+#> 60             Ubels-Veen               NA               <NA>         <NA>
+#> 61               Unie 55+               NA               <NA>         <NA>
+#> 62           Van der Spek               NA               <NA>         <NA>
+#> 63           Van Klaveren               NA               <NA>         <NA>
+#> 64         Van Oudenallen               NA               <NA>         <NA>
+#> 65          Van Schijndel               NA               <NA>         <NA>
+#> 66              Van Vliet               NA               <NA>         <NA>
+#> 67                    VDB              944                NLD  Netherlands
+#> 68                Verdonk               NA               <NA>         <NA>
+#> 69                Verkerk               NA               <NA>         <NA>
+#> 70                  Voogd               NA               <NA>         <NA>
+#> 71          Vrijheidsbond               NA               <NA>         <NA>
+#> 72                    VVD             1409                NLD  Netherlands
+#> 73               Wagenaar               NA               <NA>         <NA>
+#> 74             Wijnschenk               NA               <NA>         <NA>
+#> 75                Wilders               NA               <NA>         <NA>
+#>    party_name_short                          party_name_english
+#> 1               50+                                      50PLUS
+#> 2              <NA>                                        <NA>
+#> 3           AOV|VSP General Senior Union | United Seniors Party
+#> 4               ARP                    Anti-Revolutionary Party
+#> 5              <NA>                                        <NA>
+#> 6              <NA>                                        <NA>
+#> 7                Bp                               Farmers Party
+#> 8              <NA>                                        <NA>
+#> 9                CD                            Centre Democrats
+#> 10              CDA                 Christian Democratic Appeal
+#> 11              CDU                  Christian Democratic Union
+#> 12               CP                                Centre Party
+#> 13               CU                              ChristianUnion
+#> 14              CHU                  Christian Historical Union
+#> 15              CPN          Communist Party of the Netherlands
+#> 16              D66                                Democrats 66
+#> 17             <NA>                                        <NA>
+#> 18             DS70                    Democratic Socialists 70
+#> 19             <NA>                                        <NA>
+#> 20             <NA>                                        <NA>
+#> 21             <NA>                                        <NA>
+#> 22             <NA>                                        <NA>
+#> 23              GPV                   Reformed Political League
+#> 24               GL                                   GreenLeft
+#> 25             <NA>                                        <NA>
+#> 26             <NA>                                        <NA>
+#> 27             <NA>                                        <NA>
+#> 28             <NA>                                        <NA>
+#> 29             <NA>                                        <NA>
+#> 30             <NA>                                        <NA>
+#> 31              KNP                     Catholic National Party
+#> 32             <NA>                                        <NA>
+#> 33             <NA>                                        <NA>
+#> 34             <NA>                                        <NA>
+#> 35             <NA>                                        <NA>
+#> 36             <NA>                                        <NA>
+#> 37              KVP                      Catholic Peoples Party
+#> 38             <NA>                                        <NA>
+#> 39               LN                         Livable Netherlands
+#> 40              LPF                                Fortuyn List
+#> 41             <NA>                                        <NA>
+#> 42             <NA>                                        <NA>
+#> 43               MP                                Middle Party
+#> 44             <NA>                                        <NA>
+#> 45             <NA>                                        <NA>
+#> 46              PPR                     Radical Political Party
+#> 47              PSP                    Pacifist Socialist Party
+#> 48             PvdA                                Labour Party
+#> 49             PvdD                       Party for the Animals
+#> 50             <NA>                                        <NA>
+#> 51              PVV                           Party for Freedom
+#> 52             <NA>                                        <NA>
+#> 53              RKP                        Roman Catholic Party
+#> 54              RPF            Reformatory Political Federation
+#> 55             <NA>                                        <NA>
+#> 56             <NA>                                        <NA>
+#> 57             SDAP            Social Democratic Workers' Party
+#> 58              SGP                    Political Reformed Party
+#> 59               SP                             Socialist Party
+#> 60             <NA>                                        <NA>
+#> 61             <NA>                                        <NA>
+#> 62             <NA>                                        <NA>
+#> 63             <NA>                                        <NA>
+#> 64             <NA>                                        <NA>
+#> 65             <NA>                                        <NA>
+#> 66             <NA>                                        <NA>
+#> 67              VDB             Free-thinking Democratic League
+#> 68             <NA>                                        <NA>
+#> 69             <NA>                                        <NA>
+#> 70             <NA>                                        <NA>
+#> 71             <NA>                                        <NA>
+#> 72              VVD    People's Party for Freedom and Democracy
+#> 73             <NA>                                        <NA>
+#> 74             <NA>                                        <NA>
+#> 75             <NA>                                        <NA>
+#>                                              party_name
+#> 1                                                50PLUS
+#> 2                                                  <NA>
+#> 3  Algemeen Ouderen Verbond | Verenigde Senioren Partij
+#> 4                            Anti-Revolutionaire Partij
+#> 5                                                  <NA>
+#> 6                                                  <NA>
+#> 7                                          Boerenpartij
+#> 8                                                  <NA>
+#> 9                                    Centrum Democraten
+#> 10                          Christen Democratisch Appel
+#> 11                       Christelijk-Democratische Unie
+#> 12                                        Centrumpartij
+#> 13                                         ChristenUnie
+#> 14                         Christelijk-Historische Unie
+#> 15                      Communistische Partij Nederland
+#> 16                                        Democraten 66
+#> 17                                                 <NA>
+#> 18                          Democratisch Socialisten 70
+#> 19                                                 <NA>
+#> 20                                                 <NA>
+#> 21                                                 <NA>
+#> 22                                                 <NA>
+#> 23                        Gereformeerd Politiek Verbond
+#> 24                                           GroenLinks
+#> 25                                                 <NA>
+#> 26                                                 <NA>
+#> 27                                                 <NA>
+#> 28                                                 <NA>
+#> 29                                                 <NA>
+#> 30                                                 <NA>
+#> 31                          Katholieke Nationale Partij
+#> 32                                                 <NA>
+#> 33                                                 <NA>
+#> 34                                                 <NA>
+#> 35                                                 <NA>
+#> 36                                                 <NA>
+#> 37                               Katholieke Volkspartij
+#> 38                                                 <NA>
+#> 39                                   Leefbaar Nederland
+#> 40                                    Lijst Pim Fortuyn
+#> 41                                                 <NA>
+#> 42                                                 <NA>
+#> 43                                        Midden Partij
+#> 44                                                 <NA>
+#> 45                                                 <NA>
+#> 46                           Politieke Partij Radikalen
+#> 47                   Pacifistisch Socialistische Partij
+#> 48                                 Partij van de Arbeid
+#> 49                                Partij voor de Dieren
+#> 50                                                 <NA>
+#> 51                              Partij voor de Vrijheid
+#> 52                                                 <NA>
+#> 53                            Roomsch Katholieke Partij
+#> 54                   Reformatorische Politieke Federati
+#> 55                                                 <NA>
+#> 56                                                 <NA>
+#> 57               Sociaal Democratische Arbeiders Partij
+#> 58                     Staatkundig Gereformeerde Partij
+#> 59                                 Socialistiese Partij
+#> 60                                                 <NA>
+#> 61                                                 <NA>
+#> 62                                                 <NA>
+#> 63                                                 <NA>
+#> 64                                                 <NA>
+#> 65                                                 <NA>
+#> 66                                                 <NA>
+#> 67                        Vrijzinnig Democratische Bond
+#> 68                                                 <NA>
+#> 69                                                 <NA>
+#> 70                                                 <NA>
+#> 71                                                 <NA>
+#> 72              Volkspartij voor Vrijheid en Democratie
+#> 73                                                 <NA>
+#> 74                                                 <NA>
+#> 75                                                 <NA>
+#>                                        party_name_ascii family_name_short
+#> 1                                                50PLUS               lib
+#> 2                                                  <NA>              <NA>
+#> 3  Algemeen Ouderen Verbond | Verenigde Senioren Partij              spec
+#> 4                            Anti-Revolutionaire Partij               chr
+#> 5                                                  <NA>              <NA>
+#> 6                                                  <NA>              <NA>
+#> 7                                          Boerenpartij               agr
+#> 8                                                  <NA>              <NA>
+#> 9                                    Centrum Democraten             right
+#> 10                          Christen Democratisch Appel               chr
+#> 11                       Christelijk-Democratische Unie               chr
+#> 12                                        Centrumpartij             right
+#> 13                                         ChristenUnie               chr
+#> 14                         Christelijk-Historische Unie               chr
+#> 15                      Communistische Partij Nederland               com
+#> 16                                        Democraten 66               lib
+#> 17                                                 <NA>              <NA>
+#> 18                          Democratisch Socialisten 70               con
+#> 19                                                 <NA>              <NA>
+#> 20                                                 <NA>              <NA>
+#> 21                                                 <NA>              <NA>
+#> 22                                                 <NA>              <NA>
+#> 23                        Gereformeerd Politiek Verbond               con
+#> 24                                           GroenLinks               eco
+#> 25                                                 <NA>              <NA>
+#> 26                                                 <NA>              <NA>
+#> 27                                                 <NA>              <NA>
+#> 28                                                 <NA>              <NA>
+#> 29                                                 <NA>              <NA>
+#> 30                                                 <NA>              <NA>
+#> 31                          Katholieke Nationale Partij               chr
+#> 32                                                 <NA>              <NA>
+#> 33                                                 <NA>              <NA>
+#> 34                                                 <NA>              <NA>
+#> 35                                                 <NA>              <NA>
+#> 36                                                 <NA>              <NA>
+#> 37                               Katholieke Volkspartij               chr
+#> 38                                                 <NA>              <NA>
+#> 39                                   Leefbaar Nederland             right
+#> 40                                    Lijst Pim Fortuyn             right
+#> 41                                                 <NA>              <NA>
+#> 42                                                 <NA>              <NA>
+#> 43                                        Midden Partij               con
+#> 44                                                 <NA>              <NA>
+#> 45                                                 <NA>              <NA>
+#> 46                           Politieke Partij Radikalen               eco
+#> 47                   Pacifistisch Socialistische Partij               com
+#> 48                                 Partij van de Arbeid               soc
+#> 49                                Partij voor de Dieren              spec
+#> 50                                                 <NA>              <NA>
+#> 51                              Partij voor de Vrijheid               con
+#> 52                                                 <NA>              <NA>
+#> 53                            Roomsch Katholieke Partij               chr
+#> 54                   Reformatorische Politieke Federati               chr
+#> 55                                                 <NA>              <NA>
+#> 56                                                 <NA>              <NA>
+#> 57               Sociaal Democratische Arbeiders Partij               soc
+#> 58                     Staatkundig Gereformeerde Partij               con
+#> 59                                 Socialistiese Partij               com
+#> 60                                                 <NA>              <NA>
+#> 61                                                 <NA>              <NA>
+#> 62                                                 <NA>              <NA>
+#> 63                                                 <NA>              <NA>
+#> 64                                                 <NA>              <NA>
+#> 65                                                 <NA>              <NA>
+#> 66                                                 <NA>              <NA>
+#> 67                        Vrijzinnig Democratische Bond               lib
+#> 68                                                 <NA>              <NA>
+#> 69                                                 <NA>              <NA>
+#> 70                                                 <NA>              <NA>
+#> 71                                                 <NA>              <NA>
+#> 72              Volkspartij voor Vrijheid en Democratie               lib
+#> 73                                                 <NA>              <NA>
+#> 74                                                 <NA>              <NA>
+#> 75                                                 <NA>              <NA>
+#>            family_name left_right state_market liberty_authority eu_anti_pro
+#> 1              Liberal     6.0000       6.7000            3.5000      8.7000
+#> 2                 <NA>         NA           NA                NA          NA
+#> 3        Special issue         NA           NA                NA          NA
+#> 4  Christian democracy     5.8067       5.6933            6.7724      8.2894
+#> 5                 <NA>         NA           NA                NA          NA
+#> 6                 <NA>         NA           NA                NA          NA
+#> 7             Agrarian     5.3000       4.9000            6.5000      5.4000
+#> 8                 <NA>         NA           NA                NA          NA
+#> 9           Right-wing     9.4097       8.5714            9.2500      1.3120
+#> 10 Christian democracy     5.9376       5.8848            6.6882      7.7157
+#> 11 Christian democracy     6.2000       5.7000            7.2000      8.3000
+#> 12          Right-wing     8.7000       5.9000            8.6000      2.4000
+#> 13 Christian democracy     6.1732       4.6769            8.6005      4.4157
+#> 14 Christian democracy     5.8067       5.6933            6.7724      8.2894
+#> 15 Communist/Socialist     0.8000       1.4000            3.0000      5.0000
+#> 16             Liberal     4.5066       4.9917            1.7625      8.6233
+#> 17                <NA>         NA           NA                NA          NA
+#> 18        Conservative     3.8433       3.9133            3.5288      8.4641
+#> 19                <NA>         NA           NA                NA          NA
+#> 20                <NA>         NA           NA                NA          NA
+#> 21                <NA>         NA           NA                NA          NA
+#> 22                <NA>         NA           NA                NA          NA
+#> 23        Conservative     8.1444       5.8000            8.6364      3.4848
+#> 24     Green/Ecologist     2.0454       2.1108            1.6440      6.1973
+#> 25                <NA>         NA           NA                NA          NA
+#> 26                <NA>         NA           NA                NA          NA
+#> 27                <NA>         NA           NA                NA          NA
+#> 28                <NA>         NA           NA                NA          NA
+#> 29                <NA>         NA           NA                NA          NA
+#> 30                <NA>         NA           NA                NA          NA
+#> 31 Christian democracy     6.2000       5.7000            7.2000      8.3000
+#> 32                <NA>         NA           NA                NA          NA
+#> 33                <NA>         NA           NA                NA          NA
+#> 34                <NA>         NA           NA                NA          NA
+#> 35                <NA>         NA           NA                NA          NA
+#> 36                <NA>         NA           NA                NA          NA
+#> 37 Christian democracy     5.9473       5.8848            6.6882      7.7157
+#> 38                <NA>         NA           NA                NA          NA
+#> 39          Right-wing     8.7000       5.9000            8.6000      2.4000
+#> 40          Right-wing     8.5609       8.0776            4.7759      2.5798
+#> 41                <NA>         NA           NA                NA          NA
+#> 42                <NA>         NA           NA                NA          NA
+#> 43        Conservative     7.4000       6.4000            6.9000      7.8000
+#> 44                <NA>         NA           NA                NA          NA
+#> 45                <NA>         NA           NA                NA          NA
+#> 46     Green/Ecologist     1.6000       2.5000            1.8000      5.0000
+#> 47 Communist/Socialist     1.2000       1.4000            3.0000      5.0000
+#> 48    Social democracy     3.6118       3.8680            3.2028      7.9904
+#> 49       Special issue         NA           NA                NA          NA
+#> 50                <NA>         NA           NA                NA          NA
+#> 51        Conservative     8.8000       8.2900            6.5700      0.9167
+#> 52                <NA>         NA           NA                NA          NA
+#> 53 Christian democracy     6.2000       5.7000            7.2000      8.3000
+#> 54 Christian democracy     8.2963       6.0000            8.5455      3.5447
+#> 55                <NA>         NA           NA                NA          NA
+#> 56                <NA>         NA           NA                NA          NA
+#> 57    Social democracy     3.3000       3.5000            3.5000      8.1000
+#> 58        Conservative     8.7531       6.3487            9.7744      2.9307
+#> 59 Communist/Socialist     1.2146       1.0421            4.2099      2.5049
+#> 60                <NA>         NA           NA                NA          NA
+#> 61                <NA>         NA           NA                NA          NA
+#> 62                <NA>         NA           NA                NA          NA
+#> 63                <NA>         NA           NA                NA          NA
+#> 64                <NA>         NA           NA                NA          NA
+#> 65                <NA>         NA           NA                NA          NA
+#> 66                <NA>         NA           NA                NA          NA
+#> 67             Liberal     6.0000       6.7000            3.5000      8.7000
+#> 68                <NA>         NA           NA                NA          NA
+#> 69                <NA>         NA           NA                NA          NA
+#> 70                <NA>         NA           NA                NA          NA
+#> 71                <NA>         NA           NA                NA          NA
+#> 72             Liberal     7.3482       7.8979            4.3887      5.9471
+#> 73                <NA>         NA           NA                NA          NA
+#> 74                <NA>         NA           NA                NA          NA
+#> 75                <NA>         NA           NA                NA          NA
+#>      cmp euprofiler     ees castles_mair huber_inglehart  ray benoit_laver
+#> 1     NA         NA      NA           NA              NA   NA           NA
+#> 2     NA         NA      NA           NA              NA   NA           NA
+#> 3     NA         NA      NA           NA              NA   NA           NA
+#> 4  22523         NA      NA           NA              NA 1001           NA
+#> 5     NA         NA      NA           NA              NA   NA           NA
+#> 6     NA         NA      NA           NA              NA   NA           NA
+#> 7     NA         NA      NA           NA              NA   NA           NA
+#> 8     NA         NA      NA           NA              NA   NA           NA
+#> 9     NA         NA      NA           NA            2609 1009           NA
+#> 10 22521        293 1528521         1106            2604 1001         7040
+#> 11    NA         NA      NA           NA              NA   NA           NA
+#> 12    NA         NA      NA           NA              NA   NA           NA
+#> 13 22526        294 1528526           NA              NA   NA         7060
+#> 14 22525         NA      NA           NA              NA 1001           NA
+#> 15    NA         NA      NA         1102              NA 1012           NA
+#> 16 22330        295 1528330         1105            2603 1004         7080
+#> 17    NA         NA      NA           NA              NA   NA           NA
+#> 18 22524         NA      NA           NA              NA   NA           NA
+#> 19    NA         NA      NA           NA              NA   NA           NA
+#> 20    NA         NA      NA           NA              NA   NA           NA
+#> 21    NA         NA      NA           NA              NA   NA           NA
+#> 22    NA         NA      NA           NA              NA   NA           NA
+#> 23    NA         NA      NA         1108            2606 1007           NA
+#> 24 22110        297 1528110           NA            2601 1005         7100
+#> 25    NA         NA      NA           NA              NA   NA           NA
+#> 26    NA         NA      NA           NA              NA   NA           NA
+#> 27    NA         NA      NA           NA              NA   NA           NA
+#> 28    NA         NA      NA           NA              NA   NA           NA
+#> 29    NA         NA      NA           NA              NA   NA           NA
+#> 30    NA         NA      NA           NA              NA   NA           NA
+#> 31    NA         NA      NA           NA              NA   NA           NA
+#> 32    NA         NA      NA           NA              NA   NA           NA
+#> 33    NA         NA      NA           NA              NA   NA           NA
+#> 34    NA         NA      NA           NA              NA   NA           NA
+#> 35    NA         NA      NA           NA              NA   NA           NA
+#> 36    NA         NA      NA           NA              NA   NA           NA
+#> 37 22522         NA      NA         1106              NA 1001         7040
+#> 38    NA         NA      NA           NA              NA   NA           NA
+#> 39 22430         NA      NA           NA              NA   NA           NA
+#> 40 22720         NA      NA           NA              NA   NA         7120
+#> 41    NA         NA      NA           NA              NA   NA           NA
+#> 42    NA         NA      NA           NA              NA   NA           NA
+#> 43    NA         NA      NA           NA              NA   NA           NA
+#> 44    NA         NA      NA           NA              NA   NA           NA
+#> 45    NA         NA      NA           NA              NA   NA           NA
+#> 46 22310         NA      NA         1103              NA 1010           NA
+#> 47    NA         NA      NA           NA              NA 1011           NA
+#> 48 22320        299 1528320         1104            2602 1002         7140
+#> 49    NA        300 1528006           NA              NA   NA           NA
+#> 50    NA         NA      NA           NA              NA   NA           NA
+#> 51    NA        301 1528600           NA              NA   NA           NA
+#> 52    NA         NA      NA           NA              NA   NA           NA
+#> 53    NA         NA      NA           NA              NA   NA           NA
+#> 54    NA         NA      NA         1109            2608 1008           NA
+#> 55    NA         NA      NA           NA              NA   NA           NA
+#> 56    NA         NA      NA           NA              NA   NA           NA
+#> 57    NA         NA      NA           NA              NA   NA           NA
+#> 58    NA        294 1528527         1110            2607 1006         7160
+#> 59 22220        304 1528220         1101              NA   NA         7180
+#> 60    NA         NA      NA           NA              NA   NA           NA
+#> 61    NA         NA      NA           NA              NA   NA           NA
+#> 62    NA         NA      NA           NA              NA   NA           NA
+#> 63    NA         NA      NA           NA              NA   NA           NA
+#> 64    NA         NA      NA           NA              NA   NA           NA
+#> 65    NA         NA      NA           NA              NA   NA           NA
+#> 66    NA         NA      NA           NA              NA   NA           NA
+#> 67    NA         NA      NA           NA              NA   NA           NA
+#> 68    NA         NA      NA           NA              NA   NA           NA
+#> 69    NA         NA      NA           NA              NA   NA           NA
+#> 70    NA         NA      NA           NA              NA   NA           NA
+#> 71    NA         NA      NA           NA              NA   NA           NA
+#> 72 22420        305 1528420         1107            2605 1003         7200
+#> 73    NA         NA      NA           NA              NA   NA           NA
+#> 74    NA         NA      NA           NA              NA   NA           NA
+#> 75    NA         NA      NA           NA              NA   NA           NA
+#>    chess country_id family_id
+#> 1     NA          8         6
+#> 2     NA         NA        NA
+#> 3     NA          8        16
+#> 4   1001          8         3
+#> 5     NA         NA        NA
+#> 6     NA         NA        NA
+#> 7     NA          8         2
+#> 8     NA         NA        NA
+#> 9   1009          8        40
+#> 10  1001          8         3
+#> 11    NA          8         3
+#> 12    NA          8        40
+#> 13  1016          8         3
+#> 14  1001          8         3
+#> 15    NA          8        14
+#> 16  1004          8         6
+#> 17    NA         NA        NA
+#> 18  1002          8        26
+#> 19    NA         NA        NA
+#> 20    NA         NA        NA
+#> 21    NA         NA        NA
+#> 22    NA         NA        NA
+#> 23  1007          8        26
+#> 24  1005          8        19
+#> 25    NA         NA        NA
+#> 26    NA         NA        NA
+#> 27    NA         NA        NA
+#> 28    NA         NA        NA
+#> 29    NA         NA        NA
+#> 30    NA         NA        NA
+#> 31    NA          8         3
+#> 32    NA         NA        NA
+#> 33    NA         NA        NA
+#> 34    NA         NA        NA
+#> 35    NA         NA        NA
+#> 36    NA         NA        NA
+#> 37  1001          8         3
+#> 38    NA         NA        NA
+#> 39    NA          8        40
+#> 40  1015          8        40
+#> 41    NA         NA        NA
+#> 42    NA         NA        NA
+#> 43    NA          8        26
+#> 44    NA         NA        NA
+#> 45    NA         NA        NA
+#> 46    NA          8        19
+#> 47    NA          8        14
+#> 48  1002          8        11
+#> 49  1018          8        16
+#> 50    NA         NA        NA
+#> 51  1017          8        26
+#> 52    NA         NA        NA
+#> 53    NA          8         3
+#> 54  1008          8         3
+#> 55    NA         NA        NA
+#> 56    NA         NA        NA
+#> 57    NA          8        11
+#> 58  1019          8        26
+#> 59  1014          8        14
+#> 60    NA         NA        NA
+#> 61    NA         NA        NA
+#> 62    NA         NA        NA
+#> 63    NA         NA        NA
+#> 64    NA         NA        NA
+#> 65    NA         NA        NA
+#> 66    NA         NA        NA
+#> 67    NA          8         6
+#> 68    NA         NA        NA
+#> 69    NA         NA        NA
+#> 70    NA         NA        NA
+#> 71    NA         NA        NA
+#> 72  1003          8         6
+#> 73    NA         NA        NA
+#> 74    NA         NA        NA
+#> 75    NA         NA        NA
+#> 
+#> $partyCabinetInfo
+#>             party              cabinet_name cabinet_id previous_cabinet_id
+#> 1             ARP   Ruijs de Beerenbrouck I       1262                  NA
+#> 2             CHU   Ruijs de Beerenbrouck I       1262                  NA
+#> 3             CPN   Ruijs de Beerenbrouck I       1262                  NA
+#> 4            RKSP   Ruijs de Beerenbrouck I       1262                  NA
+#> 5            SDAP   Ruijs de Beerenbrouck I       1262                  NA
+#> 6             VDB   Ruijs de Beerenbrouck I       1262                  NA
+#> 7             ARP  Ruijs de Beerenbrouck II       1261                1262
+#> 8             CHU  Ruijs de Beerenbrouck II       1261                1262
+#> 9             CPN  Ruijs de Beerenbrouck II       1261                1262
+#> 10           RKSP  Ruijs de Beerenbrouck II       1261                1262
+#> 11           SDAP  Ruijs de Beerenbrouck II       1261                1262
+#> 12            SGP  Ruijs de Beerenbrouck II       1261                1262
+#> 13            VDB  Ruijs de Beerenbrouck II       1261                1262
+#> 14            ARP                  Colijn I       1260                1261
+#> 15            CHU                  Colijn I       1260                1261
+#> 16            CPN                  Colijn I       1260                1261
+#> 17           RKSP                  Colijn I       1260                1261
+#> 18           SDAP                  Colijn I       1260                1261
+#> 19            SGP                  Colijn I       1260                1261
+#> 20            VDB                  Colijn I       1260                1261
+#> 21            ARP                 De Geer I       1259                1260
+#> 22            CHU                 De Geer I       1259                1260
+#> 23            CPN                 De Geer I       1259                1260
+#> 24           RKSP                 De Geer I       1259                1260
+#> 25           SDAP                 De Geer I       1259                1260
+#> 26            SGP                 De Geer I       1259                1260
+#> 27            VDB                 De Geer I       1259                1260
+#> 28            ARP Ruijs de Beerenbrouck III       1258                1259
+#> 29            CHU Ruijs de Beerenbrouck III       1258                1259
+#> 30            CPN Ruijs de Beerenbrouck III       1258                1259
+#> 31           RKSP Ruijs de Beerenbrouck III       1258                1259
+#> 32           SDAP Ruijs de Beerenbrouck III       1258                1259
+#> 33            SGP Ruijs de Beerenbrouck III       1258                1259
+#> 34            VDB Ruijs de Beerenbrouck III       1258                1259
+#> 35            ARP                 Colijn II       1257                1258
+#> 36            CDU                 Colijn II       1257                1258
+#> 37            CHU                 Colijn II       1257                1258
+#> 38            CPN                 Colijn II       1257                1258
+#> 39           RKSP                 Colijn II       1257                1258
+#> 40           SDAP                 Colijn II       1257                1258
+#> 41            SGP                 Colijn II       1257                1258
+#> 42            VDB                 Colijn II       1257                1258
+#> 43            ARP                Colijn III       1256                1257
+#> 44            CDU                Colijn III       1256                1257
+#> 45            CHU                Colijn III       1256                1257
+#> 46            CPN                Colijn III       1256                1257
+#> 47           RKSP                Colijn III       1256                1257
+#> 48           SDAP                Colijn III       1256                1257
+#> 49            SGP                Colijn III       1256                1257
+#> 50            VDB                Colijn III       1256                1257
+#> 51            ARP                 Colijn IV       1255                1256
+#> 52            CDU                 Colijn IV       1255                1256
+#> 53            CHU                 Colijn IV       1255                1256
+#> 54            CPN                 Colijn IV       1255                1256
+#> 55           RKSP                 Colijn IV       1255                1256
+#> 56           SDAP                 Colijn IV       1255                1256
+#> 57            SGP                 Colijn IV       1255                1256
+#> 58            VDB                 Colijn IV       1255                1256
+#> 59            ARP                  Colijn V       1297                1255
+#> 60            CDU                  Colijn V       1297                1255
+#> 61            CHU                  Colijn V       1297                1255
+#> 62            CPN                  Colijn V       1297                1255
+#> 63           RKSP                  Colijn V       1297                1255
+#> 64           SDAP                  Colijn V       1297                1255
+#> 65            SGP                  Colijn V       1297                1255
+#> 66            VDB                  Colijn V       1297                1255
+#> 67            ARP                De Geer II       1254                1297
+#> 68            CDU                De Geer II       1254                1297
+#> 69            CHU                De Geer II       1254                1297
+#> 70            CPN                De Geer II       1254                1297
+#> 71           RKSP                De Geer II       1254                1297
+#> 72           SDAP                De Geer II       1254                1297
+#> 73            SGP                De Geer II       1254                1297
+#> 74            VDB                De Geer II       1254                1297
+#> 75            ARP              Schermerhorn        767                1254
+#> 76            CDU              Schermerhorn        767                1254
+#> 77            CHU              Schermerhorn        767                1254
+#> 78            CPN              Schermerhorn        767                1254
+#> 79            KVP              Schermerhorn        767                1254
+#> 80           RKSP              Schermerhorn        767                1254
+#> 81           SDAP              Schermerhorn        767                1254
+#> 82            SGP              Schermerhorn        767                1254
+#> 83            VDB              Schermerhorn        767                1254
+#> 84            ARP                    Beel I         96                 767
+#> 85            CHU                    Beel I         96                 767
+#> 86            CPN                    Beel I         96                 767
+#> 87            KVP                    Beel I         96                 767
+#> 88           PvdA                    Beel I         96                 767
+#> 89            SGP                    Beel I         96                 767
+#> 90            VVD                    Beel I         96                 767
+#> 91            ARP                   Drees I        128                  96
+#> 92            CHU                   Drees I        128                  96
+#> 93            CPN                   Drees I        128                  96
+#> 94            KNP                   Drees I        128                  96
+#> 95            KVP                   Drees I        128                  96
+#> 96           PvdA                   Drees I        128                  96
+#> 97            SGP                   Drees I        128                  96
+#> 98            VVD                   Drees I        128                  96
+#> 99            ARP                  Drees II        243                 128
+#> 100           CHU                  Drees II        243                 128
+#> 101           CPN                  Drees II        243                 128
+#> 102           KNP                  Drees II        243                 128
+#> 103           KVP                  Drees II        243                 128
+#> 104          PvdA                  Drees II        243                 128
+#> 105           SGP                  Drees II        243                 128
+#> 106           VVD                  Drees II        243                 128
+#> 107           ARP                 Drees III        366                 243
+#> 108           CHU                 Drees III        366                 243
+#> 109           CPN                 Drees III        366                 243
+#> 110           KNP                 Drees III        366                 243
+#> 111           KVP                 Drees III        366                 243
+#> 112          PvdA                 Drees III        366                 243
+#> 113           SGP                 Drees III        366                 243
+#> 114           VVD                 Drees III        366                 243
+#> 115           ARP                  Drees IV        761                 366
+#> 116           CHU                  Drees IV        761                 366
+#> 117           CPN                  Drees IV        761                 366
+#> 118           KVP                  Drees IV        761                 366
+#> 119          PvdA                  Drees IV        761                 366
+#> 120           SGP                  Drees IV        761                 366
+#> 121           VVD                  Drees IV        761                 366
+#> 122           ARP                   Beel II        741                 761
+#> 123           CHU                   Beel II        741                 761
+#> 124           CPN                   Beel II        741                 761
+#> 125           KVP                   Beel II        741                 761
+#> 126          PvdA                   Beel II        741                 761
+#> 127           SGP                   Beel II        741                 761
+#> 128           VVD                   Beel II        741                 761
+#> 129           ARP                   De Quay        694                 741
+#> 130           CHU                   De Quay        694                 741
+#> 131           CPN                   De Quay        694                 741
+#> 132           KVP                   De Quay        694                 741
+#> 133           PSP                   De Quay        694                 741
+#> 134          PvdA                   De Quay        694                 741
+#> 135           SGP                   De Quay        694                 741
+#> 136           VVD                   De Quay        694                 741
+#> 137           ARP                  Marijnen         35                 694
+#> 138            BP                  Marijnen         35                 694
+#> 139           CHU                  Marijnen         35                 694
+#> 140           CPN                  Marijnen         35                 694
+#> 141           GPV                  Marijnen         35                 694
+#> 142           KVP                  Marijnen         35                 694
+#> 143           PSP                  Marijnen         35                 694
+#> 144          PvdA                  Marijnen         35                 694
+#> 145           SGP                  Marijnen         35                 694
+#> 146           VVD                  Marijnen         35                 694
+#> 147           ARP                      Cals        518                  35
+#> 148            BP                      Cals        518                  35
+#> 149           CHU                      Cals        518                  35
+#> 150           CPN                      Cals        518                  35
+#> 151           GPV                      Cals        518                  35
+#> 152           KVP                      Cals        518                  35
+#> 153           PSP                      Cals        518                  35
+#> 154          PvdA                      Cals        518                  35
+#> 155           SGP                      Cals        518                  35
+#> 156           VVD                      Cals        518                  35
+#> 157           ARP                  Zijlstra        455                 518
+#> 158            BP                  Zijlstra        455                 518
+#> 159           CHU                  Zijlstra        455                 518
+#> 160           CPN                  Zijlstra        455                 518
+#> 161           GPV                  Zijlstra        455                 518
+#> 162           KVP                  Zijlstra        455                 518
+#> 163           PSP                  Zijlstra        455                 518
+#> 164          PvdA                  Zijlstra        455                 518
+#> 165           SGP                  Zijlstra        455                 518
+#> 166           VVD                  Zijlstra        455                 518
+#> 167           ARP                   De Jong        172                 455
+#> 168            BP                   De Jong        172                 455
+#> 169           CHU                   De Jong        172                 455
+#> 170           CPN                   De Jong        172                 455
+#> 171           D66                   De Jong        172                 455
+#> 172           GPV                   De Jong        172                 455
+#> 173           KVP                   De Jong        172                 455
+#> 174           PSP                   De Jong        172                 455
+#> 175          PvdA                   De Jong        172                 455
+#> 176           SGP                   De Jong        172                 455
+#> 177           VVD                   De Jong        172                 455
+#> 178           ARP              Biesheuvel I        231                 172
+#> 179            BP              Biesheuvel I        231                 172
+#> 180           CHU              Biesheuvel I        231                 172
+#> 181           CPN              Biesheuvel I        231                 172
+#> 182           D66              Biesheuvel I        231                 172
+#> 183          DS70              Biesheuvel I        231                 172
+#> 184           GPV              Biesheuvel I        231                 172
+#> 185           KVP              Biesheuvel I        231                 172
+#> 186           NMP              Biesheuvel I        231                 172
+#> 187           PPR              Biesheuvel I        231                 172
+#> 188           PSP              Biesheuvel I        231                 172
+#> 189          PvdA              Biesheuvel I        231                 172
+#> 190           SGP              Biesheuvel I        231                 172
+#> 191           VVD              Biesheuvel I        231                 172
+#> 192           ARP             Biesheuvel II        291                 231
+#> 193            BP             Biesheuvel II        291                 231
+#> 194           CHU             Biesheuvel II        291                 231
+#> 195           CPN             Biesheuvel II        291                 231
+#> 196           D66             Biesheuvel II        291                 231
+#> 197          DS70             Biesheuvel II        291                 231
+#> 198           GPV             Biesheuvel II        291                 231
+#> 199           KVP             Biesheuvel II        291                 231
+#> 200           NMP             Biesheuvel II        291                 231
+#> 201           PPR             Biesheuvel II        291                 231
+#> 202           PSP             Biesheuvel II        291                 231
+#> 203          PvdA             Biesheuvel II        291                 231
+#> 204           SGP             Biesheuvel II        291                 231
+#> 205           VVD             Biesheuvel II        291                 231
+#> 206           ARP                 Den Uyl I        765                 291
+#> 207            BP                 Den Uyl I        765                 291
+#> 208           CHU                 Den Uyl I        765                 291
+#> 209           CPN                 Den Uyl I        765                 291
+#> 210           D66                 Den Uyl I        765                 291
+#> 211          DS70                 Den Uyl I        765                 291
+#> 212           GPV                 Den Uyl I        765                 291
+#> 213           KVP                 Den Uyl I        765                 291
+#> 214           PPR                 Den Uyl I        765                 291
+#> 215           PSP                 Den Uyl I        765                 291
+#> 216          PvdA                 Den Uyl I        765                 291
+#> 217           SGP                 Den Uyl I        765                 291
+#> 218           VVD                 Den Uyl I        765                 291
+#> 219            BP                Den Uyl II        324                 765
+#> 220           CDA                Den Uyl II        324                 765
+#> 221           CPN                Den Uyl II        324                 765
+#> 222           D66                Den Uyl II        324                 765
+#> 223          DS70                Den Uyl II        324                 765
+#> 224           GPV                Den Uyl II        324                 765
+#> 225           PPR                Den Uyl II        324                 765
+#> 226           PSP                Den Uyl II        324                 765
+#> 227          PvdA                Den Uyl II        324                 765
+#> 228           SGP                Den Uyl II        324                 765
+#> 229           VVD                Den Uyl II        324                 765
+#> 230            BP                 Van Agt I        563                 324
+#> 231           CDA                 Van Agt I        563                 324
+#> 232           CPN                 Van Agt I        563                 324
+#> 233           D66                 Van Agt I        563                 324
+#> 234          DS70                 Van Agt I        563                 324
+#> 235           GPV                 Van Agt I        563                 324
+#> 236           PPR                 Van Agt I        563                 324
+#> 237           PSP                 Van Agt I        563                 324
+#> 238          PvdA                 Van Agt I        563                 324
+#> 239           SGP                 Van Agt I        563                 324
+#> 240           VVD                 Van Agt I        563                 324
+#> 241           CDA                Van Agt II        258                 563
+#> 242           CPN                Van Agt II        258                 563
+#> 243           D66                Van Agt II        258                 563
+#> 244           GPV                Van Agt II        258                 563
+#> 245           PPR                Van Agt II        258                 563
+#> 246           PSP                Van Agt II        258                 563
+#> 247          PvdA                Van Agt II        258                 563
+#> 248           RPF                Van Agt II        258                 563
+#> 249           SGP                Van Agt II        258                 563
+#> 250           VVD                Van Agt II        258                 563
+#> 251           CDA               Van Agt III          6                 258
+#> 252           CPN               Van Agt III          6                 258
+#> 253           D66               Van Agt III          6                 258
+#> 254           GPV               Van Agt III          6                 258
+#> 255           PPR               Van Agt III          6                 258
+#> 256           PSP               Van Agt III          6                 258
+#> 257          PvdA               Van Agt III          6                 258
+#> 258           RPF               Van Agt III          6                 258
+#> 259           SGP               Van Agt III          6                 258
+#> 260           VVD               Van Agt III          6                 258
+#> 261           CDA                 Lubbers I        270                   6
+#> 262 Centrumpartij                 Lubbers I        270                   6
+#> 263           CPN                 Lubbers I        270                   6
+#> 264           D66                 Lubbers I        270                   6
+#> 265           GPV                 Lubbers I        270                   6
+#> 266           PPR                 Lubbers I        270                   6
+#> 267           PSP                 Lubbers I        270                   6
+#> 268          PvdA                 Lubbers I        270                   6
+#> 269           RPF                 Lubbers I        270                   6
+#> 270           SGP                 Lubbers I        270                   6
+#> 271           VVD                 Lubbers I        270                   6
+#> 272           CDA                Lubbers II        550                 270
+#> 273           D66                Lubbers II        550                 270
+#> 274           GPV                Lubbers II        550                 270
+#> 275           PPR                Lubbers II        550                 270
+#> 276           PSP                Lubbers II        550                 270
+#> 277          PvdA                Lubbers II        550                 270
+#> 278           RPF                Lubbers II        550                 270
+#> 279           SGP                Lubbers II        550                 270
+#> 280           VVD                Lubbers II        550                 270
+#> 281            CD               Lubbers III        148                 550
+#> 282           CDA               Lubbers III        148                 550
+#> 283           D66               Lubbers III        148                 550
+#> 284    GroenLinks               Lubbers III        148                 550
+#> 285           GPV               Lubbers III        148                 550
+#> 286          PvdA               Lubbers III        148                 550
+#> 287           RPF               Lubbers III        148                 550
+#> 288           SGP               Lubbers III        148                 550
+#> 289           VVD               Lubbers III        148                 550
+#> 290           AOV                     Kok I        637                 148
+#> 291            CD                     Kok I        637                 148
+#> 292           CDA                     Kok I        637                 148
+#> 293           D66                     Kok I        637                 148
+#> 294    GroenLinks                     Kok I        637                 148
+#> 295           GPV                     Kok I        637                 148
+#> 296          PvdA                     Kok I        637                 148
+#> 297           RPF                     Kok I        637                 148
+#> 298           SGP                     Kok I        637                 148
+#> 299            SP                     Kok I        637                 148
+#> 300           VVD                     Kok I        637                 148
+#> 301           CDA                    Kok II        749                 637
+#> 302           D66                    Kok II        749                 637
+#> 303    GroenLinks                    Kok II        749                 637
+#> 304           GPV                    Kok II        749                 637
+#> 305          PvdA                    Kok II        749                 637
+#> 306           RPF                    Kok II        749                 637
+#> 307           SGP                    Kok II        749                 637
+#> 308            SP                    Kok II        749                 637
+#> 309           VVD                    Kok II        749                 637
+#> 310           CDA              Balkenende I        763                 749
+#> 311  ChristenUnie              Balkenende I        763                 749
+#> 312           D66              Balkenende I        763                 749
+#> 313    GroenLinks              Balkenende I        763                 749
+#> 314            LN              Balkenende I        763                 749
+#> 315           LPF              Balkenende I        763                 749
+#> 316          PvdA              Balkenende I        763                 749
+#> 317           SGP              Balkenende I        763                 749
+#> 318            SP              Balkenende I        763                 749
+#> 319           VVD              Balkenende I        763                 749
+#> 320           CDA             Balkenende II       1105                 763
+#> 321  ChristenUnie             Balkenende II       1105                 763
+#> 322           D66             Balkenende II       1105                 763
+#> 323    GroenLinks             Balkenende II       1105                 763
+#> 324            LN             Balkenende II       1105                 763
+#> 325           LPF             Balkenende II       1105                 763
+#> 326          PvdA             Balkenende II       1105                 763
+#> 327           SGP             Balkenende II       1105                 763
+#> 328            SP             Balkenende II       1105                 763
+#> 329           VVD             Balkenende II       1105                 763
+#> 330           CDA            Balkenende III        124                1105
+#> 331  ChristenUnie            Balkenende III        124                1105
+#> 332           D66            Balkenende III        124                1105
+#> 333    GroenLinks            Balkenende III        124                1105
+#> 334           LPF            Balkenende III        124                1105
+#> 335          PvdA            Balkenende III        124                1105
+#> 336           SGP            Balkenende III        124                1105
+#> 337            SP            Balkenende III        124                1105
+#> 338           VVD            Balkenende III        124                1105
+#> 339           CDA             Balkenende IV         65                 124
+#> 340  ChristenUnie             Balkenende IV         65                 124
+#> 341           D66             Balkenende IV         65                 124
+#> 342    GroenLinks             Balkenende IV         65                 124
+#> 343           LPF             Balkenende IV         65                 124
+#> 344           PVV             Balkenende IV         65                 124
+#> 345          PvdA             Balkenende IV         65                 124
+#> 346           SGP             Balkenende IV         65                 124
+#> 347            SP             Balkenende IV         65                 124
+#> 348           VVD             Balkenende IV         65                 124
+#> 349           CDA              Balkenende V         69                  65
+#> 350  ChristenUnie              Balkenende V         69                  65
+#> 351           D66              Balkenende V         69                  65
+#> 352    GroenLinks              Balkenende V         69                  65
+#> 353           PVV              Balkenende V         69                  65
+#> 354          PvdA              Balkenende V         69                  65
+#> 355          PvdD              Balkenende V         69                  65
+#> 356           SGP              Balkenende V         69                  65
+#> 357            SP              Balkenende V         69                  65
+#> 358           VVD              Balkenende V         69                  65
+#> 359           CDA             Balkenende VI        652                  69
+#> 360  ChristenUnie             Balkenende VI        652                  69
+#> 361           D66             Balkenende VI        652                  69
+#> 362    GroenLinks             Balkenende VI        652                  69
+#> 363           PVV             Balkenende VI        652                  69
+#> 364          PvdA             Balkenende VI        652                  69
+#> 365          PvdD             Balkenende VI        652                  69
+#> 366           SGP             Balkenende VI        652                  69
+#> 367            SP             Balkenende VI        652                  69
+#> 368           VVD             Balkenende VI        652                  69
+#> 369           CDA                   Rutte I        804                 652
+#> 370  ChristenUnie                   Rutte I        804                 652
+#> 371           D66                   Rutte I        804                 652
+#> 372    GroenLinks                   Rutte I        804                 652
+#> 373           PVV                   Rutte I        804                 652
+#> 374          PvdA                   Rutte I        804                 652
+#> 375          PvdD                   Rutte I        804                 652
+#> 376           SGP                   Rutte I        804                 652
+#> 377            SP                   Rutte I        804                 652
+#> 378           VVD                   Rutte I        804                 652
+#> 379           CDA                  Rutte II       1028                 804
+#> 380  ChristenUnie                  Rutte II       1028                 804
+#> 381           D66                  Rutte II       1028                 804
+#> 382    GroenLinks                  Rutte II       1028                 804
+#> 383           PVV                  Rutte II       1028                 804
+#> 384          PvdA                  Rutte II       1028                 804
+#> 385          PvdD                  Rutte II       1028                 804
+#> 386           SGP                  Rutte II       1028                 804
+#> 387            SP                  Rutte II       1028                 804
+#> 388           VVD                  Rutte II       1028                 804
+#> 389        50PLUS                 Rutte III       1041                1028
+#> 390           CDA                 Rutte III       1041                1028
+#> 391  ChristenUnie                 Rutte III       1041                1028
+#> 392           D66                 Rutte III       1041                1028
+#> 393    GroenLinks                 Rutte III       1041                1028
+#> 394           PVV                 Rutte III       1041                1028
+#> 395          PvdA                 Rutte III       1041                1028
+#> 396          PvdD                 Rutte III       1041                1028
+#> 397           SGP                 Rutte III       1041                1028
+#> 398            SP                 Rutte III       1041                1028
+#> 399           VVD                 Rutte III       1041                1028
+#> 400        50PLUS                  Rutte IV       1506                1041
+#> 401           CDA                  Rutte IV       1506                1041
+#> 402  ChristenUnie                  Rutte IV       1506                1041
+#> 403           D66                  Rutte IV       1506                1041
+#> 404    GroenLinks                  Rutte IV       1506                1041
+#> 405           PVV                  Rutte IV       1506                1041
+#> 406          PvdA                  Rutte IV       1506                1041
+#> 407          PvdD                  Rutte IV       1506                1041
+#> 408           SGP                  Rutte IV       1506                1041
+#> 409            SP                  Rutte IV       1506                1041
+#> 410           VVD                  Rutte IV       1506                1041
+#> 411        50PLUS                   Rutte V       1530                1506
+#> 412           CDA                   Rutte V       1530                1506
+#> 413  ChristenUnie                   Rutte V       1530                1506
+#> 414           D66                   Rutte V       1530                1506
+#> 415    GroenLinks                   Rutte V       1530                1506
+#> 416           PVV                   Rutte V       1530                1506
+#> 417          PvdA                   Rutte V       1530                1506
+#> 418          PvdD                   Rutte V       1530                1506
+#> 419           SGP                   Rutte V       1530                1506
+#> 420            SP                   Rutte V       1530                1506
+#> 421           VVD                   Rutte V       1530                1506
+#>     election_date start_date   end_date party_name_short
+#> 1      1918-07-03 1918-09-09 1922-09-17              ARP
+#> 2      1918-07-03 1918-09-09 1922-09-17              CHU
+#> 3      1918-07-03 1918-09-09 1922-09-17              CPN
+#> 4      1918-07-03 1918-09-09 1922-09-17              RKP
+#> 5      1918-07-03 1918-09-09 1922-09-17             SDAP
+#> 6      1918-07-03 1918-09-09 1922-09-17              VDB
+#> 7      1922-07-05 1922-09-18 1925-08-03              ARP
+#> 8      1922-07-05 1922-09-18 1925-08-03              CHU
+#> 9      1922-07-05 1922-09-18 1925-08-03              CPN
+#> 10     1922-07-05 1922-09-18 1925-08-03              RKP
+#> 11     1922-07-05 1922-09-18 1925-08-03             SDAP
+#> 12     1922-07-05 1922-09-18 1925-08-03              SGP
+#> 13     1922-07-05 1922-09-18 1925-08-03              VDB
+#> 14     1925-07-01 1925-08-04 1926-03-07              ARP
+#> 15     1925-07-01 1925-08-04 1926-03-07              CHU
+#> 16     1925-07-01 1925-08-04 1926-03-07              CPN
+#> 17     1925-07-01 1925-08-04 1926-03-07              RKP
+#> 18     1925-07-01 1925-08-04 1926-03-07             SDAP
+#> 19     1925-07-01 1925-08-04 1926-03-07              SGP
+#> 20     1925-07-01 1925-08-04 1926-03-07              VDB
+#> 21     1925-07-01 1926-03-08 1929-08-09              ARP
+#> 22     1925-07-01 1926-03-08 1929-08-09              CHU
+#> 23     1925-07-01 1926-03-08 1929-08-09              CPN
+#> 24     1925-07-01 1926-03-08 1929-08-09              RKP
+#> 25     1925-07-01 1926-03-08 1929-08-09             SDAP
+#> 26     1925-07-01 1926-03-08 1929-08-09              SGP
+#> 27     1925-07-01 1926-03-08 1929-08-09              VDB
+#> 28     1929-07-03 1929-08-10 1933-05-25              ARP
+#> 29     1929-07-03 1929-08-10 1933-05-25              CHU
+#> 30     1929-07-03 1929-08-10 1933-05-25              CPN
+#> 31     1929-07-03 1929-08-10 1933-05-25              RKP
+#> 32     1929-07-03 1929-08-10 1933-05-25             SDAP
+#> 33     1929-07-03 1929-08-10 1933-05-25              SGP
+#> 34     1929-07-03 1929-08-10 1933-05-25              VDB
+#> 35     1933-04-26 1933-05-26 1935-07-30              ARP
+#> 36     1933-04-26 1933-05-26 1935-07-30              CDU
+#> 37     1933-04-26 1933-05-26 1935-07-30              CHU
+#> 38     1933-04-26 1933-05-26 1935-07-30              CPN
+#> 39     1933-04-26 1933-05-26 1935-07-30              RKP
+#> 40     1933-04-26 1933-05-26 1935-07-30             SDAP
+#> 41     1933-04-26 1933-05-26 1935-07-30              SGP
+#> 42     1933-04-26 1933-05-26 1935-07-30              VDB
+#> 43     1933-04-26 1935-07-31 1937-06-23              ARP
+#> 44     1933-04-26 1935-07-31 1937-06-23              CDU
+#> 45     1933-04-26 1935-07-31 1937-06-23              CHU
+#> 46     1933-04-26 1935-07-31 1937-06-23              CPN
+#> 47     1933-04-26 1935-07-31 1937-06-23              RKP
+#> 48     1933-04-26 1935-07-31 1937-06-23             SDAP
+#> 49     1933-04-26 1935-07-31 1937-06-23              SGP
+#> 50     1933-04-26 1935-07-31 1937-06-23              VDB
+#> 51     1937-05-26 1937-06-24 1939-07-24              ARP
+#> 52     1937-05-26 1937-06-24 1939-07-24              CDU
+#> 53     1937-05-26 1937-06-24 1939-07-24              CHU
+#> 54     1937-05-26 1937-06-24 1939-07-24              CPN
+#> 55     1937-05-26 1937-06-24 1939-07-24              RKP
+#> 56     1937-05-26 1937-06-24 1939-07-24             SDAP
+#> 57     1937-05-26 1937-06-24 1939-07-24              SGP
+#> 58     1937-05-26 1937-06-24 1939-07-24              VDB
+#> 59     1937-05-26 1939-07-25 1939-08-09              ARP
+#> 60     1937-05-26 1939-07-25 1939-08-09              CDU
+#> 61     1937-05-26 1939-07-25 1939-08-09              CHU
+#> 62     1937-05-26 1939-07-25 1939-08-09              CPN
+#> 63     1937-05-26 1939-07-25 1939-08-09              RKP
+#> 64     1937-05-26 1939-07-25 1939-08-09             SDAP
+#> 65     1937-05-26 1939-07-25 1939-08-09              SGP
+#> 66     1937-05-26 1939-07-25 1939-08-09              VDB
+#> 67     1937-05-26 1939-08-10 1945-06-23              ARP
+#> 68     1937-05-26 1939-08-10 1945-06-23              CDU
+#> 69     1937-05-26 1939-08-10 1945-06-23              CHU
+#> 70     1937-05-26 1939-08-10 1945-06-23              CPN
+#> 71     1937-05-26 1939-08-10 1945-06-23              RKP
+#> 72     1937-05-26 1939-08-10 1945-06-23             SDAP
+#> 73     1937-05-26 1939-08-10 1945-06-23              SGP
+#> 74     1937-05-26 1939-08-10 1945-06-23              VDB
+#> 75     1937-05-26 1945-06-24 1946-07-02              ARP
+#> 76     1937-05-26 1945-06-24 1946-07-02              CDU
+#> 77     1937-05-26 1945-06-24 1946-07-02              CHU
+#> 78     1937-05-26 1945-06-24 1946-07-02              CPN
+#> 79     1937-05-26 1945-06-24 1946-07-02              KVP
+#> 80     1937-05-26 1945-06-24 1946-07-02              RKP
+#> 81     1937-05-26 1945-06-24 1946-07-02             SDAP
+#> 82     1937-05-26 1945-06-24 1946-07-02              SGP
+#> 83     1937-05-26 1945-06-24 1946-07-02              VDB
+#> 84     1946-05-17 1946-07-03 1948-08-06              ARP
+#> 85     1946-05-17 1946-07-03 1948-08-06              CHU
+#> 86     1946-05-17 1946-07-03 1948-08-06              CPN
+#> 87     1946-05-17 1946-07-03 1948-08-06              KVP
+#> 88     1946-05-17 1946-07-03 1948-08-06             PvdA
+#> 89     1946-05-17 1946-07-03 1948-08-06              SGP
+#> 90     1946-05-17 1946-07-03 1948-08-06              VVD
+#> 91     1948-07-07 1948-08-07 1951-03-14              ARP
+#> 92     1948-07-07 1948-08-07 1951-03-14              CHU
+#> 93     1948-07-07 1948-08-07 1951-03-14              CPN
+#> 94     1948-07-07 1948-08-07 1951-03-14              KNP
+#> 95     1948-07-07 1948-08-07 1951-03-14              KVP
+#> 96     1948-07-07 1948-08-07 1951-03-14             PvdA
+#> 97     1948-07-07 1948-08-07 1951-03-14              SGP
+#> 98     1948-07-07 1948-08-07 1951-03-14              VVD
+#> 99     1948-07-07 1951-03-15 1952-09-01              ARP
+#> 100    1948-07-07 1951-03-15 1952-09-01              CHU
+#> 101    1948-07-07 1951-03-15 1952-09-01              CPN
+#> 102    1948-07-07 1951-03-15 1952-09-01              KNP
+#> 103    1948-07-07 1951-03-15 1952-09-01              KVP
+#> 104    1948-07-07 1951-03-15 1952-09-01             PvdA
+#> 105    1948-07-07 1951-03-15 1952-09-01              SGP
+#> 106    1948-07-07 1951-03-15 1952-09-01              VVD
+#> 107    1952-06-25 1952-09-02 1956-10-11              ARP
+#> 108    1952-06-25 1952-09-02 1956-10-11              CHU
+#> 109    1952-06-25 1952-09-02 1956-10-11              CPN
+#> 110    1952-06-25 1952-09-02 1956-10-11              KNP
+#> 111    1952-06-25 1952-09-02 1956-10-11              KVP
+#> 112    1952-06-25 1952-09-02 1956-10-11             PvdA
+#> 113    1952-06-25 1952-09-02 1956-10-11              SGP
+#> 114    1952-06-25 1952-09-02 1956-10-11              VVD
+#> 115    1956-06-13 1956-10-12 1958-12-21              ARP
+#> 116    1956-06-13 1956-10-12 1958-12-21              CHU
+#> 117    1956-06-13 1956-10-12 1958-12-21              CPN
+#> 118    1956-06-13 1956-10-12 1958-12-21              KVP
+#> 119    1956-06-13 1956-10-12 1958-12-21             PvdA
+#> 120    1956-06-13 1956-10-12 1958-12-21              SGP
+#> 121    1956-06-13 1956-10-12 1958-12-21              VVD
+#> 122    1956-06-13 1958-12-22 1959-05-18              ARP
+#> 123    1956-06-13 1958-12-22 1959-05-18              CHU
+#> 124    1956-06-13 1958-12-22 1959-05-18              CPN
+#> 125    1956-06-13 1958-12-22 1959-05-18              KVP
+#> 126    1956-06-13 1958-12-22 1959-05-18             PvdA
+#> 127    1956-06-13 1958-12-22 1959-05-18              SGP
+#> 128    1956-06-13 1958-12-22 1959-05-18              VVD
+#> 129    1959-03-12 1959-05-19 1963-07-23              ARP
+#> 130    1959-03-12 1959-05-19 1963-07-23              CHU
+#> 131    1959-03-12 1959-05-19 1963-07-23              CPN
+#> 132    1959-03-12 1959-05-19 1963-07-23              KVP
+#> 133    1959-03-12 1959-05-19 1963-07-23              PSP
+#> 134    1959-03-12 1959-05-19 1963-07-23             PvdA
+#> 135    1959-03-12 1959-05-19 1963-07-23              SGP
+#> 136    1959-03-12 1959-05-19 1963-07-23              VVD
+#> 137    1963-05-15 1963-07-24 1965-04-13              ARP
+#> 138    1963-05-15 1963-07-24 1965-04-13               Bp
+#> 139    1963-05-15 1963-07-24 1965-04-13              CHU
+#> 140    1963-05-15 1963-07-24 1965-04-13              CPN
+#> 141    1963-05-15 1963-07-24 1965-04-13              GPV
+#> 142    1963-05-15 1963-07-24 1965-04-13              KVP
+#> 143    1963-05-15 1963-07-24 1965-04-13              PSP
+#> 144    1963-05-15 1963-07-24 1965-04-13             PvdA
+#> 145    1963-05-15 1963-07-24 1965-04-13              SGP
+#> 146    1963-05-15 1963-07-24 1965-04-13              VVD
+#> 147    1963-05-15 1965-04-14 1966-11-21              ARP
+#> 148    1963-05-15 1965-04-14 1966-11-21               Bp
+#> 149    1963-05-15 1965-04-14 1966-11-21              CHU
+#> 150    1963-05-15 1965-04-14 1966-11-21              CPN
+#> 151    1963-05-15 1965-04-14 1966-11-21              GPV
+#> 152    1963-05-15 1965-04-14 1966-11-21              KVP
+#> 153    1963-05-15 1965-04-14 1966-11-21              PSP
+#> 154    1963-05-15 1965-04-14 1966-11-21             PvdA
+#> 155    1963-05-15 1965-04-14 1966-11-21              SGP
+#> 156    1963-05-15 1965-04-14 1966-11-21              VVD
+#> 157    1963-05-15 1966-11-22 1967-04-04              ARP
+#> 158    1963-05-15 1966-11-22 1967-04-04               Bp
+#> 159    1963-05-15 1966-11-22 1967-04-04              CHU
+#> 160    1963-05-15 1966-11-22 1967-04-04              CPN
+#> 161    1963-05-15 1966-11-22 1967-04-04              GPV
+#> 162    1963-05-15 1966-11-22 1967-04-04              KVP
+#> 163    1963-05-15 1966-11-22 1967-04-04              PSP
+#> 164    1963-05-15 1966-11-22 1967-04-04             PvdA
+#> 165    1963-05-15 1966-11-22 1967-04-04              SGP
+#> 166    1963-05-15 1966-11-22 1967-04-04              VVD
+#> 167    1967-02-15 1967-04-05 1971-06-06              ARP
+#> 168    1967-02-15 1967-04-05 1971-06-06               Bp
+#> 169    1967-02-15 1967-04-05 1971-06-06              CHU
+#> 170    1967-02-15 1967-04-05 1971-06-06              CPN
+#> 171    1967-02-15 1967-04-05 1971-06-06              D66
+#> 172    1967-02-15 1967-04-05 1971-06-06              GPV
+#> 173    1967-02-15 1967-04-05 1971-06-06              KVP
+#> 174    1967-02-15 1967-04-05 1971-06-06              PSP
+#> 175    1967-02-15 1967-04-05 1971-06-06             PvdA
+#> 176    1967-02-15 1967-04-05 1971-06-06              SGP
+#> 177    1967-02-15 1967-04-05 1971-06-06              VVD
+#> 178    1971-04-28 1971-06-07 1972-08-08              ARP
+#> 179    1971-04-28 1971-06-07 1972-08-08               Bp
+#> 180    1971-04-28 1971-06-07 1972-08-08              CHU
+#> 181    1971-04-28 1971-06-07 1972-08-08              CPN
+#> 182    1971-04-28 1971-06-07 1972-08-08              D66
+#> 183    1971-04-28 1971-06-07 1972-08-08             DS70
+#> 184    1971-04-28 1971-06-07 1972-08-08              GPV
+#> 185    1971-04-28 1971-06-07 1972-08-08              KVP
+#> 186    1971-04-28 1971-06-07 1972-08-08               MP
+#> 187    1971-04-28 1971-06-07 1972-08-08              PPR
+#> 188    1971-04-28 1971-06-07 1972-08-08              PSP
+#> 189    1971-04-28 1971-06-07 1972-08-08             PvdA
+#> 190    1971-04-28 1971-06-07 1972-08-08              SGP
+#> 191    1971-04-28 1971-06-07 1972-08-08              VVD
+#> 192    1971-04-28 1972-08-09 1973-05-10              ARP
+#> 193    1971-04-28 1972-08-09 1973-05-10               Bp
+#> 194    1971-04-28 1972-08-09 1973-05-10              CHU
+#> 195    1971-04-28 1972-08-09 1973-05-10              CPN
+#> 196    1971-04-28 1972-08-09 1973-05-10              D66
+#> 197    1971-04-28 1972-08-09 1973-05-10             DS70
+#> 198    1971-04-28 1972-08-09 1973-05-10              GPV
+#> 199    1971-04-28 1972-08-09 1973-05-10              KVP
+#> 200    1971-04-28 1972-08-09 1973-05-10               MP
+#> 201    1971-04-28 1972-08-09 1973-05-10              PPR
+#> 202    1971-04-28 1972-08-09 1973-05-10              PSP
+#> 203    1971-04-28 1972-08-09 1973-05-10             PvdA
+#> 204    1971-04-28 1972-08-09 1973-05-10              SGP
+#> 205    1971-04-28 1972-08-09 1973-05-10              VVD
+#> 206    1972-11-29 1973-05-11 1977-05-24              ARP
+#> 207    1972-11-29 1973-05-11 1977-05-24               Bp
+#> 208    1972-11-29 1973-05-11 1977-05-24              CHU
+#> 209    1972-11-29 1973-05-11 1977-05-24              CPN
+#> 210    1972-11-29 1973-05-11 1977-05-24              D66
+#> 211    1972-11-29 1973-05-11 1977-05-24             DS70
+#> 212    1972-11-29 1973-05-11 1977-05-24              GPV
+#> 213    1972-11-29 1973-05-11 1977-05-24              KVP
+#> 214    1972-11-29 1973-05-11 1977-05-24              PPR
+#> 215    1972-11-29 1973-05-11 1977-05-24              PSP
+#> 216    1972-11-29 1973-05-11 1977-05-24             PvdA
+#> 217    1972-11-29 1973-05-11 1977-05-24              SGP
+#> 218    1972-11-29 1973-05-11 1977-05-24              VVD
+#> 219    1977-05-25 1977-05-25 1977-12-18               Bp
+#> 220    1977-05-25 1977-05-25 1977-12-18              CDA
+#> 221    1977-05-25 1977-05-25 1977-12-18              CPN
+#> 222    1977-05-25 1977-05-25 1977-12-18              D66
+#> 223    1977-05-25 1977-05-25 1977-12-18             DS70
+#> 224    1977-05-25 1977-05-25 1977-12-18              GPV
+#> 225    1977-05-25 1977-05-25 1977-12-18              PPR
+#> 226    1977-05-25 1977-05-25 1977-12-18              PSP
+#> 227    1977-05-25 1977-05-25 1977-12-18             PvdA
+#> 228    1977-05-25 1977-05-25 1977-12-18              SGP
+#> 229    1977-05-25 1977-05-25 1977-12-18              VVD
+#> 230    1977-05-25 1977-12-19 1981-09-10               Bp
+#> 231    1977-05-25 1977-12-19 1981-09-10              CDA
+#> 232    1977-05-25 1977-12-19 1981-09-10              CPN
+#> 233    1977-05-25 1977-12-19 1981-09-10              D66
+#> 234    1977-05-25 1977-12-19 1981-09-10             DS70
+#> 235    1977-05-25 1977-12-19 1981-09-10              GPV
+#> 236    1977-05-25 1977-12-19 1981-09-10              PPR
+#> 237    1977-05-25 1977-12-19 1981-09-10              PSP
+#> 238    1977-05-25 1977-12-19 1981-09-10             PvdA
+#> 239    1977-05-25 1977-12-19 1981-09-10              SGP
+#> 240    1977-05-25 1977-12-19 1981-09-10              VVD
+#> 241    1981-05-26 1981-09-11 1982-05-28              CDA
+#> 242    1981-05-26 1981-09-11 1982-05-28              CPN
+#> 243    1981-05-26 1981-09-11 1982-05-28              D66
+#> 244    1981-05-26 1981-09-11 1982-05-28              GPV
+#> 245    1981-05-26 1981-09-11 1982-05-28              PPR
+#> 246    1981-05-26 1981-09-11 1982-05-28              PSP
+#> 247    1981-05-26 1981-09-11 1982-05-28             PvdA
+#> 248    1981-05-26 1981-09-11 1982-05-28              RPF
+#> 249    1981-05-26 1981-09-11 1982-05-28              SGP
+#> 250    1981-05-26 1981-09-11 1982-05-28              VVD
+#> 251    1981-05-26 1982-05-29 1982-11-03              CDA
+#> 252    1981-05-26 1982-05-29 1982-11-03              CPN
+#> 253    1981-05-26 1982-05-29 1982-11-03              D66
+#> 254    1981-05-26 1982-05-29 1982-11-03              GPV
+#> 255    1981-05-26 1982-05-29 1982-11-03              PPR
+#> 256    1981-05-26 1982-05-29 1982-11-03              PSP
+#> 257    1981-05-26 1982-05-29 1982-11-03             PvdA
+#> 258    1981-05-26 1982-05-29 1982-11-03              RPF
+#> 259    1981-05-26 1982-05-29 1982-11-03              SGP
+#> 260    1981-05-26 1982-05-29 1982-11-03              VVD
+#> 261    1982-09-08 1982-11-04 1986-07-13              CDA
+#> 262    1982-09-08 1982-11-04 1986-07-13               CP
+#> 263    1982-09-08 1982-11-04 1986-07-13              CPN
+#> 264    1982-09-08 1982-11-04 1986-07-13              D66
+#> 265    1982-09-08 1982-11-04 1986-07-13              GPV
+#> 266    1982-09-08 1982-11-04 1986-07-13              PPR
+#> 267    1982-09-08 1982-11-04 1986-07-13              PSP
+#> 268    1982-09-08 1982-11-04 1986-07-13             PvdA
+#> 269    1982-09-08 1982-11-04 1986-07-13              RPF
+#> 270    1982-09-08 1982-11-04 1986-07-13              SGP
+#> 271    1982-09-08 1982-11-04 1986-07-13              VVD
+#> 272    1986-05-21 1986-07-14 1989-11-06              CDA
+#> 273    1986-05-21 1986-07-14 1989-11-06              D66
+#> 274    1986-05-21 1986-07-14 1989-11-06              GPV
+#> 275    1986-05-21 1986-07-14 1989-11-06              PPR
+#> 276    1986-05-21 1986-07-14 1989-11-06              PSP
+#> 277    1986-05-21 1986-07-14 1989-11-06             PvdA
+#> 278    1986-05-21 1986-07-14 1989-11-06              RPF
+#> 279    1986-05-21 1986-07-14 1989-11-06              SGP
+#> 280    1986-05-21 1986-07-14 1989-11-06              VVD
+#> 281    1989-09-06 1989-11-07 1994-08-21               CD
+#> 282    1989-09-06 1989-11-07 1994-08-21              CDA
+#> 283    1989-09-06 1989-11-07 1994-08-21              D66
+#> 284    1989-09-06 1989-11-07 1994-08-21               GL
+#> 285    1989-09-06 1989-11-07 1994-08-21              GPV
+#> 286    1989-09-06 1989-11-07 1994-08-21             PvdA
+#> 287    1989-09-06 1989-11-07 1994-08-21              RPF
+#> 288    1989-09-06 1989-11-07 1994-08-21              SGP
+#> 289    1989-09-06 1989-11-07 1994-08-21              VVD
+#> 290    1994-05-03 1994-08-22 1998-08-02          AOV|VSP
+#> 291    1994-05-03 1994-08-22 1998-08-02               CD
+#> 292    1994-05-03 1994-08-22 1998-08-02              CDA
+#> 293    1994-05-03 1994-08-22 1998-08-02              D66
+#> 294    1994-05-03 1994-08-22 1998-08-02               GL
+#> 295    1994-05-03 1994-08-22 1998-08-02              GPV
+#> 296    1994-05-03 1994-08-22 1998-08-02             PvdA
+#> 297    1994-05-03 1994-08-22 1998-08-02              RPF
+#> 298    1994-05-03 1994-08-22 1998-08-02              SGP
+#> 299    1994-05-03 1994-08-22 1998-08-02               SP
+#> 300    1994-05-03 1994-08-22 1998-08-02              VVD
+#> 301    1998-05-06 1998-08-03 2002-07-21              CDA
+#> 302    1998-05-06 1998-08-03 2002-07-21              D66
+#> 303    1998-05-06 1998-08-03 2002-07-21               GL
+#> 304    1998-05-06 1998-08-03 2002-07-21              GPV
+#> 305    1998-05-06 1998-08-03 2002-07-21             PvdA
+#> 306    1998-05-06 1998-08-03 2002-07-21              RPF
+#> 307    1998-05-06 1998-08-03 2002-07-21              SGP
+#> 308    1998-05-06 1998-08-03 2002-07-21               SP
+#> 309    1998-05-06 1998-08-03 2002-07-21              VVD
+#> 310    2002-05-15 2002-07-22 2002-10-15              CDA
+#> 311    2002-05-15 2002-07-22 2002-10-15               CU
+#> 312    2002-05-15 2002-07-22 2002-10-15              D66
+#> 313    2002-05-15 2002-07-22 2002-10-15               GL
+#> 314    2002-05-15 2002-07-22 2002-10-15               LN
+#> 315    2002-05-15 2002-07-22 2002-10-15              LPF
+#> 316    2002-05-15 2002-07-22 2002-10-15             PvdA
+#> 317    2002-05-15 2002-07-22 2002-10-15              SGP
+#> 318    2002-05-15 2002-07-22 2002-10-15               SP
+#> 319    2002-05-15 2002-07-22 2002-10-15              VVD
+#> 320    2002-05-15 2002-10-16 2003-05-26              CDA
+#> 321    2002-05-15 2002-10-16 2003-05-26               CU
+#> 322    2002-05-15 2002-10-16 2003-05-26              D66
+#> 323    2002-05-15 2002-10-16 2003-05-26               GL
+#> 324    2002-05-15 2002-10-16 2003-05-26               LN
+#> 325    2002-05-15 2002-10-16 2003-05-26              LPF
+#> 326    2002-05-15 2002-10-16 2003-05-26             PvdA
+#> 327    2002-05-15 2002-10-16 2003-05-26              SGP
+#> 328    2002-05-15 2002-10-16 2003-05-26               SP
+#> 329    2002-05-15 2002-10-16 2003-05-26              VVD
+#> 330    2003-01-22 2003-05-27 2006-07-06              CDA
+#> 331    2003-01-22 2003-05-27 2006-07-06               CU
+#> 332    2003-01-22 2003-05-27 2006-07-06              D66
+#> 333    2003-01-22 2003-05-27 2006-07-06               GL
+#> 334    2003-01-22 2003-05-27 2006-07-06              LPF
+#> 335    2003-01-22 2003-05-27 2006-07-06             PvdA
+#> 336    2003-01-22 2003-05-27 2006-07-06              SGP
+#> 337    2003-01-22 2003-05-27 2006-07-06               SP
+#> 338    2003-01-22 2003-05-27 2006-07-06              VVD
+#> 339    2003-01-22 2006-07-07 2007-02-21              CDA
+#> 340    2003-01-22 2006-07-07 2007-02-21               CU
+#> 341    2003-01-22 2006-07-07 2007-02-21              D66
+#> 342    2003-01-22 2006-07-07 2007-02-21               GL
+#> 343    2003-01-22 2006-07-07 2007-02-21              LPF
+#> 344    2003-01-22 2006-07-07 2007-02-21              PVV
+#> 345    2003-01-22 2006-07-07 2007-02-21             PvdA
+#> 346    2003-01-22 2006-07-07 2007-02-21              SGP
+#> 347    2003-01-22 2006-07-07 2007-02-21               SP
+#> 348    2003-01-22 2006-07-07 2007-02-21              VVD
+#> 349    2006-11-22 2007-02-22 2010-02-22              CDA
+#> 350    2006-11-22 2007-02-22 2010-02-22               CU
+#> 351    2006-11-22 2007-02-22 2010-02-22              D66
+#> 352    2006-11-22 2007-02-22 2010-02-22               GL
+#> 353    2006-11-22 2007-02-22 2010-02-22              PVV
+#> 354    2006-11-22 2007-02-22 2010-02-22             PvdA
+#> 355    2006-11-22 2007-02-22 2010-02-22             PvdD
+#> 356    2006-11-22 2007-02-22 2010-02-22              SGP
+#> 357    2006-11-22 2007-02-22 2010-02-22               SP
+#> 358    2006-11-22 2007-02-22 2010-02-22              VVD
+#> 359    2006-11-22 2010-02-23 2010-10-13              CDA
+#> 360    2006-11-22 2010-02-23 2010-10-13               CU
+#> 361    2006-11-22 2010-02-23 2010-10-13              D66
+#> 362    2006-11-22 2010-02-23 2010-10-13               GL
+#> 363    2006-11-22 2010-02-23 2010-10-13              PVV
+#> 364    2006-11-22 2010-02-23 2010-10-13             PvdA
+#> 365    2006-11-22 2010-02-23 2010-10-13             PvdD
+#> 366    2006-11-22 2010-02-23 2010-10-13              SGP
+#> 367    2006-11-22 2010-02-23 2010-10-13               SP
+#> 368    2006-11-22 2010-02-23 2010-10-13              VVD
+#> 369    2010-06-09 2010-10-14 2012-04-22              CDA
+#> 370    2010-06-09 2010-10-14 2012-04-22               CU
+#> 371    2010-06-09 2010-10-14 2012-04-22              D66
+#> 372    2010-06-09 2010-10-14 2012-04-22               GL
+#> 373    2010-06-09 2010-10-14 2012-04-22              PVV
+#> 374    2010-06-09 2010-10-14 2012-04-22             PvdA
+#> 375    2010-06-09 2010-10-14 2012-04-22             PvdD
+#> 376    2010-06-09 2010-10-14 2012-04-22              SGP
+#> 377    2010-06-09 2010-10-14 2012-04-22               SP
+#> 378    2010-06-09 2010-10-14 2012-04-22              VVD
+#> 379    2010-06-09 2012-04-23 2012-11-04              CDA
+#> 380    2010-06-09 2012-04-23 2012-11-04               CU
+#> 381    2010-06-09 2012-04-23 2012-11-04              D66
+#> 382    2010-06-09 2012-04-23 2012-11-04               GL
+#> 383    2010-06-09 2012-04-23 2012-11-04              PVV
+#> 384    2010-06-09 2012-04-23 2012-11-04             PvdA
+#> 385    2010-06-09 2012-04-23 2012-11-04             PvdD
+#> 386    2010-06-09 2012-04-23 2012-11-04              SGP
+#> 387    2010-06-09 2012-04-23 2012-11-04               SP
+#> 388    2010-06-09 2012-04-23 2012-11-04              VVD
+#> 389    2012-09-12 2012-11-05 2017-03-14              50+
+#> 390    2012-09-12 2012-11-05 2017-03-14              CDA
+#> 391    2012-09-12 2012-11-05 2017-03-14               CU
+#> 392    2012-09-12 2012-11-05 2017-03-14              D66
+#> 393    2012-09-12 2012-11-05 2017-03-14               GL
+#> 394    2012-09-12 2012-11-05 2017-03-14              PVV
+#> 395    2012-09-12 2012-11-05 2017-03-14             PvdA
+#> 396    2012-09-12 2012-11-05 2017-03-14             PvdD
+#> 397    2012-09-12 2012-11-05 2017-03-14              SGP
+#> 398    2012-09-12 2012-11-05 2017-03-14               SP
+#> 399    2012-09-12 2012-11-05 2017-03-14              VVD
+#> 400    2017-03-15 2017-03-15 2017-10-25              50+
+#> 401    2017-03-15 2017-03-15 2017-10-25              CDA
+#> 402    2017-03-15 2017-03-15 2017-10-25               CU
+#> 403    2017-03-15 2017-03-15 2017-10-25              D66
+#> 404    2017-03-15 2017-03-15 2017-10-25               GL
+#> 405    2017-03-15 2017-03-15 2017-10-25              PVV
+#> 406    2017-03-15 2017-03-15 2017-10-25             PvdA
+#> 407    2017-03-15 2017-03-15 2017-10-25             PvdD
+#> 408    2017-03-15 2017-03-15 2017-10-25              SGP
+#> 409    2017-03-15 2017-03-15 2017-10-25               SP
+#> 410    2017-03-15 2017-03-15 2017-10-25              VVD
+#> 411    2017-03-15 2017-10-26       <NA>              50+
+#> 412    2017-03-15 2017-10-26       <NA>              CDA
+#> 413    2017-03-15 2017-10-26       <NA>               CU
+#> 414    2017-03-15 2017-10-26       <NA>              D66
+#> 415    2017-03-15 2017-10-26       <NA>               GL
+#> 416    2017-03-15 2017-10-26       <NA>              PVV
+#> 417    2017-03-15 2017-10-26       <NA>             PvdA
+#> 418    2017-03-15 2017-10-26       <NA>             PvdD
+#> 419    2017-03-15 2017-10-26       <NA>              SGP
+#> 420    2017-03-15 2017-10-26       <NA>               SP
+#> 421    2017-03-15 2017-10-26       <NA>              VVD
+#>                                               party_name
+#> 1                             Anti-Revolutionaire Partij
+#> 2                           Christelijk-Historische Unie
+#> 3                        Communistische Partij Nederland
+#> 4                              Roomsch Katholieke Partij
+#> 5                 Sociaal Democratische Arbeiders Partij
+#> 6                          Vrijzinnig Democratische Bond
+#> 7                             Anti-Revolutionaire Partij
+#> 8                           Christelijk-Historische Unie
+#> 9                        Communistische Partij Nederland
+#> 10                             Roomsch Katholieke Partij
+#> 11                Sociaal Democratische Arbeiders Partij
+#> 12                      Staatkundig Gereformeerde Partij
+#> 13                         Vrijzinnig Democratische Bond
+#> 14                            Anti-Revolutionaire Partij
+#> 15                          Christelijk-Historische Unie
+#> 16                       Communistische Partij Nederland
+#> 17                             Roomsch Katholieke Partij
+#> 18                Sociaal Democratische Arbeiders Partij
+#> 19                      Staatkundig Gereformeerde Partij
+#> 20                         Vrijzinnig Democratische Bond
+#> 21                            Anti-Revolutionaire Partij
+#> 22                          Christelijk-Historische Unie
+#> 23                       Communistische Partij Nederland
+#> 24                             Roomsch Katholieke Partij
+#> 25                Sociaal Democratische Arbeiders Partij
+#> 26                      Staatkundig Gereformeerde Partij
+#> 27                         Vrijzinnig Democratische Bond
+#> 28                            Anti-Revolutionaire Partij
+#> 29                          Christelijk-Historische Unie
+#> 30                       Communistische Partij Nederland
+#> 31                             Roomsch Katholieke Partij
+#> 32                Sociaal Democratische Arbeiders Partij
+#> 33                      Staatkundig Gereformeerde Partij
+#> 34                         Vrijzinnig Democratische Bond
+#> 35                            Anti-Revolutionaire Partij
+#> 36                        Christelijk-Democratische Unie
+#> 37                          Christelijk-Historische Unie
+#> 38                       Communistische Partij Nederland
+#> 39                             Roomsch Katholieke Partij
+#> 40                Sociaal Democratische Arbeiders Partij
+#> 41                      Staatkundig Gereformeerde Partij
+#> 42                         Vrijzinnig Democratische Bond
+#> 43                            Anti-Revolutionaire Partij
+#> 44                        Christelijk-Democratische Unie
+#> 45                          Christelijk-Historische Unie
+#> 46                       Communistische Partij Nederland
+#> 47                             Roomsch Katholieke Partij
+#> 48                Sociaal Democratische Arbeiders Partij
+#> 49                      Staatkundig Gereformeerde Partij
+#> 50                         Vrijzinnig Democratische Bond
+#> 51                            Anti-Revolutionaire Partij
+#> 52                        Christelijk-Democratische Unie
+#> 53                          Christelijk-Historische Unie
+#> 54                       Communistische Partij Nederland
+#> 55                             Roomsch Katholieke Partij
+#> 56                Sociaal Democratische Arbeiders Partij
+#> 57                      Staatkundig Gereformeerde Partij
+#> 58                         Vrijzinnig Democratische Bond
+#> 59                            Anti-Revolutionaire Partij
+#> 60                        Christelijk-Democratische Unie
+#> 61                          Christelijk-Historische Unie
+#> 62                       Communistische Partij Nederland
+#> 63                             Roomsch Katholieke Partij
+#> 64                Sociaal Democratische Arbeiders Partij
+#> 65                      Staatkundig Gereformeerde Partij
+#> 66                         Vrijzinnig Democratische Bond
+#> 67                            Anti-Revolutionaire Partij
+#> 68                        Christelijk-Democratische Unie
+#> 69                          Christelijk-Historische Unie
+#> 70                       Communistische Partij Nederland
+#> 71                             Roomsch Katholieke Partij
+#> 72                Sociaal Democratische Arbeiders Partij
+#> 73                      Staatkundig Gereformeerde Partij
+#> 74                         Vrijzinnig Democratische Bond
+#> 75                            Anti-Revolutionaire Partij
+#> 76                        Christelijk-Democratische Unie
+#> 77                          Christelijk-Historische Unie
+#> 78                       Communistische Partij Nederland
+#> 79                                Katholieke Volkspartij
+#> 80                             Roomsch Katholieke Partij
+#> 81                Sociaal Democratische Arbeiders Partij
+#> 82                      Staatkundig Gereformeerde Partij
+#> 83                         Vrijzinnig Democratische Bond
+#> 84                            Anti-Revolutionaire Partij
+#> 85                          Christelijk-Historische Unie
+#> 86                       Communistische Partij Nederland
+#> 87                                Katholieke Volkspartij
+#> 88                                  Partij van de Arbeid
+#> 89                      Staatkundig Gereformeerde Partij
+#> 90               Volkspartij voor Vrijheid en Democratie
+#> 91                            Anti-Revolutionaire Partij
+#> 92                          Christelijk-Historische Unie
+#> 93                       Communistische Partij Nederland
+#> 94                           Katholieke Nationale Partij
+#> 95                                Katholieke Volkspartij
+#> 96                                  Partij van de Arbeid
+#> 97                      Staatkundig Gereformeerde Partij
+#> 98               Volkspartij voor Vrijheid en Democratie
+#> 99                            Anti-Revolutionaire Partij
+#> 100                         Christelijk-Historische Unie
+#> 101                      Communistische Partij Nederland
+#> 102                          Katholieke Nationale Partij
+#> 103                               Katholieke Volkspartij
+#> 104                                 Partij van de Arbeid
+#> 105                     Staatkundig Gereformeerde Partij
+#> 106              Volkspartij voor Vrijheid en Democratie
+#> 107                           Anti-Revolutionaire Partij
+#> 108                         Christelijk-Historische Unie
+#> 109                      Communistische Partij Nederland
+#> 110                          Katholieke Nationale Partij
+#> 111                               Katholieke Volkspartij
+#> 112                                 Partij van de Arbeid
+#> 113                     Staatkundig Gereformeerde Partij
+#> 114              Volkspartij voor Vrijheid en Democratie
+#> 115                           Anti-Revolutionaire Partij
+#> 116                         Christelijk-Historische Unie
+#> 117                      Communistische Partij Nederland
+#> 118                               Katholieke Volkspartij
+#> 119                                 Partij van de Arbeid
+#> 120                     Staatkundig Gereformeerde Partij
+#> 121              Volkspartij voor Vrijheid en Democratie
+#> 122                           Anti-Revolutionaire Partij
+#> 123                         Christelijk-Historische Unie
+#> 124                      Communistische Partij Nederland
+#> 125                               Katholieke Volkspartij
+#> 126                                 Partij van de Arbeid
+#> 127                     Staatkundig Gereformeerde Partij
+#> 128              Volkspartij voor Vrijheid en Democratie
+#> 129                           Anti-Revolutionaire Partij
+#> 130                         Christelijk-Historische Unie
+#> 131                      Communistische Partij Nederland
+#> 132                               Katholieke Volkspartij
+#> 133                   Pacifistisch Socialistische Partij
+#> 134                                 Partij van de Arbeid
+#> 135                     Staatkundig Gereformeerde Partij
+#> 136              Volkspartij voor Vrijheid en Democratie
+#> 137                           Anti-Revolutionaire Partij
+#> 138                                         Boerenpartij
+#> 139                         Christelijk-Historische Unie
+#> 140                      Communistische Partij Nederland
+#> 141                        Gereformeerd Politiek Verbond
+#> 142                               Katholieke Volkspartij
+#> 143                   Pacifistisch Socialistische Partij
+#> 144                                 Partij van de Arbeid
+#> 145                     Staatkundig Gereformeerde Partij
+#> 146              Volkspartij voor Vrijheid en Democratie
+#> 147                           Anti-Revolutionaire Partij
+#> 148                                         Boerenpartij
+#> 149                         Christelijk-Historische Unie
+#> 150                      Communistische Partij Nederland
+#> 151                        Gereformeerd Politiek Verbond
+#> 152                               Katholieke Volkspartij
+#> 153                   Pacifistisch Socialistische Partij
+#> 154                                 Partij van de Arbeid
+#> 155                     Staatkundig Gereformeerde Partij
+#> 156              Volkspartij voor Vrijheid en Democratie
+#> 157                           Anti-Revolutionaire Partij
+#> 158                                         Boerenpartij
+#> 159                         Christelijk-Historische Unie
+#> 160                      Communistische Partij Nederland
+#> 161                        Gereformeerd Politiek Verbond
+#> 162                               Katholieke Volkspartij
+#> 163                   Pacifistisch Socialistische Partij
+#> 164                                 Partij van de Arbeid
+#> 165                     Staatkundig Gereformeerde Partij
+#> 166              Volkspartij voor Vrijheid en Democratie
+#> 167                           Anti-Revolutionaire Partij
+#> 168                                         Boerenpartij
+#> 169                         Christelijk-Historische Unie
+#> 170                      Communistische Partij Nederland
+#> 171                                        Democraten 66
+#> 172                        Gereformeerd Politiek Verbond
+#> 173                               Katholieke Volkspartij
+#> 174                   Pacifistisch Socialistische Partij
+#> 175                                 Partij van de Arbeid
+#> 176                     Staatkundig Gereformeerde Partij
+#> 177              Volkspartij voor Vrijheid en Democratie
+#> 178                           Anti-Revolutionaire Partij
+#> 179                                         Boerenpartij
+#> 180                         Christelijk-Historische Unie
+#> 181                      Communistische Partij Nederland
+#> 182                                        Democraten 66
+#> 183                          Democratisch Socialisten 70
+#> 184                        Gereformeerd Politiek Verbond
+#> 185                               Katholieke Volkspartij
+#> 186                                        Midden Partij
+#> 187                           Politieke Partij Radikalen
+#> 188                   Pacifistisch Socialistische Partij
+#> 189                                 Partij van de Arbeid
+#> 190                     Staatkundig Gereformeerde Partij
+#> 191              Volkspartij voor Vrijheid en Democratie
+#> 192                           Anti-Revolutionaire Partij
+#> 193                                         Boerenpartij
+#> 194                         Christelijk-Historische Unie
+#> 195                      Communistische Partij Nederland
+#> 196                                        Democraten 66
+#> 197                          Democratisch Socialisten 70
+#> 198                        Gereformeerd Politiek Verbond
+#> 199                               Katholieke Volkspartij
+#> 200                                        Midden Partij
+#> 201                           Politieke Partij Radikalen
+#> 202                   Pacifistisch Socialistische Partij
+#> 203                                 Partij van de Arbeid
+#> 204                     Staatkundig Gereformeerde Partij
+#> 205              Volkspartij voor Vrijheid en Democratie
+#> 206                           Anti-Revolutionaire Partij
+#> 207                                         Boerenpartij
+#> 208                         Christelijk-Historische Unie
+#> 209                      Communistische Partij Nederland
+#> 210                                        Democraten 66
+#> 211                          Democratisch Socialisten 70
+#> 212                        Gereformeerd Politiek Verbond
+#> 213                               Katholieke Volkspartij
+#> 214                           Politieke Partij Radikalen
+#> 215                   Pacifistisch Socialistische Partij
+#> 216                                 Partij van de Arbeid
+#> 217                     Staatkundig Gereformeerde Partij
+#> 218              Volkspartij voor Vrijheid en Democratie
+#> 219                                         Boerenpartij
+#> 220                          Christen Democratisch Appel
+#> 221                      Communistische Partij Nederland
+#> 222                                        Democraten 66
+#> 223                          Democratisch Socialisten 70
+#> 224                        Gereformeerd Politiek Verbond
+#> 225                           Politieke Partij Radikalen
+#> 226                   Pacifistisch Socialistische Partij
+#> 227                                 Partij van de Arbeid
+#> 228                     Staatkundig Gereformeerde Partij
+#> 229              Volkspartij voor Vrijheid en Democratie
+#> 230                                         Boerenpartij
+#> 231                          Christen Democratisch Appel
+#> 232                      Communistische Partij Nederland
+#> 233                                        Democraten 66
+#> 234                          Democratisch Socialisten 70
+#> 235                        Gereformeerd Politiek Verbond
+#> 236                           Politieke Partij Radikalen
+#> 237                   Pacifistisch Socialistische Partij
+#> 238                                 Partij van de Arbeid
+#> 239                     Staatkundig Gereformeerde Partij
+#> 240              Volkspartij voor Vrijheid en Democratie
+#> 241                          Christen Democratisch Appel
+#> 242                      Communistische Partij Nederland
+#> 243                                        Democraten 66
+#> 244                        Gereformeerd Politiek Verbond
+#> 245                           Politieke Partij Radikalen
+#> 246                   Pacifistisch Socialistische Partij
+#> 247                                 Partij van de Arbeid
+#> 248                   Reformatorische Politieke Federati
+#> 249                     Staatkundig Gereformeerde Partij
+#> 250              Volkspartij voor Vrijheid en Democratie
+#> 251                          Christen Democratisch Appel
+#> 252                      Communistische Partij Nederland
+#> 253                                        Democraten 66
+#> 254                        Gereformeerd Politiek Verbond
+#> 255                           Politieke Partij Radikalen
+#> 256                   Pacifistisch Socialistische Partij
+#> 257                                 Partij van de Arbeid
+#> 258                   Reformatorische Politieke Federati
+#> 259                     Staatkundig Gereformeerde Partij
+#> 260              Volkspartij voor Vrijheid en Democratie
+#> 261                          Christen Democratisch Appel
+#> 262                                        Centrumpartij
+#> 263                      Communistische Partij Nederland
+#> 264                                        Democraten 66
+#> 265                        Gereformeerd Politiek Verbond
+#> 266                           Politieke Partij Radikalen
+#> 267                   Pacifistisch Socialistische Partij
+#> 268                                 Partij van de Arbeid
+#> 269                   Reformatorische Politieke Federati
+#> 270                     Staatkundig Gereformeerde Partij
+#> 271              Volkspartij voor Vrijheid en Democratie
+#> 272                          Christen Democratisch Appel
+#> 273                                        Democraten 66
+#> 274                        Gereformeerd Politiek Verbond
+#> 275                           Politieke Partij Radikalen
+#> 276                   Pacifistisch Socialistische Partij
+#> 277                                 Partij van de Arbeid
+#> 278                   Reformatorische Politieke Federati
+#> 279                     Staatkundig Gereformeerde Partij
+#> 280              Volkspartij voor Vrijheid en Democratie
+#> 281                                   Centrum Democraten
+#> 282                          Christen Democratisch Appel
+#> 283                                        Democraten 66
+#> 284                                           GroenLinks
+#> 285                        Gereformeerd Politiek Verbond
+#> 286                                 Partij van de Arbeid
+#> 287                   Reformatorische Politieke Federati
+#> 288                     Staatkundig Gereformeerde Partij
+#> 289              Volkspartij voor Vrijheid en Democratie
+#> 290 Algemeen Ouderen Verbond | Verenigde Senioren Partij
+#> 291                                   Centrum Democraten
+#> 292                          Christen Democratisch Appel
+#> 293                                        Democraten 66
+#> 294                                           GroenLinks
+#> 295                        Gereformeerd Politiek Verbond
+#> 296                                 Partij van de Arbeid
+#> 297                   Reformatorische Politieke Federati
+#> 298                     Staatkundig Gereformeerde Partij
+#> 299                                 Socialistiese Partij
+#> 300              Volkspartij voor Vrijheid en Democratie
+#> 301                          Christen Democratisch Appel
+#> 302                                        Democraten 66
+#> 303                                           GroenLinks
+#> 304                        Gereformeerd Politiek Verbond
+#> 305                                 Partij van de Arbeid
+#> 306                   Reformatorische Politieke Federati
+#> 307                     Staatkundig Gereformeerde Partij
+#> 308                                 Socialistiese Partij
+#> 309              Volkspartij voor Vrijheid en Democratie
+#> 310                          Christen Democratisch Appel
+#> 311                                         ChristenUnie
+#> 312                                        Democraten 66
+#> 313                                           GroenLinks
+#> 314                                   Leefbaar Nederland
+#> 315                                    Lijst Pim Fortuyn
+#> 316                                 Partij van de Arbeid
+#> 317                     Staatkundig Gereformeerde Partij
+#> 318                                 Socialistiese Partij
+#> 319              Volkspartij voor Vrijheid en Democratie
+#> 320                          Christen Democratisch Appel
+#> 321                                         ChristenUnie
+#> 322                                        Democraten 66
+#> 323                                           GroenLinks
+#> 324                                   Leefbaar Nederland
+#> 325                                    Lijst Pim Fortuyn
+#> 326                                 Partij van de Arbeid
+#> 327                     Staatkundig Gereformeerde Partij
+#> 328                                 Socialistiese Partij
+#> 329              Volkspartij voor Vrijheid en Democratie
+#> 330                          Christen Democratisch Appel
+#> 331                                         ChristenUnie
+#> 332                                        Democraten 66
+#> 333                                           GroenLinks
+#> 334                                    Lijst Pim Fortuyn
+#> 335                                 Partij van de Arbeid
+#> 336                     Staatkundig Gereformeerde Partij
+#> 337                                 Socialistiese Partij
+#> 338              Volkspartij voor Vrijheid en Democratie
+#> 339                          Christen Democratisch Appel
+#> 340                                         ChristenUnie
+#> 341                                        Democraten 66
+#> 342                                           GroenLinks
+#> 343                                    Lijst Pim Fortuyn
+#> 344                              Partij voor de Vrijheid
+#> 345                                 Partij van de Arbeid
+#> 346                     Staatkundig Gereformeerde Partij
+#> 347                                 Socialistiese Partij
+#> 348              Volkspartij voor Vrijheid en Democratie
+#> 349                          Christen Democratisch Appel
+#> 350                                         ChristenUnie
+#> 351                                        Democraten 66
+#> 352                                           GroenLinks
+#> 353                              Partij voor de Vrijheid
+#> 354                                 Partij van de Arbeid
+#> 355                                Partij voor de Dieren
+#> 356                     Staatkundig Gereformeerde Partij
+#> 357                                 Socialistiese Partij
+#> 358              Volkspartij voor Vrijheid en Democratie
+#> 359                          Christen Democratisch Appel
+#> 360                                         ChristenUnie
+#> 361                                        Democraten 66
+#> 362                                           GroenLinks
+#> 363                              Partij voor de Vrijheid
+#> 364                                 Partij van de Arbeid
+#> 365                                Partij voor de Dieren
+#> 366                     Staatkundig Gereformeerde Partij
+#> 367                                 Socialistiese Partij
+#> 368              Volkspartij voor Vrijheid en Democratie
+#> 369                          Christen Democratisch Appel
+#> 370                                         ChristenUnie
+#> 371                                        Democraten 66
+#> 372                                           GroenLinks
+#> 373                              Partij voor de Vrijheid
+#> 374                                 Partij van de Arbeid
+#> 375                                Partij voor de Dieren
+#> 376                     Staatkundig Gereformeerde Partij
+#> 377                                 Socialistiese Partij
+#> 378              Volkspartij voor Vrijheid en Democratie
+#> 379                          Christen Democratisch Appel
+#> 380                                         ChristenUnie
+#> 381                                        Democraten 66
+#> 382                                           GroenLinks
+#> 383                              Partij voor de Vrijheid
+#> 384                                 Partij van de Arbeid
+#> 385                                Partij voor de Dieren
+#> 386                     Staatkundig Gereformeerde Partij
+#> 387                                 Socialistiese Partij
+#> 388              Volkspartij voor Vrijheid en Democratie
+#> 389                                               50PLUS
+#> 390                          Christen Democratisch Appel
+#> 391                                         ChristenUnie
+#> 392                                        Democraten 66
+#> 393                                           GroenLinks
+#> 394                              Partij voor de Vrijheid
+#> 395                                 Partij van de Arbeid
+#> 396                                Partij voor de Dieren
+#> 397                     Staatkundig Gereformeerde Partij
+#> 398                                 Socialistiese Partij
+#> 399              Volkspartij voor Vrijheid en Democratie
+#> 400                                               50PLUS
+#> 401                          Christen Democratisch Appel
+#> 402                                         ChristenUnie
+#> 403                                        Democraten 66
+#> 404                                           GroenLinks
+#> 405                              Partij voor de Vrijheid
+#> 406                                 Partij van de Arbeid
+#> 407                                Partij voor de Dieren
+#> 408                     Staatkundig Gereformeerde Partij
+#> 409                                 Socialistiese Partij
+#> 410              Volkspartij voor Vrijheid en Democratie
+#> 411                                               50PLUS
+#> 412                          Christen Democratisch Appel
+#> 413                                         ChristenUnie
+#> 414                                        Democraten 66
+#> 415                                           GroenLinks
+#> 416                              Partij voor de Vrijheid
+#> 417                                 Partij van de Arbeid
+#> 418                                Partij voor de Dieren
+#> 419                     Staatkundig Gereformeerde Partij
+#> 420                                 Socialistiese Partij
+#> 421              Volkspartij voor Vrijheid en Democratie
+#>                              party_name_english parlgov_party_id
+#> 1                      Anti-Revolutionary Party              300
+#> 2                    Christian Historical Union              405
+#> 3            Communist Party of the Netherlands             1194
+#> 4                          Roman Catholic Party             2539
+#> 5              Social Democratic Workers' Party             1451
+#> 6               Free-thinking Democratic League              944
+#> 7                      Anti-Revolutionary Party              300
+#> 8                    Christian Historical Union              405
+#> 9            Communist Party of the Netherlands             1194
+#> 10                         Roman Catholic Party             2539
+#> 11             Social Democratic Workers' Party             1451
+#> 12                     Political Reformed Party             1251
+#> 13              Free-thinking Democratic League              944
+#> 14                     Anti-Revolutionary Party              300
+#> 15                   Christian Historical Union              405
+#> 16           Communist Party of the Netherlands             1194
+#> 17                         Roman Catholic Party             2539
+#> 18             Social Democratic Workers' Party             1451
+#> 19                     Political Reformed Party             1251
+#> 20              Free-thinking Democratic League              944
+#> 21                     Anti-Revolutionary Party              300
+#> 22                   Christian Historical Union              405
+#> 23           Communist Party of the Netherlands             1194
+#> 24                         Roman Catholic Party             2539
+#> 25             Social Democratic Workers' Party             1451
+#> 26                     Political Reformed Party             1251
+#> 27              Free-thinking Democratic League              944
+#> 28                     Anti-Revolutionary Party              300
+#> 29                   Christian Historical Union              405
+#> 30           Communist Party of the Netherlands             1194
+#> 31                         Roman Catholic Party             2539
+#> 32             Social Democratic Workers' Party             1451
+#> 33                     Political Reformed Party             1251
+#> 34              Free-thinking Democratic League              944
+#> 35                     Anti-Revolutionary Party              300
+#> 36                   Christian Democratic Union             2542
+#> 37                   Christian Historical Union              405
+#> 38           Communist Party of the Netherlands             1194
+#> 39                         Roman Catholic Party             2539
+#> 40             Social Democratic Workers' Party             1451
+#> 41                     Political Reformed Party             1251
+#> 42              Free-thinking Democratic League              944
+#> 43                     Anti-Revolutionary Party              300
+#> 44                   Christian Democratic Union             2542
+#> 45                   Christian Historical Union              405
+#> 46           Communist Party of the Netherlands             1194
+#> 47                         Roman Catholic Party             2539
+#> 48             Social Democratic Workers' Party             1451
+#> 49                     Political Reformed Party             1251
+#> 50              Free-thinking Democratic League              944
+#> 51                     Anti-Revolutionary Party              300
+#> 52                   Christian Democratic Union             2542
+#> 53                   Christian Historical Union              405
+#> 54           Communist Party of the Netherlands             1194
+#> 55                         Roman Catholic Party             2539
+#> 56             Social Democratic Workers' Party             1451
+#> 57                     Political Reformed Party             1251
+#> 58              Free-thinking Democratic League              944
+#> 59                     Anti-Revolutionary Party              300
+#> 60                   Christian Democratic Union             2542
+#> 61                   Christian Historical Union              405
+#> 62           Communist Party of the Netherlands             1194
+#> 63                         Roman Catholic Party             2539
+#> 64             Social Democratic Workers' Party             1451
+#> 65                     Political Reformed Party             1251
+#> 66              Free-thinking Democratic League              944
+#> 67                     Anti-Revolutionary Party              300
+#> 68                   Christian Democratic Union             2542
+#> 69                   Christian Historical Union              405
+#> 70           Communist Party of the Netherlands             1194
+#> 71                         Roman Catholic Party             2539
+#> 72             Social Democratic Workers' Party             1451
+#> 73                     Political Reformed Party             1251
+#> 74              Free-thinking Democratic League              944
+#> 75                     Anti-Revolutionary Party              300
+#> 76                   Christian Democratic Union             2542
+#> 77                   Christian Historical Union              405
+#> 78           Communist Party of the Netherlands             1194
+#> 79                       Catholic Peoples Party              451
+#> 80                         Roman Catholic Party             2539
+#> 81             Social Democratic Workers' Party             1451
+#> 82                     Political Reformed Party             1251
+#> 83              Free-thinking Democratic League              944
+#> 84                     Anti-Revolutionary Party              300
+#> 85                   Christian Historical Union              405
+#> 86           Communist Party of the Netherlands             1194
+#> 87                       Catholic Peoples Party              451
+#> 88                                 Labour Party              742
+#> 89                     Political Reformed Party             1251
+#> 90     People's Party for Freedom and Democracy             1409
+#> 91                     Anti-Revolutionary Party              300
+#> 92                   Christian Historical Union              405
+#> 93           Communist Party of the Netherlands             1194
+#> 94                      Catholic National Party                3
+#> 95                       Catholic Peoples Party              451
+#> 96                                 Labour Party              742
+#> 97                     Political Reformed Party             1251
+#> 98     People's Party for Freedom and Democracy             1409
+#> 99                     Anti-Revolutionary Party              300
+#> 100                  Christian Historical Union              405
+#> 101          Communist Party of the Netherlands             1194
+#> 102                     Catholic National Party                3
+#> 103                      Catholic Peoples Party              451
+#> 104                                Labour Party              742
+#> 105                    Political Reformed Party             1251
+#> 106    People's Party for Freedom and Democracy             1409
+#> 107                    Anti-Revolutionary Party              300
+#> 108                  Christian Historical Union              405
+#> 109          Communist Party of the Netherlands             1194
+#> 110                     Catholic National Party                3
+#> 111                      Catholic Peoples Party              451
+#> 112                                Labour Party              742
+#> 113                    Political Reformed Party             1251
+#> 114    People's Party for Freedom and Democracy             1409
+#> 115                    Anti-Revolutionary Party              300
+#> 116                  Christian Historical Union              405
+#> 117          Communist Party of the Netherlands             1194
+#> 118                      Catholic Peoples Party              451
+#> 119                                Labour Party              742
+#> 120                    Political Reformed Party             1251
+#> 121    People's Party for Freedom and Democracy             1409
+#> 122                    Anti-Revolutionary Party              300
+#> 123                  Christian Historical Union              405
+#> 124          Communist Party of the Netherlands             1194
+#> 125                      Catholic Peoples Party              451
+#> 126                                Labour Party              742
+#> 127                    Political Reformed Party             1251
+#> 128    People's Party for Freedom and Democracy             1409
+#> 129                    Anti-Revolutionary Party              300
+#> 130                  Christian Historical Union              405
+#> 131          Communist Party of the Netherlands             1194
+#> 132                      Catholic Peoples Party              451
+#> 133                    Pacifist Socialist Party             1452
+#> 134                                Labour Party              742
+#> 135                    Political Reformed Party             1251
+#> 136    People's Party for Freedom and Democracy             1409
+#> 137                    Anti-Revolutionary Party              300
+#> 138                               Farmers Party             1595
+#> 139                  Christian Historical Union              405
+#> 140          Communist Party of the Netherlands             1194
+#> 141                   Reformed Political League              625
+#> 142                      Catholic Peoples Party              451
+#> 143                    Pacifist Socialist Party             1452
+#> 144                                Labour Party              742
+#> 145                    Political Reformed Party             1251
+#> 146    People's Party for Freedom and Democracy             1409
+#> 147                    Anti-Revolutionary Party              300
+#> 148                               Farmers Party             1595
+#> 149                  Christian Historical Union              405
+#> 150          Communist Party of the Netherlands             1194
+#> 151                   Reformed Political League              625
+#> 152                      Catholic Peoples Party              451
+#> 153                    Pacifist Socialist Party             1452
+#> 154                                Labour Party              742
+#> 155                    Political Reformed Party             1251
+#> 156    People's Party for Freedom and Democracy             1409
+#> 157                    Anti-Revolutionary Party              300
+#> 158                               Farmers Party             1595
+#> 159                  Christian Historical Union              405
+#> 160          Communist Party of the Netherlands             1194
+#> 161                   Reformed Political League              625
+#> 162                      Catholic Peoples Party              451
+#> 163                    Pacifist Socialist Party             1452
+#> 164                                Labour Party              742
+#> 165                    Political Reformed Party             1251
+#> 166    People's Party for Freedom and Democracy             1409
+#> 167                    Anti-Revolutionary Party              300
+#> 168                               Farmers Party             1595
+#> 169                  Christian Historical Union              405
+#> 170          Communist Party of the Netherlands             1194
+#> 171                                Democrats 66              345
+#> 172                   Reformed Political League              625
+#> 173                      Catholic Peoples Party              451
+#> 174                    Pacifist Socialist Party             1452
+#> 175                                Labour Party              742
+#> 176                    Political Reformed Party             1251
+#> 177    People's Party for Freedom and Democracy             1409
+#> 178                    Anti-Revolutionary Party              300
+#> 179                               Farmers Party             1595
+#> 180                  Christian Historical Union              405
+#> 181          Communist Party of the Netherlands             1194
+#> 182                                Democrats 66              345
+#> 183                    Democratic Socialists 70              402
+#> 184                   Reformed Political League              625
+#> 185                      Catholic Peoples Party              451
+#> 186                                Middle Party               87
+#> 187                     Radical Political Party              342
+#> 188                    Pacifist Socialist Party             1452
+#> 189                                Labour Party              742
+#> 190                    Political Reformed Party             1251
+#> 191    People's Party for Freedom and Democracy             1409
+#> 192                    Anti-Revolutionary Party              300
+#> 193                               Farmers Party             1595
+#> 194                  Christian Historical Union              405
+#> 195          Communist Party of the Netherlands             1194
+#> 196                                Democrats 66              345
+#> 197                    Democratic Socialists 70              402
+#> 198                   Reformed Political League              625
+#> 199                      Catholic Peoples Party              451
+#> 200                                Middle Party               87
+#> 201                     Radical Political Party              342
+#> 202                    Pacifist Socialist Party             1452
+#> 203                                Labour Party              742
+#> 204                    Political Reformed Party             1251
+#> 205    People's Party for Freedom and Democracy             1409
+#> 206                    Anti-Revolutionary Party              300
+#> 207                               Farmers Party             1595
+#> 208                  Christian Historical Union              405
+#> 209          Communist Party of the Netherlands             1194
+#> 210                                Democrats 66              345
+#> 211                    Democratic Socialists 70              402
+#> 212                   Reformed Political League              625
+#> 213                      Catholic Peoples Party              451
+#> 214                     Radical Political Party              342
+#> 215                    Pacifist Socialist Party             1452
+#> 216                                Labour Party              742
+#> 217                    Political Reformed Party             1251
+#> 218    People's Party for Freedom and Democracy             1409
+#> 219                               Farmers Party             1595
+#> 220                 Christian Democratic Appeal              235
+#> 221          Communist Party of the Netherlands             1194
+#> 222                                Democrats 66              345
+#> 223                    Democratic Socialists 70              402
+#> 224                   Reformed Political League              625
+#> 225                     Radical Political Party              342
+#> 226                    Pacifist Socialist Party             1452
+#> 227                                Labour Party              742
+#> 228                    Political Reformed Party             1251
+#> 229    People's Party for Freedom and Democracy             1409
+#> 230                               Farmers Party             1595
+#> 231                 Christian Democratic Appeal              235
+#> 232          Communist Party of the Netherlands             1194
+#> 233                                Democrats 66              345
+#> 234                    Democratic Socialists 70              402
+#> 235                   Reformed Political League              625
+#> 236                     Radical Political Party              342
+#> 237                    Pacifist Socialist Party             1452
+#> 238                                Labour Party              742
+#> 239                    Political Reformed Party             1251
+#> 240    People's Party for Freedom and Democracy             1409
+#> 241                 Christian Democratic Appeal              235
+#> 242          Communist Party of the Netherlands             1194
+#> 243                                Democrats 66              345
+#> 244                   Reformed Political League              625
+#> 245                     Radical Political Party              342
+#> 246                    Pacifist Socialist Party             1452
+#> 247                                Labour Party              742
+#> 248            Reformatory Political Federation              212
+#> 249                    Political Reformed Party             1251
+#> 250    People's Party for Freedom and Democracy             1409
+#> 251                 Christian Democratic Appeal              235
+#> 252          Communist Party of the Netherlands             1194
+#> 253                                Democrats 66              345
+#> 254                   Reformed Political League              625
+#> 255                     Radical Political Party              342
+#> 256                    Pacifist Socialist Party             1452
+#> 257                                Labour Party              742
+#> 258            Reformatory Political Federation              212
+#> 259                    Political Reformed Party             1251
+#> 260    People's Party for Freedom and Democracy             1409
+#> 261                 Christian Democratic Appeal              235
+#> 262                                Centre Party              275
+#> 263          Communist Party of the Netherlands             1194
+#> 264                                Democrats 66              345
+#> 265                   Reformed Political League              625
+#> 266                     Radical Political Party              342
+#> 267                    Pacifist Socialist Party             1452
+#> 268                                Labour Party              742
+#> 269            Reformatory Political Federation              212
+#> 270                    Political Reformed Party             1251
+#> 271    People's Party for Freedom and Democracy             1409
+#> 272                 Christian Democratic Appeal              235
+#> 273                                Democrats 66              345
+#> 274                   Reformed Political League              625
+#> 275                     Radical Political Party              342
+#> 276                    Pacifist Socialist Party             1452
+#> 277                                Labour Party              742
+#> 278            Reformatory Political Federation              212
+#> 279                    Political Reformed Party             1251
+#> 280    People's Party for Freedom and Democracy             1409
+#> 281                            Centre Democrats              209
+#> 282                 Christian Democratic Appeal              235
+#> 283                                Democrats 66              345
+#> 284                                   GreenLeft              756
+#> 285                   Reformed Political League              625
+#> 286                                Labour Party              742
+#> 287            Reformatory Political Federation              212
+#> 288                    Political Reformed Party             1251
+#> 289    People's Party for Freedom and Democracy             1409
+#> 290 General Senior Union | United Seniors Party              112
+#> 291                            Centre Democrats              209
+#> 292                 Christian Democratic Appeal              235
+#> 293                                Democrats 66              345
+#> 294                                   GreenLeft              756
+#> 295                   Reformed Political League              625
+#> 296                                Labour Party              742
+#> 297            Reformatory Political Federation              212
+#> 298                    Political Reformed Party             1251
+#> 299                             Socialist Party              357
+#> 300    People's Party for Freedom and Democracy             1409
+#> 301                 Christian Democratic Appeal              235
+#> 302                                Democrats 66              345
+#> 303                                   GreenLeft              756
+#> 304                   Reformed Political League              625
+#> 305                                Labour Party              742
+#> 306            Reformatory Political Federation              212
+#> 307                    Political Reformed Party             1251
+#> 308                             Socialist Party              357
+#> 309    People's Party for Freedom and Democracy             1409
+#> 310                 Christian Democratic Appeal              235
+#> 311                              ChristianUnion             1206
+#> 312                                Democrats 66              345
+#> 313                                   GreenLeft              756
+#> 314                         Livable Netherlands              744
+#> 315                                Fortuyn List              456
+#> 316                                Labour Party              742
+#> 317                    Political Reformed Party             1251
+#> 318                             Socialist Party              357
+#> 319    People's Party for Freedom and Democracy             1409
+#> 320                 Christian Democratic Appeal              235
+#> 321                              ChristianUnion             1206
+#> 322                                Democrats 66              345
+#> 323                                   GreenLeft              756
+#> 324                         Livable Netherlands              744
+#> 325                                Fortuyn List              456
+#> 326                                Labour Party              742
+#> 327                    Political Reformed Party             1251
+#> 328                             Socialist Party              357
+#> 329    People's Party for Freedom and Democracy             1409
+#> 330                 Christian Democratic Appeal              235
+#> 331                              ChristianUnion             1206
+#> 332                                Democrats 66              345
+#> 333                                   GreenLeft              756
+#> 334                                Fortuyn List              456
+#> 335                                Labour Party              742
+#> 336                    Political Reformed Party             1251
+#> 337                             Socialist Party              357
+#> 338    People's Party for Freedom and Democracy             1409
+#> 339                 Christian Democratic Appeal              235
+#> 340                              ChristianUnion             1206
+#> 341                                Democrats 66              345
+#> 342                                   GreenLeft              756
+#> 343                                Fortuyn List              456
+#> 344                           Party for Freedom             1501
+#> 345                                Labour Party              742
+#> 346                    Political Reformed Party             1251
+#> 347                             Socialist Party              357
+#> 348    People's Party for Freedom and Democracy             1409
+#> 349                 Christian Democratic Appeal              235
+#> 350                              ChristianUnion             1206
+#> 351                                Democrats 66              345
+#> 352                                   GreenLeft              756
+#> 353                           Party for Freedom             1501
+#> 354                                Labour Party              742
+#> 355                       Party for the Animals              990
+#> 356                    Political Reformed Party             1251
+#> 357                             Socialist Party              357
+#> 358    People's Party for Freedom and Democracy             1409
+#> 359                 Christian Democratic Appeal              235
+#> 360                              ChristianUnion             1206
+#> 361                                Democrats 66              345
+#> 362                                   GreenLeft              756
+#> 363                           Party for Freedom             1501
+#> 364                                Labour Party              742
+#> 365                       Party for the Animals              990
+#> 366                    Political Reformed Party             1251
+#> 367                             Socialist Party              357
+#> 368    People's Party for Freedom and Democracy             1409
+#> 369                 Christian Democratic Appeal              235
+#> 370                              ChristianUnion             1206
+#> 371                                Democrats 66              345
+#> 372                                   GreenLeft              756
+#> 373                           Party for Freedom             1501
+#> 374                                Labour Party              742
+#> 375                       Party for the Animals              990
+#> 376                    Political Reformed Party             1251
+#> 377                             Socialist Party              357
+#> 378    People's Party for Freedom and Democracy             1409
+#> 379                 Christian Democratic Appeal              235
+#> 380                              ChristianUnion             1206
+#> 381                                Democrats 66              345
+#> 382                                   GreenLeft              756
+#> 383                           Party for Freedom             1501
+#> 384                                Labour Party              742
+#> 385                       Party for the Animals              990
+#> 386                    Political Reformed Party             1251
+#> 387                             Socialist Party              357
+#> 388    People's Party for Freedom and Democracy             1409
+#> 389                                      50PLUS             2109
+#> 390                 Christian Democratic Appeal              235
+#> 391                              ChristianUnion             1206
+#> 392                                Democrats 66              345
+#> 393                                   GreenLeft              756
+#> 394                           Party for Freedom             1501
+#> 395                                Labour Party              742
+#> 396                       Party for the Animals              990
+#> 397                    Political Reformed Party             1251
+#> 398                             Socialist Party              357
+#> 399    People's Party for Freedom and Democracy             1409
+#> 400                                      50PLUS             2109
+#> 401                 Christian Democratic Appeal              235
+#> 402                              ChristianUnion             1206
+#> 403                                Democrats 66              345
+#> 404                                   GreenLeft              756
+#> 405                           Party for Freedom             1501
+#> 406                                Labour Party              742
+#> 407                       Party for the Animals              990
+#> 408                    Political Reformed Party             1251
+#> 409                             Socialist Party              357
+#> 410    People's Party for Freedom and Democracy             1409
+#> 411                                      50PLUS             2109
+#> 412                 Christian Democratic Appeal              235
+#> 413                              ChristianUnion             1206
+#> 414                                Democrats 66              345
+#> 415                                   GreenLeft              756
+#> 416                           Party for Freedom             1501
+#> 417                                Labour Party              742
+#> 418                       Party for the Animals              990
+#> 419                    Political Reformed Party             1251
+#> 420                             Socialist Party              357
+#> 421    People's Party for Freedom and Democracy             1409
+#>     family_name_short         family_name family_id left_right state_market
+#> 1                 chr Christian democracy         3     5.8067       5.6933
+#> 2                 chr Christian democracy         3     5.8067       5.6933
+#> 3                 com Communist/Socialist        14     0.8000       1.4000
+#> 4                 chr Christian democracy         3     6.2000       5.7000
+#> 5                 soc    Social democracy        11     3.3000       3.5000
+#> 6                 lib             Liberal         6     6.0000       6.7000
+#> 7                 chr Christian democracy         3     5.8067       5.6933
+#> 8                 chr Christian democracy         3     5.8067       5.6933
+#> 9                 com Communist/Socialist        14     0.8000       1.4000
+#> 10                chr Christian democracy         3     6.2000       5.7000
+#> 11                soc    Social democracy        11     3.3000       3.5000
+#> 12                con        Conservative        26     8.7531       6.3487
+#> 13                lib             Liberal         6     6.0000       6.7000
+#> 14                chr Christian democracy         3     5.8067       5.6933
+#> 15                chr Christian democracy         3     5.8067       5.6933
+#> 16                com Communist/Socialist        14     0.8000       1.4000
+#> 17                chr Christian democracy         3     6.2000       5.7000
+#> 18                soc    Social democracy        11     3.3000       3.5000
+#> 19                con        Conservative        26     8.7531       6.3487
+#> 20                lib             Liberal         6     6.0000       6.7000
+#> 21                chr Christian democracy         3     5.8067       5.6933
+#> 22                chr Christian democracy         3     5.8067       5.6933
+#> 23                com Communist/Socialist        14     0.8000       1.4000
+#> 24                chr Christian democracy         3     6.2000       5.7000
+#> 25                soc    Social democracy        11     3.3000       3.5000
+#> 26                con        Conservative        26     8.7531       6.3487
+#> 27                lib             Liberal         6     6.0000       6.7000
+#> 28                chr Christian democracy         3     5.8067       5.6933
+#> 29                chr Christian democracy         3     5.8067       5.6933
+#> 30                com Communist/Socialist        14     0.8000       1.4000
+#> 31                chr Christian democracy         3     6.2000       5.7000
+#> 32                soc    Social democracy        11     3.3000       3.5000
+#> 33                con        Conservative        26     8.7531       6.3487
+#> 34                lib             Liberal         6     6.0000       6.7000
+#> 35                chr Christian democracy         3     5.8067       5.6933
+#> 36                chr Christian democracy         3     6.2000       5.7000
+#> 37                chr Christian democracy         3     5.8067       5.6933
+#> 38                com Communist/Socialist        14     0.8000       1.4000
+#> 39                chr Christian democracy         3     6.2000       5.7000
+#> 40                soc    Social democracy        11     3.3000       3.5000
+#> 41                con        Conservative        26     8.7531       6.3487
+#> 42                lib             Liberal         6     6.0000       6.7000
+#> 43                chr Christian democracy         3     5.8067       5.6933
+#> 44                chr Christian democracy         3     6.2000       5.7000
+#> 45                chr Christian democracy         3     5.8067       5.6933
+#> 46                com Communist/Socialist        14     0.8000       1.4000
+#> 47                chr Christian democracy         3     6.2000       5.7000
+#> 48                soc    Social democracy        11     3.3000       3.5000
+#> 49                con        Conservative        26     8.7531       6.3487
+#> 50                lib             Liberal         6     6.0000       6.7000
+#> 51                chr Christian democracy         3     5.8067       5.6933
+#> 52                chr Christian democracy         3     6.2000       5.7000
+#> 53                chr Christian democracy         3     5.8067       5.6933
+#> 54                com Communist/Socialist        14     0.8000       1.4000
+#> 55                chr Christian democracy         3     6.2000       5.7000
+#> 56                soc    Social democracy        11     3.3000       3.5000
+#> 57                con        Conservative        26     8.7531       6.3487
+#> 58                lib             Liberal         6     6.0000       6.7000
+#> 59                chr Christian democracy         3     5.8067       5.6933
+#> 60                chr Christian democracy         3     6.2000       5.7000
+#> 61                chr Christian democracy         3     5.8067       5.6933
+#> 62                com Communist/Socialist        14     0.8000       1.4000
+#> 63                chr Christian democracy         3     6.2000       5.7000
+#> 64                soc    Social democracy        11     3.3000       3.5000
+#> 65                con        Conservative        26     8.7531       6.3487
+#> 66                lib             Liberal         6     6.0000       6.7000
+#> 67                chr Christian democracy         3     5.8067       5.6933
+#> 68                chr Christian democracy         3     6.2000       5.7000
+#> 69                chr Christian democracy         3     5.8067       5.6933
+#> 70                com Communist/Socialist        14     0.8000       1.4000
+#> 71                chr Christian democracy         3     6.2000       5.7000
+#> 72                soc    Social democracy        11     3.3000       3.5000
+#> 73                con        Conservative        26     8.7531       6.3487
+#> 74                lib             Liberal         6     6.0000       6.7000
+#> 75                chr Christian democracy         3     5.8067       5.6933
+#> 76                chr Christian democracy         3     6.2000       5.7000
+#> 77                chr Christian democracy         3     5.8067       5.6933
+#> 78                com Communist/Socialist        14     0.8000       1.4000
+#> 79                chr Christian democracy         3     5.9473       5.8848
+#> 80                chr Christian democracy         3     6.2000       5.7000
+#> 81                soc    Social democracy        11     3.3000       3.5000
+#> 82                con        Conservative        26     8.7531       6.3487
+#> 83                lib             Liberal         6     6.0000       6.7000
+#> 84                chr Christian democracy         3     5.8067       5.6933
+#> 85                chr Christian democracy         3     5.8067       5.6933
+#> 86                com Communist/Socialist        14     0.8000       1.4000
+#> 87                chr Christian democracy         3     5.9473       5.8848
+#> 88                soc    Social democracy        11     3.6118       3.8680
+#> 89                con        Conservative        26     8.7531       6.3487
+#> 90                lib             Liberal         6     7.3482       7.8979
+#> 91                chr Christian democracy         3     5.8067       5.6933
+#> 92                chr Christian democracy         3     5.8067       5.6933
+#> 93                com Communist/Socialist        14     0.8000       1.4000
+#> 94                chr Christian democracy         3     6.2000       5.7000
+#> 95                chr Christian democracy         3     5.9473       5.8848
+#> 96                soc    Social democracy        11     3.6118       3.8680
+#> 97                con        Conservative        26     8.7531       6.3487
+#> 98                lib             Liberal         6     7.3482       7.8979
+#> 99                chr Christian democracy         3     5.8067       5.6933
+#> 100               chr Christian democracy         3     5.8067       5.6933
+#> 101               com Communist/Socialist        14     0.8000       1.4000
+#> 102               chr Christian democracy         3     6.2000       5.7000
+#> 103               chr Christian democracy         3     5.9473       5.8848
+#> 104               soc    Social democracy        11     3.6118       3.8680
+#> 105               con        Conservative        26     8.7531       6.3487
+#> 106               lib             Liberal         6     7.3482       7.8979
+#> 107               chr Christian democracy         3     5.8067       5.6933
+#> 108               chr Christian democracy         3     5.8067       5.6933
+#> 109               com Communist/Socialist        14     0.8000       1.4000
+#> 110               chr Christian democracy         3     6.2000       5.7000
+#> 111               chr Christian democracy         3     5.9473       5.8848
+#> 112               soc    Social democracy        11     3.6118       3.8680
+#> 113               con        Conservative        26     8.7531       6.3487
+#> 114               lib             Liberal         6     7.3482       7.8979
+#> 115               chr Christian democracy         3     5.8067       5.6933
+#> 116               chr Christian democracy         3     5.8067       5.6933
+#> 117               com Communist/Socialist        14     0.8000       1.4000
+#> 118               chr Christian democracy         3     5.9473       5.8848
+#> 119               soc    Social democracy        11     3.6118       3.8680
+#> 120               con        Conservative        26     8.7531       6.3487
+#> 121               lib             Liberal         6     7.3482       7.8979
+#> 122               chr Christian democracy         3     5.8067       5.6933
+#> 123               chr Christian democracy         3     5.8067       5.6933
+#> 124               com Communist/Socialist        14     0.8000       1.4000
+#> 125               chr Christian democracy         3     5.9473       5.8848
+#> 126               soc    Social democracy        11     3.6118       3.8680
+#> 127               con        Conservative        26     8.7531       6.3487
+#> 128               lib             Liberal         6     7.3482       7.8979
+#> 129               chr Christian democracy         3     5.8067       5.6933
+#> 130               chr Christian democracy         3     5.8067       5.6933
+#> 131               com Communist/Socialist        14     0.8000       1.4000
+#> 132               chr Christian democracy         3     5.9473       5.8848
+#> 133               com Communist/Socialist        14     1.2000       1.4000
+#> 134               soc    Social democracy        11     3.6118       3.8680
+#> 135               con        Conservative        26     8.7531       6.3487
+#> 136               lib             Liberal         6     7.3482       7.8979
+#> 137               chr Christian democracy         3     5.8067       5.6933
+#> 138               agr            Agrarian         2     5.3000       4.9000
+#> 139               chr Christian democracy         3     5.8067       5.6933
+#> 140               com Communist/Socialist        14     0.8000       1.4000
+#> 141               con        Conservative        26     8.1444       5.8000
+#> 142               chr Christian democracy         3     5.9473       5.8848
+#> 143               com Communist/Socialist        14     1.2000       1.4000
+#> 144               soc    Social democracy        11     3.6118       3.8680
+#> 145               con        Conservative        26     8.7531       6.3487
+#> 146               lib             Liberal         6     7.3482       7.8979
+#> 147               chr Christian democracy         3     5.8067       5.6933
+#> 148               agr            Agrarian         2     5.3000       4.9000
+#> 149               chr Christian democracy         3     5.8067       5.6933
+#> 150               com Communist/Socialist        14     0.8000       1.4000
+#> 151               con        Conservative        26     8.1444       5.8000
+#> 152               chr Christian democracy         3     5.9473       5.8848
+#> 153               com Communist/Socialist        14     1.2000       1.4000
+#> 154               soc    Social democracy        11     3.6118       3.8680
+#> 155               con        Conservative        26     8.7531       6.3487
+#> 156               lib             Liberal         6     7.3482       7.8979
+#> 157               chr Christian democracy         3     5.8067       5.6933
+#> 158               agr            Agrarian         2     5.3000       4.9000
+#> 159               chr Christian democracy         3     5.8067       5.6933
+#> 160               com Communist/Socialist        14     0.8000       1.4000
+#> 161               con        Conservative        26     8.1444       5.8000
+#> 162               chr Christian democracy         3     5.9473       5.8848
+#> 163               com Communist/Socialist        14     1.2000       1.4000
+#> 164               soc    Social democracy        11     3.6118       3.8680
+#> 165               con        Conservative        26     8.7531       6.3487
+#> 166               lib             Liberal         6     7.3482       7.8979
+#> 167               chr Christian democracy         3     5.8067       5.6933
+#> 168               agr            Agrarian         2     5.3000       4.9000
+#> 169               chr Christian democracy         3     5.8067       5.6933
+#> 170               com Communist/Socialist        14     0.8000       1.4000
+#> 171               lib             Liberal         6     4.5066       4.9917
+#> 172               con        Conservative        26     8.1444       5.8000
+#> 173               chr Christian democracy         3     5.9473       5.8848
+#> 174               com Communist/Socialist        14     1.2000       1.4000
+#> 175               soc    Social democracy        11     3.6118       3.8680
+#> 176               con        Conservative        26     8.7531       6.3487
+#> 177               lib             Liberal         6     7.3482       7.8979
+#> 178               chr Christian democracy         3     5.8067       5.6933
+#> 179               agr            Agrarian         2     5.3000       4.9000
+#> 180               chr Christian democracy         3     5.8067       5.6933
+#> 181               com Communist/Socialist        14     0.8000       1.4000
+#> 182               lib             Liberal         6     4.5066       4.9917
+#> 183               con        Conservative        26     3.8433       3.9133
+#> 184               con        Conservative        26     8.1444       5.8000
+#> 185               chr Christian democracy         3     5.9473       5.8848
+#> 186               con        Conservative        26     7.4000       6.4000
+#> 187               eco     Green/Ecologist        19     1.6000       2.5000
+#> 188               com Communist/Socialist        14     1.2000       1.4000
+#> 189               soc    Social democracy        11     3.6118       3.8680
+#> 190               con        Conservative        26     8.7531       6.3487
+#> 191               lib             Liberal         6     7.3482       7.8979
+#> 192               chr Christian democracy         3     5.8067       5.6933
+#> 193               agr            Agrarian         2     5.3000       4.9000
+#> 194               chr Christian democracy         3     5.8067       5.6933
+#> 195               com Communist/Socialist        14     0.8000       1.4000
+#> 196               lib             Liberal         6     4.5066       4.9917
+#> 197               con        Conservative        26     3.8433       3.9133
+#> 198               con        Conservative        26     8.1444       5.8000
+#> 199               chr Christian democracy         3     5.9473       5.8848
+#> 200               con        Conservative        26     7.4000       6.4000
+#> 201               eco     Green/Ecologist        19     1.6000       2.5000
+#> 202               com Communist/Socialist        14     1.2000       1.4000
+#> 203               soc    Social democracy        11     3.6118       3.8680
+#> 204               con        Conservative        26     8.7531       6.3487
+#> 205               lib             Liberal         6     7.3482       7.8979
+#> 206               chr Christian democracy         3     5.8067       5.6933
+#> 207               agr            Agrarian         2     5.3000       4.9000
+#> 208               chr Christian democracy         3     5.8067       5.6933
+#> 209               com Communist/Socialist        14     0.8000       1.4000
+#> 210               lib             Liberal         6     4.5066       4.9917
+#> 211               con        Conservative        26     3.8433       3.9133
+#> 212               con        Conservative        26     8.1444       5.8000
+#> 213               chr Christian democracy         3     5.9473       5.8848
+#> 214               eco     Green/Ecologist        19     1.6000       2.5000
+#> 215               com Communist/Socialist        14     1.2000       1.4000
+#> 216               soc    Social democracy        11     3.6118       3.8680
+#> 217               con        Conservative        26     8.7531       6.3487
+#> 218               lib             Liberal         6     7.3482       7.8979
+#> 219               agr            Agrarian         2     5.3000       4.9000
+#> 220               chr Christian democracy         3     5.9376       5.8848
+#> 221               com Communist/Socialist        14     0.8000       1.4000
+#> 222               lib             Liberal         6     4.5066       4.9917
+#> 223               con        Conservative        26     3.8433       3.9133
+#> 224               con        Conservative        26     8.1444       5.8000
+#> 225               eco     Green/Ecologist        19     1.6000       2.5000
+#> 226               com Communist/Socialist        14     1.2000       1.4000
+#> 227               soc    Social democracy        11     3.6118       3.8680
+#> 228               con        Conservative        26     8.7531       6.3487
+#> 229               lib             Liberal         6     7.3482       7.8979
+#> 230               agr            Agrarian         2     5.3000       4.9000
+#> 231               chr Christian democracy         3     5.9376       5.8848
+#> 232               com Communist/Socialist        14     0.8000       1.4000
+#> 233               lib             Liberal         6     4.5066       4.9917
+#> 234               con        Conservative        26     3.8433       3.9133
+#> 235               con        Conservative        26     8.1444       5.8000
+#> 236               eco     Green/Ecologist        19     1.6000       2.5000
+#> 237               com Communist/Socialist        14     1.2000       1.4000
+#> 238               soc    Social democracy        11     3.6118       3.8680
+#> 239               con        Conservative        26     8.7531       6.3487
+#> 240               lib             Liberal         6     7.3482       7.8979
+#> 241               chr Christian democracy         3     5.9376       5.8848
+#> 242               com Communist/Socialist        14     0.8000       1.4000
+#> 243               lib             Liberal         6     4.5066       4.9917
+#> 244               con        Conservative        26     8.1444       5.8000
+#> 245               eco     Green/Ecologist        19     1.6000       2.5000
+#> 246               com Communist/Socialist        14     1.2000       1.4000
+#> 247               soc    Social democracy        11     3.6118       3.8680
+#> 248               chr Christian democracy         3     8.2963       6.0000
+#> 249               con        Conservative        26     8.7531       6.3487
+#> 250               lib             Liberal         6     7.3482       7.8979
+#> 251               chr Christian democracy         3     5.9376       5.8848
+#> 252               com Communist/Socialist        14     0.8000       1.4000
+#> 253               lib             Liberal         6     4.5066       4.9917
+#> 254               con        Conservative        26     8.1444       5.8000
+#> 255               eco     Green/Ecologist        19     1.6000       2.5000
+#> 256               com Communist/Socialist        14     1.2000       1.4000
+#> 257               soc    Social democracy        11     3.6118       3.8680
+#> 258               chr Christian democracy         3     8.2963       6.0000
+#> 259               con        Conservative        26     8.7531       6.3487
+#> 260               lib             Liberal         6     7.3482       7.8979
+#> 261               chr Christian democracy         3     5.9376       5.8848
+#> 262             right          Right-wing        40     8.7000       5.9000
+#> 263               com Communist/Socialist        14     0.8000       1.4000
+#> 264               lib             Liberal         6     4.5066       4.9917
+#> 265               con        Conservative        26     8.1444       5.8000
+#> 266               eco     Green/Ecologist        19     1.6000       2.5000
+#> 267               com Communist/Socialist        14     1.2000       1.4000
+#> 268               soc    Social democracy        11     3.6118       3.8680
+#> 269               chr Christian democracy         3     8.2963       6.0000
+#> 270               con        Conservative        26     8.7531       6.3487
+#> 271               lib             Liberal         6     7.3482       7.8979
+#> 272               chr Christian democracy         3     5.9376       5.8848
+#> 273               lib             Liberal         6     4.5066       4.9917
+#> 274               con        Conservative        26     8.1444       5.8000
+#> 275               eco     Green/Ecologist        19     1.6000       2.5000
+#> 276               com Communist/Socialist        14     1.2000       1.4000
+#> 277               soc    Social democracy        11     3.6118       3.8680
+#> 278               chr Christian democracy         3     8.2963       6.0000
+#> 279               con        Conservative        26     8.7531       6.3487
+#> 280               lib             Liberal         6     7.3482       7.8979
+#> 281             right          Right-wing        40     9.4097       8.5714
+#> 282               chr Christian democracy         3     5.9376       5.8848
+#> 283               lib             Liberal         6     4.5066       4.9917
+#> 284               eco     Green/Ecologist        19     2.0454       2.1108
+#> 285               con        Conservative        26     8.1444       5.8000
+#> 286               soc    Social democracy        11     3.6118       3.8680
+#> 287               chr Christian democracy         3     8.2963       6.0000
+#> 288               con        Conservative        26     8.7531       6.3487
+#> 289               lib             Liberal         6     7.3482       7.8979
+#> 290              spec       Special issue        16         NA           NA
+#> 291             right          Right-wing        40     9.4097       8.5714
+#> 292               chr Christian democracy         3     5.9376       5.8848
+#> 293               lib             Liberal         6     4.5066       4.9917
+#> 294               eco     Green/Ecologist        19     2.0454       2.1108
+#> 295               con        Conservative        26     8.1444       5.8000
+#> 296               soc    Social democracy        11     3.6118       3.8680
+#> 297               chr Christian democracy         3     8.2963       6.0000
+#> 298               con        Conservative        26     8.7531       6.3487
+#> 299               com Communist/Socialist        14     1.2146       1.0421
+#> 300               lib             Liberal         6     7.3482       7.8979
+#> 301               chr Christian democracy         3     5.9376       5.8848
+#> 302               lib             Liberal         6     4.5066       4.9917
+#> 303               eco     Green/Ecologist        19     2.0454       2.1108
+#> 304               con        Conservative        26     8.1444       5.8000
+#> 305               soc    Social democracy        11     3.6118       3.8680
+#> 306               chr Christian democracy         3     8.2963       6.0000
+#> 307               con        Conservative        26     8.7531       6.3487
+#> 308               com Communist/Socialist        14     1.2146       1.0421
+#> 309               lib             Liberal         6     7.3482       7.8979
+#> 310               chr Christian democracy         3     5.9376       5.8848
+#> 311               chr Christian democracy         3     6.1732       4.6769
+#> 312               lib             Liberal         6     4.5066       4.9917
+#> 313               eco     Green/Ecologist        19     2.0454       2.1108
+#> 314             right          Right-wing        40     8.7000       5.9000
+#> 315             right          Right-wing        40     8.5609       8.0776
+#> 316               soc    Social democracy        11     3.6118       3.8680
+#> 317               con        Conservative        26     8.7531       6.3487
+#> 318               com Communist/Socialist        14     1.2146       1.0421
+#> 319               lib             Liberal         6     7.3482       7.8979
+#> 320               chr Christian democracy         3     5.9376       5.8848
+#> 321               chr Christian democracy         3     6.1732       4.6769
+#> 322               lib             Liberal         6     4.5066       4.9917
+#> 323               eco     Green/Ecologist        19     2.0454       2.1108
+#> 324             right          Right-wing        40     8.7000       5.9000
+#> 325             right          Right-wing        40     8.5609       8.0776
+#> 326               soc    Social democracy        11     3.6118       3.8680
+#> 327               con        Conservative        26     8.7531       6.3487
+#> 328               com Communist/Socialist        14     1.2146       1.0421
+#> 329               lib             Liberal         6     7.3482       7.8979
+#> 330               chr Christian democracy         3     5.9376       5.8848
+#> 331               chr Christian democracy         3     6.1732       4.6769
+#> 332               lib             Liberal         6     4.5066       4.9917
+#> 333               eco     Green/Ecologist        19     2.0454       2.1108
+#> 334             right          Right-wing        40     8.5609       8.0776
+#> 335               soc    Social democracy        11     3.6118       3.8680
+#> 336               con        Conservative        26     8.7531       6.3487
+#> 337               com Communist/Socialist        14     1.2146       1.0421
+#> 338               lib             Liberal         6     7.3482       7.8979
+#> 339               chr Christian democracy         3     5.9376       5.8848
+#> 340               chr Christian democracy         3     6.1732       4.6769
+#> 341               lib             Liberal         6     4.5066       4.9917
+#> 342               eco     Green/Ecologist        19     2.0454       2.1108
+#> 343             right          Right-wing        40     8.5609       8.0776
+#> 344               con        Conservative        26     8.8000       8.2900
+#> 345               soc    Social democracy        11     3.6118       3.8680
+#> 346               con        Conservative        26     8.7531       6.3487
+#> 347               com Communist/Socialist        14     1.2146       1.0421
+#> 348               lib             Liberal         6     7.3482       7.8979
+#> 349               chr Christian democracy         3     5.9376       5.8848
+#> 350               chr Christian democracy         3     6.1732       4.6769
+#> 351               lib             Liberal         6     4.5066       4.9917
+#> 352               eco     Green/Ecologist        19     2.0454       2.1108
+#> 353               con        Conservative        26     8.8000       8.2900
+#> 354               soc    Social democracy        11     3.6118       3.8680
+#> 355              spec       Special issue        16         NA           NA
+#> 356               con        Conservative        26     8.7531       6.3487
+#> 357               com Communist/Socialist        14     1.2146       1.0421
+#> 358               lib             Liberal         6     7.3482       7.8979
+#> 359               chr Christian democracy         3     5.9376       5.8848
+#> 360               chr Christian democracy         3     6.1732       4.6769
+#> 361               lib             Liberal         6     4.5066       4.9917
+#> 362               eco     Green/Ecologist        19     2.0454       2.1108
+#> 363               con        Conservative        26     8.8000       8.2900
+#> 364               soc    Social democracy        11     3.6118       3.8680
+#> 365              spec       Special issue        16         NA           NA
+#> 366               con        Conservative        26     8.7531       6.3487
+#> 367               com Communist/Socialist        14     1.2146       1.0421
+#> 368               lib             Liberal         6     7.3482       7.8979
+#> 369               chr Christian democracy         3     5.9376       5.8848
+#> 370               chr Christian democracy         3     6.1732       4.6769
+#> 371               lib             Liberal         6     4.5066       4.9917
+#> 372               eco     Green/Ecologist        19     2.0454       2.1108
+#> 373               con        Conservative        26     8.8000       8.2900
+#> 374               soc    Social democracy        11     3.6118       3.8680
+#> 375              spec       Special issue        16         NA           NA
+#> 376               con        Conservative        26     8.7531       6.3487
+#> 377               com Communist/Socialist        14     1.2146       1.0421
+#> 378               lib             Liberal         6     7.3482       7.8979
+#> 379               chr Christian democracy         3     5.9376       5.8848
+#> 380               chr Christian democracy         3     6.1732       4.6769
+#> 381               lib             Liberal         6     4.5066       4.9917
+#> 382               eco     Green/Ecologist        19     2.0454       2.1108
+#> 383               con        Conservative        26     8.8000       8.2900
+#> 384               soc    Social democracy        11     3.6118       3.8680
+#> 385              spec       Special issue        16         NA           NA
+#> 386               con        Conservative        26     8.7531       6.3487
+#> 387               com Communist/Socialist        14     1.2146       1.0421
+#> 388               lib             Liberal         6     7.3482       7.8979
+#> 389               lib             Liberal         6     6.0000       6.7000
+#> 390               chr Christian democracy         3     5.9376       5.8848
+#> 391               chr Christian democracy         3     6.1732       4.6769
+#> 392               lib             Liberal         6     4.5066       4.9917
+#> 393               eco     Green/Ecologist        19     2.0454       2.1108
+#> 394               con        Conservative        26     8.8000       8.2900
+#> 395               soc    Social democracy        11     3.6118       3.8680
+#> 396              spec       Special issue        16         NA           NA
+#> 397               con        Conservative        26     8.7531       6.3487
+#> 398               com Communist/Socialist        14     1.2146       1.0421
+#> 399               lib             Liberal         6     7.3482       7.8979
+#> 400               lib             Liberal         6     6.0000       6.7000
+#> 401               chr Christian democracy         3     5.9376       5.8848
+#> 402               chr Christian democracy         3     6.1732       4.6769
+#> 403               lib             Liberal         6     4.5066       4.9917
+#> 404               eco     Green/Ecologist        19     2.0454       2.1108
+#> 405               con        Conservative        26     8.8000       8.2900
+#> 406               soc    Social democracy        11     3.6118       3.8680
+#> 407              spec       Special issue        16         NA           NA
+#> 408               con        Conservative        26     8.7531       6.3487
+#> 409               com Communist/Socialist        14     1.2146       1.0421
+#> 410               lib             Liberal         6     7.3482       7.8979
+#> 411               lib             Liberal         6     6.0000       6.7000
+#> 412               chr Christian democracy         3     5.9376       5.8848
+#> 413               chr Christian democracy         3     6.1732       4.6769
+#> 414               lib             Liberal         6     4.5066       4.9917
+#> 415               eco     Green/Ecologist        19     2.0454       2.1108
+#> 416               con        Conservative        26     8.8000       8.2900
+#> 417               soc    Social democracy        11     3.6118       3.8680
+#> 418              spec       Special issue        16         NA           NA
+#> 419               con        Conservative        26     8.7531       6.3487
+#> 420               com Communist/Socialist        14     1.2146       1.0421
+#> 421               lib             Liberal         6     7.3482       7.8979
+#>     liberty_authority eu_anti_pro   cmp euprofiler     ees castles_mair
+#> 1              6.7724      8.2894 22523         NA      NA           NA
+#> 2              6.7724      8.2894 22525         NA      NA           NA
+#> 3              3.0000      5.0000    NA         NA      NA         1102
+#> 4              7.2000      8.3000    NA         NA      NA           NA
+#> 5              3.5000      8.1000    NA         NA      NA           NA
+#> 6              3.5000      8.7000    NA         NA      NA           NA
+#> 7              6.7724      8.2894 22523         NA      NA           NA
+#> 8              6.7724      8.2894 22525         NA      NA           NA
+#> 9              3.0000      5.0000    NA         NA      NA         1102
+#> 10             7.2000      8.3000    NA         NA      NA           NA
+#> 11             3.5000      8.1000    NA         NA      NA           NA
+#> 12             9.7744      2.9307    NA        294 1528527         1110
+#> 13             3.5000      8.7000    NA         NA      NA           NA
+#> 14             6.7724      8.2894 22523         NA      NA           NA
+#> 15             6.7724      8.2894 22525         NA      NA           NA
+#> 16             3.0000      5.0000    NA         NA      NA         1102
+#> 17             7.2000      8.3000    NA         NA      NA           NA
+#> 18             3.5000      8.1000    NA         NA      NA           NA
+#> 19             9.7744      2.9307    NA        294 1528527         1110
+#> 20             3.5000      8.7000    NA         NA      NA           NA
+#> 21             6.7724      8.2894 22523         NA      NA           NA
+#> 22             6.7724      8.2894 22525         NA      NA           NA
+#> 23             3.0000      5.0000    NA         NA      NA         1102
+#> 24             7.2000      8.3000    NA         NA      NA           NA
+#> 25             3.5000      8.1000    NA         NA      NA           NA
+#> 26             9.7744      2.9307    NA        294 1528527         1110
+#> 27             3.5000      8.7000    NA         NA      NA           NA
+#> 28             6.7724      8.2894 22523         NA      NA           NA
+#> 29             6.7724      8.2894 22525         NA      NA           NA
+#> 30             3.0000      5.0000    NA         NA      NA         1102
+#> 31             7.2000      8.3000    NA         NA      NA           NA
+#> 32             3.5000      8.1000    NA         NA      NA           NA
+#> 33             9.7744      2.9307    NA        294 1528527         1110
+#> 34             3.5000      8.7000    NA         NA      NA           NA
+#> 35             6.7724      8.2894 22523         NA      NA           NA
+#> 36             7.2000      8.3000    NA         NA      NA           NA
+#> 37             6.7724      8.2894 22525         NA      NA           NA
+#> 38             3.0000      5.0000    NA         NA      NA         1102
+#> 39             7.2000      8.3000    NA         NA      NA           NA
+#> 40             3.5000      8.1000    NA         NA      NA           NA
+#> 41             9.7744      2.9307    NA        294 1528527         1110
+#> 42             3.5000      8.7000    NA         NA      NA           NA
+#> 43             6.7724      8.2894 22523         NA      NA           NA
+#> 44             7.2000      8.3000    NA         NA      NA           NA
+#> 45             6.7724      8.2894 22525         NA      NA           NA
+#> 46             3.0000      5.0000    NA         NA      NA         1102
+#> 47             7.2000      8.3000    NA         NA      NA           NA
+#> 48             3.5000      8.1000    NA         NA      NA           NA
+#> 49             9.7744      2.9307    NA        294 1528527         1110
+#> 50             3.5000      8.7000    NA         NA      NA           NA
+#> 51             6.7724      8.2894 22523         NA      NA           NA
+#> 52             7.2000      8.3000    NA         NA      NA           NA
+#> 53             6.7724      8.2894 22525         NA      NA           NA
+#> 54             3.0000      5.0000    NA         NA      NA         1102
+#> 55             7.2000      8.3000    NA         NA      NA           NA
+#> 56             3.5000      8.1000    NA         NA      NA           NA
+#> 57             9.7744      2.9307    NA        294 1528527         1110
+#> 58             3.5000      8.7000    NA         NA      NA           NA
+#> 59             6.7724      8.2894 22523         NA      NA           NA
+#> 60             7.2000      8.3000    NA         NA      NA           NA
+#> 61             6.7724      8.2894 22525         NA      NA           NA
+#> 62             3.0000      5.0000    NA         NA      NA         1102
+#> 63             7.2000      8.3000    NA         NA      NA           NA
+#> 64             3.5000      8.1000    NA         NA      NA           NA
+#> 65             9.7744      2.9307    NA        294 1528527         1110
+#> 66             3.5000      8.7000    NA         NA      NA           NA
+#> 67             6.7724      8.2894 22523         NA      NA           NA
+#> 68             7.2000      8.3000    NA         NA      NA           NA
+#> 69             6.7724      8.2894 22525         NA      NA           NA
+#> 70             3.0000      5.0000    NA         NA      NA         1102
+#> 71             7.2000      8.3000    NA         NA      NA           NA
+#> 72             3.5000      8.1000    NA         NA      NA           NA
+#> 73             9.7744      2.9307    NA        294 1528527         1110
+#> 74             3.5000      8.7000    NA         NA      NA           NA
+#> 75             6.7724      8.2894 22523         NA      NA           NA
+#> 76             7.2000      8.3000    NA         NA      NA           NA
+#> 77             6.7724      8.2894 22525         NA      NA           NA
+#> 78             3.0000      5.0000    NA         NA      NA         1102
+#> 79             6.6882      7.7157 22522         NA      NA         1106
+#> 80             7.2000      8.3000    NA         NA      NA           NA
+#> 81             3.5000      8.1000    NA         NA      NA           NA
+#> 82             9.7744      2.9307    NA        294 1528527         1110
+#> 83             3.5000      8.7000    NA         NA      NA           NA
+#> 84             6.7724      8.2894 22523         NA      NA           NA
+#> 85             6.7724      8.2894 22525         NA      NA           NA
+#> 86             3.0000      5.0000    NA         NA      NA         1102
+#> 87             6.6882      7.7157 22522         NA      NA         1106
+#> 88             3.2028      7.9904 22320        299 1528320         1104
+#> 89             9.7744      2.9307    NA        294 1528527         1110
+#> 90             4.3887      5.9471 22420        305 1528420         1107
+#> 91             6.7724      8.2894 22523         NA      NA           NA
+#> 92             6.7724      8.2894 22525         NA      NA           NA
+#> 93             3.0000      5.0000    NA         NA      NA         1102
+#> 94             7.2000      8.3000    NA         NA      NA           NA
+#> 95             6.6882      7.7157 22522         NA      NA         1106
+#> 96             3.2028      7.9904 22320        299 1528320         1104
+#> 97             9.7744      2.9307    NA        294 1528527         1110
+#> 98             4.3887      5.9471 22420        305 1528420         1107
+#> 99             6.7724      8.2894 22523         NA      NA           NA
+#> 100            6.7724      8.2894 22525         NA      NA           NA
+#> 101            3.0000      5.0000    NA         NA      NA         1102
+#> 102            7.2000      8.3000    NA         NA      NA           NA
+#> 103            6.6882      7.7157 22522         NA      NA         1106
+#> 104            3.2028      7.9904 22320        299 1528320         1104
+#> 105            9.7744      2.9307    NA        294 1528527         1110
+#> 106            4.3887      5.9471 22420        305 1528420         1107
+#> 107            6.7724      8.2894 22523         NA      NA           NA
+#> 108            6.7724      8.2894 22525         NA      NA           NA
+#> 109            3.0000      5.0000    NA         NA      NA         1102
+#> 110            7.2000      8.3000    NA         NA      NA           NA
+#> 111            6.6882      7.7157 22522         NA      NA         1106
+#> 112            3.2028      7.9904 22320        299 1528320         1104
+#> 113            9.7744      2.9307    NA        294 1528527         1110
+#> 114            4.3887      5.9471 22420        305 1528420         1107
+#> 115            6.7724      8.2894 22523         NA      NA           NA
+#> 116            6.7724      8.2894 22525         NA      NA           NA
+#> 117            3.0000      5.0000    NA         NA      NA         1102
+#> 118            6.6882      7.7157 22522         NA      NA         1106
+#> 119            3.2028      7.9904 22320        299 1528320         1104
+#> 120            9.7744      2.9307    NA        294 1528527         1110
+#> 121            4.3887      5.9471 22420        305 1528420         1107
+#> 122            6.7724      8.2894 22523         NA      NA           NA
+#> 123            6.7724      8.2894 22525         NA      NA           NA
+#> 124            3.0000      5.0000    NA         NA      NA         1102
+#> 125            6.6882      7.7157 22522         NA      NA         1106
+#> 126            3.2028      7.9904 22320        299 1528320         1104
+#> 127            9.7744      2.9307    NA        294 1528527         1110
+#> 128            4.3887      5.9471 22420        305 1528420         1107
+#> 129            6.7724      8.2894 22523         NA      NA           NA
+#> 130            6.7724      8.2894 22525         NA      NA           NA
+#> 131            3.0000      5.0000    NA         NA      NA         1102
+#> 132            6.6882      7.7157 22522         NA      NA         1106
+#> 133            3.0000      5.0000    NA         NA      NA           NA
+#> 134            3.2028      7.9904 22320        299 1528320         1104
+#> 135            9.7744      2.9307    NA        294 1528527         1110
+#> 136            4.3887      5.9471 22420        305 1528420         1107
+#> 137            6.7724      8.2894 22523         NA      NA           NA
+#> 138            6.5000      5.4000    NA         NA      NA           NA
+#> 139            6.7724      8.2894 22525         NA      NA           NA
+#> 140            3.0000      5.0000    NA         NA      NA         1102
+#> 141            8.6364      3.4848    NA         NA      NA         1108
+#> 142            6.6882      7.7157 22522         NA      NA         1106
+#> 143            3.0000      5.0000    NA         NA      NA           NA
+#> 144            3.2028      7.9904 22320        299 1528320         1104
+#> 145            9.7744      2.9307    NA        294 1528527         1110
+#> 146            4.3887      5.9471 22420        305 1528420         1107
+#> 147            6.7724      8.2894 22523         NA      NA           NA
+#> 148            6.5000      5.4000    NA         NA      NA           NA
+#> 149            6.7724      8.2894 22525         NA      NA           NA
+#> 150            3.0000      5.0000    NA         NA      NA         1102
+#> 151            8.6364      3.4848    NA         NA      NA         1108
+#> 152            6.6882      7.7157 22522         NA      NA         1106
+#> 153            3.0000      5.0000    NA         NA      NA           NA
+#> 154            3.2028      7.9904 22320        299 1528320         1104
+#> 155            9.7744      2.9307    NA        294 1528527         1110
+#> 156            4.3887      5.9471 22420        305 1528420         1107
+#> 157            6.7724      8.2894 22523         NA      NA           NA
+#> 158            6.5000      5.4000    NA         NA      NA           NA
+#> 159            6.7724      8.2894 22525         NA      NA           NA
+#> 160            3.0000      5.0000    NA         NA      NA         1102
+#> 161            8.6364      3.4848    NA         NA      NA         1108
+#> 162            6.6882      7.7157 22522         NA      NA         1106
+#> 163            3.0000      5.0000    NA         NA      NA           NA
+#> 164            3.2028      7.9904 22320        299 1528320         1104
+#> 165            9.7744      2.9307    NA        294 1528527         1110
+#> 166            4.3887      5.9471 22420        305 1528420         1107
+#> 167            6.7724      8.2894 22523         NA      NA           NA
+#> 168            6.5000      5.4000    NA         NA      NA           NA
+#> 169            6.7724      8.2894 22525         NA      NA           NA
+#> 170            3.0000      5.0000    NA         NA      NA         1102
+#> 171            1.7625      8.6233 22330        295 1528330         1105
+#> 172            8.6364      3.4848    NA         NA      NA         1108
+#> 173            6.6882      7.7157 22522         NA      NA         1106
+#> 174            3.0000      5.0000    NA         NA      NA           NA
+#> 175            3.2028      7.9904 22320        299 1528320         1104
+#> 176            9.7744      2.9307    NA        294 1528527         1110
+#> 177            4.3887      5.9471 22420        305 1528420         1107
+#> 178            6.7724      8.2894 22523         NA      NA           NA
+#> 179            6.5000      5.4000    NA         NA      NA           NA
+#> 180            6.7724      8.2894 22525         NA      NA           NA
+#> 181            3.0000      5.0000    NA         NA      NA         1102
+#> 182            1.7625      8.6233 22330        295 1528330         1105
+#> 183            3.5288      8.4641 22524         NA      NA           NA
+#> 184            8.6364      3.4848    NA         NA      NA         1108
+#> 185            6.6882      7.7157 22522         NA      NA         1106
+#> 186            6.9000      7.8000    NA         NA      NA           NA
+#> 187            1.8000      5.0000 22310         NA      NA         1103
+#> 188            3.0000      5.0000    NA         NA      NA           NA
+#> 189            3.2028      7.9904 22320        299 1528320         1104
+#> 190            9.7744      2.9307    NA        294 1528527         1110
+#> 191            4.3887      5.9471 22420        305 1528420         1107
+#> 192            6.7724      8.2894 22523         NA      NA           NA
+#> 193            6.5000      5.4000    NA         NA      NA           NA
+#> 194            6.7724      8.2894 22525         NA      NA           NA
+#> 195            3.0000      5.0000    NA         NA      NA         1102
+#> 196            1.7625      8.6233 22330        295 1528330         1105
+#> 197            3.5288      8.4641 22524         NA      NA           NA
+#> 198            8.6364      3.4848    NA         NA      NA         1108
+#> 199            6.6882      7.7157 22522         NA      NA         1106
+#> 200            6.9000      7.8000    NA         NA      NA           NA
+#> 201            1.8000      5.0000 22310         NA      NA         1103
+#> 202            3.0000      5.0000    NA         NA      NA           NA
+#> 203            3.2028      7.9904 22320        299 1528320         1104
+#> 204            9.7744      2.9307    NA        294 1528527         1110
+#> 205            4.3887      5.9471 22420        305 1528420         1107
+#> 206            6.7724      8.2894 22523         NA      NA           NA
+#> 207            6.5000      5.4000    NA         NA      NA           NA
+#> 208            6.7724      8.2894 22525         NA      NA           NA
+#> 209            3.0000      5.0000    NA         NA      NA         1102
+#> 210            1.7625      8.6233 22330        295 1528330         1105
+#> 211            3.5288      8.4641 22524         NA      NA           NA
+#> 212            8.6364      3.4848    NA         NA      NA         1108
+#> 213            6.6882      7.7157 22522         NA      NA         1106
+#> 214            1.8000      5.0000 22310         NA      NA         1103
+#> 215            3.0000      5.0000    NA         NA      NA           NA
+#> 216            3.2028      7.9904 22320        299 1528320         1104
+#> 217            9.7744      2.9307    NA        294 1528527         1110
+#> 218            4.3887      5.9471 22420        305 1528420         1107
+#> 219            6.5000      5.4000    NA         NA      NA           NA
+#> 220            6.6882      7.7157 22521        293 1528521         1106
+#> 221            3.0000      5.0000    NA         NA      NA         1102
+#> 222            1.7625      8.6233 22330        295 1528330         1105
+#> 223            3.5288      8.4641 22524         NA      NA           NA
+#> 224            8.6364      3.4848    NA         NA      NA         1108
+#> 225            1.8000      5.0000 22310         NA      NA         1103
+#> 226            3.0000      5.0000    NA         NA      NA           NA
+#> 227            3.2028      7.9904 22320        299 1528320         1104
+#> 228            9.7744      2.9307    NA        294 1528527         1110
+#> 229            4.3887      5.9471 22420        305 1528420         1107
+#> 230            6.5000      5.4000    NA         NA      NA           NA
+#> 231            6.6882      7.7157 22521        293 1528521         1106
+#> 232            3.0000      5.0000    NA         NA      NA         1102
+#> 233            1.7625      8.6233 22330        295 1528330         1105
+#> 234            3.5288      8.4641 22524         NA      NA           NA
+#> 235            8.6364      3.4848    NA         NA      NA         1108
+#> 236            1.8000      5.0000 22310         NA      NA         1103
+#> 237            3.0000      5.0000    NA         NA      NA           NA
+#> 238            3.2028      7.9904 22320        299 1528320         1104
+#> 239            9.7744      2.9307    NA        294 1528527         1110
+#> 240            4.3887      5.9471 22420        305 1528420         1107
+#> 241            6.6882      7.7157 22521        293 1528521         1106
+#> 242            3.0000      5.0000    NA         NA      NA         1102
+#> 243            1.7625      8.6233 22330        295 1528330         1105
+#> 244            8.6364      3.4848    NA         NA      NA         1108
+#> 245            1.8000      5.0000 22310         NA      NA         1103
+#> 246            3.0000      5.0000    NA         NA      NA           NA
+#> 247            3.2028      7.9904 22320        299 1528320         1104
+#> 248            8.5455      3.5447    NA         NA      NA         1109
+#> 249            9.7744      2.9307    NA        294 1528527         1110
+#> 250            4.3887      5.9471 22420        305 1528420         1107
+#> 251            6.6882      7.7157 22521        293 1528521         1106
+#> 252            3.0000      5.0000    NA         NA      NA         1102
+#> 253            1.7625      8.6233 22330        295 1528330         1105
+#> 254            8.6364      3.4848    NA         NA      NA         1108
+#> 255            1.8000      5.0000 22310         NA      NA         1103
+#> 256            3.0000      5.0000    NA         NA      NA           NA
+#> 257            3.2028      7.9904 22320        299 1528320         1104
+#> 258            8.5455      3.5447    NA         NA      NA         1109
+#> 259            9.7744      2.9307    NA        294 1528527         1110
+#> 260            4.3887      5.9471 22420        305 1528420         1107
+#> 261            6.6882      7.7157 22521        293 1528521         1106
+#> 262            8.6000      2.4000    NA         NA      NA           NA
+#> 263            3.0000      5.0000    NA         NA      NA         1102
+#> 264            1.7625      8.6233 22330        295 1528330         1105
+#> 265            8.6364      3.4848    NA         NA      NA         1108
+#> 266            1.8000      5.0000 22310         NA      NA         1103
+#> 267            3.0000      5.0000    NA         NA      NA           NA
+#> 268            3.2028      7.9904 22320        299 1528320         1104
+#> 269            8.5455      3.5447    NA         NA      NA         1109
+#> 270            9.7744      2.9307    NA        294 1528527         1110
+#> 271            4.3887      5.9471 22420        305 1528420         1107
+#> 272            6.6882      7.7157 22521        293 1528521         1106
+#> 273            1.7625      8.6233 22330        295 1528330         1105
+#> 274            8.6364      3.4848    NA         NA      NA         1108
+#> 275            1.8000      5.0000 22310         NA      NA         1103
+#> 276            3.0000      5.0000    NA         NA      NA           NA
+#> 277            3.2028      7.9904 22320        299 1528320         1104
+#> 278            8.5455      3.5447    NA         NA      NA         1109
+#> 279            9.7744      2.9307    NA        294 1528527         1110
+#> 280            4.3887      5.9471 22420        305 1528420         1107
+#> 281            9.2500      1.3120    NA         NA      NA           NA
+#> 282            6.6882      7.7157 22521        293 1528521         1106
+#> 283            1.7625      8.6233 22330        295 1528330         1105
+#> 284            1.6440      6.1973 22110        297 1528110           NA
+#> 285            8.6364      3.4848    NA         NA      NA         1108
+#> 286            3.2028      7.9904 22320        299 1528320         1104
+#> 287            8.5455      3.5447    NA         NA      NA         1109
+#> 288            9.7744      2.9307    NA        294 1528527         1110
+#> 289            4.3887      5.9471 22420        305 1528420         1107
+#> 290                NA          NA    NA         NA      NA           NA
+#> 291            9.2500      1.3120    NA         NA      NA           NA
+#> 292            6.6882      7.7157 22521        293 1528521         1106
+#> 293            1.7625      8.6233 22330        295 1528330         1105
+#> 294            1.6440      6.1973 22110        297 1528110           NA
+#> 295            8.6364      3.4848    NA         NA      NA         1108
+#> 296            3.2028      7.9904 22320        299 1528320         1104
+#> 297            8.5455      3.5447    NA         NA      NA         1109
+#> 298            9.7744      2.9307    NA        294 1528527         1110
+#> 299            4.2099      2.5049 22220        304 1528220         1101
+#> 300            4.3887      5.9471 22420        305 1528420         1107
+#> 301            6.6882      7.7157 22521        293 1528521         1106
+#> 302            1.7625      8.6233 22330        295 1528330         1105
+#> 303            1.6440      6.1973 22110        297 1528110           NA
+#> 304            8.6364      3.4848    NA         NA      NA         1108
+#> 305            3.2028      7.9904 22320        299 1528320         1104
+#> 306            8.5455      3.5447    NA         NA      NA         1109
+#> 307            9.7744      2.9307    NA        294 1528527         1110
+#> 308            4.2099      2.5049 22220        304 1528220         1101
+#> 309            4.3887      5.9471 22420        305 1528420         1107
+#> 310            6.6882      7.7157 22521        293 1528521         1106
+#> 311            8.6005      4.4157 22526        294 1528526           NA
+#> 312            1.7625      8.6233 22330        295 1528330         1105
+#> 313            1.6440      6.1973 22110        297 1528110           NA
+#> 314            8.6000      2.4000 22430         NA      NA           NA
+#> 315            4.7759      2.5798 22720         NA      NA           NA
+#> 316            3.2028      7.9904 22320        299 1528320         1104
+#> 317            9.7744      2.9307    NA        294 1528527         1110
+#> 318            4.2099      2.5049 22220        304 1528220         1101
+#> 319            4.3887      5.9471 22420        305 1528420         1107
+#> 320            6.6882      7.7157 22521        293 1528521         1106
+#> 321            8.6005      4.4157 22526        294 1528526           NA
+#> 322            1.7625      8.6233 22330        295 1528330         1105
+#> 323            1.6440      6.1973 22110        297 1528110           NA
+#> 324            8.6000      2.4000 22430         NA      NA           NA
+#> 325            4.7759      2.5798 22720         NA      NA           NA
+#> 326            3.2028      7.9904 22320        299 1528320         1104
+#> 327            9.7744      2.9307    NA        294 1528527         1110
+#> 328            4.2099      2.5049 22220        304 1528220         1101
+#> 329            4.3887      5.9471 22420        305 1528420         1107
+#> 330            6.6882      7.7157 22521        293 1528521         1106
+#> 331            8.6005      4.4157 22526        294 1528526           NA
+#> 332            1.7625      8.6233 22330        295 1528330         1105
+#> 333            1.6440      6.1973 22110        297 1528110           NA
+#> 334            4.7759      2.5798 22720         NA      NA           NA
+#> 335            3.2028      7.9904 22320        299 1528320         1104
+#> 336            9.7744      2.9307    NA        294 1528527         1110
+#> 337            4.2099      2.5049 22220        304 1528220         1101
+#> 338            4.3887      5.9471 22420        305 1528420         1107
+#> 339            6.6882      7.7157 22521        293 1528521         1106
+#> 340            8.6005      4.4157 22526        294 1528526           NA
+#> 341            1.7625      8.6233 22330        295 1528330         1105
+#> 342            1.6440      6.1973 22110        297 1528110           NA
+#> 343            4.7759      2.5798 22720         NA      NA           NA
+#> 344            6.5700      0.9167    NA        301 1528600           NA
+#> 345            3.2028      7.9904 22320        299 1528320         1104
+#> 346            9.7744      2.9307    NA        294 1528527         1110
+#> 347            4.2099      2.5049 22220        304 1528220         1101
+#> 348            4.3887      5.9471 22420        305 1528420         1107
+#> 349            6.6882      7.7157 22521        293 1528521         1106
+#> 350            8.6005      4.4157 22526        294 1528526           NA
+#> 351            1.7625      8.6233 22330        295 1528330         1105
+#> 352            1.6440      6.1973 22110        297 1528110           NA
+#> 353            6.5700      0.9167    NA        301 1528600           NA
+#> 354            3.2028      7.9904 22320        299 1528320         1104
+#> 355                NA          NA    NA        300 1528006           NA
+#> 356            9.7744      2.9307    NA        294 1528527         1110
+#> 357            4.2099      2.5049 22220        304 1528220         1101
+#> 358            4.3887      5.9471 22420        305 1528420         1107
+#> 359            6.6882      7.7157 22521        293 1528521         1106
+#> 360            8.6005      4.4157 22526        294 1528526           NA
+#> 361            1.7625      8.6233 22330        295 1528330         1105
+#> 362            1.6440      6.1973 22110        297 1528110           NA
+#> 363            6.5700      0.9167    NA        301 1528600           NA
+#> 364            3.2028      7.9904 22320        299 1528320         1104
+#> 365                NA          NA    NA        300 1528006           NA
+#> 366            9.7744      2.9307    NA        294 1528527         1110
+#> 367            4.2099      2.5049 22220        304 1528220         1101
+#> 368            4.3887      5.9471 22420        305 1528420         1107
+#> 369            6.6882      7.7157 22521        293 1528521         1106
+#> 370            8.6005      4.4157 22526        294 1528526           NA
+#> 371            1.7625      8.6233 22330        295 1528330         1105
+#> 372            1.6440      6.1973 22110        297 1528110           NA
+#> 373            6.5700      0.9167    NA        301 1528600           NA
+#> 374            3.2028      7.9904 22320        299 1528320         1104
+#> 375                NA          NA    NA        300 1528006           NA
+#> 376            9.7744      2.9307    NA        294 1528527         1110
+#> 377            4.2099      2.5049 22220        304 1528220         1101
+#> 378            4.3887      5.9471 22420        305 1528420         1107
+#> 379            6.6882      7.7157 22521        293 1528521         1106
+#> 380            8.6005      4.4157 22526        294 1528526           NA
+#> 381            1.7625      8.6233 22330        295 1528330         1105
+#> 382            1.6440      6.1973 22110        297 1528110           NA
+#> 383            6.5700      0.9167    NA        301 1528600           NA
+#> 384            3.2028      7.9904 22320        299 1528320         1104
+#> 385                NA          NA    NA        300 1528006           NA
+#> 386            9.7744      2.9307    NA        294 1528527         1110
+#> 387            4.2099      2.5049 22220        304 1528220         1101
+#> 388            4.3887      5.9471 22420        305 1528420         1107
+#> 389            3.5000      8.7000    NA         NA      NA           NA
+#> 390            6.6882      7.7157 22521        293 1528521         1106
+#> 391            8.6005      4.4157 22526        294 1528526           NA
+#> 392            1.7625      8.6233 22330        295 1528330         1105
+#> 393            1.6440      6.1973 22110        297 1528110           NA
+#> 394            6.5700      0.9167    NA        301 1528600           NA
+#> 395            3.2028      7.9904 22320        299 1528320         1104
+#> 396                NA          NA    NA        300 1528006           NA
+#> 397            9.7744      2.9307    NA        294 1528527         1110
+#> 398            4.2099      2.5049 22220        304 1528220         1101
+#> 399            4.3887      5.9471 22420        305 1528420         1107
+#> 400            3.5000      8.7000    NA         NA      NA           NA
+#> 401            6.6882      7.7157 22521        293 1528521         1106
+#> 402            8.6005      4.4157 22526        294 1528526           NA
+#> 403            1.7625      8.6233 22330        295 1528330         1105
+#> 404            1.6440      6.1973 22110        297 1528110           NA
+#> 405            6.5700      0.9167    NA        301 1528600           NA
+#> 406            3.2028      7.9904 22320        299 1528320         1104
+#> 407                NA          NA    NA        300 1528006           NA
+#> 408            9.7744      2.9307    NA        294 1528527         1110
+#> 409            4.2099      2.5049 22220        304 1528220         1101
+#> 410            4.3887      5.9471 22420        305 1528420         1107
+#> 411            3.5000      8.7000    NA         NA      NA           NA
+#> 412            6.6882      7.7157 22521        293 1528521         1106
+#> 413            8.6005      4.4157 22526        294 1528526           NA
+#> 414            1.7625      8.6233 22330        295 1528330         1105
+#> 415            1.6440      6.1973 22110        297 1528110           NA
+#> 416            6.5700      0.9167    NA        301 1528600           NA
+#> 417            3.2028      7.9904 22320        299 1528320         1104
+#> 418                NA          NA    NA        300 1528006           NA
+#> 419            9.7744      2.9307    NA        294 1528527         1110
+#> 420            4.2099      2.5049 22220        304 1528220         1101
+#> 421            4.3887      5.9471 22420        305 1528420         1107
+#>     huber_inglehart  ray benoit_laver chess cabinet_party prime_minister
+#> 1                NA 1001           NA  1001             1              0
+#> 2                NA 1001           NA  1001             1              0
+#> 3                NA 1012           NA    NA             0              0
+#> 4                NA   NA           NA    NA             1              1
+#> 5                NA   NA           NA    NA             0              0
+#> 6                NA   NA           NA    NA             0              0
+#> 7                NA 1001           NA  1001             1              0
+#> 8                NA 1001           NA  1001             1              0
+#> 9                NA 1012           NA    NA             0              0
+#> 10               NA   NA           NA    NA             1              1
+#> 11               NA   NA           NA    NA             0              0
+#> 12             2607 1006         7160  1019             0              0
+#> 13               NA   NA           NA    NA             0              0
+#> 14               NA 1001           NA  1001             1              1
+#> 15               NA 1001           NA  1001             1              0
+#> 16               NA 1012           NA    NA             0              0
+#> 17               NA   NA           NA    NA             1              0
+#> 18               NA   NA           NA    NA             0              0
+#> 19             2607 1006         7160  1019             0              0
+#> 20               NA   NA           NA    NA             0              0
+#> 21               NA 1001           NA  1001             1              0
+#> 22               NA 1001           NA  1001             1              1
+#> 23               NA 1012           NA    NA             0              0
+#> 24               NA   NA           NA    NA             1              0
+#> 25               NA   NA           NA    NA             0              0
+#> 26             2607 1006         7160  1019             0              0
+#> 27               NA   NA           NA    NA             0              0
+#> 28               NA 1001           NA  1001             1              0
+#> 29               NA 1001           NA  1001             1              0
+#> 30               NA 1012           NA    NA             0              0
+#> 31               NA   NA           NA    NA             1              1
+#> 32               NA   NA           NA    NA             0              0
+#> 33             2607 1006         7160  1019             0              0
+#> 34               NA   NA           NA    NA             0              0
+#> 35               NA 1001           NA  1001             1              1
+#> 36               NA   NA           NA    NA             0              0
+#> 37               NA 1001           NA  1001             1              0
+#> 38               NA 1012           NA    NA             0              0
+#> 39               NA   NA           NA    NA             1              0
+#> 40               NA   NA           NA    NA             0              0
+#> 41             2607 1006         7160  1019             0              0
+#> 42               NA   NA           NA    NA             1              0
+#> 43               NA 1001           NA  1001             1              1
+#> 44               NA   NA           NA    NA             0              0
+#> 45               NA 1001           NA  1001             1              0
+#> 46               NA 1012           NA    NA             0              0
+#> 47               NA   NA           NA    NA             1              0
+#> 48               NA   NA           NA    NA             0              0
+#> 49             2607 1006         7160  1019             0              0
+#> 50               NA   NA           NA    NA             1              0
+#> 51               NA 1001           NA  1001             1              1
+#> 52               NA   NA           NA    NA             0              0
+#> 53               NA 1001           NA  1001             1              0
+#> 54               NA 1012           NA    NA             0              0
+#> 55               NA   NA           NA    NA             1              0
+#> 56               NA   NA           NA    NA             0              0
+#> 57             2607 1006         7160  1019             0              0
+#> 58               NA   NA           NA    NA             0              0
+#> 59               NA 1001           NA  1001             1              1
+#> 60               NA   NA           NA    NA             0              0
+#> 61               NA 1001           NA  1001             1              0
+#> 62               NA 1012           NA    NA             0              0
+#> 63               NA   NA           NA    NA             0              0
+#> 64               NA   NA           NA    NA             0              0
+#> 65             2607 1006         7160  1019             0              0
+#> 66               NA   NA           NA    NA             0              0
+#> 67               NA 1001           NA  1001             1              0
+#> 68               NA   NA           NA    NA             0              0
+#> 69               NA 1001           NA  1001             1              1
+#> 70               NA 1012           NA    NA             0              0
+#> 71               NA   NA           NA    NA             1              0
+#> 72               NA   NA           NA    NA             1              0
+#> 73             2607 1006         7160  1019             0              0
+#> 74               NA   NA           NA    NA             0              0
+#> 75               NA 1001           NA  1001             1              0
+#> 76               NA   NA           NA    NA             0              0
+#> 77               NA 1001           NA  1001             1              0
+#> 78               NA 1012           NA    NA             0              0
+#> 79               NA 1001         7040  1001             1              0
+#> 80               NA   NA           NA    NA             0              0
+#> 81               NA   NA           NA    NA             1              0
+#> 82             2607 1006         7160  1019             0              0
+#> 83               NA   NA           NA    NA             1              1
+#> 84               NA 1001           NA  1001             0              0
+#> 85               NA 1001           NA  1001             0              0
+#> 86               NA 1012           NA    NA             0              0
+#> 87               NA 1001         7040  1001             1              1
+#> 88             2602 1002         7140  1002             1              0
+#> 89             2607 1006         7160  1019             0              0
+#> 90             2605 1003         7200  1003             1              0
+#> 91               NA 1001           NA  1001             0              0
+#> 92               NA 1001           NA  1001             1              0
+#> 93               NA 1012           NA    NA             0              0
+#> 94               NA   NA           NA    NA             0              0
+#> 95               NA 1001         7040  1001             1              0
+#> 96             2602 1002         7140  1002             1              1
+#> 97             2607 1006         7160  1019             0              0
+#> 98             2605 1003         7200  1003             1              0
+#> 99               NA 1001           NA  1001             0              0
+#> 100              NA 1001           NA  1001             1              0
+#> 101              NA 1012           NA    NA             0              0
+#> 102              NA   NA           NA    NA             0              0
+#> 103              NA 1001         7040  1001             1              0
+#> 104            2602 1002         7140  1002             1              1
+#> 105            2607 1006         7160  1019             0              0
+#> 106            2605 1003         7200  1003             1              0
+#> 107              NA 1001           NA  1001             1              0
+#> 108              NA 1001           NA  1001             1              0
+#> 109              NA 1012           NA    NA             0              0
+#> 110              NA   NA           NA    NA             0              0
+#> 111              NA 1001         7040  1001             1              0
+#> 112            2602 1002         7140  1002             1              1
+#> 113            2607 1006         7160  1019             0              0
+#> 114            2605 1003         7200  1003             0              0
+#> 115              NA 1001           NA  1001             1              0
+#> 116              NA 1001           NA  1001             1              0
+#> 117              NA 1012           NA    NA             0              0
+#> 118              NA 1001         7040  1001             1              0
+#> 119            2602 1002         7140  1002             1              1
+#> 120            2607 1006         7160  1019             0              0
+#> 121            2605 1003         7200  1003             0              0
+#> 122              NA 1001           NA  1001             1              0
+#> 123              NA 1001           NA  1001             1              0
+#> 124              NA 1012           NA    NA             0              0
+#> 125              NA 1001         7040  1001             1              1
+#> 126            2602 1002         7140  1002             0              0
+#> 127            2607 1006         7160  1019             0              0
+#> 128            2605 1003         7200  1003             0              0
+#> 129              NA 1001           NA  1001             1              0
+#> 130              NA 1001           NA  1001             1              0
+#> 131              NA 1012           NA    NA             0              0
+#> 132              NA 1001         7040  1001             1              1
+#> 133              NA 1011           NA    NA             0              0
+#> 134            2602 1002         7140  1002             0              0
+#> 135            2607 1006         7160  1019             0              0
+#> 136            2605 1003         7200  1003             1              0
+#> 137              NA 1001           NA  1001             1              0
+#> 138              NA   NA           NA    NA             0              0
+#> 139              NA 1001           NA  1001             1              0
+#> 140              NA 1012           NA    NA             0              0
+#> 141            2606 1007           NA  1007             0              0
+#> 142              NA 1001         7040  1001             1              1
+#> 143              NA 1011           NA    NA             0              0
+#> 144            2602 1002         7140  1002             0              0
+#> 145            2607 1006         7160  1019             0              0
+#> 146            2605 1003         7200  1003             1              0
+#> 147              NA 1001           NA  1001             1              0
+#> 148              NA   NA           NA    NA             0              0
+#> 149              NA 1001           NA  1001             0              0
+#> 150              NA 1012           NA    NA             0              0
+#> 151            2606 1007           NA  1007             0              0
+#> 152              NA 1001         7040  1001             1              1
+#> 153              NA 1011           NA    NA             0              0
+#> 154            2602 1002         7140  1002             1              0
+#> 155            2607 1006         7160  1019             0              0
+#> 156            2605 1003         7200  1003             0              0
+#> 157              NA 1001           NA  1001             1              1
+#> 158              NA   NA           NA    NA             0              0
+#> 159              NA 1001           NA  1001             0              0
+#> 160              NA 1012           NA    NA             0              0
+#> 161            2606 1007           NA  1007             0              0
+#> 162              NA 1001         7040  1001             1              0
+#> 163              NA 1011           NA    NA             0              0
+#> 164            2602 1002         7140  1002             0              0
+#> 165            2607 1006         7160  1019             0              0
+#> 166            2605 1003         7200  1003             0              0
+#> 167              NA 1001           NA  1001             1              0
+#> 168              NA   NA           NA    NA             0              0
+#> 169              NA 1001           NA  1001             1              0
+#> 170              NA 1012           NA    NA             0              0
+#> 171            2603 1004         7080  1004             0              0
+#> 172            2606 1007           NA  1007             0              0
+#> 173              NA 1001         7040  1001             1              1
+#> 174              NA 1011           NA    NA             0              0
+#> 175            2602 1002         7140  1002             0              0
+#> 176            2607 1006         7160  1019             0              0
+#> 177            2605 1003         7200  1003             1              0
+#> 178              NA 1001           NA  1001             1              1
+#> 179              NA   NA           NA    NA             0              0
+#> 180              NA 1001           NA  1001             1              0
+#> 181              NA 1012           NA    NA             0              0
+#> 182            2603 1004         7080  1004             0              0
+#> 183              NA   NA           NA  1002             1              0
+#> 184            2606 1007           NA  1007             0              0
+#> 185              NA 1001         7040  1001             1              0
+#> 186              NA   NA           NA    NA             0              0
+#> 187              NA 1010           NA    NA             0              0
+#> 188              NA 1011           NA    NA             0              0
+#> 189            2602 1002         7140  1002             0              0
+#> 190            2607 1006         7160  1019             0              0
+#> 191            2605 1003         7200  1003             1              0
+#> 192              NA 1001           NA  1001             1              1
+#> 193              NA   NA           NA    NA             0              0
+#> 194              NA 1001           NA  1001             1              0
+#> 195              NA 1012           NA    NA             0              0
+#> 196            2603 1004         7080  1004             0              0
+#> 197              NA   NA           NA  1002             0              0
+#> 198            2606 1007           NA  1007             0              0
+#> 199              NA 1001         7040  1001             1              0
+#> 200              NA   NA           NA    NA             0              0
+#> 201              NA 1010           NA    NA             0              0
+#> 202              NA 1011           NA    NA             0              0
+#> 203            2602 1002         7140  1002             0              0
+#> 204            2607 1006         7160  1019             0              0
+#> 205            2605 1003         7200  1003             1              0
+#> 206              NA 1001           NA  1001             1              0
+#> 207              NA   NA           NA    NA             0              0
+#> 208              NA 1001           NA  1001             0              0
+#> 209              NA 1012           NA    NA             0              0
+#> 210            2603 1004         7080  1004             1              0
+#> 211              NA   NA           NA  1002             0              0
+#> 212            2606 1007           NA  1007             0              0
+#> 213              NA 1001         7040  1001             1              0
+#> 214              NA 1010           NA    NA             1              0
+#> 215              NA 1011           NA    NA             0              0
+#> 216            2602 1002         7140  1002             1              1
+#> 217            2607 1006         7160  1019             0              0
+#> 218            2605 1003         7200  1003             0              0
+#> 219              NA   NA           NA    NA             0              0
+#> 220            2604 1001         7040  1001             1              0
+#> 221              NA 1012           NA    NA             0              0
+#> 222            2603 1004         7080  1004             1              0
+#> 223              NA   NA           NA  1002             0              0
+#> 224            2606 1007           NA  1007             0              0
+#> 225              NA 1010           NA    NA             1              0
+#> 226              NA 1011           NA    NA             0              0
+#> 227            2602 1002         7140  1002             1              1
+#> 228            2607 1006         7160  1019             0              0
+#> 229            2605 1003         7200  1003             0              0
+#> 230              NA   NA           NA    NA             0              0
+#> 231            2604 1001         7040  1001             1              1
+#> 232              NA 1012           NA    NA             0              0
+#> 233            2603 1004         7080  1004             0              0
+#> 234              NA   NA           NA  1002             0              0
+#> 235            2606 1007           NA  1007             0              0
+#> 236              NA 1010           NA    NA             0              0
+#> 237              NA 1011           NA    NA             0              0
+#> 238            2602 1002         7140  1002             0              0
+#> 239            2607 1006         7160  1019             0              0
+#> 240            2605 1003         7200  1003             1              0
+#> 241            2604 1001         7040  1001             1              1
+#> 242              NA 1012           NA    NA             0              0
+#> 243            2603 1004         7080  1004             1              0
+#> 244            2606 1007           NA  1007             0              0
+#> 245              NA 1010           NA    NA             0              0
+#> 246              NA 1011           NA    NA             0              0
+#> 247            2602 1002         7140  1002             1              0
+#> 248            2608 1008           NA  1008             0              0
+#> 249            2607 1006         7160  1019             0              0
+#> 250            2605 1003         7200  1003             0              0
+#> 251            2604 1001         7040  1001             1              1
+#> 252              NA 1012           NA    NA             0              0
+#> 253            2603 1004         7080  1004             1              0
+#> 254            2606 1007           NA  1007             0              0
+#> 255              NA 1010           NA    NA             0              0
+#> 256              NA 1011           NA    NA             0              0
+#> 257            2602 1002         7140  1002             0              0
+#> 258            2608 1008           NA  1008             0              0
+#> 259            2607 1006         7160  1019             0              0
+#> 260            2605 1003         7200  1003             0              0
+#> 261            2604 1001         7040  1001             1              1
+#> 262              NA   NA           NA    NA             0              0
+#> 263              NA 1012           NA    NA             0              0
+#> 264            2603 1004         7080  1004             0              0
+#> 265            2606 1007           NA  1007             0              0
+#> 266              NA 1010           NA    NA             0              0
+#> 267              NA 1011           NA    NA             0              0
+#> 268            2602 1002         7140  1002             0              0
+#> 269            2608 1008           NA  1008             0              0
+#> 270            2607 1006         7160  1019             0              0
+#> 271            2605 1003         7200  1003             1              0
+#> 272            2604 1001         7040  1001             1              1
+#> 273            2603 1004         7080  1004             0              0
+#> 274            2606 1007           NA  1007             0              0
+#> 275              NA 1010           NA    NA             0              0
+#> 276              NA 1011           NA    NA             0              0
+#> 277            2602 1002         7140  1002             0              0
+#> 278            2608 1008           NA  1008             0              0
+#> 279            2607 1006         7160  1019             0              0
+#> 280            2605 1003         7200  1003             1              0
+#> 281            2609 1009           NA  1009             0              0
+#> 282            2604 1001         7040  1001             1              1
+#> 283            2603 1004         7080  1004             0              0
+#> 284            2601 1005         7100  1005             0              0
+#> 285            2606 1007           NA  1007             0              0
+#> 286            2602 1002         7140  1002             1              0
+#> 287            2608 1008           NA  1008             0              0
+#> 288            2607 1006         7160  1019             0              0
+#> 289            2605 1003         7200  1003             0              0
+#> 290              NA   NA           NA    NA             0              0
+#> 291            2609 1009           NA  1009             0              0
+#> 292            2604 1001         7040  1001             0              0
+#> 293            2603 1004         7080  1004             1              0
+#> 294            2601 1005         7100  1005             0              0
+#> 295            2606 1007           NA  1007             0              0
+#> 296            2602 1002         7140  1002             1              1
+#> 297            2608 1008           NA  1008             0              0
+#> 298            2607 1006         7160  1019             0              0
+#> 299              NA   NA         7180  1014             0              0
+#> 300            2605 1003         7200  1003             1              0
+#> 301            2604 1001         7040  1001             0              0
+#> 302            2603 1004         7080  1004             1              0
+#> 303            2601 1005         7100  1005             0              0
+#> 304            2606 1007           NA  1007             0              0
+#> 305            2602 1002         7140  1002             1              1
+#> 306            2608 1008           NA  1008             0              0
+#> 307            2607 1006         7160  1019             0              0
+#> 308              NA   NA         7180  1014             0              0
+#> 309            2605 1003         7200  1003             1              0
+#> 310            2604 1001         7040  1001             1              1
+#> 311              NA   NA         7060  1016             0              0
+#> 312            2603 1004         7080  1004             0              0
+#> 313            2601 1005         7100  1005             0              0
+#> 314              NA   NA           NA    NA             0              0
+#> 315              NA   NA         7120  1015             1              0
+#> 316            2602 1002         7140  1002             0              0
+#> 317            2607 1006         7160  1019             0              0
+#> 318              NA   NA         7180  1014             0              0
+#> 319            2605 1003         7200  1003             1              0
+#> 320            2604 1001         7040  1001             1              1
+#> 321              NA   NA         7060  1016             0              0
+#> 322            2603 1004         7080  1004             0              0
+#> 323            2601 1005         7100  1005             0              0
+#> 324              NA   NA           NA    NA             0              0
+#> 325              NA   NA         7120  1015             1              0
+#> 326            2602 1002         7140  1002             0              0
+#> 327            2607 1006         7160  1019             0              0
+#> 328              NA   NA         7180  1014             0              0
+#> 329            2605 1003         7200  1003             1              0
+#> 330            2604 1001         7040  1001             1              1
+#> 331              NA   NA         7060  1016             0              0
+#> 332            2603 1004         7080  1004             1              0
+#> 333            2601 1005         7100  1005             0              0
+#> 334              NA   NA         7120  1015             0              0
+#> 335            2602 1002         7140  1002             0              0
+#> 336            2607 1006         7160  1019             0              0
+#> 337              NA   NA         7180  1014             0              0
+#> 338            2605 1003         7200  1003             1              0
+#> 339            2604 1001         7040  1001             1              1
+#> 340              NA   NA         7060  1016             0              0
+#> 341            2603 1004         7080  1004             0              0
+#> 342            2601 1005         7100  1005             0              0
+#> 343              NA   NA         7120  1015             0              0
+#> 344              NA   NA           NA  1017             0              0
+#> 345            2602 1002         7140  1002             0              0
+#> 346            2607 1006         7160  1019             0              0
+#> 347              NA   NA         7180  1014             0              0
+#> 348            2605 1003         7200  1003             1              0
+#> 349            2604 1001         7040  1001             1              1
+#> 350              NA   NA         7060  1016             1              0
+#> 351            2603 1004         7080  1004             0              0
+#> 352            2601 1005         7100  1005             0              0
+#> 353              NA   NA           NA  1017             0              0
+#> 354            2602 1002         7140  1002             1              0
+#> 355              NA   NA           NA  1018             0              0
+#> 356            2607 1006         7160  1019             0              0
+#> 357              NA   NA         7180  1014             0              0
+#> 358            2605 1003         7200  1003             0              0
+#> 359            2604 1001         7040  1001             1              1
+#> 360              NA   NA         7060  1016             1              0
+#> 361            2603 1004         7080  1004             0              0
+#> 362            2601 1005         7100  1005             0              0
+#> 363              NA   NA           NA  1017             0              0
+#> 364            2602 1002         7140  1002             0              0
+#> 365              NA   NA           NA  1018             0              0
+#> 366            2607 1006         7160  1019             0              0
+#> 367              NA   NA         7180  1014             0              0
+#> 368            2605 1003         7200  1003             0              0
+#> 369            2604 1001         7040  1001             1              0
+#> 370              NA   NA         7060  1016             0              0
+#> 371            2603 1004         7080  1004             0              0
+#> 372            2601 1005         7100  1005             0              0
+#> 373              NA   NA           NA  1017             0              0
+#> 374            2602 1002         7140  1002             0              0
+#> 375              NA   NA           NA  1018             0              0
+#> 376            2607 1006         7160  1019             0              0
+#> 377              NA   NA         7180  1014             0              0
+#> 378            2605 1003         7200  1003             1              1
+#> 379            2604 1001         7040  1001             1              0
+#> 380              NA   NA         7060  1016             0              0
+#> 381            2603 1004         7080  1004             0              0
+#> 382            2601 1005         7100  1005             0              0
+#> 383              NA   NA           NA  1017             0              0
+#> 384            2602 1002         7140  1002             0              0
+#> 385              NA   NA           NA  1018             0              0
+#> 386            2607 1006         7160  1019             0              0
+#> 387              NA   NA         7180  1014             0              0
+#> 388            2605 1003         7200  1003             1              1
+#> 389              NA   NA           NA    NA             0              0
+#> 390            2604 1001         7040  1001             0              0
+#> 391              NA   NA         7060  1016             0              0
+#> 392            2603 1004         7080  1004             0              0
+#> 393            2601 1005         7100  1005             0              0
+#> 394              NA   NA           NA  1017             0              0
+#> 395            2602 1002         7140  1002             1              0
+#> 396              NA   NA           NA  1018             0              0
+#> 397            2607 1006         7160  1019             0              0
+#> 398              NA   NA         7180  1014             0              0
+#> 399            2605 1003         7200  1003             1              1
+#> 400              NA   NA           NA    NA             0              0
+#> 401            2604 1001         7040  1001             0              0
+#> 402              NA   NA         7060  1016             0              0
+#> 403            2603 1004         7080  1004             0              0
+#> 404            2601 1005         7100  1005             0              0
+#> 405              NA   NA           NA  1017             0              0
+#> 406            2602 1002         7140  1002             0              0
+#> 407              NA   NA           NA  1018             0              0
+#> 408            2607 1006         7160  1019             0              0
+#> 409              NA   NA         7180  1014             0              0
+#> 410            2605 1003         7200  1003             1              1
+#> 411              NA   NA           NA    NA             0              0
+#> 412            2604 1001         7040  1001             1              0
+#> 413              NA   NA         7060  1016             1              0
+#> 414            2603 1004         7080  1004             1              0
+#> 415            2601 1005         7100  1005             0              0
+#> 416              NA   NA           NA  1017             0              0
+#> 417            2602 1002         7140  1002             0              0
+#> 418              NA   NA           NA  1018             0              0
+#> 419            2607 1006         7160  1019             0              0
+#> 420              NA   NA         7180  1014             0              0
+#> 421            2605 1003         7200  1003             1              1
+#> 
+#> attr(,"class")
+#> [1] "questionList"
+```

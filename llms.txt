@@ -1,0 +1,128 @@
+# dutchparl
+
+dutchparl - An R package for the Dutch Parliamentary Behaviour Dataset
+
+This package allows users to work easily with the Dutch Parliamentary
+Behaviour Dataset. There are multiple datasets: one on votes and one on
+parliamentary (written) questions.
+
+### Installation
+
+To install this package in R:
+
+``` r
+
+install.packages("devtools")
+devtools::install_github("louwerse/dutchparl")
+```
+
+### Download data
+
+The data can be downloaded from Harvard Dataverse:
+<https://dataverse.harvard.edu/dataverse/dutchparl>
+
+You can download the voting data in R and save it to a file in your
+current working directory (default = “votes.rds”).
+
+``` r
+
+downloadVotes()
+```
+
+You can download the questions data in R and save it to a file in your
+current working directory (default = “questions.rds”).
+
+``` r
+
+downloadQuestions()
+```
+
+### Work with the data
+
+Load the package dutchparl. This includes two example objects
+`examplevotes` and `examplequestions`, which can be used to demonstrate
+how the package works. The fulldataset is not included with the package,
+due to its size (see above for downloading).
+
+``` r
+
+library("dutchparl")
+data = examplevotes
+summary(data)
+#> Number of votes in dataset:  61 
+#> Category count: 
+#> 
+#>        Cultuur en recreatie                    Economie 
+#>                           5                          19 
+#>                   Financiën              Internationaal 
+#>                           5                           2 
+#>            Natuur en milieu     Onderwijs en wetenschap 
+#>                          21                          47 
+#> Openbare orde en veiligheid                       Recht 
+#>                           1                          13 
+#>           Sociale zekerheid                     Verkeer 
+#>                           5                          10 
+#>                        Werk          Zorg en gezondheid 
+#>                          16                          12 
+#> Parties appearing at least  61  times in the dataset:
+#>  [1] "CDA"     "CU"      "D66"     "GL"      "PvdA"    "PvdD"    "PVV"    
+#>  [8] "SGP"     "SP"      "Verdonk" "VVD"
+```
+
+You can open the full version of the data using:
+
+``` r
+
+votes = loadRDS("votes.rds") # Use name of relevant datafile
+```
+
+Available functions can be obtained via:
+
+``` r
+
+help(package="dutchparl")
+```
+
+# Package index
+
+## All functions
+
+- [`addCabinetInfo()`](https://louwerse.github.io/dutchparl/reference/addCabinetInfo.md)
+  : Add information on cabinet composition and elections to metadata.
+  This data is obtained from ParlGov (http://www.parlgov.org/).
+- [`addInfo()`](https://louwerse.github.io/dutchparl/reference/addInfo.md)
+  : Add information on cabinets, elections and parties to dataset. This
+  data is obtained from ParlGov (http://www.parlgov.org/).
+- [`addPartyInfo()`](https://louwerse.github.io/dutchparl/reference/addPartyInfo.md)
+  : Add information on party characteristics to voteList or
+  questionerList object. This data is obtained from ParlGov
+  (http://www.parlgov.org/).
+- [`as.rollcall()`](https://louwerse.github.io/dutchparl/reference/as.rollcall.md)
+  : Transform into rollcall object
+- [`cosponsors()`](https://louwerse.github.io/dutchparl/reference/cosponsors.md)
+  : Calculate cosponsorship between MPs
+- [`downloadQuestions()`](https://louwerse.github.io/dutchparl/reference/downloadQuestions.md)
+  : Download Dutch Parliamentary Behaviour Questions Dataset from the
+  internet
+- [`downloadVotes()`](https://louwerse.github.io/dutchparl/reference/downloadVotes.md)
+  : Download Dutch Parliamentary Behaviour Vote Dataset from the
+  internet
+- [`examplequestions`](https://louwerse.github.io/dutchparl/reference/examplequestions.md)
+  : Dutch Parliamentary Behaviour Dataset (Questions)
+- [`examplevotes`](https://louwerse.github.io/dutchparl/reference/examplevotes.md)
+  : Dutch Parliamentary Behaviour Dataset (Votes)
+- [`filter(`*`<questionList>`*`)`](https://louwerse.github.io/dutchparl/reference/filter.questionList.md)
+  : Filter a questionList object
+- [`filter(`*`<voteList>`*`)`](https://louwerse.github.io/dutchparl/reference/filter.voteList.md)
+  : Filter a voteList object
+- [`randomvotes()`](https://louwerse.github.io/dutchparl/reference/randomvotes.md)
+  : Select a random number of votes from a voteList object
+- [`rice()`](https://louwerse.github.io/dutchparl/reference/rice.md) :
+  Calculate rice score
+- [`subset(`*`<questionList>`*`)`](https://louwerse.github.io/dutchparl/reference/subset.questionList.md)
+  : Subset questionList object
+- [`subset(`*`<voteList>`*`)`](https://louwerse.github.io/dutchparl/reference/subset.voteList.md)
+  : Subset voteList object
+- [`votesame()`](https://louwerse.github.io/dutchparl/reference/votesame.md)
+  : Calculate the percentate of votes in which parties voted the same
+
