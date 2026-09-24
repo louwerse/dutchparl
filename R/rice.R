@@ -24,19 +24,19 @@ rice.voteList <- function(x, minvotes = 10, ...) {
     dplyr::filter(party %in% includeParties)
 
   # If votePerParty variables are named 0, 1, 8 instead of vote_0, vote_1, vote_8, fix:
-  if (is.null(x$votePerParty$`vote_0`) & (!is.null(x$votePerParty$`0`))) {
+  if (!("vote_0" %in% names(x$votePerParty)) && "0" %in% names(x$votePerParty)) {
     x$votePerParty$`vote_0` <- x$votePerParty$`0`
   }
-  if (is.null(x$votePerParty$`vote_1`) & (!is.null(x$votePerParty$`1`))) {
+  if (!("vote_1" %in% names(x$votePerParty)) && "1" %in% names(x$votePerParty)) {
     x$votePerParty$`vote_1` <- x$votePerParty$`1`
   }
-  if (is.null(x$votePerParty$`vote_8`) & (!is.null(x$votePerParty$`8`))) {
+  if (!("vote_8" %in% names(x$votePerParty)) && "8" %in% names(x$votePerParty)) {
     x$votePerParty$`vote_8` <- x$votePerParty$`8`
   }
 
   x$votePerParty$rice <- abs(x$votePerParty$`vote_1` - x$votePerParty$`vote_0`) / (x$votePerParty$`vote_1` + x$votePerParty$`vote_0`)
 
   rice_out <- x$votePerParty |>
-    dplyr::summarise(rice_mean = mean(rice, na.rm = TRUE), .by = party)
+    dplyr::summarise(rice_mean = mean(.data$rice, na.rm = TRUE), .by = "party")
   return(as.data.frame(rice_out))
 }

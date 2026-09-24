@@ -32,7 +32,7 @@ addCabinetInfo.voteList <- function(x, ...) {
 
 
   if (max_date < max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE)) {
-    end_date_selection <- max(as.Date(x$cabinetInfo$start_date, na.rm = TRUE)) + 1
+    end_date_selection <- max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE) + 1
   } else {
     end_date_selection <- max_date + 1
   }
@@ -205,7 +205,7 @@ addPartyInfo.voteList <- function(x, includetype = "basic",
 
   term_starts_unique <- x$electionInfo |>
     dplyr::select("term_start") |>
-    dplyr::arrange(term_start)
+    dplyr::arrange(.data$term_start)
 
   term_start <- cut(all_dates,
     breaks = c(
@@ -218,7 +218,7 @@ addPartyInfo.voteList <- function(x, includetype = "basic",
   term_start <- as.Date(term_start)
 
   if (max_date < max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE)) {
-    end_date_selection <- max(as.Date(x$cabinetInfo$start_date, na.rm = TRUE)) + 1
+    end_date_selection <- max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE) + 1
   } else {
     end_date_selection <- max_date + 1
   }
@@ -297,7 +297,7 @@ addPartyInfo.voteList <- function(x, includetype = "basic",
   if ("sponsorList" %in% addto) {
     x$sponsorList$id <- as.character(x$sponsorList$id)
 
-    if (is.null(x$sponsorList$date)) {
+    if (!("date" %in% names(x$sponsorList))) {
       x$sponsorList <- dplyr::left_join(x$sponsorList,
         dplyr::select(
           x$metaList,
@@ -368,7 +368,7 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
   )
   term_starts_unique <- x$electionInfo |>
     dplyr::select("term_start") |>
-    dplyr::arrange(term_start)
+    dplyr::arrange(.data$term_start)
 
   term_start <- cut(all_dates,
     breaks = c(
@@ -424,7 +424,7 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
   if ("questionerList" %in% addto) {
     x$metaList$dcIdentifier <- as.character(x$metaList$dcIdentifier)
     x$questionerList$dcIdentifier <- as.character(x$questionerList$dcIdentifier)
-    if (is.null(x$questionerList$dateQuestion)) {
+    if (!("dateQuestion" %in% names(x$questionerList))) {
       x$questionerList <- dplyr::left_join(x$questionerList,
         dplyr::select(
           x$metaList,
@@ -446,7 +446,7 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
   if ("responderList" %in% addto) {
     x$metaList$dcIdentifier <- as.character(x$metaList$dcIdentifier)
     x$responderList$dcIdentifier <- as.character(x$responderList$dcIdentifier)
-    if (is.null(x$responderList$dateResponse)) {
+    if (!("dateResponse" %in% names(x$responderList))) {
       x$responderList <- dplyr::left_join(x$responderList,
         dplyr::select(
           x$metaList,
