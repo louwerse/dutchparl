@@ -17,7 +17,8 @@
   `ches_lrgen`, `ches_lrecon` and `rile`.
 * `addCabinetInfo()` for questionList objects no longer fails when
   `cabinetInfo` has no `formal_resignation` column.
-* `filter()` and `subset()` keep the `voteCabinet` table in sync, and `filter()`
+* `filter()` and `subset()` keep the `voteCabinet`, `questionCabinet` and
+  `questionText` tables in sync, and `filter()`
   can filter on it with `.table = "voteCabinet"`.
 * `examplevotes` now uses the REPDEM layout. The same votes with ParlGov data are
   available as `examplevotes_legacy`.

@@ -146,12 +146,18 @@ filter.questionList <- function(.data, ..., .table = "metaList", drop.levels = T
   out$questionerList  <- out$questionerList[out$questionerList$dcIdentifier %in% selected_ids, ]
   out$responderList   <- out$responderList[out$responderList$dcIdentifier %in% selected_ids, ]
   out$categoryList    <- out$categoryList[out$categoryList$dcIdentifier %in% selected_ids, ]
+  for (tbl in intersect(c("questionCabinet", "questionText"), names(out))) {
+    out[[tbl]] <- out[[tbl]][out[[tbl]]$dcIdentifier %in% selected_ids, ]
+  }
 
   if (drop.levels) {
     out$metaList       <- droplevels(out$metaList)
     out$questionerList <- droplevels(out$questionerList)
     out$responderList  <- droplevels(out$responderList)
     out$categoryList   <- droplevels(out$categoryList)
+    for (tbl in intersect(c("questionCabinet", "questionText"), names(out))) {
+      out[[tbl]] <- droplevels(out[[tbl]])
+    }
   }
 
   return(out)
@@ -197,12 +203,18 @@ subset.questionList <- function(x, df, subset, select, drop = FALSE, drop.levels
   questionList$questionerList <- questionList$questionerList[questionList$questionerList$dcIdentifier %in% select_ids, ]
   questionList$responderList <- questionList$responderList[questionList$responderList$dcIdentifier %in% select_ids, ]
   questionList$categoryList <- questionList$categoryList[questionList$categoryList$dcIdentifier %in% select_ids, ]
+  for (tbl in intersect(c("questionCabinet", "questionText"), names(questionList))) {
+    questionList[[tbl]] <- questionList[[tbl]][questionList[[tbl]]$dcIdentifier %in% select_ids, ]
+  }
 
   if (drop.levels) {
     questionList$metaList <- droplevels(questionList$metaList)
     questionList$questionerList <- droplevels(questionList$questionerList)
     questionList$responderList <- droplevels(questionList$responderList)
     questionList$categoryList <- droplevels(questionList$categoryList)
+    for (tbl in intersect(c("questionCabinet", "questionText"), names(questionList))) {
+      questionList[[tbl]] <- droplevels(questionList[[tbl]])
+    }
   }
 
   return(questionList)
