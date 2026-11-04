@@ -15,7 +15,7 @@ combined with \code{&}.}
 
 \item{.table}{Name of the sub-table to filter on. One of \code{"metaList"}
 (default), \code{"voteList"}, \code{"votePerParty"}, \code{"sponsorList"},
-or \code{"categoryList"}. The matching \code{id}s are then used to subset
+\code{"categoryList"}, or (REPDEM data) \code{"voteCabinet"}. The matching \code{id}s are then used to subset
 all other sub-tables.}
 
 \item{drop.levels}{If \code{TRUE} (default), unused factor levels are

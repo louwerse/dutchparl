@@ -4,8 +4,7 @@
 \alias{addPartyInfo}
 \alias{addPartyInfo.voteList}
 \alias{addPartyInfo.questionList}
-\title{Add information on party characteristics to voteList or questionerList object. This data
-is obtained from ParlGov (http://www.parlgov.org/).}
+\title{Add information on party characteristics to voteList or questionList object.}
 \usage{
 addPartyInfo(x, ...)
 
@@ -28,7 +27,7 @@ addPartyInfo(x, ...)
 
 \item{...}{Other parameters passed on.}
 
-\item{includetype}{A charcter value, "basic" or "all". Defaults to "basic". Basic only includes party characteristics that vary by date, while all includes all party characteristics.}
+\item{includetype}{A character value, "basic" or "all". Defaults to "basic". Basic only includes party characteristics that vary by date, while all includes all party characteristics (from \code{partyInfo}, and for REPDEM data also the cabinet-specific \code{family_name}, \code{ches_lrgen}, \code{ches_lrecon} and \code{rile}).}
 
 \item{addto}{Character vector including the subtables to which party information should be added. Defaults to c("voteList", "sponsorList","votePerParty") vote a voteList object or c("questionerList", "responderList") for a questionList object.}
 }
@@ -36,8 +35,22 @@ addPartyInfo(x, ...)
 A voteList or questionList object.
 }
 \description{
-Add information on party characteristics to voteList or questionerList object. This data
-is obtained from ParlGov (http://www.parlgov.org/).
+Party data are obtained from REPDEM (with ParlGov for the period before
+1946) or, in older versions of the data, from ParlGov
+(http://www.parlgov.org/). The source is recorded in \code{x$datasetInfo}.
+}
+\details{
+The basic information consists of \code{cabinet_party},
+\code{prime_minister}, \code{vote_share}, \code{seat_share} and
+\code{party_seats} (REPDEM data also include \code{support_party}).
+Parties that hold seats but are not listed for the cabinet in office get
+\code{cabinet_party = 0} and \code{prime_minister = 0}.
+
+The cabinet is the same as in \code{\link{addCabinetInfo}}: for votes and
+responders, the assignment in \code{voteCabinet} or \code{questionCabinet}
+(REPDEM data) is used, with the vote or response date as fallback.
+Questioners are linked to the cabinet in office on the date of the question.
+Election results refer to the parliamentary term in force on that date.
 }
 \section{Methods (by class)}{
 \itemize{
