@@ -18,8 +18,8 @@
 * `addCabinetInfo()` for questionList objects no longer fails when
   `cabinetInfo` has no `formal_resignation` column.
 * `filter()` and `subset()` keep the `voteCabinet`, `questionCabinet` and
-  `questionText` tables in sync, and `filter()`
-  can filter on it with `.table = "voteCabinet"`.
+  `questionText` tables in sync. `filter()` on a voteList can filter on
+  `.table = "voteCabinet"`.
 * `examplevotes` now uses the REPDEM layout. The same votes with ParlGov data are
   available as `examplevotes_legacy`.
 
