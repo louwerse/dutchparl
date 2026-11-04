@@ -267,3 +267,57 @@ test_that("REPDEM questions: questionCabinet takes precedence over the date", {
   expect_equal(r1$caretaker, 1)
   expect_equal(r1$caretaker_reason, "interim_cabinet")
 })
+
+
+# Party information follows the per-unit cabinet assignment ------------------
+
+test_that("REPDEM: party info follows voteCabinet, distinct from votes on the same date", {
+  x <- examplevotes
+  id1 <- x$metaList$id[1]
+  i <- which(x$voteCabinet$id == id1)
+  x$voteCabinet$cabinet_id[i] <- "12027" # Balkenende V: CDA and ChristenUnie only
+  x$voteCabinet$cabinet_period_id[i] <- "12027-1"
+  res <- addInfo(x)
+
+  expect_equal(as.character(res$metaList$cabinet_name[res$metaList$id == id1]), "Balkenende V")
+  same_date <- res$metaList$id[res$metaList$date == res$metaList$date[res$metaList$id == id1] &
+    res$metaList$id != id1]
+  expect_gt(length(same_date), 0)
+
+  for (tbl in c("voteList", "votePerParty")) {
+    d <- res[[tbl]]
+    expect_equal(nrow(d), nrow(x[[tbl]]), label = tbl)
+    expect_true(all(d$cabinet_party[d$id == id1 & d$party == "PvdA"] == 0), label = tbl)
+    expect_true(all(d$cabinet_party[d$id == id1 & d$party == "CDA"] == 1), label = tbl)
+    expect_true(all(d$cabinet_party[d$id %in% same_date & d$party == "PvdA"] == 1), label = tbl)
+  }
+  sl <- res$sponsorList
+  expect_true(all(sl$cabinet_party[sl$id == id1 & sl$sponsorParty == "PvdA"] == 0))
+})
+
+test_that("REPDEM: responders follow questionCabinet, questioners the question date", {
+  x <- examplequestions
+  id1 <- x$metaList$dcIdentifier[1]
+  i <- which(x$questionCabinet$dcIdentifier == id1)
+  x$questionCabinet$cabinet_id[i] <- "12027"
+  res <- addInfo(x)
+
+  rl <- res$responderList
+  expect_true(any(rl$dcIdentifier == id1 & rl$responderParty == "PvdA"))
+  expect_true(all(rl$cabinet_party[rl$dcIdentifier == id1 & rl$responderParty == "PvdA"] == 0))
+  expect_true(all(rl$cabinet_party[rl$dcIdentifier != id1 & rl$responderParty == "PvdA"] == 1))
+
+  # Questioners are tied to dateQuestion (Balkenende IV): unchanged
+  expect_equal(res$questionerList, addInfo(examplequestions)$questionerList)
+})
+
+test_that("party info is consistent with metaList cabinet for every vote", {
+  x <- examplevotes
+  x$voteCabinet$cabinet_id[1:5] <- "12027"
+  res <- addInfo(x)
+  pci <- as.data.frame(x$partyCabinetInfo)
+  cab <- as.character(res$metaList$cabinet_id)[match(res$votePerParty$id, res$metaList$id)]
+  exp <- pci$cabinet_party[match(paste(cab, res$votePerParty$party), paste(pci$cabinet_id, pci$party))]
+  exp[is.na(exp) & !is.na(res$votePerParty$party_seats)] <- 0L
+  expect_equal(res$votePerParty$cabinet_party, exp)
+})

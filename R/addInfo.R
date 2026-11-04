@@ -150,35 +150,25 @@ apply_unit_cabinet <- function(x, table, id_col, date_col) {
   x
 }
 
-# Party characteristics for each combination of date and party.
-party_info_by_date <- function(x, dates, includetype = "basic") {
+# Reference tables for party information. Cabinet participation is keyed on
+# cabinet_id if both cabinetInfo and partyCabinetInfo have it (REPDEM),
+# otherwise on cabinet_name; election results are keyed on term_start.
+party_tables <- function(x, includetype = "basic") {
   includetype <- match.arg(includetype, c("basic", "all"))
-  dates <- unique_dates(dates)
-  cab <- cabinet_by_date(x, dates)
 
-  # Cabinet participation. Match on cabinet_id if both tables have it (REPDEM),
-  # otherwise on cabinet_name.
   pci <- as.data.frame(x$partyCabinetInfo)
-  key <- if ("cabinet_id" %in% names(cab) && "cabinet_id" %in% names(pci)) "cabinet_id" else "cabinet_name"
-  pci[[key]] <- as.character(pci[[key]])
+  key <- if ("cabinet_id" %in% names(x$cabinetInfo) && "cabinet_id" %in% names(pci)) "cabinet_id" else "cabinet_name"
   pci_cols <- c("party", "cabinet_party", "prime_minister", "support_party")
   if (includetype == "all") {
     pci_cols <- c(pci_cols, "family_name", "ches_lrgen", "ches_lrecon", "rile")
   }
   pci <- pci[!is.na(pci$party), unique(c(key, intersect(pci_cols, names(pci)))), drop = FALSE]
+  names(pci)[names(pci) == key] <- "cabinet_key"
+  pci$cabinet_key <- as.character(pci$cabinet_key)
   pci$party <- as.character(pci$party)
-  pci <- dplyr::distinct(pci, .data[[key]], .data$party, .keep_all = TRUE)
+  pci <- dplyr::distinct(pci, .data$cabinet_key, .data$party, .keep_all = TRUE)
   pci$in_cabinet_data <- TRUE
 
-  cab_keys <- data.frame(date = cab$date, key = as.character(cab[[key]]))
-  names(cab_keys)[2] <- key
-  cab_keys <- cab_keys[!is.na(cab_keys[[key]]), , drop = FALSE]
-  partyCabinet <- dplyr::inner_join(cab_keys, pci, by = key, relationship = "many-to-many")
-  partyCabinet[[key]] <- NULL
-
-  # Election results of the parliamentary term in force
-  el <- election_by_date(x, dates)[, c("date", "term_start")]
-  el <- el[!is.na(el$term_start), , drop = FALSE]
   pei <- as.data.frame(x$partyElectionInfo)
   pei$term_start <- as.Date(pei$term_start)
   pei <- dplyr::rename(pei, dplyr::any_of(c("party_seats" = "seats")))
@@ -188,53 +178,94 @@ party_info_by_date <- function(x, dates, includetype = "basic") {
   ]
   pei$party <- as.character(pei$party)
   pei <- dplyr::distinct(pei, .data$term_start, .data$party, .keep_all = TRUE)
-  partyElection <- dplyr::inner_join(el, pei, by = "term_start", relationship = "many-to-many")
-  partyElection$term_start <- NULL
+  pei$in_election_data <- TRUE
 
-  combined <- dplyr::full_join(partyCabinet, partyElection, by = c("date", "party"))
-
-  # Parties not listed for a cabinet are not in the cabinet
-  absent <- is.na(combined$in_cabinet_data) & combined$date %in% cab_keys$date
-  for (col in intersect(c("cabinet_party", "prime_minister"), names(combined))) {
-    combined[[col]][absent] <- 0L
-  }
-  combined$in_cabinet_data <- NULL
-
+  pinfo <- NULL
   if (includetype == "all" && !is.null(x$partyInfo)) {
     pinfo <- as.data.frame(x$partyInfo)
     pinfo <- pinfo[!is.na(pinfo$party), , drop = FALSE]
     pinfo$party <- as.character(pinfo$party)
     pinfo <- dplyr::distinct(pinfo, .data$party, .keep_all = TRUE)
-    pinfo <- pinfo[, c("party", setdiff(names(pinfo), names(combined))), drop = FALSE]
-    combined <- dplyr::left_join(combined, pinfo, by = "party")
+    pinfo <- pinfo[, c("party", setdiff(names(pinfo), c(names(pci), names(pei)))), drop = FALSE]
   }
 
-  combined <- combined[order(combined$date, combined$party), , drop = FALSE]
-  rownames(combined) <- NULL
-  combined
+  list(key = key, pci = pci, pei = pei, pinfo = pinfo)
 }
 
-# Add party information to a sub-table, matching on date and party. If the
-# sub-table has no date column, it is taken from metaList via the id column.
-join_party_info <- function(tbl, info, meta, id_col, date_col, party_col, tblname) {
+# Cabinet (as cabinet_id or cabinet_name, see party_tables()) for each row.
+# The per-unit assignment in `unit_table` (voteCabinet or questionCabinet) is
+# used where available; other rows are matched on date.
+unit_cabinet_key <- function(x, key, dates, ids = NULL, unit_table = NULL, id_col = NULL) {
+  dates <- as.Date(dates)
+  cab <- cabinet_by_date(x, dates)
+  out <- as.character(cab[[key]])[match(dates, cab$date)]
+
+  if (!is.null(unit_table) && !is.null(x[[unit_table]]) && !is.null(ids)) {
+    unit <- as.data.frame(x[[unit_table]])
+    assigned <- as.character(unit$cabinet_id)[match(as.character(ids), as.character(unit[[id_col]]))]
+    if (key == "cabinet_name") {
+      ci <- as.data.frame(x$cabinetInfo)
+      assigned <- if ("cabinet_id" %in% names(ci)) {
+        as.character(ci$cabinet_name)[match(assigned, as.character(ci$cabinet_id))]
+      } else {
+        rep(NA_character_, length(assigned))
+      }
+    }
+    has <- !is.na(assigned)
+    out[has] <- assigned[has]
+  }
+  out
+}
+
+# Add party information to a sub-table. Each row is matched on its party, its
+# cabinet (see unit_cabinet_key()) and the parliamentary term in force on
+# `date_col`. If the sub-table has no date column, it is taken from metaList
+# via the id column.
+add_party_info <- function(tbl, x, pt, id_col, date_col, party_col, tblname,
+                           unit_table = NULL) {
   if (is.null(tbl)) {
     return(tbl)
   }
   if (!(date_col %in% names(tbl))) {
-    m <- match(as.character(tbl[[id_col]]), as.character(meta[[id_col]]))
-    tbl[[date_col]] <- as.Date(meta[[date_col]])[m]
+    m <- match(as.character(tbl[[id_col]]), as.character(x$metaList[[id_col]]))
+    tbl[[date_col]] <- as.Date(x$metaList[[date_col]])[m]
   }
-  newcols <- setdiff(names(info), c("date", "party", names(tbl)))
+
+  infocols <- setdiff(
+    c(names(pt$pci), names(pt$pei), names(pt$pinfo)),
+    c("cabinet_key", "party", "term_start", "in_cabinet_data", "in_election_data")
+  )
+  newcols <- setdiff(infocols, names(tbl))
   if (length(newcols) == 0) {
     warning("All party information is already in ", tblname, ". Did not add.")
     return(tbl)
   }
-  info <- info[, c("date", "party", newcols), drop = FALSE]
-  names(info)[1:2] <- c(date_col, party_col)
-  if (is.factor(tbl[[party_col]])) {
-    info[[party_col]] <- factor(info[[party_col]])
+
+  dates <- as.Date(tbl[[date_col]])
+  rows <- data.frame(
+    party = as.character(tbl[[party_col]]),
+    cabinet_key = unit_cabinet_key(x, pt$key, dates, tbl[[id_col]], unit_table, id_col)
+  )
+  el <- election_by_date(x, dates)
+  rows$term_start <- el$term_start[match(dates, el$date)]
+
+  rows <- dplyr::left_join(rows, pt$pci, by = c("cabinet_key", "party"))
+  rows <- dplyr::left_join(rows, pt$pei, by = c("term_start", "party"))
+
+  # Parties that hold seats but are not listed for the cabinet are not in it
+  absent <- is.na(rows$in_cabinet_data) & !is.na(rows$cabinet_key) & !is.na(rows$in_election_data)
+  for (col in intersect(c("cabinet_party", "prime_minister"), names(rows))) {
+    rows[[col]][absent] <- 0L
   }
-  dplyr::left_join(tbl, info, by = c(date_col, party_col))
+
+  if (!is.null(pt$pinfo)) {
+    rows <- dplyr::left_join(rows, pt$pinfo, by = "party")
+  }
+
+  for (col in newcols) {
+    tbl[[col]] <- rows[[col]]
+  }
+  tbl
 }
 
 
@@ -336,6 +367,12 @@ addPartyInfo.default <- function(x, ...) {}
 #' Parties that hold seats but are not listed for the cabinet in office get
 #' \code{cabinet_party = 0} and \code{prime_minister = 0}.
 #'
+#' The cabinet is the same as in \code{\link{addCabinetInfo}}: for votes and
+#' responders, the assignment in \code{voteCabinet} or \code{questionCabinet}
+#' (REPDEM data) is used, with the vote or response date as fallback.
+#' Questioners are linked to the cabinet in office on the date of the question.
+#' Election results refer to the parliamentary term in force on that date.
+#'
 #' @param x A voteList object
 #' @param includetype A character value, "basic" or "all". Defaults to "basic". Basic only includes party characteristics that vary by date, while all includes all party characteristics (from \code{partyInfo}, and for REPDEM data also the cabinet-specific \code{family_name}, \code{ches_lrgen}, \code{ches_lrecon} and \code{rile}).
 #' @param addto Character vector including the subtables to which party information should be added. Defaults to c("voteList", "sponsorList","votePerParty") vote a voteList object or c("questionerList", "responderList") for a questionList object.
@@ -353,21 +390,14 @@ addPartyInfo <- function(x, ...) {
 addPartyInfo.voteList <- function(x, includetype = "basic",
                                   addto = c("voteList", "sponsorList", "votePerParty"),
                                   ...) {
-  info <- party_info_by_date(x, x$metaList$date, includetype)
-
-  if ("voteList" %in% addto) {
-    x$voteList <- join_party_info(x$voteList, info, x$metaList,
-      id_col = "id", date_col = "date", party_col = "party", tblname = "voteList"
-    )
-  }
-  if ("sponsorList" %in% addto) {
-    x$sponsorList <- join_party_info(x$sponsorList, info, x$metaList,
-      id_col = "id", date_col = "date", party_col = "sponsorParty", tblname = "sponsorList"
-    )
-  }
-  if ("votePerParty" %in% addto) {
-    x$votePerParty <- join_party_info(x$votePerParty, info, x$metaList,
-      id_col = "id", date_col = "date", party_col = "party", tblname = "votePerParty"
+  pt <- party_tables(x, includetype)
+  targets <- list(
+    voteList = "party", sponsorList = "sponsorParty", votePerParty = "party"
+  )
+  for (tbl in intersect(names(targets), addto)) {
+    x[[tbl]] <- add_party_info(x[[tbl]], x, pt,
+      id_col = "id", date_col = "date", party_col = targets[[tbl]],
+      tblname = tbl, unit_table = "voteCabinet"
     )
   }
 
@@ -383,20 +413,21 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
                                       ...) {
   if (nrow(x$metaList) > 5e3) warning("This is a large questionList object. This operation will increase the object size significantly.")
 
-  info <- party_info_by_date(
-    x, c(x$metaList$dateQuestion, x$metaList$dateResponse), includetype
-  )
+  pt <- party_tables(x, includetype)
 
+  # Questioners: the cabinet on the day the question was asked
   if ("questionerList" %in% addto) {
-    x$questionerList <- join_party_info(x$questionerList, info, x$metaList,
+    x$questionerList <- add_party_info(x$questionerList, x, pt,
       id_col = "dcIdentifier", date_col = "dateQuestion",
       party_col = "questionerParty", tblname = "questionerList"
     )
   }
+  # Responders: the cabinet that responded (questionCabinet, else response date)
   if ("responderList" %in% addto) {
-    x$responderList <- join_party_info(x$responderList, info, x$metaList,
+    x$responderList <- add_party_info(x$responderList, x, pt,
       id_col = "dcIdentifier", date_col = "dateResponse",
-      party_col = "responderParty", tblname = "responderList"
+      party_col = "responderParty", tblname = "responderList",
+      unit_table = "questionCabinet"
     )
   }
 

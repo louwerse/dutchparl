@@ -45,6 +45,12 @@ The basic information consists of \code{cabinet_party},
 \code{party_seats} (REPDEM data also include \code{support_party}).
 Parties that hold seats but are not listed for the cabinet in office get
 \code{cabinet_party = 0} and \code{prime_minister = 0}.
+
+The cabinet is the same as in \code{\link{addCabinetInfo}}: for votes and
+responders, the assignment in \code{voteCabinet} or \code{questionCabinet}
+(REPDEM data) is used, with the vote or response date as fallback.
+Questioners are linked to the cabinet in office on the date of the question.
+Election results refer to the parliamentary term in force on that date.
 }
 \section{Methods (by class)}{
 \itemize{

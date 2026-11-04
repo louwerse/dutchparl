@@ -14,7 +14,9 @@
   `partyInfo`, and sets `cabinet_party` and `prime_minister` to 0 for parties
   that hold seats but are not listed for the cabinet in office. REPDEM data
   also get `support_party`; `includetype = "all"` adds `family_name`,
-  `ches_lrgen`, `ches_lrecon` and `rile`.
+  `ches_lrgen`, `ches_lrecon` and `rile`. Cabinet participation follows the
+  same cabinet as `addCabinetInfo()`: `voteCabinet`/`questionCabinet` for votes
+  and responders (date as fallback), the question date for questioners.
 * `addCabinetInfo()` for questionList objects no longer fails when
   `cabinetInfo` has no `formal_resignation` column.
 * `filter()` and `subset()` keep the `voteCabinet`, `questionCabinet` and
