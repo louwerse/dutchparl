@@ -105,12 +105,12 @@ add_by_date <- function(df, info, date_col) {
   df
 }
 
-# Overwrite date-based cabinet information in metaList with the per-vote
-# assignment in voteCabinet (REPDEM data). Votes not in voteCabinet keep the
-# date-based values.
-apply_vote_cabinet <- function(x) {
-  vc <- as.data.frame(x$voteCabinet)
-  m <- match(as.character(x$metaList$id), as.character(vc$id))
+# Overwrite date-based cabinet information in metaList with the per-unit
+# assignment in voteCabinet or questionCabinet (REPDEM data). Votes or
+# questions not in that table keep the date-based values.
+apply_unit_cabinet <- function(x, table, id_col, date_col) {
+  vc <- as.data.frame(x[[table]])
+  m <- match(as.character(x$metaList[[id_col]]), as.character(vc[[id_col]]))
   has <- !is.na(m)
   if (!any(has)) {
     return(x)
@@ -131,7 +131,7 @@ apply_vote_cabinet <- function(x) {
     x$metaList[[col]][has] <- value[has]
   }
 
-  # Cabinet names follow from the cabinet_id in voteCabinet
+  # Cabinet names follow from the cabinet_id in voteCabinet/questionCabinet
   if ("cabinet_id" %in% cols && "cabinet_id" %in% names(x$cabinetInfo)) {
     cab <- as.data.frame(x$cabinetInfo)
     cm <- match(x$metaList$cabinet_id, as.character(cab$cabinet_id))
@@ -143,7 +143,7 @@ apply_vote_cabinet <- function(x) {
     }
     if ("cabinet_resigned" %in% names(x$metaList) && "formal_resignation" %in% names(cab)) {
       x$metaList$cabinet_resigned[upd] <- as.numeric(
-        as.Date(x$metaList$date[upd]) > as.Date(cab$formal_resignation[cm[upd]])
+        as.Date(x$metaList[[date_col]][upd]) > as.Date(cab$formal_resignation[cm[upd]])
       )
     }
   }
@@ -256,13 +256,15 @@ addCabinetInfo.default <- function(x, ...) {}
 #' The meaning of \code{caretaker} depends on the source. ParlGov records
 #' caretaker spells as separate cabinets, and \code{caretaker} is 1 for these.
 #' REPDEM has one record per cabinet; caretaker status is recorded per cabinet
-#' period (table \code{cabinetPeriods}) and per vote (table \code{voteCabinet}).
+#' period (table \code{cabinetPeriods}), per vote (table \code{voteCabinet})
+#' and per question (table \code{questionCabinet}, for the response date).
 #' For REPDEM data, \code{caretaker} is 1 whenever the cabinet was caretaker
 #' (demissionair): after its resignation, after an election, or as an interim
 #' cabinet. REPDEM data also get \code{cabinet_id}, \code{cabinet_period_id},
 #' \code{caretaker_reason} and \code{caretaker_parlgov} (the ParlGov
-#' definition). For votes, the assignment in \code{voteCabinet} is used; votes
-#' missing from that table are matched on date.
+#' definition). For votes and questions, the assignment in \code{voteCabinet}
+#' or \code{questionCabinet} is used; votes or questions missing from that
+#' table are matched on date.
 #'
 #' @param x A voteList or questionList object
 #' @return A voteList or questionList object
@@ -272,6 +274,7 @@ addCabinetInfo.default <- function(x, ...) {}
 #' @examples
 #' addCabinetInfo(examplevotes)
 #' addCabinetInfo(examplevotes_legacy)
+#' addCabinetInfo(examplequestions)
 addCabinetInfo <- function(x, ...) {
   UseMethod("addCabinetInfo")
 }
@@ -288,7 +291,7 @@ addCabinetInfo.voteList <- function(x, ...) {
   x$metaList <- add_by_date(x$metaList, info, "date")
 
   if (!is.null(x$voteCabinet)) {
-    x <- apply_vote_cabinet(x)
+    x <- apply_unit_cabinet(x, "voteCabinet", id_col = "id", date_col = "date")
   }
 
   return(x)
@@ -306,6 +309,12 @@ addCabinetInfo.questionList <- function(x, ...) {
 
   info <- cabinet_info_by_date(x, x$metaList$dateResponse)
   x$metaList <- add_by_date(x$metaList, info, "dateResponse")
+
+  if (!is.null(x$questionCabinet)) {
+    x <- apply_unit_cabinet(x, "questionCabinet",
+      id_col = "dcIdentifier", date_col = "dateResponse"
+    )
+  }
 
   return(x)
 }

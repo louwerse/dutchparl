@@ -34,13 +34,15 @@ the cabinet), \code{term_start} and \code{election_date}.
 The meaning of \code{caretaker} depends on the source. ParlGov records
 caretaker spells as separate cabinets, and \code{caretaker} is 1 for these.
 REPDEM has one record per cabinet; caretaker status is recorded per cabinet
-period (table \code{cabinetPeriods}) and per vote (table \code{voteCabinet}).
+period (table \code{cabinetPeriods}), per vote (table \code{voteCabinet})
+and per question (table \code{questionCabinet}, for the response date).
 For REPDEM data, \code{caretaker} is 1 whenever the cabinet was caretaker
 (demissionair): after its resignation, after an election, or as an interim
 cabinet. REPDEM data also get \code{cabinet_id}, \code{cabinet_period_id},
 \code{caretaker_reason} and \code{caretaker_parlgov} (the ParlGov
-definition). For votes, the assignment in \code{voteCabinet} is used; votes
-missing from that table are matched on date.
+definition). For votes and questions, the assignment in \code{voteCabinet}
+or \code{questionCabinet} is used; votes or questions missing from that
+table are matched on date.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -52,4 +54,5 @@ missing from that table are matched on date.
 \examples{
 addCabinetInfo(examplevotes)
 addCabinetInfo(examplevotes_legacy)
+addCabinetInfo(examplequestions)
 }

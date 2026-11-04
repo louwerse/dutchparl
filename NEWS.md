@@ -20,8 +20,11 @@
 * `filter()` and `subset()` keep the `voteCabinet`, `questionCabinet` and
   `questionText` tables in sync. `filter()` on a voteList can filter on
   `.table = "voteCabinet"`.
-* `examplevotes` now uses the REPDEM layout. The same votes with ParlGov data are
-  available as `examplevotes_legacy`.
+* `addCabinetInfo()` for questionList objects uses the `questionCabinet` table of
+  REPDEM data (cabinet at the date of the response).
+* `examplevotes` and `examplequestions` now use the REPDEM layout. The same
+  votes and questions with ParlGov data are available as `examplevotes_legacy`
+  and `examplequestions_legacy`. Text in the example data is ASCII only.
 
 # dutchparl 0.0.0.9009
 

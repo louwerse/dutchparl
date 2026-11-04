@@ -132,7 +132,7 @@ filter.voteList <- function(.data, ..., .table = "metaList", drop.levels = TRUE)
 #' dplyr::filter(examplequestions, dateQuestion > as.Date("2010-01-04"))
 #'
 #' # Filter on responderList to keep only questions answered by a specific party
-#' dplyr::filter(examplequestions, responderParty == "VVD", .table = "responderList")
+#' dplyr::filter(examplequestions, responderParty == "CDA", .table = "responderList")
 filter.questionList <- function(.data, ..., .table = "metaList", drop.levels = TRUE) {
   valid_tables <- c("metaList", "questionerList", "responderList", "categoryList")
   if (!.table %in% valid_tables) {

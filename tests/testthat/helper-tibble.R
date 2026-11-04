@@ -9,3 +9,4 @@ as_tibble_object <- function(x) {
 # The example votes in both supported layouts: REPDEM (current) and ParlGov
 # (legacy). Tests that should hold for both loop over this list.
 example_votelists <- list(repdem = examplevotes, parlgov = examplevotes_legacy)
+example_questionlists <- list(repdem = examplequestions, parlgov = examplequestions_legacy)

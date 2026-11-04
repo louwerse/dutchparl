@@ -197,39 +197,73 @@ test_that("ParlGov: includetype = 'all' adds partyInfo and survives duplicate ro
 
 # questionList -----------------------------------------------------------------
 
-test_that("addInfo questions complete", {
-  expect_equal(nrow(addInfo(examplequestions)$questionerList), nrow(examplequestions$questionerList))
-})
+for (fmt in names(example_questionlists)) {
+  eq <- example_questionlists[[fmt]]
 
-test_that("addCabinetInfo on questionList uses the response date", {
-  result <- addCabinetInfo(examplequestions)
-  expect_equal(nrow(result$metaList), nrow(examplequestions$metaList))
-  expected <- ifelse(result$metaList$dateResponse >= as.Date("2010-02-23"),
-    "Balkenende VI", "Balkenende V"
-  )
-  expect_equal(as.character(result$metaList$cabinet_name), expected)
-  expect_equal(unique(result$metaList$term_start), as.Date("2006-11-30"))
-})
+  test_that(paste("addInfo on questions keeps row counts -", fmt), {
+    res <- addInfo(eq)
+    for (tbl in c("metaList", "questionerList", "responderList")) {
+      expect_equal(nrow(res[[tbl]]), nrow(eq[[tbl]]), label = tbl)
+    }
+    expect_true("dateQuestion" %in% names(res$questionerList))
+    expect_true("dateResponse" %in% names(res$responderList))
+    expect_equal(nrow(addPartyInfo(eq, includetype = "all")$questionerList), nrow(eq$questionerList))
+  })
 
-test_that("addCabinetInfo on questionList works without formal_resignation", {
+  test_that(paste("addCabinetInfo on questions uses the response date -", fmt), {
+    result <- addCabinetInfo(eq)$metaList
+    late <- result$dateResponse >= as.Date("2010-02-23")
+    expect_true(any(late))
+    expected <- if (fmt == "repdem") c("Balkenende IV", "Balkenende V") else c("Balkenende V", "Balkenende VI")
+    expect_equal(as.character(result$cabinet_name), ifelse(late, expected[2], expected[1]))
+    expect_equal(result$caretaker, as.integer(late), ignore_attr = TRUE)
+    expect_equal(unique(result$term_start), as.Date("2006-11-30"))
+  })
+
+  test_that(paste("addPartyInfo on questions gives correct party values -", fmt), {
+    result <- addPartyInfo(eq)
+    rl <- result$responderList
+    expect_true(all(rl$cabinet_party[rl$responderParty == "CDA"] == 1))
+    expect_true(all(rl$prime_minister[rl$responderParty == "CDA"] == 1))
+    ql <- result$questionerList
+    expect_true(all(ql$cabinet_party[ql$questionerParty == "PVV"] == 0))
+    expect_true(all(ql$party_seats[ql$questionerParty == "PVV"] == 9))
+  })
+
+  test_that(paste("addCabinetInfo on questions works without formal_resignation -", fmt), {
+    x <- eq
+    x$cabinetInfo$formal_resignation <- NULL
+    result <- addCabinetInfo(x)
+    expect_false("cabinet_resigned" %in% names(result$metaList))
+    expect_true("cabinet_name" %in% names(result$metaList))
+  })
+
+  test_that(paste("addInfo equals addCabinetInfo followed by addPartyInfo for questions -", fmt), {
+    expect_identical(addInfo(eq), addPartyInfo(addCabinetInfo(eq)))
+  })
+}
+
+test_that("REPDEM questions: interim cabinet after 2010-02-23 and questionCabinet agree", {
+  result <- addCabinetInfo(examplequestions)$metaList
+  late <- result$dateResponse >= as.Date("2010-02-23")
+  expect_true(all(result$caretaker_reason[late] == "interim_cabinet"))
+  expect_true(all(result$cabinet_period_id[late] == "12027-1"))
   x <- examplequestions
-  x$cabinetInfo$formal_resignation <- NULL
-  result <- addCabinetInfo(x)
-  expect_false("cabinet_resigned" %in% names(result$metaList))
-  expect_true("cabinet_name" %in% names(result$metaList))
+  x$questionCabinet <- NULL
+  expect_equal(addCabinetInfo(x)$metaList, result)
 })
 
-test_that("addPartyInfo on questionList adds columns to questioner and responder lists", {
-  party_cols <- c("cabinet_party", "prime_minister", "vote_share", "seat_share", "party_seats")
-  result <- addPartyInfo(examplequestions)
-  for (tbl in c("questionerList", "responderList")) {
-    expect_true(all(party_cols %in% names(result[[tbl]])), label = tbl)
-    expect_equal(nrow(result[[tbl]]), nrow(examplequestions[[tbl]]), label = tbl)
-  }
-  expect_true("dateQuestion" %in% names(result$questionerList))
-  expect_true("dateResponse" %in% names(result$responderList))
-})
-
-test_that("addInfo equals addCabinetInfo followed by addPartyInfo for questions", {
-  expect_identical(addInfo(examplequestions), addPartyInfo(addCabinetInfo(examplequestions)))
+test_that("REPDEM questions: questionCabinet takes precedence over the date", {
+  x <- examplequestions
+  id1 <- x$metaList$dcIdentifier[1]
+  i <- which(x$questionCabinet$dcIdentifier == id1)
+  x$questionCabinet$cabinet_id[i] <- "12027"
+  x$questionCabinet$cabinet_period_id[i] <- "12027-1"
+  x$questionCabinet$caretaker[i] <- 1L
+  x$questionCabinet$caretaker_reason[i] <- "interim_cabinet"
+  result <- addCabinetInfo(x)$metaList
+  r1 <- result[result$dcIdentifier == id1, ]
+  expect_equal(as.character(r1$cabinet_name), "Balkenende V")
+  expect_equal(r1$caretaker, 1)
+  expect_equal(r1$caretaker_reason, "interim_cabinet")
 })

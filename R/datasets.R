@@ -43,12 +43,36 @@
 
 #' Dutch Parliamentary Behaviour Dataset (Questions)
 #'
-#' Written Questions from Members of the Dutch lower house 3-5 January 2010.
+#' Written questions from Members of the Dutch lower house, asked 4-5 January
+#' 2010, with cabinet, election and party information from REPDEM (and
+#' ParlGov for 1918-1946).
 #'
+#' The object has class \code{c("questionListRepdem", "questionList")}. Besides
+#' \code{metaList}, \code{questionerList}, \code{responderList},
+#' \code{categoryList} and \code{questionText}, it contains the same cabinet,
+#' election and party tables as \code{\link{examplevotes}}, with
+#' \code{questionCabinet} (cabinet and caretaker status at the date of the
+#' response) in place of \code{voteCabinet}.
 #'
 #' @docType data
 #' @keywords datasets
 #' @name examplequestions
 #' @usage data(examplequestions)
 #' @format A questionList object
+#' @seealso \code{\link{examplequestions_legacy}} for the same questions with ParlGov data.
 "examplequestions"
+
+#' Dutch Parliamentary Behaviour Dataset (Questions, legacy ParlGov version)
+#'
+#' Written questions from Members of the Dutch lower house, asked 4-5 January
+#' 2010, with cabinet, election and party information from ParlGov, as in
+#' earlier releases of the dataset. There are no \code{cabinetPeriods} or
+#' \code{questionCabinet} tables.
+#'
+#' @docType data
+#' @keywords datasets
+#' @name examplequestions_legacy
+#' @usage data(examplequestions_legacy)
+#' @format A questionList object
+#' @seealso \code{\link{examplequestions}} for the same questions with REPDEM data.
+"examplequestions_legacy"

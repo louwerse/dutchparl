@@ -45,9 +45,10 @@ downloadQuestions()
 Load the package dutchparl. This includes the example objects
 `examplevotes` (cabinet and party data from REPDEM),
 `examplevotes_legacy` (the same votes with ParlGov data, as in older
-releases) and `examplequestions`, which can be used to demonstrate how
-the package works. The fulldataset is not included with the package, due
-to its size (see above for downloading).
+releases), `examplequestions` and `examplequestions_legacy` (written
+questions, REPDEM and ParlGov), which can be used to demonstrate how the
+package works. The fulldataset is not included with the package, due to
+its size (see above for downloading).
 
 ``` r
 library("dutchparl")
@@ -58,7 +59,7 @@ summary(data)
 #> 
 #>        Cultuur en recreatie                    Economie 
 #>                           5                          19 
-#>                   Financiën              Internationaal 
+#>                   Financien              Internationaal 
 #>                           5                           2 
 #>            Natuur en milieu     Onderwijs en wetenschap 
 #>                          21                          47 

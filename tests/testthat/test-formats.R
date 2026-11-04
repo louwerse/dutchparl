@@ -76,3 +76,38 @@ test_that("filter.voteList can filter on voteCabinet for REPDEM data", {
     regexp = "must be one of"
   )
 })
+
+for (fmt in names(example_questionlists)) {
+  eq <- example_questionlists[[fmt]]
+  tb <- as_tibble_object(eq)
+
+  test_that(paste("question functions give the same values on tibbles -", fmt), {
+    expect_equal(as.data.frame(addCabinetInfo(tb)$metaList),
+      as.data.frame(addCabinetInfo(eq)$metaList),
+      ignore_attr = TRUE
+    )
+    res_tb <- addInfo(tb)
+    res_df <- addInfo(eq)
+    for (tbl in c("questionerList", "responderList")) {
+      expect_equal(as.data.frame(res_tb[[tbl]]), as.data.frame(res_df[[tbl]]),
+        ignore_attr = TRUE, label = tbl
+      )
+    }
+  })
+
+  test_that(paste("question filter and subset keep all sub-tables in sync -", fmt), {
+    f <- dplyr::filter(eq, dateResponse < as.Date("2010-02-01"))
+    s <- subset(eq, eq$metaList, dateResponse < as.Date("2010-02-01"))
+    for (res in list(f, s)) {
+      expect_s3_class(res, class(eq)[1])
+      ids <- res$metaList$dcIdentifier
+      expect_lt(length(ids), nrow(eq$metaList))
+      for (tbl in c("questionerList", "responderList", "categoryList", "questionCabinet", "questionText")) {
+        if (!is.null(eq[[tbl]])) {
+          expect_true(all(res[[tbl]]$dcIdentifier %in% ids), label = tbl)
+          expect_setequal(unique(res[[tbl]]$dcIdentifier), intersect(ids, eq[[tbl]]$dcIdentifier))
+        }
+      }
+    }
+  })
+}
