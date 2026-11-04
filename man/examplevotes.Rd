@@ -11,6 +11,23 @@ A voteList object
 data(examplevotes)
 }
 \description{
-Votes taken in the Dutch lower house in January 2010.
+Votes taken in the Dutch lower house in January 2010, with cabinet,
+election and party information from REPDEM (and ParlGov for 1918-1946).
+}
+\details{
+The object has class \code{c("voteListRepdem", "voteList")} and contains
+the sub-tables \code{datasetInfo}, \code{metaList}, \code{voteList},
+\code{voteMatrix}, \code{votePerParty}, \code{sponsorList},
+\code{categoryList}, \code{cabinetInfo}, \code{cabinetPeriods},
+\code{voteCabinet}, \code{electionInfo}, \code{partyElectionInfo},
+\code{partyCabinetInfo} and \code{partyInfo}.
+
+\code{cabinetInfo} has one row per cabinet. Caretaker (demissionair)
+status is recorded per cabinet period in \code{cabinetPeriods} and per
+vote in \code{voteCabinet}; \code{cabinetInfo$caretaker} only marks
+interim cabinets. See \code{\link{addCabinetInfo}}.
+}
+\seealso{
+\code{\link{examplevotes_legacy}} for the same votes with ParlGov data.
 }
 \keyword{datasets}

@@ -39,6 +39,7 @@ subset.voteList <- function(x, df, subset, select, drop = FALSE, drop.levels = T
   voteList$sponsorList <- voteList$sponsorList[voteList$sponsorList$id %in% select_ids, ]
   voteList$categoryList <- voteList$categoryList[voteList$categoryList$id %in% select_ids, ]
   voteList$votePerParty <- voteList$votePerParty[voteList$votePerParty$id %in% select_ids, ]
+  if (!is.null(voteList$voteCabinet)) voteList$voteCabinet <- voteList$voteCabinet[voteList$voteCabinet$id %in% select_ids, ]
 
   if (drop.levels) {
     voteList$metaList <- droplevels(voteList$metaList)
@@ -47,6 +48,7 @@ subset.voteList <- function(x, df, subset, select, drop = FALSE, drop.levels = T
     if (!is.null(voteList$sponsorList)) voteList$sponsorList <- droplevels(voteList$sponsorList)
     if (!is.null(voteList$categoryList)) voteList$categoryList <- droplevels(voteList$categoryList)
     if (!is.null(voteList$votePerParty)) voteList$votePerParty <- droplevels(voteList$votePerParty)
+    if (!is.null(voteList$voteCabinet)) voteList$voteCabinet <- droplevels(voteList$voteCabinet)
   }
 
   return(voteList)
@@ -64,7 +66,7 @@ subset.voteList <- function(x, df, subset, select, drop = FALSE, drop.levels = T
 #'   combined with \code{&}.
 #' @param .table Name of the sub-table to filter on. One of \code{"metaList"}
 #'   (default), \code{"voteList"}, \code{"votePerParty"}, \code{"sponsorList"},
-#'   or \code{"categoryList"}. The matching \code{id}s are then used to subset
+#'   \code{"categoryList"}, or (REPDEM data) \code{"voteCabinet"}. The matching \code{id}s are then used to subset
 #'   all other sub-tables.
 #' @param drop.levels If \code{TRUE} (default), unused factor levels are
 #'   dropped from all sub-tables after filtering.
@@ -80,6 +82,7 @@ subset.voteList <- function(x, df, subset, select, drop = FALSE, drop.levels = T
 #' dplyr::filter(examplevotes, sponsorParty == "VVD", .table = "sponsorList")
 filter.voteList <- function(.data, ..., .table = "metaList", drop.levels = TRUE) {
   valid_tables <- c("metaList", "voteList", "votePerParty", "sponsorList", "categoryList")
+  if (!is.null(.data$voteCabinet)) valid_tables <- c(valid_tables, "voteCabinet")
   if (!.table %in% valid_tables) {
     stop("`.table` must be one of: ", paste(valid_tables, collapse = ", "))
   }
@@ -93,6 +96,7 @@ filter.voteList <- function(.data, ..., .table = "metaList", drop.levels = TRUE)
   out$sponsorList  <- out$sponsorList[out$sponsorList$id %in% selected_ids, ]
   out$categoryList <- out$categoryList[out$categoryList$id %in% selected_ids, ]
   out$votePerParty <- out$votePerParty[out$votePerParty$id %in% selected_ids, ]
+  if (!is.null(out$voteCabinet)) out$voteCabinet <- out$voteCabinet[out$voteCabinet$id %in% selected_ids, ]
 
   if (drop.levels) {
     out$metaList     <- droplevels(out$metaList)
@@ -101,6 +105,7 @@ filter.voteList <- function(.data, ..., .table = "metaList", drop.levels = TRUE)
     if (!is.null(out$sponsorList))  out$sponsorList  <- droplevels(out$sponsorList)
     if (!is.null(out$categoryList)) out$categoryList <- droplevels(out$categoryList)
     if (!is.null(out$votePerParty)) out$votePerParty <- droplevels(out$votePerParty)
+    if (!is.null(out$voteCabinet))  out$voteCabinet  <- droplevels(out$voteCabinet)
   }
 
   return(out)

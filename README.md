@@ -42,10 +42,12 @@ downloadQuestions()
 
 ### Work with the data
 
-Load the package dutchparl. This includes two example objects
-`examplevotes` and `examplequestions`, which can be used to demonstrate
-how the package works. The fulldataset is not included with the package,
-due to its size (see above for downloading).
+Load the package dutchparl. This includes the example objects
+`examplevotes` (cabinet and party data from REPDEM),
+`examplevotes_legacy` (the same votes with ParlGov data, as in older
+releases) and `examplequestions`, which can be used to demonstrate how
+the package works. The fulldataset is not included with the package, due
+to its size (see above for downloading).
 
 ``` r
 library("dutchparl")
@@ -67,8 +69,9 @@ summary(data)
 #>                        Werk          Zorg en gezondheid 
 #>                          16                          12 
 #> Parties appearing at least  61  times in the dataset:
-#>  [1] "CDA"     "CU"      "D66"     "GL"      "PvdA"    "PvdD"    "PVV"    
-#>  [8] "SGP"     "SP"      "Verdonk" "VVD"
+#>  [1] "CDA"          "ChristenUnie" "D66"          "GL"           "PvdA"        
+#>  [6] "PvdD"         "PVV"          "SGP"          "SP"           "Verdonk"     
+#> [11] "VVD"
 ```
 
 You can open the full version of the data using:
