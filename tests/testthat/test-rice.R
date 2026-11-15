@@ -24,23 +24,31 @@ test_that("rice one row per party", {
   expect_equal(nrow(result), length(unique(result$party)))
 })
 
+for (fmt in names(example_votelists)) {
+  test_that(paste("rice works on both data layouts -", fmt), {
+    result <- rice(example_votelists[[fmt]])
+    expect_s3_class(result, "data.frame")
+    expect_true(all(result$rice_mean >= 0 & result$rice_mean <= 1, na.rm = TRUE))
+  })
+}
+
 test_that("rice gives the hand-computed score when a party splits", {
   x <- examplevotes
   # Let CDA split 30 against 11 on the first vote; all other CDA votes are unanimous
   cda <- which(x$votePerParty$party == "CDA")
-  x$votePerParty[cda[1], c("1", "0")] <- c(30, 11)
+  x$votePerParty[cda[1], c("vote_1", "vote_0")] <- list(30L, 11L)
   expected <- mean(c(abs(30 - 11) / (30 + 11), rep(1, length(cda) - 1)))
   result <- rice(x)
   expect_equal(result$rice_mean[result$party == "CDA"], expected)
   expect_equal(result$rice_mean[result$party == "PvdA"], 1)
 })
 
-test_that("rice accepts vote_0/vote_1/vote_8 column names", {
+test_that("rice accepts old 1/0/8 column names", {
   x <- examplevotes
   cda <- which(x$votePerParty$party == "CDA")
-  x$votePerParty[cda[1], c("1", "0")] <- c(30, 11)
+  x$votePerParty[cda[1], c("vote_1", "vote_0")] <- list(30L, 11L)
   y <- x
-  names(y$votePerParty)[match(c("1", "0", "8"), names(y$votePerParty))] <-
-    c("vote_1", "vote_0", "vote_8")
+  names(y$votePerParty)[match(c("vote_1", "vote_0", "vote_8"), names(y$votePerParty))] <-
+    c("1", "0", "8")
   expect_equal(rice(y), rice(x))
 })

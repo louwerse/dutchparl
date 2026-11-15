@@ -4,8 +4,7 @@
 \alias{addCabinetInfo}
 \alias{addCabinetInfo.voteList}
 \alias{addCabinetInfo.questionList}
-\title{Add information on cabinet composition and elections to metadata. This data
-is obtained from ParlGov (http://www.parlgov.org/).}
+\title{Add information on cabinet composition and elections to metadata.}
 \usage{
 addCabinetInfo(x, ...)
 
@@ -22,8 +21,28 @@ addCabinetInfo(x, ...)
 A voteList or questionList object
 }
 \description{
-Add information on cabinet composition and elections to metadata. This data
-is obtained from ParlGov (http://www.parlgov.org/).
+Cabinet and election data are obtained from REPDEM (with ParlGov for the
+period before 1946) or, in older versions of the data, from ParlGov
+(http://www.parlgov.org/). The source is recorded in \code{x$datasetInfo}.
+}
+\details{
+The following columns are added to \code{metaList}: \code{cabinet_name}
+(ordered factor), \code{cabinet_name_parlementcom}, \code{caretaker},
+\code{cabinet_resigned} (1 if the date is after the formal resignation of
+the cabinet), \code{term_start} and \code{election_date}.
+
+The meaning of \code{caretaker} depends on the source. ParlGov records
+caretaker spells as separate cabinets, and \code{caretaker} is 1 for these.
+REPDEM has one record per cabinet; caretaker status is recorded per cabinet
+period (table \code{cabinetPeriods}), per vote (table \code{voteCabinet})
+and per question (table \code{questionCabinet}, for the response date).
+For REPDEM data, \code{caretaker} is 1 whenever the cabinet was caretaker
+(demissionair): after its resignation, after an election, or as an interim
+cabinet. REPDEM data also get \code{cabinet_id}, \code{cabinet_period_id},
+\code{caretaker_reason} and \code{caretaker_parlgov} (the ParlGov
+definition). For votes and questions, the assignment in \code{voteCabinet}
+or \code{questionCabinet} is used; votes or questions missing from that
+table are matched on date.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -34,4 +53,6 @@ is obtained from ParlGov (http://www.parlgov.org/).
 }}
 \examples{
 addCabinetInfo(examplevotes)
+addCabinetInfo(examplevotes_legacy)
+addCabinetInfo(examplequestions)
 }

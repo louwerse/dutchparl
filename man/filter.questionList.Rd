@@ -33,5 +33,5 @@ Filter a questionList object
 dplyr::filter(examplequestions, dateQuestion > as.Date("2010-01-04"))
 
 # Filter on responderList to keep only questions answered by a specific party
-dplyr::filter(examplequestions, responderParty == "VVD", .table = "responderList")
+dplyr::filter(examplequestions, responderParty == "CDA", .table = "responderList")
 }

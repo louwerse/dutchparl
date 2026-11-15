@@ -4,8 +4,7 @@
 \alias{addInfo}
 \alias{addInfo.voteList}
 \alias{addInfo.questionList}
-\title{Add information on cabinets, elections and parties to dataset. This data
-is obtained from ParlGov (http://www.parlgov.org/).}
+\title{Add information on cabinets, elections and parties to dataset.}
 \usage{
 addInfo(x, ...)
 
@@ -22,8 +21,8 @@ addInfo(x, ...)
 A voteList object
 }
 \description{
-Add information on cabinets, elections and parties to dataset. This data
-is obtained from ParlGov (http://www.parlgov.org/).
+Data are obtained from REPDEM (with ParlGov for the period before 1946) or,
+in older versions of the data, from ParlGov (http://www.parlgov.org/).
 }
 \details{
 This is a wrapper that runs both addCabinetInfo and addPartyInfo with default settings.

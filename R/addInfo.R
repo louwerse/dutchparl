@@ -1,9 +1,301 @@
+# Internal helpers ---------------------------------------------------------
+#
+# Cabinet, election and party information comes in two layouts:
+#
+# * REPDEM (datasetInfo$external_source == "repdem", class "voteListRepdem"):
+#   cabinetInfo has one row per cabinet, identified by cabinet_id. Whether a
+#   cabinet was caretaker (demissionair) is recorded per period in
+#   cabinetPeriods, and per vote in voteCabinet. cabinetInfo$caretaker only
+#   flags interim cabinets.
+# * ParlGov (legacy and older layouts): cabinetInfo has a separate row for each
+#   caretaker spell, and cabinetInfo$caretaker flags these rows. There are no
+#   cabinetPeriods or voteCabinet tables.
+#
+# The helpers below take dates, look up the cabinet, period and parliamentary
+# term in force on each date, and return one row per unique date.
+
+# Unique, non-missing dates.
+unique_dates <- function(dates) {
+  dates <- unique(as.Date(dates))
+  sort(dates[!is.na(dates)])
+}
+
+# Sort a reference table by a date column and drop rows without that date.
+sort_by_date <- function(df, col) {
+  df <- as.data.frame(df)
+  df[[col]] <- as.Date(df[[col]])
+  df <- df[!is.na(df[[col]]), , drop = FALSE]
+  df[order(df[[col]]), , drop = FALSE]
+}
+
+# Index of the interval (defined by sorted start dates) that contains each
+# date. The last interval is open-ended. Dates before the first start get NA.
+interval_index <- function(dates, starts) {
+  idx <- findInterval(as.numeric(as.Date(dates)), as.numeric(starts))
+  idx[!is.na(idx) & idx == 0] <- NA_integer_
+  idx
+}
+
+# Cabinet (and, for REPDEM, cabinet period) in office on each date.
+cabinet_by_date <- function(x, dates) {
+  dates <- unique_dates(dates)
+  cab <- sort_by_date(x$cabinetInfo, "start_date")
+  cab$cabinet_name <- as.character(cab$cabinet_name)
+  idx <- interval_index(dates, cab$start_date)
+
+  out <- data.frame(date = dates)
+  if ("cabinet_id" %in% names(cab)) {
+    out$cabinet_id <- as.character(cab$cabinet_id)[idx]
+  }
+  out$cabinet_name <- factor(cab$cabinet_name[idx],
+    levels = unique(cab$cabinet_name), ordered = TRUE
+  )
+  if ("cabinet_name_parlementcom" %in% names(cab)) {
+    out$cabinet_name_parlementcom <- as.character(cab$cabinet_name_parlementcom)[idx]
+  }
+
+  if (!is.null(x$cabinetPeriods)) {
+    # REPDEM: caretaker status varies within a cabinet and is stored per period
+    per <- sort_by_date(x$cabinetPeriods, "start_date")
+    pidx <- interval_index(dates, per$start_date)
+    out$cabinet_period_id <- as.character(per$cabinet_period_id)[pidx]
+    out$caretaker <- per$caretaker[pidx]
+    if ("caretaker_reason" %in% names(per)) {
+      out$caretaker_reason <- as.character(per$caretaker_reason)[pidx]
+    }
+    if ("caretaker_parlgov" %in% names(per)) {
+      out$caretaker_parlgov <- per$caretaker_parlgov[pidx]
+    }
+  } else if ("caretaker" %in% names(cab)) {
+    # ParlGov: caretaker spells are separate cabinets
+    out$caretaker <- cab$caretaker[idx]
+  }
+
+  # formal_resignation is not part of all data versions, so check if it is present
+  if ("formal_resignation" %in% names(cab)) {
+    out$cabinet_resigned <- as.numeric(out$date > as.Date(cab$formal_resignation[idx]))
+  }
+
+  out
+}
+
+# Parliamentary term (and election) in force on each date.
+election_by_date <- function(x, dates) {
+  dates <- unique_dates(dates)
+  el <- sort_by_date(dplyr::distinct(as.data.frame(x$electionInfo)), "term_start")
+  idx <- interval_index(dates, el$term_start)
+  out <- cbind(data.frame(date = dates), el[idx, , drop = FALSE])
+  rownames(out) <- NULL
+  out
+}
+
+# Cabinet and election information for each date.
+cabinet_info_by_date <- function(x, dates) {
+  dplyr::left_join(cabinet_by_date(x, dates), election_by_date(x, dates), by = "date")
+}
+
+# Add the columns of `info` (one row per date) to `df`, matching `df[[date_col]]`
+# to `info$date`. Only columns not yet present in `df` are added.
+add_by_date <- function(df, info, date_col) {
+  m <- match(as.Date(df[[date_col]]), info$date)
+  for (col in setdiff(names(info), c("date", names(df)))) {
+    df[[col]] <- info[[col]][m]
+  }
+  rownames(df) <- NULL
+  df
+}
+
+# Overwrite date-based cabinet information in metaList with the per-unit
+# assignment in voteCabinet or questionCabinet (REPDEM data). Votes or
+# questions not in that table keep the date-based values.
+apply_unit_cabinet <- function(x, table, id_col, date_col) {
+  vc <- as.data.frame(x[[table]])
+  m <- match(as.character(x$metaList[[id_col]]), as.character(vc[[id_col]]))
+  has <- !is.na(m)
+  if (!any(has)) {
+    return(x)
+  }
+
+  cols <- intersect(
+    c("cabinet_id", "cabinet_period_id", "caretaker", "caretaker_reason", "caretaker_parlgov"),
+    names(vc)
+  )
+  for (col in cols) {
+    value <- vc[[col]][m]
+    if (is.factor(value) || col %in% c("cabinet_id", "cabinet_period_id", "caretaker_reason")) {
+      value <- as.character(value)
+    }
+    if (!(col %in% names(x$metaList))) {
+      x$metaList[[col]] <- rep(value[NA_integer_], nrow(x$metaList))
+    }
+    x$metaList[[col]][has] <- value[has]
+  }
+
+  # Cabinet names follow from the cabinet_id in voteCabinet/questionCabinet
+  if ("cabinet_id" %in% cols && "cabinet_id" %in% names(x$cabinetInfo)) {
+    cab <- as.data.frame(x$cabinetInfo)
+    cm <- match(x$metaList$cabinet_id, as.character(cab$cabinet_id))
+    upd <- has & !is.na(cm)
+    x$metaList$cabinet_name[upd] <- as.character(cab$cabinet_name)[cm[upd]]
+    if ("cabinet_name_parlementcom" %in% names(x$metaList)) {
+      x$metaList$cabinet_name_parlementcom[upd] <-
+        as.character(cab$cabinet_name_parlementcom)[cm[upd]]
+    }
+    if ("cabinet_resigned" %in% names(x$metaList) && "formal_resignation" %in% names(cab)) {
+      x$metaList$cabinet_resigned[upd] <- as.numeric(
+        as.Date(x$metaList[[date_col]][upd]) > as.Date(cab$formal_resignation[cm[upd]])
+      )
+    }
+  }
+  x
+}
+
+# Reference tables for party information. Cabinet participation is keyed on
+# cabinet_id if both cabinetInfo and partyCabinetInfo have it (REPDEM),
+# otherwise on cabinet_name; election results are keyed on term_start.
+party_tables <- function(x, includetype = "basic") {
+  includetype <- match.arg(includetype, c("basic", "all"))
+
+  pci <- as.data.frame(x$partyCabinetInfo)
+  key <- if ("cabinet_id" %in% names(x$cabinetInfo) && "cabinet_id" %in% names(pci)) "cabinet_id" else "cabinet_name"
+  pci_cols <- c("party", "cabinet_party", "prime_minister", "support_party")
+  if (includetype == "all") {
+    pci_cols <- c(pci_cols, "family_name", "ches_lrgen", "ches_lrecon", "rile")
+  }
+  pci <- pci[!is.na(pci$party), unique(c(key, intersect(pci_cols, names(pci)))), drop = FALSE]
+  names(pci)[names(pci) == key] <- "cabinet_key"
+  pci$cabinet_key <- as.character(pci$cabinet_key)
+  pci$party <- as.character(pci$party)
+  pci <- dplyr::distinct(pci, .data$cabinet_key, .data$party, .keep_all = TRUE)
+  pci$in_cabinet_data <- TRUE
+
+  pei <- as.data.frame(x$partyElectionInfo)
+  pei$term_start <- as.Date(pei$term_start)
+  pei <- dplyr::rename(pei, dplyr::any_of(c("party_seats" = "seats")))
+  pei <- pei[!is.na(pei$party) & !is.na(pei$term_start),
+    intersect(c("term_start", "party", "vote_share", "seat_share", "party_seats"), names(pei)),
+    drop = FALSE
+  ]
+  pei$party <- as.character(pei$party)
+  pei <- dplyr::distinct(pei, .data$term_start, .data$party, .keep_all = TRUE)
+  pei$in_election_data <- TRUE
+
+  pinfo <- NULL
+  if (includetype == "all" && !is.null(x$partyInfo)) {
+    pinfo <- as.data.frame(x$partyInfo)
+    pinfo <- pinfo[!is.na(pinfo$party), , drop = FALSE]
+    pinfo$party <- as.character(pinfo$party)
+    pinfo <- dplyr::distinct(pinfo, .data$party, .keep_all = TRUE)
+    pinfo <- pinfo[, c("party", setdiff(names(pinfo), c(names(pci), names(pei)))), drop = FALSE]
+  }
+
+  list(key = key, pci = pci, pei = pei, pinfo = pinfo)
+}
+
+# Cabinet (as cabinet_id or cabinet_name, see party_tables()) for each row.
+# The per-unit assignment in `unit_table` (voteCabinet or questionCabinet) is
+# used where available; other rows are matched on date.
+unit_cabinet_key <- function(x, key, dates, ids = NULL, unit_table = NULL, id_col = NULL) {
+  dates <- as.Date(dates)
+  cab <- cabinet_by_date(x, dates)
+  out <- as.character(cab[[key]])[match(dates, cab$date)]
+
+  if (!is.null(unit_table) && !is.null(x[[unit_table]]) && !is.null(ids)) {
+    unit <- as.data.frame(x[[unit_table]])
+    assigned <- as.character(unit$cabinet_id)[match(as.character(ids), as.character(unit[[id_col]]))]
+    if (key == "cabinet_name") {
+      ci <- as.data.frame(x$cabinetInfo)
+      assigned <- if ("cabinet_id" %in% names(ci)) {
+        as.character(ci$cabinet_name)[match(assigned, as.character(ci$cabinet_id))]
+      } else {
+        rep(NA_character_, length(assigned))
+      }
+    }
+    has <- !is.na(assigned)
+    out[has] <- assigned[has]
+  }
+  out
+}
+
+# Add party information to a sub-table. Each row is matched on its party, its
+# cabinet (see unit_cabinet_key()) and the parliamentary term in force on
+# `date_col`. If the sub-table has no date column, it is taken from metaList
+# via the id column.
+add_party_info <- function(tbl, x, pt, id_col, date_col, party_col, tblname,
+                           unit_table = NULL) {
+  if (is.null(tbl)) {
+    return(tbl)
+  }
+  if (!(date_col %in% names(tbl))) {
+    m <- match(as.character(tbl[[id_col]]), as.character(x$metaList[[id_col]]))
+    tbl[[date_col]] <- as.Date(x$metaList[[date_col]])[m]
+  }
+
+  infocols <- setdiff(
+    c(names(pt$pci), names(pt$pei), names(pt$pinfo)),
+    c("cabinet_key", "party", "term_start", "in_cabinet_data", "in_election_data")
+  )
+  newcols <- setdiff(infocols, names(tbl))
+  if (length(newcols) == 0) {
+    warning("All party information is already in ", tblname, ". Did not add.")
+    return(tbl)
+  }
+
+  dates <- as.Date(tbl[[date_col]])
+  rows <- data.frame(
+    party = as.character(tbl[[party_col]]),
+    cabinet_key = unit_cabinet_key(x, pt$key, dates, tbl[[id_col]], unit_table, id_col)
+  )
+  el <- election_by_date(x, dates)
+  rows$term_start <- el$term_start[match(dates, el$date)]
+
+  rows <- dplyr::left_join(rows, pt$pci, by = c("cabinet_key", "party"))
+  rows <- dplyr::left_join(rows, pt$pei, by = c("term_start", "party"))
+
+  # Parties that hold seats but are not listed for the cabinet are not in it
+  absent <- is.na(rows$in_cabinet_data) & !is.na(rows$cabinet_key) & !is.na(rows$in_election_data)
+  for (col in intersect(c("cabinet_party", "prime_minister"), names(rows))) {
+    rows[[col]][absent] <- 0L
+  }
+
+  if (!is.null(pt$pinfo)) {
+    rows <- dplyr::left_join(rows, pt$pinfo, by = "party")
+  }
+
+  for (col in newcols) {
+    tbl[[col]] <- rows[[col]]
+  }
+  tbl
+}
+
+
 # addCabinetInfo ----------------------------------------------------------
 #' @exportS3Method
 addCabinetInfo.default <- function(x, ...) {}
 
-#' Add information on cabinet composition and elections to metadata. This data
-#' is obtained from ParlGov (http://www.parlgov.org/).
+#' Add information on cabinet composition and elections to metadata.
+#'
+#' Cabinet and election data are obtained from REPDEM (with ParlGov for the
+#' period before 1946) or, in older versions of the data, from ParlGov
+#' (http://www.parlgov.org/). The source is recorded in \code{x$datasetInfo}.
+#'
+#' The following columns are added to \code{metaList}: \code{cabinet_name}
+#' (ordered factor), \code{cabinet_name_parlementcom}, \code{caretaker},
+#' \code{cabinet_resigned} (1 if the date is after the formal resignation of
+#' the cabinet), \code{term_start} and \code{election_date}.
+#'
+#' The meaning of \code{caretaker} depends on the source. ParlGov records
+#' caretaker spells as separate cabinets, and \code{caretaker} is 1 for these.
+#' REPDEM has one record per cabinet; caretaker status is recorded per cabinet
+#' period (table \code{cabinetPeriods}), per vote (table \code{voteCabinet})
+#' and per question (table \code{questionCabinet}, for the response date).
+#' For REPDEM data, \code{caretaker} is 1 whenever the cabinet was caretaker
+#' (demissionair): after its resignation, after an election, or as an interim
+#' cabinet. REPDEM data also get \code{cabinet_id}, \code{cabinet_period_id},
+#' \code{caretaker_reason} and \code{caretaker_parlgov} (the ParlGov
+#' definition). For votes and questions, the assignment in \code{voteCabinet}
+#' or \code{questionCabinet} is used; votes or questions missing from that
+#' table are matched on date.
 #'
 #' @param x A voteList or questionList object
 #' @return A voteList or questionList object
@@ -12,6 +304,8 @@ addCabinetInfo.default <- function(x, ...) {}
 #' @export
 #' @examples
 #' addCabinetInfo(examplevotes)
+#' addCabinetInfo(examplevotes_legacy)
+#' addCabinetInfo(examplequestions)
 addCabinetInfo <- function(x, ...) {
   UseMethod("addCabinetInfo")
 }
@@ -24,80 +318,14 @@ addCabinetInfo.voteList <- function(x, ...) {
     return(x)
   }
 
+  info <- cabinet_info_by_date(x, x$metaList$date)
+  x$metaList <- add_by_date(x$metaList, info, "date")
 
-  min_date <- min(as.Date(x$metaList$date), na.rm = TRUE)
-  max_date <- max(as.Date(x$metaList$date), na.rm = TRUE)
-
-  all_dates <- seq.Date(from = min_date, to = max_date, by = 1)
-
-
-  if (max_date < max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE)) {
-    end_date_selection <- max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE) + 1
-  } else {
-    end_date_selection <- max_date + 1
+  if (!is.null(x$voteCabinet)) {
+    x <- apply_unit_cabinet(x, "voteCabinet", id_col = "id", date_col = "date")
   }
 
-  cabinet_name <- cut(all_dates,
-    breaks = c(
-      x$cabinetInfo$start_date,
-      end_date_selection + 1
-    ),
-    labels = x$cabinetInfo$cabinet_name,
-    ordered_result = TRUE
-  )
-
-  term_start <- cut(all_dates,
-    breaks = c(
-      x$electionInfo$term_start,
-      max(as.Date(x$metaList$date), na.rm = TRUE) + 1
-    ),
-    labels = x$electionInfo$term_start,
-    ordered_result = FALSE
-  )
-
-  term_start <- as.Date(term_start)
-
-  cabInfoAllDays <- dplyr::left_join(
-    data.frame(
-      date = all_dates,
-      cabinet_name = as.character(cabinet_name)
-    ),
-    x$cabinetInfo,
-    by = "cabinet_name"
-  )
-
-  # formal_resignation is not part of parlgov data, so check if it is present
-  if ("formal_resignation" %in% colnames(cabInfoAllDays)) {
-    cabInfoAllDays <- cabInfoAllDays |>
-      dplyr::mutate(cabinet_resigned = as.numeric(.data$date > .data$formal_resignation))
-  }
-
-  cabInfoAllDays <- cabInfoAllDays |>
-    dplyr::select(dplyr::any_of(c(
-      "date", "cabinet_name",
-      "cabinet_name_parlementcom",
-      "caretaker", "cabinet_resigned"
-    )))
-
-
-  cabInfoAllDays$cabinet_name <- factor(cabInfoAllDays$cabinet_name,
-    levels = levels(cabinet_name), ordered = TRUE
-  )
-
-
-  electionInfoAllDays <- dplyr::left_join(
-    data.frame(date = all_dates, term_start),
-    x$electionInfo,
-    by = "term_start"
-  )
-  out <- x
-  out$metaList <- dplyr::left_join(out$metaList, cabInfoAllDays, by = "date")
-  out$metaList <- dplyr::left_join(out$metaList,
-    electionInfoAllDays,
-    by = c("date")
-  )
-
-  return(out)
+  return(x)
 }
 
 
@@ -110,66 +338,16 @@ addCabinetInfo.questionList <- function(x, ...) {
     return(x)
   }
 
+  info <- cabinet_info_by_date(x, x$metaList$dateResponse)
+  x$metaList <- add_by_date(x$metaList, info, "dateResponse")
 
-  all_dates <- seq.Date(
-    from = as.Date(min(x$metaList$dateResponse)),
-    to = as.Date(as.Date(max(x$metaList$dateResponse))), by = 1
-  )
+  if (!is.null(x$questionCabinet)) {
+    x <- apply_unit_cabinet(x, "questionCabinet",
+      id_col = "dcIdentifier", date_col = "dateResponse"
+    )
+  }
 
-  cabinet_name <- cut(all_dates,
-    breaks = c(
-      x$cabinetInfo$start_date,
-      as.Date(max(x$metaList$dateResponse)) + 1
-    ),
-    labels = x$cabinetInfo$cabinet_name,
-    ordered_result = TRUE
-  )
-
-  term_start <- cut(all_dates,
-    breaks = c(
-      x$electionInfo$term_start,
-      as.Date(max(x$metaList$dateResponse)) + 1
-    ),
-    labels = x$electionInfo$term_start,
-    ordered_result = FALSE
-  )
-
-  term_start <- as.Date(term_start)
-
-
-  cabInfoAllDays <- dplyr::left_join(
-    data.frame(
-      date = all_dates,
-      cabinet_name = as.character(cabinet_name)
-    ),
-    x$cabinetInfo,
-    by = "cabinet_name"
-  ) |>
-    dplyr::mutate(cabinet_resigned = as.numeric(.data$date > .data$formal_resignation)) |>
-    dplyr::select(dplyr::any_of(c(
-      "date", "cabinet_name",
-      "cabinet_name_parlementcom",
-      "caretaker", "cabinet_resigned"
-    )))
-
-  cabInfoAllDays$cabinet_name <- factor(cabInfoAllDays$cabinet_name,
-    levels = levels(cabinet_name), ordered = TRUE
-  )
-
-
-  electionInfoAllDays <- dplyr::left_join(
-    data.frame(date = all_dates, term_start),
-    x$electionInfo,
-    by = "term_start"
-  )
-  out <- x
-  out$metaList <- dplyr::left_join(out$metaList, cabInfoAllDays, by = c("dateResponse" = "date"))
-  out$metaList <- dplyr::left_join(out$metaList,
-    electionInfoAllDays,
-    by = c("dateResponse" = "date")
-  )
-
-  return(out)
+  return(x)
 }
 
 # addPartyInfo ------------------------------------------------------------
@@ -177,11 +355,26 @@ addCabinetInfo.questionList <- function(x, ...) {
 #' @exportS3Method
 addPartyInfo.default <- function(x, ...) {}
 
-#' Add information on party characteristics to voteList or questionerList object. This data
-#' is obtained from ParlGov (http://www.parlgov.org/).
+#' Add information on party characteristics to voteList or questionList object.
+#'
+#' Party data are obtained from REPDEM (with ParlGov for the period before
+#' 1946) or, in older versions of the data, from ParlGov
+#' (http://www.parlgov.org/). The source is recorded in \code{x$datasetInfo}.
+#'
+#' The basic information consists of \code{cabinet_party},
+#' \code{prime_minister}, \code{vote_share}, \code{seat_share} and
+#' \code{party_seats} (REPDEM data also include \code{support_party}).
+#' Parties that hold seats but are not listed for the cabinet in office get
+#' \code{cabinet_party = 0} and \code{prime_minister = 0}.
+#'
+#' The cabinet is the same as in \code{\link{addCabinetInfo}}: for votes and
+#' responders, the assignment in \code{voteCabinet} or \code{questionCabinet}
+#' (REPDEM data) is used, with the vote or response date as fallback.
+#' Questioners are linked to the cabinet in office on the date of the question.
+#' Election results refer to the parliamentary term in force on that date.
 #'
 #' @param x A voteList object
-#' @param includetype A charcter value, "basic" or "all". Defaults to "basic". Basic only includes party characteristics that vary by date, while all includes all party characteristics.
+#' @param includetype A character value, "basic" or "all". Defaults to "basic". Basic only includes party characteristics that vary by date, while all includes all party characteristics (from \code{partyInfo}, and for REPDEM data also the cabinet-specific \code{family_name}, \code{ches_lrgen}, \code{ches_lrecon} and \code{rile}).
 #' @param addto Character vector including the subtables to which party information should be added. Defaults to c("voteList", "sponsorList","votePerParty") vote a voteList object or c("questionerList", "responderList") for a questionList object.
 #' @return A voteList or questionList object.
 #' @param ... Other parameters passed on.
@@ -197,146 +390,15 @@ addPartyInfo <- function(x, ...) {
 addPartyInfo.voteList <- function(x, includetype = "basic",
                                   addto = c("voteList", "sponsorList", "votePerParty"),
                                   ...) {
-
-  min_date <- min(as.Date(x$metaList$date), na.rm = TRUE)
-  max_date <- max(as.Date(x$metaList$date), na.rm = TRUE)
-
-  all_dates <- seq.Date(from = min_date, to = max_date, by = 1)
-
-  term_starts_unique <- x$electionInfo |>
-    dplyr::select("term_start") |>
-    dplyr::arrange(.data$term_start)
-
-  term_start <- cut(all_dates,
-    breaks = c(
-      term_starts_unique$term_start,
-      max(as.Date(x$metaList$date), na.rm = TRUE) + 1
-    ),
-    labels = term_starts_unique$term_start,
-    ordered_result = FALSE
+  pt <- party_tables(x, includetype)
+  targets <- list(
+    voteList = "party", sponsorList = "sponsorParty", votePerParty = "party"
   )
-  term_start <- as.Date(term_start)
-
-  if (max_date < max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE)) {
-    end_date_selection <- max(as.Date(x$cabinetInfo$start_date), na.rm = TRUE) + 1
-  } else {
-    end_date_selection <- max_date + 1
-  }
-
-  cabinet_name <- cut(all_dates,
-    breaks = c(
-      x$cabinetInfo$start_date,
-      end_date_selection + 1
-    ),
-    labels = x$cabinetInfo$cabinet_name,
-    ordered_result = TRUE
-  )
-
-  partyCabinetInfoAllDays <-
-    dplyr::left_join(
-      data.frame(
-        date = all_dates,
-        cabinet_name = as.character(cabinet_name)
-      ),
-      x$partyCabinetInfo,
-      by = "cabinet_name",
-      relationship = "many-to-many"
-    ) |>
-    dplyr::select(dplyr::any_of(c("date", "party", "cabinet_party", "prime_minister")))
-
-
-  partyElectionInfoAllDays <- dplyr::left_join(
-    data.frame(date = all_dates, term_start),
-    x$partyElectionInfo,
-    by = "term_start",
-    relationship = "many-to-many"
-  ) |>
-    dplyr::rename("party_seats" = "seats") |>
-    dplyr::select(dplyr::any_of(c("date", "party", "vote_share", "seat_share", "party_seats")))
-
-  combinedInfo <- dplyr::full_join(partyCabinetInfoAllDays, partyElectionInfoAllDays,
-    by = c("date", "party")
-  )
-
-  if (includetype == "all") {
-    combinedInfo <- dplyr::left_join(combinedInfo, x$partyInfo, by = "party")
-  }
-
-  # # Force party names to characters, encoded as UTF-8 to prevent crashes in
-  # # merging
-  # combinedInfo$party <- as.character(combinedInfo$party)
-  # Encoding(combinedInfo$party) <- "UTF-8"
-
-  # Add data to object
-  if ("voteList" %in% addto) {
-    x$metaList$id <- as.character(x$metaList$id)
-    x$voteList$id <- as.character(x$voteList$id)
-    if (!("date" %in% names(x$voteList))) {
-      x$voteList <- dplyr::left_join(x$voteList,
-        dplyr::select(
-          x$metaList,
-          dplyr::any_of(c("id", "date"))
-        ),
-        by = "id"
-      )
-    }
-    if (all(colnames(combinedInfo) %in% colnames(x$voteList))) {
-      warning("All party information is already in voteList. Did not add.")
-    } else {
-      # Only include columns that are not yet in the data
-      notYetPresent <- colnames(combinedInfo[-c(1:2)])[which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$voteList))]
-      combinedInfo1 <- combinedInfo[, c("date", "party", notYetPresent)]
-      x$voteList <- dplyr::left_join(x$voteList,
-        combinedInfo1,
-        by = c("date", "party")
-      )
-    }
-  }
-
-
-  if ("sponsorList" %in% addto) {
-    x$sponsorList$id <- as.character(x$sponsorList$id)
-
-    if (!("date" %in% names(x$sponsorList))) {
-      x$sponsorList <- dplyr::left_join(x$sponsorList,
-        dplyr::select(
-          x$metaList,
-          dplyr::any_of(c("id", "date"))
-        ),
-        by = "id"
-      )
-    }
-    if (all(colnames(combinedInfo[-c(1:2)]) %in% colnames(x$sponsorList))) {
-      warning("All party information is already in sponsorList. Did not add.")
-    } else {
-      # Only include columns that are not yet in the data
-      notYetPresent <- colnames(combinedInfo)[-c(1:2)][which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$sponsorList))]
-
-      combinedInfo2 <- combinedInfo[, c("date", "party", notYetPresent)]
-      x$sponsorList <- dplyr::left_join(x$sponsorList, combinedInfo2,
-        by = c("date", "sponsorParty" = "party")
-      )
-    }
-  }
-
-  if ("votePerParty" %in% addto) {
-    if (all(colnames(combinedInfo) %in% colnames(x$votePerParty))) {
-      warning("All party information is already in votePerParty. Did not add.")
-    } else {
-      if (!("date" %in% names(x$votePerParty))) {
-        x$votePerParty <- dplyr::left_join(x$votePerParty,
-          dplyr::select(x$metaList, dplyr::any_of(c("id", "date"))),
-          by = "id"
-        )
-      }
-      # Only include columns that are not yet in the data
-      notYetPresent <- colnames(combinedInfo)[-c(1:2)][which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$votePerParty))]
-
-      combinedInfo3 <- combinedInfo[, c("date", "party", notYetPresent)]
-      x$votePerParty <- dplyr::left_join(x$votePerParty, combinedInfo3,
-        by = c("date", "party")
-      )
-    }
+  for (tbl in intersect(names(targets), addto)) {
+    x[[tbl]] <- add_party_info(x[[tbl]], x, pt,
+      id_col = "id", date_col = "date", party_col = targets[[tbl]],
+      tblname = tbl, unit_table = "voteCabinet"
+    )
   }
 
   return(x)
@@ -351,120 +413,23 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
                                       ...) {
   if (nrow(x$metaList) > 5e3) warning("This is a large questionList object. This operation will increase the object size significantly.")
 
-  date.na.omit <- function(q) {
-    return(subset(q, q > as.Date("0001-01-01")))
-  }
+  pt <- party_tables(x, includetype)
 
-  all_dates <- seq.Date(
-    from = as.Date(min(
-      c(date.na.omit(x$metaList$dateResponse)),
-      date.na.omit(x$metaList$dateQuestion)
-    )),
-    to = as.Date(as.Date(max(c(
-      date.na.omit(x$metaList$dateResponse),
-      date.na.omit(x$metaList$dateQuestion)
-    )))),
-    by = 1
-  )
-  term_starts_unique <- x$electionInfo |>
-    dplyr::select("term_start") |>
-    dplyr::arrange(.data$term_start)
-
-  term_start <- cut(all_dates,
-    breaks = c(
-      term_starts_unique$term_start,
-      as.Date(max(x$metaList$dateResponse)) + 1
-    ),
-    labels = term_starts_unique$term_start,
-    ordered_result = FALSE
-  )
-  term_start <- as.Date(term_start)
-
-  cabinet_name <- cut(all_dates,
-    breaks = c(
-      x$cabinetInfo$start_date,
-      as.Date(max(x$metaList$dateResponse)) + 1
-    ),
-    labels = x$cabinetInfo$cabinet_name,
-    ordered_result = TRUE
-  )
-
-  partyCabinetInfoAllDays <- dplyr::left_join(
-    data.frame(date = all_dates, cabinet_name = as.character(cabinet_name)),
-    x$partyCabinetInfo,
-    by = "cabinet_name",
-    relationship = "many-to-many"
-  ) |>
-    dplyr::select(dplyr::any_of(c("date", "party", "cabinet_party", "prime_minister")))
-
-
-  partyElectionInfoAllDays <- dplyr::left_join(
-    data.frame(date = all_dates, term_start),
-    x$partyElectionInfo,
-    by = "term_start",
-    relationship = "many-to-many"
-  ) |>
-    dplyr::rename("party_seats" = "seats") |>
-    dplyr::select(dplyr::any_of(c("date", "party", "vote_share", "seat_share", "party_seats")))
-
-  combinedInfo <- dplyr::full_join(partyCabinetInfoAllDays, partyElectionInfoAllDays,
-    by = c("date", "party")
-  )
-
-  if (includetype == "all") {
-    combinedInfo <- dplyr::left_join(combinedInfo, x$partyInfo, by = "party")
-  }
-
-  # # Force party names to characters, encoded as UTF-8 to prevent crashes in
-  # # merging
-  # combinedInfo$party <- as.character(combinedInfo$party)
-  # Encoding(combinedInfo$party) <- "UTF-8"
-
-  # Add data to object
+  # Questioners: the cabinet on the day the question was asked
   if ("questionerList" %in% addto) {
-    x$metaList$dcIdentifier <- as.character(x$metaList$dcIdentifier)
-    x$questionerList$dcIdentifier <- as.character(x$questionerList$dcIdentifier)
-    if (!("dateQuestion" %in% names(x$questionerList))) {
-      x$questionerList <- dplyr::left_join(x$questionerList,
-        dplyr::select(
-          x$metaList,
-          dplyr::any_of(c("dcIdentifier", "dateQuestion"))
-        ),
-        by = "dcIdentifier"
-      )
-    }
-    if (all(colnames(combinedInfo) %in% colnames(x$questionerList))) {
-      warning("All party information is already in questionerList. Did not add.")
-    } else {
-      # Only include columns that are not yet in the data
-      notYetPresent <- colnames(combinedInfo[-c(1:2)])[which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$questionerList))]
-      combinedInfo1 <- combinedInfo[, c("date", "party", notYetPresent)]
-      x$questionerList <- dplyr::left_join(x$questionerList, combinedInfo1, by = c("dateQuestion" = "date", "questionerParty" = "party"))
-    }
+    x$questionerList <- add_party_info(x$questionerList, x, pt,
+      id_col = "dcIdentifier", date_col = "dateQuestion",
+      party_col = "questionerParty", tblname = "questionerList"
+    )
   }
-
+  # Responders: the cabinet that responded (questionCabinet, else response date)
   if ("responderList" %in% addto) {
-    x$metaList$dcIdentifier <- as.character(x$metaList$dcIdentifier)
-    x$responderList$dcIdentifier <- as.character(x$responderList$dcIdentifier)
-    if (!("dateResponse" %in% names(x$responderList))) {
-      x$responderList <- dplyr::left_join(x$responderList,
-        dplyr::select(
-          x$metaList,
-          dplyr::any_of(c("dcIdentifier", "dateResponse"))
-        ),
-        by = "dcIdentifier"
-      )
-    }
-    if (all(colnames(combinedInfo) %in% colnames(x$responderList))) {
-      warning("All party information is already in responderList. Did not add.")
-    } else {
-      # Only include columns that are not yet in the data
-      notYetPresent <- colnames(combinedInfo[-c(1:2)])[which(!colnames(combinedInfo[-c(1:2)]) %in% colnames(x$responderList))]
-      combinedInfo1 <- combinedInfo[, c("date", "party", notYetPresent)]
-      x$responderList <- dplyr::left_join(x$responderList, combinedInfo1, by = c("dateResponse" = "date", "responderParty" = "party"))
-    }
+    x$responderList <- add_party_info(x$responderList, x, pt,
+      id_col = "dcIdentifier", date_col = "dateResponse",
+      party_col = "responderParty", tblname = "responderList",
+      unit_table = "questionCabinet"
+    )
   }
-
 
   return(x)
 }
@@ -477,8 +442,10 @@ addPartyInfo.questionList <- function(x, includetype = "basic",
 #' @exportS3Method
 addInfo.default <- function(x, ...) {}
 
-#' Add information on cabinets, elections and parties to dataset. This data
-#' is obtained from ParlGov (http://www.parlgov.org/).
+#' Add information on cabinets, elections and parties to dataset.
+#'
+#' Data are obtained from REPDEM (with ParlGov for the period before 1946) or,
+#' in older versions of the data, from ParlGov (http://www.parlgov.org/).
 #'
 #' @param x A voteList object
 #' @return A voteList object
