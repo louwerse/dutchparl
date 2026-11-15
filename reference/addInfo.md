@@ -1,7 +1,8 @@
-# Add information on cabinets, elections and parties to dataset. This data is obtained from ParlGov (http://www.parlgov.org/).
+# Add information on cabinets, elections and parties to dataset.
 
-Add information on cabinets, elections and parties to dataset. This data
-is obtained from ParlGov (http://www.parlgov.org/).
+Data are obtained from REPDEM (with ParlGov for the period before 1946)
+or, in older versions of the data, from ParlGov
+(http://www.parlgov.org/).
 
 ## Usage
 

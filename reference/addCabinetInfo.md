@@ -1,7 +1,8 @@
-# Add information on cabinet composition and elections to metadata. This data is obtained from ParlGov (http://www.parlgov.org/).
+# Add information on cabinet composition and elections to metadata.
 
-Add information on cabinet composition and elections to metadata. This
-data is obtained from ParlGov (http://www.parlgov.org/).
+Cabinet and election data are obtained from REPDEM (with ParlGov for the
+period before 1946) or, in older versions of the data, from ParlGov
+(http://www.parlgov.org/). The source is recorded in `x$datasetInfo`.
 
 ## Usage
 
@@ -29,6 +30,26 @@ addCabinetInfo(x, ...)
 
 A voteList or questionList object
 
+## Details
+
+The following columns are added to `metaList`: `cabinet_name` (ordered
+factor), `cabinet_name_parlementcom`, `caretaker`, `cabinet_resigned` (1
+if the date is after the formal resignation of the cabinet),
+`term_start` and `election_date`.
+
+The meaning of `caretaker` depends on the source. ParlGov records
+caretaker spells as separate cabinets, and `caretaker` is 1 for these.
+REPDEM has one record per cabinet; caretaker status is recorded per
+cabinet period (table `cabinetPeriods`), per vote (table `voteCabinet`)
+and per question (table `questionCabinet`, for the response date). For
+REPDEM data, `caretaker` is 1 whenever the cabinet was caretaker
+(demissionair): after its resignation, after an election, or as an
+interim cabinet. REPDEM data also get `cabinet_id`, `cabinet_period_id`,
+`caretaker_reason` and `caretaker_parlgov` (the ParlGov definition). For
+votes and questions, the assignment in `voteCabinet` or
+`questionCabinet` is used; votes or questions missing from that table
+are matched on date.
+
 ## Methods (by class)
 
 - `addCabinetInfo(voteList)`: Cabinet Information for voteList object
@@ -42,15 +63,471 @@ A voteList or questionList object
 ``` r
 addCabinetInfo(examplevotes)
 #>                   Length Class      Mode
-#> metaList          18     data.frame list
-#> voteList           7     data.frame list
-#> categoryList       5     data.frame list
-#> sponsorList        5     data.frame list
-#> voteMatrix        12     data.frame list
-#> votePerParty       5     data.frame list
-#> partyInfo         24     data.frame list
-#> cabinetInfo        6     data.frame list
-#> partyCabinetInfo  28     data.frame list
-#> partyElectionInfo 12     data.frame list
-#> electionInfo       2     data.frame list
+#> datasetInfo        5     tbl_df     list
+#> metaList          25     tbl_df     list
+#> voteList           7     tbl_df     list
+#> categoryList       5     tbl_df     list
+#> sponsorList        7     tbl_df     list
+#> cabinetInfo       43     tbl_df     list
+#> partyElectionInfo 15     tbl_df     list
+#> partyInfo         20     tbl_df     list
+#> electionInfo       2     tbl_df     list
+#> votePerParty      11     data.frame list
+#> partyCabinetInfo  30     tbl_df     list
+#> voteMatrix        12     tbl_df     list
+#> cabinetPeriods    11     tbl_df     list
+#> voteCabinet        6     tbl_df     list
+addCabinetInfo(examplevotes_legacy)
+#>                   Length Class      Mode
+#> datasetInfo        5     tbl_df     list
+#> metaList          21     tbl_df     list
+#> voteList           7     tbl_df     list
+#> categoryList       5     tbl_df     list
+#> sponsorList        7     tbl_df     list
+#> cabinetInfo        6     tbl_df     list
+#> partyElectionInfo 13     tbl_df     list
+#> partyInfo         22     data.frame list
+#> electionInfo       2     tbl_df     list
+#> votePerParty      11     data.frame list
+#> partyCabinetInfo  14     tbl_df     list
+#> voteMatrix        12     tbl_df     list
+#> partyMetaData     14     tbl_df     list
+addCabinetInfo(examplequestions)
+#> $datasetInfo
+#> # A tibble: 1 × 5
+#>   external_source layout_version dpbd_release created    sources                
+#>   <chr>                    <int> <chr>        <date>     <chr>                  
+#> 1 repdem                       2 NA           2026-11-04 Cabinets, elections an…
+#> 
+#> $metaList
+#>           dcIdentifier
+#> 1  ah-tk-20092010-1207
+#> 2  ah-tk-20092010-1208
+#> 3  ah-tk-20092010-1221
+#> 4  ah-tk-20092010-1294
+#> 5  ah-tk-20092010-1295
+#> 6  ah-tk-20092010-1353
+#> 7  ah-tk-20092010-1354
+#> 8  ah-tk-20092010-1385
+#> 9  ah-tk-20092010-1394
+#> 10 ah-tk-20092010-1401
+#> 11 ah-tk-20092010-1416
+#> 12 ah-tk-20092010-1478
+#> 13 ah-tk-20092010-1537
+#> 14 ah-tk-20092010-1630
+#> 15 ah-tk-20092010-1717
+#> 16 ah-tk-20092010-1747
+#>                                                                                                                                                  dcTitle
+#> 1                                                                       Antwoord vragen Fritsma, Brinkman en Wilders inzake ongeregeldheden in Culemborg
+#> 2                                                                             Antwoord vragen Thieme over jacht op landelijke vrijgestelde schadesoorten
+#> 3                                                                   Antwoord vragen Ten Broeke en Weekers over vervroegde pensionering van EU-ambtenaren
+#> 4                                                     Antwoord vragen De Roon en Brinkman over uitlatingen van een leidinggevende van de politieacademie
+#> 5  Antwoord vragen Van Haersma Buma over de berichtgeving van de journalist die met een insulinespuit op Schiphol aan boord van een vliegtuig is gekomen
+#> 6                                                                       Uitstel beantwoording vragen Vietsch en Elias over de bouw van negen ecopassages
+#> 7                     Antwoord vragen Atsma en Jacobi over het bericht dat de terreinbeherende instantie It Fryske Gea een verbod wil op het eierzoeken 
+#> 8                                         Uitstel beantwoording vragen Kuiken en Heerts over het verhalen van schade op daders van vandalisme en geweld 
+#> 9                                                                                                          Antwoord vragen Kuiken over de politiesterkte
+#> 10                                   Antwoord vragen Dijsselbloem over het binnen een jaar weglopen van 400 jongeren uit gesloten jeugdzorginstellingen 
+#> 11                                    Antwoord vragen Bashir en Kant over het artikel ''Bankier van ABN Amro hekelt het bonuscircus en verlaat de bank''
+#> 12                                                                                   Antwoord vragen Vietsch en Elias over de bouw van negen ecopassages
+#> 13                                                                                              Antwoord vragen Jansen over Woonbron en de ss Rotterdam 
+#> 14                                                                                 Antwoord vragen Joldersma over de handhaving van de rookvrije horeca 
+#> 15                                                     Antwoord vragen Kuiken en Heerts over het verhalen van schade op daders van vandalisme en geweld 
+#> 16                                                                       Antwoord vragen Teeven over woningovervallen in Amsterdam Nieuw-West (de Aker) 
+#>    questionNumber aanhangselNumber dateQuestion dateResponse questionerCount
+#> 1      2010Z00055             1207   2010-01-05   2010-01-12               3
+#> 2      2010Z00069             1208   2010-01-05   2010-01-12               1
+#> 3      2010Z00007             1221   2010-01-04   2010-01-13               2
+#> 4      2010Z00009             1294   2010-01-04   2010-01-27               2
+#> 5      2010Z00056             1295   2010-01-05   2010-01-27               1
+#> 6      2010Z00058             1353   2010-01-05   2010-01-25               2
+#> 7      2010Z00063             1354   2010-01-05   2010-01-25               2
+#> 8      2010Z00071             1385   2010-01-05   2010-01-26               2
+#> 9      2010Z00070             1394   2010-01-05   2010-01-28               1
+#> 10     2010Z01648             1401   2010-01-05   2010-01-28               1
+#> 11     2010Z00062             1416   2010-01-05   2010-01-29               2
+#> 12     2010Z00058             1478   2010-01-05   2010-02-04               2
+#> 13     2010Z00059             1537   2010-01-05   2010-02-09               1
+#> 14     2010Z00008             1630   2010-01-04   2010-02-16               1
+#> 15     2010Z00071             1717   2010-01-05   2010-02-23               2
+#> 16     2010Z00061             1747   2010-01-05   2010-03-01               1
+#>    responderCount aanhangselType cabinet_id  cabinet_name
+#> 1               3       Antwoord      12026 Balkenende IV
+#> 2               1       Antwoord      12026 Balkenende IV
+#> 3               1       Antwoord      12026 Balkenende IV
+#> 4               1       Antwoord      12026 Balkenende IV
+#> 5               1       Antwoord      12026 Balkenende IV
+#> 6               1       Antwoord      12026 Balkenende IV
+#> 7               1       Antwoord      12026 Balkenende IV
+#> 8               1       Antwoord      12026 Balkenende IV
+#> 9               1       Antwoord      12026 Balkenende IV
+#> 10              1       Antwoord      12026 Balkenende IV
+#> 11              1       Antwoord      12026 Balkenende IV
+#> 12              1       Antwoord      12026 Balkenende IV
+#> 13              1       Antwoord      12026 Balkenende IV
+#> 14              1       Antwoord      12026 Balkenende IV
+#> 15              1       Antwoord      12027  Balkenende V
+#> 16              1       Antwoord      12027  Balkenende V
+#>    cabinet_name_parlementcom cabinet_period_id caretaker caretaker_reason
+#> 1              Balkenende IV           12026-1         0             <NA>
+#> 2              Balkenende IV           12026-1         0             <NA>
+#> 3              Balkenende IV           12026-1         0             <NA>
+#> 4              Balkenende IV           12026-1         0             <NA>
+#> 5              Balkenende IV           12026-1         0             <NA>
+#> 6              Balkenende IV           12026-1         0             <NA>
+#> 7              Balkenende IV           12026-1         0             <NA>
+#> 8              Balkenende IV           12026-1         0             <NA>
+#> 9              Balkenende IV           12026-1         0             <NA>
+#> 10             Balkenende IV           12026-1         0             <NA>
+#> 11             Balkenende IV           12026-1         0             <NA>
+#> 12             Balkenende IV           12026-1         0             <NA>
+#> 13             Balkenende IV           12026-1         0             <NA>
+#> 14             Balkenende IV           12026-1         0             <NA>
+#> 15             Balkenende IV           12027-1         1  interim_cabinet
+#> 16             Balkenende IV           12027-1         1  interim_cabinet
+#>    caretaker_parlgov cabinet_resigned election_date term_start
+#> 1                  0                0    2006-11-22 2006-11-30
+#> 2                  0                0    2006-11-22 2006-11-30
+#> 3                  0                0    2006-11-22 2006-11-30
+#> 4                  0                0    2006-11-22 2006-11-30
+#> 5                  0                0    2006-11-22 2006-11-30
+#> 6                  0                0    2006-11-22 2006-11-30
+#> 7                  0                0    2006-11-22 2006-11-30
+#> 8                  0                0    2006-11-22 2006-11-30
+#> 9                  0                0    2006-11-22 2006-11-30
+#> 10                 0                0    2006-11-22 2006-11-30
+#> 11                 0                0    2006-11-22 2006-11-30
+#> 12                 0                0    2006-11-22 2006-11-30
+#> 13                 0                0    2006-11-22 2006-11-30
+#> 14                 0                0    2006-11-22 2006-11-30
+#> 15                 1                0    2006-11-22 2006-11-30
+#> 16                 1                0    2006-11-22 2006-11-30
+#> 
+#> $questionerList
+#>              dcIdentifier           questionerName questionerId questionerParty
+#> 39292 ah-tk-20092010-1207           Sietse Fritsma        03131             PVV
+#> 39293 ah-tk-20092010-1207            Geert Wilders        02258             PVV
+#> 39294 ah-tk-20092010-1207            Hero Brinkman        03099             PVV
+#> 39295 ah-tk-20092010-1208          Marianne Thieme        03100            PvdD
+#> 39316 ah-tk-20092010-1221           Han ten Broeke        03069             VVD
+#> 39317 ah-tk-20092010-1221            Frans Weekers        02247             VVD
+#> 39414 ah-tk-20092010-1294          Raymond de Roon        03126             PVV
+#> 39415 ah-tk-20092010-1294            Hero Brinkman        03099             PVV
+#> 39416 ah-tk-20092010-1295 Sybrand van Haersma Buma        02316             CDA
+#> 39490 ah-tk-20092010-1353       Antoinette Vietsch        02372             CDA
+#> 39491 ah-tk-20092010-1353                Ton Elias        03064             VVD
+#> 39492 ah-tk-20092010-1354               Joop Atsma        02204             CDA
+#> 39493 ah-tk-20092010-1354              Lutz Jacobi        03079            PvdA
+#> 39528 ah-tk-20092010-1385             Attje Kuiken        03075            PvdA
+#> 39529 ah-tk-20092010-1385               Ton Heerts        03073            PvdA
+#> 39541 ah-tk-20092010-1394             Attje Kuiken        03075            PvdA
+#> 39550 ah-tk-20092010-1401      Jeroen Dijsselbloem        02200            PvdA
+#> 39570 ah-tk-20092010-1416           Farshad Bashir        03149              SP
+#> 39571 ah-tk-20092010-1416               Agnes Kant        02226              SP
+#> 39655 ah-tk-20092010-1478       Antoinette Vietsch        02372             CDA
+#> 39656 ah-tk-20092010-1478                Ton Elias        03064             VVD
+#> 39725 ah-tk-20092010-1537            Paulus Jansen        03106              SP
+#> 39848 ah-tk-20092010-1630          Cisca Joldersma        02322             CDA
+#> 39958 ah-tk-20092010-1717             Attje Kuiken        03075            PvdA
+#> 39959 ah-tk-20092010-1717               Ton Heerts        03073            PvdA
+#> 39999 ah-tk-20092010-1747              Fred Teeven        02336             VVD
+#> 
+#> $responderList
+#>              dcIdentifier         responderName responderId responderParty
+#> 28711 ah-tk-20092010-1207 Eberhard van der Laan       03180           PvdA
+#> 28712 ah-tk-20092010-1207   Ernst Hirsch Ballin       02963            CDA
+#> 28713 ah-tk-20092010-1207      Guusje ter Horst       03152           PvdA
+#> 28714 ah-tk-20092010-1208         Gerda Verburg       02246            CDA
+#> 28727 ah-tk-20092010-1221      Frans Timmermans       02244           PvdA
+#> 28804 ah-tk-20092010-1294      Guusje ter Horst       03152           PvdA
+#> 28805 ah-tk-20092010-1295   Ernst Hirsch Ballin       02963            CDA
+#> 28864 ah-tk-20092010-1353       Camiel Eurlings       02216            CDA
+#> 28865 ah-tk-20092010-1354         Gerda Verburg       02246            CDA
+#> 28896 ah-tk-20092010-1385   Ernst Hirsch Ballin       02963            CDA
+#> 28906 ah-tk-20092010-1394      Guusje ter Horst       03152           PvdA
+#> 28913 ah-tk-20092010-1401         Andre Rouvoet       02541   ChristenUnie
+#> 28928 ah-tk-20092010-1416            Wouter Bos       02212           PvdA
+#> 28993 ah-tk-20092010-1478       Camiel Eurlings       02216            CDA
+#> 29081 ah-tk-20092010-1537 Eberhard van der Laan       03180           PvdA
+#> 29181 ah-tk-20092010-1630              Ab Klink       03012            CDA
+#> 29272 ah-tk-20092010-1717   Ernst Hirsch Ballin       02963            CDA
+#> 29302 ah-tk-20092010-1747   Ernst Hirsch Ballin       02963            CDA
+#>       responderFunction
+#> 28711              <NA>
+#> 28712              <NA>
+#> 28713              <NA>
+#> 28714              <NA>
+#> 28727              <NA>
+#> 28804              <NA>
+#> 28805              <NA>
+#> 28864              <NA>
+#> 28865              <NA>
+#> 28896              <NA>
+#> 28906              <NA>
+#> 28913              <NA>
+#> 28928              <NA>
+#> 28993              <NA>
+#> 29081              <NA>
+#> 29181              <NA>
+#> 29272              <NA>
+#> 29302              <NA>
+#> 
+#> $categoryList
+#>              dcIdentifier                    category
+#> 57225 ah-tk-20092010-1207 Openbare orde en veiligheid
+#> 57226 ah-tk-20092010-1207          Zorg en gezondheid
+#> 57227 ah-tk-20092010-1207      Migratie en integratie
+#> 57228 ah-tk-20092010-1208            Natuur en milieu
+#> 57229 ah-tk-20092010-1208                     Bestuur
+#> 57261 ah-tk-20092010-1221                        Werk
+#> 57262 ah-tk-20092010-1221              Internationaal
+#> 57419 ah-tk-20092010-1294     Onderwijs en wetenschap
+#> 57420 ah-tk-20092010-1294 Openbare orde en veiligheid
+#> 57421 ah-tk-20092010-1294     Onderwijs en wetenschap
+#> 57422 ah-tk-20092010-1294                       Recht
+#> 57423 ah-tk-20092010-1295 Openbare orde en veiligheid
+#> 57424 ah-tk-20092010-1295 Openbare orde en veiligheid
+#> 57425 ah-tk-20092010-1295    Ruimte en infrastructuur
+#> 57426 ah-tk-20092010-1295                     Verkeer
+#> 57547 ah-tk-20092010-1353                    Economie
+#> 57548 ah-tk-20092010-1353                    Economie
+#> 57549 ah-tk-20092010-1353            Natuur en milieu
+#> 57550 ah-tk-20092010-1353    Ruimte en infrastructuur
+#> 57551 ah-tk-20092010-1354            Natuur en milieu
+#> 57629 ah-tk-20092010-1385                    Economie
+#> 57630 ah-tk-20092010-1385                       Recht
+#> 57631 ah-tk-20092010-1385                       Recht
+#> 57655 ah-tk-20092010-1394 Openbare orde en veiligheid
+#> 57674 ah-tk-20092010-1401          Zorg en gezondheid
+#> 57675 ah-tk-20092010-1401          Zorg en gezondheid
+#> 57676 ah-tk-20092010-1401          Zorg en gezondheid
+#> 57712 ah-tk-20092010-1416                    Economie
+#> 57713 ah-tk-20092010-1416                   Financien
+#> 57864 ah-tk-20092010-1478                    Economie
+#> 57865 ah-tk-20092010-1478                    Economie
+#> 57866 ah-tk-20092010-1478            Natuur en milieu
+#> 57867 ah-tk-20092010-1478    Ruimte en infrastructuur
+#> 57992 ah-tk-20092010-1537                     Verkeer
+#> 57993 ah-tk-20092010-1537                 Huisvesting
+#> 58181 ah-tk-20092010-1630          Zorg en gezondheid
+#> 58182 ah-tk-20092010-1630                     Bestuur
+#> 58183 ah-tk-20092010-1630                    Economie
+#> 58184 ah-tk-20092010-1630        Cultuur en recreatie
+#> 58377 ah-tk-20092010-1717                    Economie
+#> 58378 ah-tk-20092010-1717                       Recht
+#> 58379 ah-tk-20092010-1717                       Recht
+#> 58444 ah-tk-20092010-1747 Openbare orde en veiligheid
+#> 58445 ah-tk-20092010-1747 Openbare orde en veiligheid
+#>                              subcategory category_english subcategory_english
+#> 57225                      Criminaliteit             <NA>                <NA>
+#> 57226                           Jongeren             <NA>                <NA>
+#> 57227                         Integratie             <NA>                <NA>
+#> 57228        Natuur- en landschapsbeheer             <NA>                <NA>
+#> 57229                         Provincies             <NA>                <NA>
+#> 57261                 Arbeidsvoorwaarden             <NA>                <NA>
+#> 57262                     Europese zaken             <NA>                <NA>
+#> 57419                   Beroepsonderwijs             <NA>                <NA>
+#> 57420 Politie, brandweer en hulpdiensten             <NA>                <NA>
+#> 57421                    Hoger onderwijs             <NA>                <NA>
+#> 57422                        Staatsrecht             <NA>                <NA>
+#> 57423                      Criminaliteit             <NA>                <NA>
+#> 57424              Organisatie en beleid             <NA>                <NA>
+#> 57425              Organisatie en beleid             <NA>                <NA>
+#> 57426                         Luchtvaart             <NA>                <NA>
+#> 57547                         Ondernemen             <NA>                <NA>
+#> 57548                      Markttoezicht             <NA>                <NA>
+#> 57549        Natuur- en landschapsbeheer             <NA>                <NA>
+#> 57550              Organisatie en beleid             <NA>                <NA>
+#> 57551        Natuur- en landschapsbeheer             <NA>                <NA>
+#> 57629       Overige economische sectoren             <NA>                <NA>
+#> 57630                   Burgerlijk recht             <NA>                <NA>
+#> 57631                         Strafrecht             <NA>                <NA>
+#> 57655 Politie, brandweer en hulpdiensten             <NA>                <NA>
+#> 57674              Organisatie en beleid             <NA>                <NA>
+#> 57675                      Verzekeringen             <NA>                <NA>
+#> 57676                           Jongeren             <NA>                <NA>
+#> 57712       Overige economische sectoren             <NA>                <NA>
+#> 57713                     Inkomensbeleid             <NA>                <NA>
+#> 57864                         Ondernemen             <NA>                <NA>
+#> 57865                      Markttoezicht             <NA>                <NA>
+#> 57866        Natuur- en landschapsbeheer             <NA>                <NA>
+#> 57867              Organisatie en beleid             <NA>                <NA>
+#> 57992                              Water             <NA>                <NA>
+#> 57993              Organisatie en beleid             <NA>                <NA>
+#> 58181                Gezondheidsrisico's             <NA>                <NA>
+#> 58182              Organisatie en beleid             <NA>                <NA>
+#> 58183       Overige economische sectoren             <NA>                <NA>
+#> 58184                          Recreatie             <NA>                <NA>
+#> 58377       Overige economische sectoren             <NA>                <NA>
+#> 58378                   Burgerlijk recht             <NA>                <NA>
+#> 58379                         Strafrecht             <NA>                <NA>
+#> 58444                      Criminaliteit             <NA>                <NA>
+#> 58445 Politie, brandweer en hulpdiensten             <NA>                <NA>
+#> 
+#> $cabinetInfo
+#> # A tibble: 49 × 43
+#>    cabinet_id cabinet_name          cabinet_name_parleme…¹ start_date end_date  
+#>    <chr>      <fct>                 <fct>                  <date>     <date>    
+#>  1 pg1262     Ruijs de Beerenbrouc… Ruijs de Beerenbrouck… 1918-09-09 1922-09-17
+#>  2 pg1261     Ruijs de Beerenbrouc… Ruijs de Beerenbrouck… 1922-09-18 1925-08-03
+#>  3 pg1260     Colijn I              Colijn I               1925-08-04 1926-03-07
+#>  4 pg1259     De Geer I             De Geer I              1926-03-08 1929-08-09
+#>  5 pg1258     Ruijs de Beerenbrouc… Ruijs de Beerenbrouck… 1929-08-10 1933-05-25
+#>  6 pg1257     Colijn II             Colijn II              1933-05-26 1935-07-30
+#>  7 pg1256     Colijn III            Colijn III             1935-07-31 1937-06-23
+#>  8 pg1255     Colijn IV             Colijn IV              1937-06-24 1939-07-24
+#>  9 pg1297     Colijn V              Colijn V               1939-07-25 1939-08-09
+#> 10 pg1254     De Geer II            De Geer II             1939-08-10 1940-09-02
+#> # ℹ 39 more rows
+#> # ℹ abbreviated name: ¹​cabinet_name_parlementcom
+#> # ℹ 38 more variables: formal_resignation <date>, caretaker <int>,
+#> #   caretaker_repdem <int>, caretaker_override <int>,
+#> #   previous_cabinet_id <chr>, election_date <date>, repdem_date_out <date>,
+#> #   cab_composition1 <chr>, govtype <dbl>, cab_majority <dbl>,
+#> #   cab_minority <dbl>, cab_seatshare <dbl>, post_election_cab <dbl>, …
+#> 
+#> $partyElectionInfo
+#> # A tibble: 335 × 15
+#>    election_date parlgov_elec_id previous_parliament_election_id election_id
+#>    <date>                  <int> <chr>                           <chr>      
+#>  1 1918-07-03                937 NA                              pg937      
+#>  2 1918-07-03                937 NA                              pg937      
+#>  3 1918-07-03                937 NA                              pg937      
+#>  4 1918-07-03                937 NA                              pg937      
+#>  5 1918-07-03                937 NA                              pg937      
+#>  6 1918-07-03                937 NA                              pg937      
+#>  7 1918-07-03                937 NA                              pg937      
+#>  8 1918-07-03                937 NA                              pg937      
+#>  9 1918-07-03                937 NA                              pg937      
+#> 10 1918-07-03                937 NA                              pg937      
+#> # ℹ 325 more rows
+#> # ℹ 11 more variables: party_name_short <chr>, vote_share <dbl>,
+#> #   seat_share <dbl>, seats <dbl>, party <chr>, party_api_id <chr>,
+#> #   parlgov_party_id <int>, repdem_party_id <dbl>, partyfacts_id <dbl>,
+#> #   term_start <date>, data_source <chr>
+#> 
+#> $electionInfo
+#>    election_date term_start
+#> 1     1918-07-03 1918-09-17
+#> 2     1922-07-05 1922-07-25
+#> 3     1925-07-01 1925-09-15
+#> 4     1929-07-03 1929-09-17
+#> 5     1933-04-26 1933-05-10
+#> 6     1937-05-26 1937-06-08
+#> 7     1946-05-17 1946-06-04
+#> 8     1948-07-07 1948-07-27
+#> 9     1952-06-25 1952-07-15
+#> 10    1956-06-13 1956-07-03
+#> 11    1959-03-12 1959-03-20
+#> 12    1963-05-15 1963-06-05
+#> 13    1967-02-15 1967-02-23
+#> 14    1971-04-28 1971-05-11
+#> 15    1972-11-29 1972-12-07
+#> 16    1977-05-25 1977-06-08
+#> 17    1981-05-26 1981-06-10
+#> 18    1982-09-08 1982-09-16
+#> 19    1986-05-21 1986-06-03
+#> 20    1989-09-06 1989-09-14
+#> 21    1994-05-03 1994-05-17
+#> 22    1998-05-06 1998-05-19
+#> 23    2002-05-15 2002-05-23
+#> 24    2003-01-22 2003-01-30
+#> 25    2006-11-22 2006-11-30
+#> 26    2010-06-09 2010-06-17
+#> 27    2012-09-12 2012-09-20
+#> 28    2017-03-15 2017-03-23
+#> 29    2021-03-17 2021-03-31
+#> 30    2023-11-22 2023-12-06
+#> 31    2025-10-29 2025-11-12
+#> 
+#> $partyInfo
+#> # A tibble: 95 × 20
+#>    party      party_api_id party_name_short party_name party_name_english family
+#>    <chr>      <chr>        <chr>            <chr>      <chr>               <dbl>
+#>  1 50PLUS     a34bf6c8-83… 50PLUS           50PLUS     50PLUS                 95
+#>  2 50PLUS/Ba… b094bfef-e1… NA               50PLUS/Ba… 50PLUS/Baay-Timme…     NA
+#>  3 AOV|VSP    *AOV|VSP     AOV              Algemeen … General Senior Un…     95
+#>  4 ARP        *ARP         ARP              Anti-Revo… Anti-Revolutionar…     50
+#>  5 BBB        626555ac-e8… BBB              BoerBurge… Farmer-Citizen Mo…     80
+#>  6 BIJ1       18e95d6d-16… BIJ1             BIJ1       BIJ1                   20
+#>  7 BONTES     831e85cb-62… NA               Bontes     Bontes                 NA
+#>  8 BRINK      e133cd98-1b… NA               Brinkman   Brinkman               NA
+#>  9 BVL        *BVL         NA               Bond van … League of Free Li…     NA
+#> 10 Bp         *Bp          BP               Boerenpar… Farmers Party          80
+#> # ℹ 85 more rows
+#> # ℹ 14 more variables: family_name_short <chr>, family_name <chr>,
+#> #   family_manifesto <dbl>, family_notes <chr>, split_off <int>,
+#> #   pdc_name <chr>, pdc_link <chr>, dnpp_link <chr>, partyfacts_id <int>,
+#> #   parlgov_party_id <int>, repdem_party_id <int>, polpal_id <int>, cmp <int>,
+#> #   chess <int>
+#> 
+#> $partyCabinetInfo
+#> # A tibble: 530 × 30
+#>    cabinet_id cabinet_name            cabinet_name_parleme…¹ previous_cabinet_id
+#>    <chr>      <fct>                   <fct>                  <chr>              
+#>  1 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#>  2 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#>  3 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#>  4 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#>  5 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#>  6 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#>  7 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#>  8 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#>  9 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#> 10 pg1262     Ruijs de Beerenbrouck I Ruijs de Beerenbrouck… NA                 
+#> # ℹ 520 more rows
+#> # ℹ abbreviated name: ¹​cabinet_name_parlementcom
+#> # ℹ 26 more variables: election_date <date>, start_date <date>,
+#> #   end_date <date>, formal_resignation <date>, party_name_short <chr>,
+#> #   party <chr>, party_api_id <chr>, parlgov_party_id <int>,
+#> #   cabinet_party <int>, prime_minister <int>, seats_party <dbl>,
+#> #   seatshare_party <dbl>, data_source <chr>, repdem_party_id <dbl>, …
+#> 
+#> $questionText
+#> # A tibble: 0 × 3
+#> # ℹ 3 variables: dcIdentifier <chr>, question_number <chr>, question_text <chr>
+#> 
+#> $cabinetPeriods
+#> # A tibble: 84 × 11
+#>    cabinet_period_id cabinet_id cabinet_name   cabinet_name_parleme…¹ start_date
+#>    <chr>             <chr>      <fct>          <fct>                  <date>    
+#>  1 pg1262-1          pg1262     Ruijs de Beer… Ruijs de Beerenbrouck… 1918-09-09
+#>  2 pg1262-2          pg1262     Ruijs de Beer… Ruijs de Beerenbrouck… 1922-07-18
+#>  3 pg1261-1          pg1261     Ruijs de Beer… Ruijs de Beerenbrouck… 1922-09-18
+#>  4 pg1261-2          pg1261     Ruijs de Beer… Ruijs de Beerenbrouck… 1925-07-01
+#>  5 pg1260-1          pg1260     Colijn I       Colijn I               1925-08-04
+#>  6 pg1260-2          pg1260     Colijn I       Colijn I               1925-11-11
+#>  7 pg1259-1          pg1259     De Geer I      De Geer I              1926-03-08
+#>  8 pg1259-2          pg1259     De Geer I      De Geer I              1929-07-03
+#>  9 pg1258-1          pg1258     Ruijs de Beer… Ruijs de Beerenbrouck… 1929-08-10
+#> 10 pg1258-2          pg1258     Ruijs de Beer… Ruijs de Beerenbrouck… 1933-04-26
+#> # ℹ 74 more rows
+#> # ℹ abbreviated name: ¹​cabinet_name_parlementcom
+#> # ℹ 6 more variables: end_date <date>, caretaker <int>, caretaker_reason <chr>,
+#> #   caretaker_repdem <int>, caretaker_parlgov <int>, data_source <chr>
+#> 
+#> $questionCabinet
+#> # A tibble: 16 × 6
+#>    dcIdentifier        cabinet_id cabinet_period_id caretaker caretaker_reason
+#>    <chr>               <chr>      <chr>                 <int> <chr>           
+#>  1 ah-tk-20092010-1207 12026      12026-1                   0 NA              
+#>  2 ah-tk-20092010-1208 12026      12026-1                   0 NA              
+#>  3 ah-tk-20092010-1221 12026      12026-1                   0 NA              
+#>  4 ah-tk-20092010-1294 12026      12026-1                   0 NA              
+#>  5 ah-tk-20092010-1295 12026      12026-1                   0 NA              
+#>  6 ah-tk-20092010-1353 12026      12026-1                   0 NA              
+#>  7 ah-tk-20092010-1354 12026      12026-1                   0 NA              
+#>  8 ah-tk-20092010-1385 12026      12026-1                   0 NA              
+#>  9 ah-tk-20092010-1394 12026      12026-1                   0 NA              
+#> 10 ah-tk-20092010-1401 12026      12026-1                   0 NA              
+#> 11 ah-tk-20092010-1416 12026      12026-1                   0 NA              
+#> 12 ah-tk-20092010-1478 12026      12026-1                   0 NA              
+#> 13 ah-tk-20092010-1537 12026      12026-1                   0 NA              
+#> 14 ah-tk-20092010-1630 12026      12026-1                   0 NA              
+#> 15 ah-tk-20092010-1717 12027      12027-1                   1 interim_cabinet 
+#> 16 ah-tk-20092010-1747 12027      12027-1                   1 interim_cabinet 
+#> # ℹ 1 more variable: caretaker_parlgov <int>
+#> 
+#> attr(,"class")
+#> [1] "questionListRepdem" "questionList"      
 ```

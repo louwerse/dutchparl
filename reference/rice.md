@@ -39,15 +39,15 @@ A list of rice scores.
 ``` r
 rice(examplevotes)
 #>           party rice_mean
-#> 1           CDA         1
-#> 2  ChristenUnie         1
-#> 3           D66         1
-#> 4    GroenLinks         1
-#> 5          PvdA         1
-#> 6          PvdD         1
-#> 7           PVV         1
-#> 8           SGP         1
+#> 1       Verdonk         1
+#> 2           D66         1
+#> 3           CDA         1
+#> 4           PVV         1
+#> 5           VVD         1
+#> 6           SGP         1
+#> 7          PvdA         1
+#> 8            GL         1
 #> 9            SP         1
-#> 10      Verdonk         1
-#> 11          VVD         1
+#> 10         PvdD         1
+#> 11 ChristenUnie         1
 ```

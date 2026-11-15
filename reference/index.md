@@ -4,14 +4,11 @@
 
 - [`addCabinetInfo()`](https://louwerse.github.io/dutchparl/reference/addCabinetInfo.md)
   : Add information on cabinet composition and elections to metadata.
-  This data is obtained from ParlGov (http://www.parlgov.org/).
 - [`addInfo()`](https://louwerse.github.io/dutchparl/reference/addInfo.md)
-  : Add information on cabinets, elections and parties to dataset. This
-  data is obtained from ParlGov (http://www.parlgov.org/).
+  : Add information on cabinets, elections and parties to dataset.
 - [`addPartyInfo()`](https://louwerse.github.io/dutchparl/reference/addPartyInfo.md)
-  : Add information on party characteristics to voteList or
-  questionerList object. This data is obtained from ParlGov
-  (http://www.parlgov.org/).
+  : Add information on party characteristics to voteList or questionList
+  object.
 - [`as.rollcall()`](https://louwerse.github.io/dutchparl/reference/as.rollcall.md)
   : Transform into rollcall object
 - [`cosponsors()`](https://louwerse.github.io/dutchparl/reference/cosponsors.md)
@@ -24,8 +21,14 @@
   internet
 - [`examplequestions`](https://louwerse.github.io/dutchparl/reference/examplequestions.md)
   : Dutch Parliamentary Behaviour Dataset (Questions)
+- [`examplequestions_legacy`](https://louwerse.github.io/dutchparl/reference/examplequestions_legacy.md)
+  : Dutch Parliamentary Behaviour Dataset (Questions, legacy ParlGov
+  version)
 - [`examplevotes`](https://louwerse.github.io/dutchparl/reference/examplevotes.md)
   : Dutch Parliamentary Behaviour Dataset (Votes)
+- [`examplevotes_legacy`](https://louwerse.github.io/dutchparl/reference/examplevotes_legacy.md)
+  : Dutch Parliamentary Behaviour Dataset (Votes, legacy ParlGov
+  version)
 - [`filter(`*`<questionList>`*`)`](https://louwerse.github.io/dutchparl/reference/filter.questionList.md)
   : Filter a questionList object
 - [`filter(`*`<voteList>`*`)`](https://louwerse.github.io/dutchparl/reference/filter.voteList.md)

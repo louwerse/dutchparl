@@ -24,8 +24,9 @@ filter(.data, ..., .table = "metaList", drop.levels = TRUE)
 - .table:
 
   Name of the sub-table to filter on. One of `"metaList"` (default),
-  `"voteList"`, `"votePerParty"`, `"sponsorList"`, or `"categoryList"`.
-  The matching `id`s are then used to subset all other sub-tables.
+  `"voteList"`, `"votePerParty"`, `"sponsorList"`, `"categoryList"`, or
+  (REPDEM data) `"voteCabinet"`. The matching `id`s are then used to
+  subset all other sub-tables.
 
 - drop.levels:
 
@@ -43,30 +44,36 @@ the filter conditions.
 # Filter on metaList (default)
 dplyr::filter(examplevotes, date > as.Date("2010-01-15"))
 #>                   Length Class      Mode
-#> metaList          12     data.frame list
-#> voteList           7     data.frame list
-#> categoryList       5     data.frame list
-#> sponsorList        5     data.frame list
-#> voteMatrix        12     data.frame list
-#> votePerParty       5     data.frame list
-#> partyInfo         24     data.frame list
-#> cabinetInfo        6     data.frame list
-#> partyCabinetInfo  28     data.frame list
-#> partyElectionInfo 12     data.frame list
-#> electionInfo       2     data.frame list
+#> datasetInfo        5     tbl_df     list
+#> metaList          15     tbl_df     list
+#> voteList           7     tbl_df     list
+#> categoryList       5     tbl_df     list
+#> sponsorList        7     tbl_df     list
+#> cabinetInfo       43     tbl_df     list
+#> partyElectionInfo 15     tbl_df     list
+#> partyInfo         20     tbl_df     list
+#> electionInfo       2     tbl_df     list
+#> votePerParty      11     data.frame list
+#> partyCabinetInfo  30     tbl_df     list
+#> voteMatrix        12     tbl_df     list
+#> cabinetPeriods    11     tbl_df     list
+#> voteCabinet        6     tbl_df     list
 
 # Filter on sponsorList to keep only votes with a specific sponsor party
 dplyr::filter(examplevotes, sponsorParty == "VVD", .table = "sponsorList")
 #>                   Length Class      Mode
-#> metaList          12     data.frame list
-#> voteList           7     data.frame list
-#> categoryList       5     data.frame list
-#> sponsorList        5     data.frame list
-#> voteMatrix        12     data.frame list
-#> votePerParty       5     data.frame list
-#> partyInfo         24     data.frame list
-#> cabinetInfo        6     data.frame list
-#> partyCabinetInfo  28     data.frame list
-#> partyElectionInfo 12     data.frame list
-#> electionInfo       2     data.frame list
+#> datasetInfo        5     tbl_df     list
+#> metaList          15     tbl_df     list
+#> voteList           7     tbl_df     list
+#> categoryList       5     tbl_df     list
+#> sponsorList        7     tbl_df     list
+#> cabinetInfo       43     tbl_df     list
+#> partyElectionInfo 15     tbl_df     list
+#> partyInfo         20     tbl_df     list
+#> electionInfo       2     tbl_df     list
+#> votePerParty      11     data.frame list
+#> partyCabinetInfo  30     tbl_df     list
+#> voteMatrix        12     tbl_df     list
+#> cabinetPeriods    11     tbl_df     list
+#> voteCabinet        6     tbl_df     list
 ```

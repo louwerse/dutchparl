@@ -39,10 +39,13 @@ downloadQuestions()
 
 ### Work with the data
 
-Load the package dutchparl. This includes two example objects
-`examplevotes` and `examplequestions`, which can be used to demonstrate
-how the package works. The fulldataset is not included with the package,
-due to its size (see above for downloading).
+Load the package dutchparl. This includes the example objects
+`examplevotes` (cabinet and party data from REPDEM),
+`examplevotes_legacy` (the same votes with ParlGov data, as in older
+releases), `examplequestions` and `examplequestions_legacy` (written
+questions, REPDEM and ParlGov), which can be used to demonstrate how the
+package works. The fulldataset is not included with the package, due to
+its size (see above for downloading).
 
 ``` r
 
@@ -54,7 +57,7 @@ summary(data)
 #> 
 #>        Cultuur en recreatie                    Economie 
 #>                           5                          19 
-#>                   Financiën              Internationaal 
+#>                   Financien              Internationaal 
 #>                           5                           2 
 #>            Natuur en milieu     Onderwijs en wetenschap 
 #>                          21                          47 
@@ -65,8 +68,9 @@ summary(data)
 #>                        Werk          Zorg en gezondheid 
 #>                          16                          12 
 #> Parties appearing at least  61  times in the dataset:
-#>  [1] "CDA"     "CU"      "D66"     "GL"      "PvdA"    "PvdD"    "PVV"    
-#>  [8] "SGP"     "SP"      "Verdonk" "VVD"
+#>  [1] "CDA"          "ChristenUnie" "D66"          "GL"           "PvdA"        
+#>  [6] "PvdD"         "PVV"          "SGP"          "SP"           "Verdonk"     
+#> [11] "VVD"
 ```
 
 You can open the full version of the data using:
@@ -89,14 +93,11 @@ help(package="dutchparl")
 
 - [`addCabinetInfo()`](https://louwerse.github.io/dutchparl/reference/addCabinetInfo.md)
   : Add information on cabinet composition and elections to metadata.
-  This data is obtained from ParlGov (http://www.parlgov.org/).
 - [`addInfo()`](https://louwerse.github.io/dutchparl/reference/addInfo.md)
-  : Add information on cabinets, elections and parties to dataset. This
-  data is obtained from ParlGov (http://www.parlgov.org/).
+  : Add information on cabinets, elections and parties to dataset.
 - [`addPartyInfo()`](https://louwerse.github.io/dutchparl/reference/addPartyInfo.md)
-  : Add information on party characteristics to voteList or
-  questionerList object. This data is obtained from ParlGov
-  (http://www.parlgov.org/).
+  : Add information on party characteristics to voteList or questionList
+  object.
 - [`as.rollcall()`](https://louwerse.github.io/dutchparl/reference/as.rollcall.md)
   : Transform into rollcall object
 - [`cosponsors()`](https://louwerse.github.io/dutchparl/reference/cosponsors.md)
@@ -109,8 +110,14 @@ help(package="dutchparl")
   internet
 - [`examplequestions`](https://louwerse.github.io/dutchparl/reference/examplequestions.md)
   : Dutch Parliamentary Behaviour Dataset (Questions)
+- [`examplequestions_legacy`](https://louwerse.github.io/dutchparl/reference/examplequestions_legacy.md)
+  : Dutch Parliamentary Behaviour Dataset (Questions, legacy ParlGov
+  version)
 - [`examplevotes`](https://louwerse.github.io/dutchparl/reference/examplevotes.md)
   : Dutch Parliamentary Behaviour Dataset (Votes)
+- [`examplevotes_legacy`](https://louwerse.github.io/dutchparl/reference/examplevotes_legacy.md)
+  : Dutch Parliamentary Behaviour Dataset (Votes, legacy ParlGov
+  version)
 - [`filter(`*`<questionList>`*`)`](https://louwerse.github.io/dutchparl/reference/filter.questionList.md)
   : Filter a questionList object
 - [`filter(`*`<voteList>`*`)`](https://louwerse.github.io/dutchparl/reference/filter.voteList.md)

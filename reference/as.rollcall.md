@@ -65,8 +65,9 @@ as.rollcall(examplevotes)
 #> Not In Legislature:   9 
 #> 
 #> Vote-specific variables:
-#>  [1] "id"           "file"         "document"     "title"        "date"        
-#>  [6] "proposaltype" "votetype"     "annotation"   "result"       "voteURL"     
-#> [11] "proposalURL"  "source"      
+#>  [1] "id"               "file"             "document"         "title"           
+#>  [5] "subject"          "date"             "proposaldate"     "proposaltype"    
+#>  [9] "votetype"         "annotation"       "result"           "cabinet_response"
+#> [13] "source"           "proposalURL"      "voteURL"         
 #> Detailed information is available via the summary function.
 ```
